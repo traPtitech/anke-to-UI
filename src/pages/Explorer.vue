@@ -35,34 +35,42 @@ export default {}
 .tool-wrapper {
   display: flex;
 }
-.dropdowns {
-  display: inherit;
-}
 .dropdown {
   display: inherit;
+  padding: 7px 16px;
+  span {
+    padding: 2px;
+  }
+  p {
+    margin: 0 8px 0 0;
+  }
 }
 button {
-  display: inherit;
+  display: inline-flex;
   background-color: #ffffff;
   border: solid 1px #cfb998;
-  border-radius: 5px;
+  border-radius: 4px;
+  padding: 0;
+  &:hover {
+    background-color: #f4ecec;
+  }
 }
 .search {
   display: inherit;
-  margin: 0 30px;
-}
-.search {
+  margin-left: 20px;
   input {
     border: solid 1px #dbdbdb;
-    border-radius: 5px 0 0 5px;
+    border-radius: 4px 0 0 4px;
+    padding-left: 10px;
     &::placeholder {
       color: #dbdbdb;
     }
   }
   .search-icon {
-    border: solid 1px #cfb998;
-    padding: 10px;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 4px 4px 0;
+    span {
+      padding: 10px;
+    }
   }
 }
 </style>
