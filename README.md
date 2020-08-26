@@ -1,5 +1,10 @@
 # Vite boilerplate Plus
 
+## 開発
+`npm i`
+`npm run dev`
+
+## template
 [Vite boilerplate](https://github.com/sapphi-red/vite-boilerplate) with Vue Router & Vuex.
 
 Vite boilerplate with
