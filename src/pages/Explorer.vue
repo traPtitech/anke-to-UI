@@ -1,32 +1,8 @@
 <template>
   <div id="app">
     <div class="tool-wrapper">
-      <div class="dropdown">
-        <button @click="openSort">
-          <div class="dropdown-trigger">
-            <p>並び替え</p>
-            <span class="ti-angle-down"></span>
-          </div>
-        </button>
-        <div v-if="state.isOpenSort" class="dropdown-menu">
-          <p v-for="(sortOrder, key) in sortOrders" :key="key">
-            {{ sortOrder.str }}
-          </p>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button @click="openOption">
-          <div class="dropdown-trigger">
-            <p>フィルター</p>
-            <span class="ti-angle-down"></span>
-          </div>
-        </button>
-        <div v-if="state.isOpenOption" class="dropdown-menu">
-          <p v-for="(targetedOption, key) in targetedOptions" :key="key">
-            {{ targetedOption.str }}
-          </p>
-        </div>
-      </div>
+      <dropdown-menu menuName="並び替え" :contents="sortOrders" />
+      <dropdown-menu menuName="フィルター" :contents="targetedOptions" />
       <div class="search">
         <input type="text" placeholder="検索" />
         <button class="search-icon">
@@ -40,14 +16,16 @@
 <script lang="ts">
 import router from '/@/router'
 import { reactive } from 'vue'
+import DropdownMenu from '/@/components/DropdownMenu.vue'
 
 export default {
   name: 'Explorer',
+  components: {
+    'dropdown-menu': DropdownMenu
+  },
   setup() {
-    const state = reactive({
-      isOpenSort: false,
-      isOpenOption: false
-    })
+    const state = reactive({})
+
     const sortOrders = [
       {
         str: '最近更新された',
@@ -85,25 +63,10 @@ export default {
       }
     ]
 
-    const openSort = () => {
-      state.isOpenSort = !state.isOpenSort
-      if (state.isOpenOption) {
-        state.isOpenOption = false
-      }
-    }
-    const openOption = () => {
-      state.isOpenOption = !state.isOpenOption
-      if (state.isOpenSort) {
-        state.isOpenSort = false
-      }
-    }
-
     return {
       state,
       sortOrders,
-      targetedOptions,
-      openSort,
-      openOption
+      targetedOptions
     }
   }
 }
@@ -113,29 +76,6 @@ export default {
 .tool-wrapper {
   display: flex;
   flex-wrap: wrap;
-}
-.dropdown-trigger {
-  position: relative;
-  display: inherit;
-  padding: 0.5em 1.5em;
-  span {
-    padding: 0.2em;
-  }
-  p {
-    margin: 0 8px 0 0;
-  }
-}
-.dropdown-menu {
-  position: absolute;
-  p {
-    box-shadow: 0.5em 0 1em -0.3em rgba(10, 10, 10, 0.1);
-    box-sizing: inherit;
-    border: solid 0.01em #e7e7e7;
-    border-radius: 0.3em;
-    margin: 0;
-    padding: 0.5em 1em;
-    text-align: left;
-  }
 }
 button {
   display: flex;
