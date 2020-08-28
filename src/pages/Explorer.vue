@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios'
 import router from '/@/router'
 import { reactive } from 'vue'
 import DropdownMenu from '/@/components/DropdownMenu.vue'
