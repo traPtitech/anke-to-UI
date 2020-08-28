@@ -3,6 +3,7 @@ import Index from '/@/pages/Index.vue'
 import Hello from '/@/pages/Hello.vue'
 import Explorer from '/@/pages/Explorer.vue'
 import Targeted from '/@/pages/Targeted.vue'
+import Result from '/@/pages/Result.vue'
 export const routerHistory = createWebHistory()
 
 export default createRouter({
@@ -27,6 +28,11 @@ export default createRouter({
       path: '/targeted',
       name: 'targeted',
       component: Targeted
+    },
+    {
+      path: '/result/:id',
+      name: 'result',
+      component: Result
     }
   ]
 })
