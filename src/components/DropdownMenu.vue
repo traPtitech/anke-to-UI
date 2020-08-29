@@ -7,7 +7,7 @@
       </div>
     </button>
     <div v-if="state.isOpen" class="dropdown-menu">
-      <p v-for="(content, key) in contents" :key="key">
+      <p v-for="(content, index) in contents" :key="index">
         {{ content.str }}
       </p>
     </div>
@@ -58,6 +58,7 @@ export default {
 .dropdown-menu {
   position: absolute;
   p {
+    background-color: #ffffff;
     box-shadow: 0.5em 0 1em -0.3em rgba(10, 10, 10, 0.1);
     box-sizing: inherit;
     border: solid 0.01em #e7e7e7;

@@ -10,6 +10,7 @@
         </button>
       </div>
     </div>
+    <questionnaires-table />
   </div>
 </template>
 
@@ -18,14 +19,16 @@ import axios from 'axios'
 import router from '/@/router'
 import { reactive } from 'vue'
 import DropdownMenu from '/@/components/DropdownMenu.vue'
+import QuestionnairesTable from '/@/components/QuestionnairesTable.vue'
 
 export default {
   name: 'Explorer',
   components: {
-    'dropdown-menu': DropdownMenu
+    'dropdown-menu': DropdownMenu,
+    'questionnaires-table': QuestionnairesTable
   },
   setup() {
-    const state = reactive({})
+    const data = reactive({})
 
     const sortOrders = [
       {
@@ -65,7 +68,6 @@ export default {
     ]
 
     return {
-      state,
       sortOrders,
       targetedOptions
     }
