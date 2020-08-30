@@ -1,15 +1,30 @@
 <template>
-  <div>
-    <button @click="state.isOpen = !state.isOpen">
-      <div class="dropdown-trigger">
-        <p>{{ menuName }}</p>
-        <span class="ti-angle-down"></span>
+  <div class="dropdowns">
+    <div class="dropdown">
+      <button @click="openSort">
+        <div class="dropdown-trigger">
+          <p>並び替え</p>
+          <span class="ti-angle-down"></span>
+        </div>
+      </button>
+      <div v-if="state.isOpenSort" class="dropdown-menu">
+        <p v-for="(sortOrder, index) in sortOrders" :key="index">
+          {{ sortOrder.str }}
+        </p>
       </div>
-    </button>
-    <div v-if="state.isOpen" class="dropdown-menu">
-      <p v-for="(content, index) in contents" :key="index">
-        {{ content.str }}
-      </p>
+    </div>
+    <div class="dropdown">
+      <button @click="openOption">
+        <div class="dropdown-trigger">
+          <p>フィルター</p>
+          <span class="ti-angle-down"></span>
+        </div>
+      </button>
+      <div v-if="state.isOpenOption" class="dropdown-menu">
+        <p v-for="(targetedOption, index) in targetedOptions" :key="index">
+          {{ targetedOption.str }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -33,17 +48,74 @@ export default {
   },
   setup() {
     const state = reactive({
-      isOpen: false
+      isOpenSort: false,
+      isOpenOption: false
     })
 
+    const sortOrders = [
+      {
+        str: '最近更新された',
+        opt: '-modified_at'
+      },
+      {
+        str: '最近更新されていない',
+        opt: 'modified_at'
+      },
+      {
+        str: 'タイトル順',
+        opt: 'title'
+      },
+      {
+        str: 'タイトル逆順',
+        opt: '-title'
+      },
+      {
+        str: '最新',
+        opt: '-created_at'
+      },
+      {
+        str: '最も古い',
+        opt: 'created_at'
+      }
+    ]
+    const targetedOptions = [
+      {
+        str: '全て',
+        opt: false
+      },
+      {
+        str: '対象外のもののみ',
+        opt: true
+      }
+    ]
+
+    const openSort = () => {
+      state.isOpenSort = !state.isOpenSort
+      state.isOpenOption = false
+    }
+    const openOption = () => {
+      state.isOpenOption = !state.isOpenOption
+      state.isOpenSort = false
+    }
+
     return {
-      state
+      state,
+      sortOrders,
+      targetedOptions,
+      openSort,
+      openOption
     }
   }
 }
 </script>
 
 <style lang="scss">
+.dropdowns {
+  display: flex;
+}
+.dropdown {
+  padding-right: 0.5em;
+}
 .dropdown-trigger {
   position: relative;
   display: inherit;
@@ -66,6 +138,7 @@ export default {
     margin: 0;
     padding: 0.5em 1em;
     text-align: left;
+    cursor: pointer;
     &:hover {
       background-color: #f4ecec;
     }

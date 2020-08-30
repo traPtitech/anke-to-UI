@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <div class="tool-wrapper">
-      <dropdown-menu menuName="並び替え" :contents="sortOrders" />
-      <dropdown-menu menuName="フィルター" :contents="targetedOptions" />
+      <dropdown-menu />
       <div class="search">
         <input type="text" placeholder="検索" />
         <button class="search-icon">
@@ -26,51 +25,6 @@ export default {
   components: {
     'dropdown-menu': DropdownMenu,
     'questionnaires-table': QuestionnairesTable
-  },
-  setup() {
-    const data = reactive({})
-
-    const sortOrders = [
-      {
-        str: '最近更新された',
-        opt: '-modified_at'
-      },
-      {
-        str: '最近更新されていない',
-        opt: 'modified_at'
-      },
-      {
-        str: 'タイトル順',
-        opt: 'title'
-      },
-      {
-        str: 'タイトル逆順',
-        opt: '-title'
-      },
-      {
-        str: '最新',
-        opt: '-created_at'
-      },
-      {
-        str: '最も古い',
-        opt: 'created_at'
-      }
-    ]
-    const targetedOptions = [
-      {
-        str: '全て',
-        opt: false
-      },
-      {
-        str: '対象外のもののみ',
-        opt: true
-      }
-    ]
-
-    return {
-      sortOrders,
-      targetedOptions
-    }
   }
 }
 </script>
@@ -86,6 +40,7 @@ button {
   border: solid 0.1em #cfb998;
   border-radius: 0.3em;
   padding: 0;
+  cursor: pointer;
   &:hover {
     background-color: #f4ecec;
   }
