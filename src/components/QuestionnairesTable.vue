@@ -1,28 +1,27 @@
 <template>
   <div>
-    <table class="table">
-      <tr class="header">
-        <th v-for="(header, index) in headers" :key="index">{{ header }}</th>
+    <table :class="$style.table">
+      <tr>
+        <th v-for="(header, index) in headers" :key="index" :class="$style.header">{{ header }}</th>
       </tr>
-      <tr v-for="(questionnaire, index) in data.questionnaires" :key="index">
-        <td class="table-item-title">
+      <tr v-for="(questionnaire, index) in data.questionnaires" :key="index" :class="$style.body">
+        <td :class="$style.table_item_title">
           <router-link
             :to="'/questionnaires/' + questionnaire.questionnaireID"
-            class="link"
-            >{{ questionnaire.title }}</router-link
-          >
+            :class="$style.link"
+          >{{ questionnaire.title }}</router-link>
         </td>
-        <td class="table-item-date">{{ questionnaire.res_time_limit }}</td>
-        <td class="table-item-date">{{ questionnaire.modified_at }}</td>
-        <td class="table-item-date">{{ questionnaire.created_at }}</td>
-        <td class="result">
+        <td :class="$style.table_item_date">{{ questionnaire.res_time_limit }}</td>
+        <td :class="$style.table_item_date">{{ questionnaire.modified_at }}</td>
+        <td :class="$style.table_item_date">{{ questionnaire.created_at }}</td>
+        <td :class="$style.result">
           <router-link
             :to="'/results/' + questionnaire.questionnaireID"
             target="_blank"
-            class="link"
+            :class="$style.link"
           >
             <span class="ti-new-window"></span>
-            <p>Open</p>
+            <p :class="$style.open">Open</p>
           </router-link>
         </td>
       </tr>
@@ -69,38 +68,38 @@ export default {
 }
 </script>
 
-<style lang="scss">
-table {
+<style lang="scss" module>
+.table {
   width: 100%;
   max-width: fit-content;
   margin: 1em 0;
-  border: solid 1px #d9d9d9;
+  border: solid 1.5px #d9d9d9;
   border-collapse: collapse;
   box-shadow: 0 2px 3px #dfe0d7;
 }
-th {
+.header {
   padding: 0.4em 0;
 }
-td {
-  padding-left: 0.8em;
-}
-tr {
+.body {
   border: solid 1.5px #d9d9d9;
-}
-.header {
-  border-bottom: solid 2px #d9d9d9;
-}
-.table-item-title {
-  min-width: 10em;
-  text-align: left;
-}
-.table-item-date {
-  min-width: 8em;
-}
-.result {
-  text-align: left;
-  p {
-    margin: 0;
+  &:nth-child(odd) {
+    background-color: #fafafa;
+  }
+  .table_item_title {
+    min-width: 10em;
+    text-align: left;
+    padding-left: 0.8em;
+  }
+  .table_item_date {
+    min-width: 8em;
+    padding-left: 0.8em;
+  }
+  .result {
+    text-align: left;
+    padding: 0 0.8em;
+    .open {
+      margin: 0;
+    }
   }
 }
 .link {

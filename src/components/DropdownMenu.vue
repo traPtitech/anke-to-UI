@@ -1,29 +1,33 @@
 <template>
-  <div class="dropdowns">
-    <div class="dropdown">
-      <button @click="openSort">
-        <div class="dropdown-trigger">
-          <p>並び替え</p>
-          <span class="ti-angle-down"></span>
+  <div :class="$style.dropdowns">
+    <div :class="$style.dropdown">
+      <button @click="openSort" :class="$style.button">
+        <div :class="$style.dropdown_trigger">
+          <p :class="$style.title">並び替え</p>
+          <span class="ti-angle-down" :class="$style.icon"></span>
         </div>
       </button>
-      <div v-if="state.isOpenSort" class="dropdown-menu">
-        <p v-for="(sortOrder, index) in sortOrders" :key="index">
-          {{ sortOrder.str }}
-        </p>
+      <div v-if="state.isOpenSort" :class="$style.dropdown_menu">
+        <p
+          v-for="(sortOrder, index) in sortOrders"
+          :key="index"
+          :class="$style.contents"
+        >{{ sortOrder.str }}</p>
       </div>
     </div>
-    <div class="dropdown">
-      <button @click="openOption">
-        <div class="dropdown-trigger">
-          <p>フィルター</p>
-          <span class="ti-angle-down"></span>
+    <div :class="$style.dropdown">
+      <button @click="openOption" :class="$style.button">
+        <div :class="$style.dropdown_trigger">
+          <p :class="$style.title">フィルター</p>
+          <span class="ti-angle-down" :class="$style.icon"></span>
         </div>
       </button>
-      <div v-if="state.isOpenOption" class="dropdown-menu">
-        <p v-for="(targetedOption, index) in targetedOptions" :key="index">
-          {{ targetedOption.str }}
-        </p>
+      <div v-if="state.isOpenOption" :class="$style.dropdown_menu">
+        <p
+          v-for="(targetedOption, index) in targetedOptions"
+          :key="index"
+          :class="$style.contents"
+        >{{ targetedOption.str }}</p>
       </div>
     </div>
   </div>
@@ -109,27 +113,27 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 .dropdowns {
   display: flex;
+  .dropdown {
+    padding-right: 0.5em;
+  }
 }
-.dropdown {
-  padding-right: 0.5em;
-}
-.dropdown-trigger {
+.dropdown_trigger {
   position: relative;
-  display: inherit;
+  display: flex;
   padding: 0.5em 1.5em;
-  span {
+  .icon {
     padding: 0.2em;
   }
-  p {
+  .title {
     margin: 0 8px 0 0;
   }
 }
-.dropdown-menu {
+.dropdown_menu {
   position: absolute;
-  p {
+  .contents {
     background-color: #ffffff;
     box-shadow: 0.5em 0 1em -0.3em rgba(10, 10, 10, 0.1);
     box-sizing: inherit;
@@ -142,6 +146,16 @@ export default {
     &:hover {
       background-color: #f4ecec;
     }
+  }
+}
+.button {
+  background-color: #ffffff;
+  border: solid 0.1em #cfb998;
+  border-radius: 0.3em;
+  padding: 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #f4ecec;
   }
 }
 </style>

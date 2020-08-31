@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <div class="tool-wrapper">
+    <div :class="$style.tool_wrapper">
       <dropdown-menu />
-      <div class="search">
-        <input type="text" placeholder="検索" />
-        <button class="search-icon">
-          <span class="ti-search"></span>
+      <div :class="$style.search">
+        <input type="text" placeholder="検索" :class="$style.input" />
+        <button :class="[$style.button, $style.search_icon]">
+          <span class="ti-search" :class="$style.icon"></span>
         </button>
       </div>
     </div>
@@ -29,26 +29,15 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.tool-wrapper {
+<style lang="scss" module>
+.tool_wrapper {
   display: flex;
   flex-wrap: wrap;
-}
-button {
-  display: flex;
-  background-color: #ffffff;
-  border: solid 0.1em #cfb998;
-  border-radius: 0.3em;
-  padding: 0;
-  cursor: pointer;
-  &:hover {
-    background-color: #f4ecec;
-  }
 }
 .search {
   display: inherit;
   margin-left: 1.5em;
-  input {
+  .input {
     border: solid 0.1em #dbdbdb;
     border-radius: 0.3em 0 0 0.3em;
     padding-left: 0.8em;
@@ -56,11 +45,21 @@ button {
       color: #dbdbdb;
     }
   }
-  .search-icon {
+  .search_icon {
     border-radius: 0 0.3em 0.3em 0;
-    span {
+    .icon {
       padding: 10px;
     }
+  }
+}
+.button {
+  background-color: #ffffff;
+  border: solid 0.1em #cfb998;
+  border-radius: 0.3em;
+  padding: 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #f4ecec;
   }
 }
 </style>
