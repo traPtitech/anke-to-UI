@@ -5,14 +5,19 @@
     Edit <code>components/HelloWorld.vue</code> to test hot module
     <span :class="$style.re">replacement</span>.
   </p>
+  <icon name="chevron-down" />
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from '/@/store'
+import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
   name: 'HelloWorld',
+  components: {
+    Icon
+  },
   props: {
     msg: {
       type: String,
