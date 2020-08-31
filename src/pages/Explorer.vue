@@ -5,7 +5,7 @@
       <div :class="$style.search">
         <input type="text" placeholder="検索" :class="$style.input" />
         <button :class="[$style.button, $style.search_icon]">
-          <span class="ti-search" :class="$style.icon"></span>
+          <icon name="magnify" :class="$style.icon" />
         </button>
       </div>
     </div>
@@ -14,15 +14,14 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
-import router from '/@/router'
-import { reactive } from 'vue'
+import Icon from '/@/components/UI/Icon.vue'
 import DropdownMenu from '/@/components/DropdownMenu.vue'
 import QuestionnairesTable from '/@/components/QuestionnairesTable.vue'
 
 export default {
   name: 'Explorer',
   components: {
+    icon: Icon,
     'dropdown-menu': DropdownMenu,
     'questionnaires-table': QuestionnairesTable
   }
@@ -48,7 +47,9 @@ export default {
   .search_icon {
     border-radius: 0 0.3em 0.3em 0;
     .icon {
-      padding: 10px;
+      height: 1.5em;
+      width: 1.5em;
+      padding: 0.3em;
     }
   }
 }

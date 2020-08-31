@@ -2,16 +2,29 @@
   <div>
     <table :class="$style.table">
       <tr>
-        <th v-for="(header, index) in headers" :key="index" :class="$style.header">{{ header }}</th>
+        <th
+          v-for="(header, index) in headers"
+          :key="index"
+          :class="$style.header"
+        >
+          {{ header }}
+        </th>
       </tr>
-      <tr v-for="(questionnaire, index) in data.questionnaires" :key="index" :class="$style.body">
+      <tr
+        v-for="(questionnaire, index) in data.questionnaires"
+        :key="index"
+        :class="$style.body"
+      >
         <td :class="$style.table_item_title">
           <router-link
             :to="'/questionnaires/' + questionnaire.questionnaireID"
             :class="$style.link"
-          >{{ questionnaire.title }}</router-link>
+            >{{ questionnaire.title }}</router-link
+          >
         </td>
-        <td :class="$style.table_item_date">{{ questionnaire.res_time_limit }}</td>
+        <td :class="$style.table_item_date">
+          {{ questionnaire.res_time_limit }}
+        </td>
         <td :class="$style.table_item_date">{{ questionnaire.modified_at }}</td>
         <td :class="$style.table_item_date">{{ questionnaire.created_at }}</td>
         <td :class="$style.result">
@@ -20,7 +33,7 @@
             target="_blank"
             :class="$style.link"
           >
-            <span class="ti-new-window"></span>
+            <icon name="open-in-new" :class="$style.icon" />
             <p :class="$style.open">Open</p>
           </router-link>
         </td>
@@ -31,9 +44,13 @@
 
 <script lang="ts">
 import { reactive } from 'vue'
+import Icon from '/@/components/UI/Icon.vue'
 
 export default {
   name: 'QuestionnairesTable',
+  components: {
+    icon: Icon
+  },
   setup() {
     const data = reactive({
       questionnaires: [
@@ -96,9 +113,13 @@ export default {
   }
   .result {
     text-align: left;
-    padding: 0 0.8em;
+    padding: 0.2em 0.8em;
     .open {
       margin: 0;
+    }
+    .icon {
+      height: 1em;
+      width: 1em;
     }
   }
 }

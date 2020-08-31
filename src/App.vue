@@ -9,7 +9,3 @@ export default defineComponent({
   name: 'App'
 })
 </script>
-
-<style lang="scss">
-@import 'static/css/themify-icons.css';
-</style>

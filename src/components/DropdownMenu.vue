@@ -1,10 +1,10 @@
 <template>
   <div :class="$style.dropdowns">
     <div :class="$style.dropdown">
-      <button @click="openSort" :class="$style.button">
+      <button :class="$style.button" @click="openSort">
         <div :class="$style.dropdown_trigger">
           <p :class="$style.title">並び替え</p>
-          <span class="ti-angle-down" :class="$style.icon"></span>
+          <icon name="chevron-down" :class="$style.icon" />
         </div>
       </button>
       <div v-if="state.isOpenSort" :class="$style.dropdown_menu">
@@ -12,14 +12,16 @@
           v-for="(sortOrder, index) in sortOrders"
           :key="index"
           :class="$style.contents"
-        >{{ sortOrder.str }}</p>
+        >
+          {{ sortOrder.str }}
+        </p>
       </div>
     </div>
     <div :class="$style.dropdown">
-      <button @click="openOption" :class="$style.button">
+      <button :class="$style.button" @click="openOption">
         <div :class="$style.dropdown_trigger">
           <p :class="$style.title">フィルター</p>
-          <span class="ti-angle-down" :class="$style.icon"></span>
+          <icon name="chevron-down" :class="$style.icon" />
         </div>
       </button>
       <div v-if="state.isOpenOption" :class="$style.dropdown_menu">
@@ -27,7 +29,9 @@
           v-for="(targetedOption, index) in targetedOptions"
           :key="index"
           :class="$style.contents"
-        >{{ targetedOption.str }}</p>
+        >
+          {{ targetedOption.str }}
+        </p>
       </div>
     </div>
   </div>
@@ -35,20 +39,12 @@
 
 <script lang="ts">
 import { reactive } from 'vue'
+import Icon from '/@/components/UI/Icon.vue'
 
 export default {
   name: 'DropdownMenu',
-  props: {
-    menuName: {
-      type: String,
-      default: ''
-    },
-    contents: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    }
+  components: {
+    icon: Icon
   },
   setup() {
     const state = reactive({
@@ -123,12 +119,10 @@ export default {
 .dropdown_trigger {
   position: relative;
   display: flex;
-  padding: 0.5em 1.5em;
-  .icon {
-    padding: 0.2em;
-  }
+  padding: 0.3em 1em 0.3em 1.4em;
   .title {
-    margin: 0 8px 0 0;
+    padding-top: 0.2em;
+    margin: 0 0.3em 0 0;
   }
 }
 .dropdown_menu {
