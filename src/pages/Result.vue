@@ -2,7 +2,7 @@
   <div>
     <div v-if="canViewResults" class="details is-fullheight">
       <div class="tabs is-centered">
-        <router-link id="return-button" :to="summaryProps.value.titleLink">
+        <router-link id="return-button" :to="summaryProps.titleLink">
           <span class="ti-arrow-left"></span>
         </router-link>
         <ul>
@@ -10,19 +10,17 @@
             v-for="(tab, index) in detailTabs"
             :key="index"
             class="tab"
-            :class="{ 'is-active': selectedTab.value === tab }"
+            :class="{ 'is-active': selectedTab === tab }"
           >
             <router-link :to="getTabLink(tab)">{{ tab }}</router-link>
           </li>
         </ul>
       </div>
-      <information-summary
-        :information="summaryProps.value"
-      ></information-summary>
+      <information-summary :information="summaryProps"></information-summary>
       <component
-        :is="currentTabComponent.value"
+        :is="currentTabComponent"
         class="details-child is-fullheight"
-        :name="currentTabComponent.value"
+        :name="currentTabComponent"
         :results="results"
         :information="information"
         :questions="questions"
