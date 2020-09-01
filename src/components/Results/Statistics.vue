@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
-import { Responce, Question } from '/@/lib/apis'
+import { ResponceDetails, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 import Tab from '/@/components/Results/Statistics/Tab.vue'
 import Data from '/@/components/Results/Statistics/Data.vue'
@@ -59,22 +59,7 @@ const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
 const countData = (
   questions: Question[],
-  results: Responce[]
-): CountedData[] => {
-  return []
-}
-
-type State = {
-  tableForm: string
-}
-
-const isSelectType = (type: string): boolean =>
-  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
-const isNumberType = (type: string): boolean =>
-  ['LinearScale', 'Number'].includes(type)
-const countData = (
-  questions: Question[],
-  results: Responce[]
+  results: ResponceDetails[]
 ): CountedData[] => {
   return []
 }
@@ -91,7 +76,7 @@ export default defineComponent({
       required: true
     },
     questions: {
-      type: Array as PropType<Question[]>,
+      type: Array as PropType<string[]>,
       required: true
     }
   },
@@ -122,7 +107,6 @@ export default defineComponent({
       if (props.questions.length <= 0 || props.results.length <= 0) return []
       return countData(props.questions, props.results)
     })
-
     // TODO markdownのテーブル生成
     const markdownTable = computed((): string => '')
     const canDownload = computed((): boolean => state.tableForm === 'markdown')
