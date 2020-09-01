@@ -93,6 +93,8 @@ type Props = {
   questions: any[]
 }
 
+type Context = {}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
