@@ -102,6 +102,7 @@ export default defineComponent({
       if (props.questions.length <= 0 || props.results.length <= 0) return null
       return countData(props.questions, props.results)
     })
+    
     // TODO markdownのテーブル生成
     const markdownTable = computed((): string => '')
     const canDownload = computed((): boolean => state.tableForm === 'markdown')
