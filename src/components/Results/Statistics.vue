@@ -63,7 +63,6 @@ const countData = (
 ): CountedData[] => {
   return []
 }
-
 type State = {
   tableForm: string
 }
