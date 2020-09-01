@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="state.canViewResults" class="details is-fullheight">
+    <div v-if="canViewResults" class="details is-fullheight">
       <div class="tabs is-centered">
         <router-link id="return-button" :to="summaryProps.value.titleLink">
           <span class="ti-arrow-left"></span>
@@ -23,17 +23,17 @@
         :is="currentTabComponent.value"
         class="details-child is-fullheight"
         :name="currentTabComponent.value"
-        :results="state.results"
-        :information="state.information"
-        :questions="state.questions"
-        :question-data="state.questionData"
-        :response-data="state.responseData"
+        :results="results"
+        :information="information"
+        :questions="questions"
+        :question-data="questionData"
+        :response-data="responseData"
         @get-results="getResults"
       ></component>
     </div>
 
     <div
-      v-if="state.information.administrators && !state.canViewResults"
+      v-if="information.administrators && !canViewResults"
       class="message is-danger"
     >
       <p class="message-body error-message">結果を閲覧する権限がありません</p>
@@ -43,15 +43,9 @@
 
 <script lang="ts">
 // import InformationSummary from '@/components/Information/InformationSummary'
-import {
-  defineComponent,
-  reactive,
-  computed,
-  UnwrapNestedRefs,
-  ComputedRef
-} from 'vue'
+import { defineComponent, reactive, computed, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import common from '@/bin/common'
+// import common from '@/bin/common'
 // import {
 //   getQuestionnaire,
 //   getMyResponses,
@@ -66,10 +60,13 @@ import Spreadsheet from '@/components/Results/Spreadsheet'
 export default defineComponent({
   name: 'Result',
   components: {
-    Routes
+    Routes,
+    individual: Individual,
+    statistics: Statistics,
+    spreadsheet: Spreadsheet
   },
-  setup(props, context) {
-    const state: UnwrapNestedRefs<any> = reactive({
+  setup(_, context) {
+    const state = reactive({
       information: {},
       hasResponded: false,
       canViewResults: false,
@@ -79,12 +76,8 @@ export default defineComponent({
       responseData: {}
     })
 
-    const questionnaireId: ComputedRef<number> = computed(
-      () => context.root.$route.params.id
-    )
-    const query: ComputedRef<string> = computed(
-      () => context.root.$route.query.tab
-    )
+    const questionnaireId = computed(() => context.root.$route.params.id)
+    const query = computed(() => context.root.$route.query.tab)
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, query.value)
@@ -93,7 +86,7 @@ export default defineComponent({
       if (!query.value) {
         return 'Statistics'
       }
-      return query.value.replace(/^[a-z]/, ch => ch.toUpperCase())
+      return query.value.replace(/^[a-z]/, (ch: string) => ch.toUpperCase())
     })
 
     const summaryProps = computed(() => {
@@ -150,7 +143,7 @@ export default defineComponent({
     })
 
     return {
-      state,
+      ...toRefs(state),
       summaryProps,
       detailTabs: ['Statistics', 'Spreadsheet', 'Individual'],
       selectedTab,
@@ -165,17 +158,17 @@ const getResults = (query: string) => {
   return [
     {
       modifiedAt: '1990/01/01 12:00',
-      responseId: 0001,
+      responseId: 1,
       responseBody: [
         {
           option_response: [],
-          questionID: 0001,
+          questionID: 1,
           question_type: 'TextArea',
           response: 'これはテストですか？'
         },
         {
           option_response: [],
-          questionID: 0002,
+          questionID: 2,
           question_type: 'TextArea',
           response: 'これはテストです'
         }
@@ -185,17 +178,17 @@ const getResults = (query: string) => {
     },
     {
       modifiedAt: '1990/01/01 12:00',
-      responseId: 0002,
+      responseId: 2,
       responseBody: [
         {
           option_response: [],
-          questionID: 0001,
+          questionID: 1,
           question_type: 'TextArea',
           response: 'これはテストですか？'
         },
         {
           option_response: [],
-          questionID: 0002,
+          questionID: 2,
           question_type: 'TextArea',
           response: 'これはテストです'
         }
@@ -205,17 +198,17 @@ const getResults = (query: string) => {
     },
     {
       modifiedAt: '1990/01/01 12:00',
-      responseId: 0003,
+      responseId: 3,
       responseBody: [
         {
           option_response: [],
-          questionID: 0001,
+          questionID: 1,
           question_type: 'TextArea',
           response: 'これはテストですか？'
         },
         {
           option_response: [],
-          questionID: 0002,
+          questionID: 2,
           question_type: 'TextArea',
           response: 'これはテストです'
         }
@@ -235,10 +228,10 @@ const dummy = (state: any, id: number, query: string) => {
 const _dummy = (state: any, id: number, query: string) => {
   state.information = {
     administrators: ['Fogrex'],
-    created_at: new Date('1990-01-01T12:00:00+09:00'),
+    created_at: '1990/01/01 12:00',
     description: 'テスト質問です。ダミー',
-    modified_at: new Date('1990-01-01T12:00:00+09:00'),
-    questionnaireID: 001,
+    modified_at: '1990/01/01 12:00',
+    questionnaireID: 1,
     res_shared_to: 'public',
     res_time_limit: 'NULL',
     respondents: ['Fogrex', 'Ogrex', 'Xergof'],
@@ -251,7 +244,7 @@ const _dummy = (state: any, id: number, query: string) => {
   state.questions = ['質問', '言いたいこと']
   state.questionData = [
     {
-      questionId: 0001,
+      questionId: 1,
       type: 'TextArea',
       component: 'short-answer',
       questionBody: '質問',
@@ -260,7 +253,7 @@ const _dummy = (state: any, id: number, query: string) => {
       responseBody: ''
     },
     {
-      questionId: 0002,
+      questionId: 2,
       type: 'TextArea',
       component: 'short-answer',
       questionBody: '言いたいこと',
