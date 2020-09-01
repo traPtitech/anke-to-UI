@@ -84,6 +84,7 @@ export default defineComponent({
         state.showColumn = new Array(len).fill(true)
       }
     }
+
     const downloadTable = (): void => {
       if (!isTextTable.value) return
       let form: { type: string; ext: string; data: string }
