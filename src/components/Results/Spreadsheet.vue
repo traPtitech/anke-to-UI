@@ -41,6 +41,8 @@ type State = {
   showColumn: boolean[]
 }
 
+type Context = {}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
