@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div :class="$style.tool_wrapper">
       <dropdown-menu />
       <div :class="$style.search">
@@ -15,15 +15,15 @@
 
 <script lang="ts">
 import Icon from '/@/components/UI/Icon.vue'
-import DropdownMenu from '/@/components/DropdownMenu.vue'
-import QuestionnairesTable from '/@/components/QuestionnairesTable.vue'
+import DropdownMenu from '/@/components/Explorer/Menus.vue'
+import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
 
 export default {
   name: 'Explorer',
   components: {
-    icon: Icon,
-    'dropdown-menu': DropdownMenu,
-    'questionnaires-table': QuestionnairesTable
+    Icon,
+    DropdownMenu,
+    QuestionnairesTable
   }
 }
 </script>
