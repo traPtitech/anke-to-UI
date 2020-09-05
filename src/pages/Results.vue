@@ -16,7 +16,7 @@
           </li>
         </ul>
       </div>
-      <information-summary :information="summaryProps"></information-summary>
+      <!-- <information-summary :information="summaryProps"></information-summary> -->
       <component
         :is="currentTabComponent"
         class="details-child is-fullheight"
@@ -54,8 +54,19 @@ import Individual from '/@/components/Results/Individual.vue'
 import Statistics from '/@/components/Results/Statistics.vue'
 import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
 
+// TODO 型
+type State = {
+  information: any
+  hasResponded: boolean
+  canViewResults: boolean
+  results: any[]
+  questions: any[]
+  questionData: any[]
+  responseData: any
+}
+
 export default defineComponent({
-  name: 'Result',
+  name: 'Results',
   components: {
     Routes,
     individual: Individual,
@@ -63,7 +74,7 @@ export default defineComponent({
     spreadsheet: Spreadsheet
   },
   setup(props, context) {
-    const state = reactive({
+    const state = reactive<State>({
       information: {},
       hasResponded: false,
       canViewResults: false,
@@ -73,8 +84,11 @@ export default defineComponent({
       responseData: {}
     })
 
-    const questionnaireId = computed(() => context.root.$route.params.id)
-    const query = computed(() => context.root.$route.query.tab)
+    // TODO 動的ルート
+    // const questionnaireId = computed(() => context.root.$route.params.id)
+    // const query = computed(() => context.root.$route.query.tab)
+    const questionnaireId = computed(() => 0)
+    const query = computed(() => '')
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, query.value)
@@ -89,7 +103,8 @@ export default defineComponent({
     const summaryProps = computed(() => {
       let ret = {
         title: state.information.title,
-        titleLink: '/questionnaires/' + questionnaireId.value,
+        // TODO questionnairesに書き換え
+        titleLink: '/results/' + questionnaireId.value,
         responseDetails: {}
       }
       if (selectedTab.value === 'Individual') {
@@ -113,7 +128,7 @@ export default defineComponent({
 
     const getTabLink = (tab: string) => {
       let ret = {
-        name: 'Results',
+        name: 'results',
         params: { id: questionnaireId.value },
         query: {
           tab: ''
@@ -146,7 +161,8 @@ export default defineComponent({
       selectedTab,
       getTabLink,
       currentTabComponent,
-      getResults
+      getResults,
+      canViewResults
     }
   }
 })

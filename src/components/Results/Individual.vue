@@ -20,7 +20,7 @@ export default defineComponent({
     // questions: Questions,
     // pagination: Pagination
   },
-  prop: {
+  props: {
     results: {
       type: Array,
       required: true
@@ -39,9 +39,20 @@ export default defineComponent({
     }
   },
   setup(props, context) {
-    const range = computed(() => {})
-    const currentPage = computed(() =>{})
-    const defaultPageLink = computed(() => {})
+    const range = computed(() => ({
+      first: 1,
+      last: props.results.length
+    }))
+    const currentPage = computed(() => {
+      return context.root.$route.query.page
+        ? Number(context.root.$route.query.page)
+        : range.value.first
+    })
+    const defaultPageLink = computed(() => ({
+      name: 'Results',
+      params: { id: context.root.$route.params.id },
+      query: { tab: 'individual' }
+    }))
     return {
       currentPage,
       defaultPageLink

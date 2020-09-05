@@ -46,9 +46,7 @@
                     <thead>
                       <td>回答</td>
                       <td>回答数</td>
-                      <td v-if="isSelectType(question.type)">
-                        選択率
-                      </td>
+                      <td v-if="isSelectType(question.type)">選択率</td>
                       <td>その回答をした人</td>
                     </thead>
                     <tbody>
@@ -88,6 +86,18 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, toRefs } from 'vue'
 
+type State = {
+  tableForm: string
+}
+
+const isSelectType = (type: string): boolean =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
+const isNumberType = (type: string): boolean =>
+  ['LinearScale', 'Number'].includes(type)
+const countData = (questions: any[], results: any[]): any[] => {
+  return []
+}
+
 export default defineComponent({
   name: 'Statistics',
   components: {},
@@ -101,26 +111,47 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    const state = reactive({
+  setup(props, context) {
+    const state = reactive<State>({
       tableForm: 'view'
     })
 
-    const downloadTable = () => {}
-    const isSelectType = () => {}
-    const isNumberType = () => {}
+    const downloadTable = (): void => {
+      if (!canDownload.value) return
+      let form = {
+        type: 'text/markdown',
+        ext: '.md',
+        data: markdownTable.value
+      }
+      const blob = new Blob([form.data], { type: form.type })
+      let link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = 'Result' + form.ext
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
 
-    const questionnaireId = computed(() => {})
-    const countedData = computed(() => {})
-    const markdownTable = computed(() => {})
-    const canDownload = computed(() => {})
+    const questionnaireId = computed(
+      // TODO param.id
+      // (): string => context.root.$route.params.id
+      (): number => 1
+    )
+    const countedData = computed((): any[] | null => {
+      if (props.questions.length <= 0 || props.results.length <= 0) return null
+      return countData(props.questions, props.results)
+    })
+    // TODO markdownのテーブル生成
+    const markdownTable = computed((): string => '')
+    const canDownload = computed((): boolean => state.tableForm === 'markdown')
 
     return {
       ...toRefs(state),
-      tableFormtabs: ['view', 'markdown'],
+      tableFormTabs: ['view', 'markdown'],
       canDownload,
       downloadTable,
-      countedData
+      countedData,
+      markdownTable
     }
   }
 })

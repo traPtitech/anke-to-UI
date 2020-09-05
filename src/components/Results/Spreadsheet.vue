@@ -88,13 +88,19 @@
 import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
+type State = {
+  tableForm: string
+  showColumn: boolean[]
+  sorted: string | number
+}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
     Icon
   },
   props: {
-    result: {
+    results: {
       type: Array,
       required: true
     },
@@ -109,31 +115,139 @@ export default defineComponent({
       { name: 'submittedAt', label: '回答日時' }
     ]
     const downloadLabel = 'CSV形式でダウンロード'
-    const showColumn = []
-    const state = reactive({
-      tableForm: 'view'
+    const state = reactive<State>({
+      tableForm: 'view',
+      showColumn: [],
+      sorted: ''
     })
 
-    const initializeShowColumn = () => {}
-    const getTableRow = () => {}
-    const responseToString = () => {}
-    const downloadTable = () => {}
-    const sort = () => {}
-    const arrayToMarkdown = () => {}
-    const toggleShowColumn = () => {}
-    const isColumnActive = () => {}
-    const isColumnHidden = () => {}
-    const copyTable = () => {}
+    const initializeShowColumn = (len: number): void => {
+      if (state.showColumn.length < len) {
+        state.showColumn = new Array(len).fill(true)
+      }
+    }
+    const getTableRow = (index: number): string[] => {
+      const ret = defaultColumns
+        .map(column => props.results[index][column.name])
+        .concat(
+          props.results[index].responseBody.map((response: any) =>
+            responseToString(response)
+          )
+        )
+    }
+    // TODO responseToString
+    const responseToString = (body: any): string => {
+      let ret = ''
+      switch (body.question_type) {
+        case 'MultipleChoice':
+        case 'Checkbox':
+        case 'Dropdown':
+          body.option_response.forEach((response: string) => {
+            if (ret !== '') {
+              ret += ', '
+            }
+            ret += response
+          })
+          return ret
+        case 'TextArea':
+          return state.tableForm === 'markdown'
+            ? body.response.replace(/\n/g, '<br>')
+            : body.response
+        default:
+          return body.response
+      }
+    }
+    const downloadTable = (): void => {
+      if (!isTextTable.value) return
+      let form: { type: string; ext: string; data: string }
+      switch (state.tableForm) {
+        case 'markdown':
+          form = {
+            type: 'text/markdown',
+            ext: '.md',
+            data: markdownTable.value
+          }
+          break
+        case 'csv':
+          form = { type: 'text/csv', ext: '.csv', data: csvTable.value }
+          break
+        default:
+          return
+      }
+      const blob = new Blob([form.data], { type: form.type })
+      let link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = 'Result' + form.ext
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+    const sort = (index: number) => {
+      let query = ''
+      if (state.sorted !== index) {
+        query += '-'
+        state.sorted = index
+      } else {
+        state.sorted = -index
+      }
+      switch (index) {
+        case 1:
+          query += 'traqid'
+          break
+        case 2:
+          query += 'submitted_at'
+          break
+        default:
+          query += index - 2
+      }
+      context.emit('get-results', '?sort=' + query)
+    }
+    const arrayToMarkdown = (arr: string[]): string => {
+      let ret = '|'
+      arr
+        .filter((val, index) => !isColumnHidden(index))
+        .forEach(val => {
+          ret += ' ' + val + ' |'
+        })
+      ret += '\n'
+      return ret
+    }
+    const toggleShowColumn = (index: number): void => {
+      state.showColumn[index] = !state.showColumn[index]
+    }
+    const isColumnActive = (index: number): boolean =>
+      state.sorted === Math.abs(index + 1)
+    const isColumnHidden = (index: number): boolean =>
+      state.showColumn.length === tableWidth.value && !state.showColumn[index]
+    const copyTable = (): void => {
+      context.root.$copyText(textTables.value[state.tableForm])
+    }
 
-    const tableWidth = computed(() => {})
-    const questionnaireId = computed(() => {})
-    const tableHeaders = computed(() => {})
-    const textTables = computed(() => {})
-    const markdownTable = computed(() => {})
-    const csvTable = computed(() => {})
-    const isTextTable = computed(() => {})
+    const tableWidth = computed(
+      (): number => defaultColumns.length + props.questions.length
+    )
+    const questionnaireId = computed(
+      (): string => context.root.$route.params.id
+    )
+    const tableHeaders = computed((): string[] =>
+      defaultColumns.map(column => column.label).concat(props.questions)
+    )
+    const textTables = computed((): { [key: string]: string } => ({
+      markdown: markdownTable.value,
+      csv: csvTable.value
+    }))
 
-    watchEffect(() => {})
+    // TODO markdownとcsv
+    const markdownTable = computed((): string => '')
+    const csvTable = computed((): string => '')
+
+    const isTextTable = computed((): boolean =>
+      Object.keys(textTables.value).includes(state.tableForm)
+    )
+
+    watchEffect(() => {
+      initializeShowColumn(tableWidth.value)
+    })
 
     return {
       ...toRefs(state),
