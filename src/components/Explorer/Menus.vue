@@ -4,14 +4,14 @@
       title="並べ替え"
       :contents="sortOrders"
       :class="$style.dropdown"
-      :isOpen="state.isOpenSort"
+      :is-open="state.isOpenSort"
       @open="openSort"
     />
     <dropdown-menu
       title="フィルター"
       :contents="targetedOptions"
       :class="$style.dropdown"
-      :isOpen="state.isOpenOption"
+      :is-open="state.isOpenOption"
       @open="openOption"
     />
   </div>
@@ -19,9 +19,8 @@
 
 <script lang="ts">
 import { reactive } from 'vue'
-import Icon from '/@/components/UI/Icon.vue'
 import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
-import useOptions from './use/useOptions'
+import { sortOrders, targetedOptions } from './use/useOptions'
 
 export default {
   name: 'Menus',
@@ -33,9 +32,6 @@ export default {
       isOpenSort: false,
       isOpenOption: false
     })
-
-    const sortOrders = useOptions.sortOrders
-    const targetedOptions = useOptions.targetedOptions
 
     const openSort = () => {
       state.isOpenSort = !state.isOpenSort

@@ -19,7 +19,8 @@
 </template>
 
 <script lang="ts">
-import { reactive } from 'vue'
+import { PropType } from 'vue'
+import { DropdownSortOrders, DropdownTargetedOptions } from './use/useOptions'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default {
@@ -33,7 +34,7 @@ export default {
       required: true
     },
     contents: {
-      type: Array,
+      type: Array as PropType<DropdownSortOrders[] | DropdownTargetedOptions[]>,
       required: true
     },
     isOpen: {
@@ -42,15 +43,12 @@ export default {
     }
   },
   emits: ['open'],
-  setup(props, { emit }) {
-    const state = reactive({ isOpen: false })
-
-    const open = (e: any) => {
-      emit('open', e)
+  setup(props, context) {
+    const open = () => {
+      context.emit('open')
     }
 
     return {
-      state,
       open
     }
   }
