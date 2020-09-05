@@ -51,6 +51,12 @@ type State = {
 
 type Context = {}
 
+type State = {
+  tableForm: string
+  showColumn: boolean[]
+  sorted: string | number
+}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
@@ -103,7 +109,6 @@ export default defineComponent({
         default:
           return
       }
-
       const blob = new Blob([form.data], { type: form.type })
       let link = document.createElement('a')
       link.href = window.URL.createObjectURL(blob)

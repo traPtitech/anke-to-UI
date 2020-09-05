@@ -64,6 +64,18 @@ const countData = (
   return []
 }
 
+type State = {
+  tableForm: string
+}
+
+const isSelectType = (type: string): boolean =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
+const isNumberType = (type: string): boolean =>
+  ['LinearScale', 'Number'].includes(type)
+const countData = (questions: any[], results: any[]): any[] => {
+  return []
+}
+
 export default defineComponent({
   name: 'Statistics',
   components: {
