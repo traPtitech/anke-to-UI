@@ -44,6 +44,12 @@ type State = {
 
 type Context = {}
 
+type State = {
+  tableForm: string
+  showColumn: boolean[]
+  sorted: string | number
+}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
@@ -78,7 +84,6 @@ export default defineComponent({
         state.showColumn = new Array(len).fill(true)
       }
     }
-
     const downloadTable = (): void => {
       if (!isTextTable.value) return
       let form: { type: string; ext: string; data: string }
