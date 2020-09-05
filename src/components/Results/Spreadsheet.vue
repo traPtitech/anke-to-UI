@@ -46,6 +46,12 @@ type State = {
 
 type Context = {}
 
+type State = {
+  tableForm: string
+  showColumn: boolean[]
+  sorted: string | number
+}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
