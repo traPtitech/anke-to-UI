@@ -86,21 +86,24 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
-import Icon from '@/components/Icons/Icon'
-
-type Props = {
-  reuslts: any[]
-  questions: any[]
-}
-
-type Context = {}
+import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
     Icon
   },
-  setup(props: Props, context: Context) {
+  props: {
+    result: {
+      type: Array,
+      required: true
+    },
+    questions: {
+      type: Array,
+      required: true
+    }
+  },
+  setup(props, context) {
     const defaultColumns = [
       { name: 'traqId', label: 'traQID' },
       { name: 'submittedAt', label: '回答日時' }

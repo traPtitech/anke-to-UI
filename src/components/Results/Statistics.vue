@@ -91,6 +91,16 @@ import { defineComponent, reactive, computed, toRefs } from 'vue'
 export default defineComponent({
   name: 'Statistics',
   components: {},
+  props: {
+    results: {
+      type: Array,
+      required: true
+    },
+    questions: {
+      type: Array,
+      required: true
+    }
+  },
   setup() {
     const state = reactive({
       tableForm: 'view'

@@ -42,7 +42,6 @@
 <script lang="ts">
 // import InformationSummary from '@/components/Information/InformationSummary'
 import { defineComponent, reactive, computed, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
 // import common from '@/bin/common'
 // import {
 //   getQuestionnaire,
@@ -51,9 +50,9 @@ import { useRouter } from 'vue-router'
 //   getQuestions
 // } from '@/lib/api'
 import Routes from '/@/components/Routes.vue'
-import Individual from '@/components/Results/Individual'
-import Statistics from '@/components/Results/Statistics'
-import Spreadsheet from '@/components/Results/Spreadsheet'
+import Individual from '/@/components/Results/Individual.vue'
+import Statistics from '/@/components/Results/Statistics.vue'
+import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
 
 export default defineComponent({
   name: 'Result',
@@ -63,7 +62,7 @@ export default defineComponent({
     statistics: Statistics,
     spreadsheet: Spreadsheet
   },
-  setup(_, context) {
+  setup(props, context) {
     const state = reactive({
       information: {},
       hasResponded: false,
