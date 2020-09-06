@@ -101,6 +101,7 @@ export default defineComponent({
         default:
           return
       }
+
       const blob = new Blob([form.data], { type: form.type })
       let link = document.createElement('a')
       link.href = window.URL.createObjectURL(blob)
