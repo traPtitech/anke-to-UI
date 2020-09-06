@@ -85,6 +85,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, toRefs } from 'vue'
+import { useRoute } from 'vue-router'
 
 type State = {
   tableForm: string
@@ -132,11 +133,8 @@ export default defineComponent({
       document.body.removeChild(link)
     }
 
-    const questionnaireId = computed(
-      // TODO param.id
-      // (): string => context.root.$route.params.id
-      (): number => 1
-    )
+    const route = useRoute()
+    const questionnaireId = computed((): number => +route.params.id)
     const countedData = computed((): any[] | null => {
       if (props.questions.length <= 0 || props.results.length <= 0) return null
       return countData(props.questions, props.results)

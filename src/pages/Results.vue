@@ -42,6 +42,7 @@
 <script lang="ts">
 // import InformationSummary from '@/components/Information/InformationSummary'
 import { defineComponent, reactive, computed, toRefs } from 'vue'
+import { useRoute } from 'vue-router'
 // import common from '@/bin/common'
 // import {
 //   getQuestionnaire,
@@ -73,7 +74,7 @@ export default defineComponent({
     statistics: Statistics,
     spreadsheet: Spreadsheet
   },
-  setup(props, context) {
+  setup(props) {
     const state = reactive<State>({
       information: {},
       hasResponded: false,
@@ -84,11 +85,10 @@ export default defineComponent({
       responseData: {}
     })
 
-    // TODO 動的ルート
-    // const questionnaireId = computed(() => context.root.$route.params.id)
-    // const query = computed(() => context.root.$route.query.tab)
-    const questionnaireId = computed(() => 0)
-    const query = computed(() => '')
+    const route = useRoute()
+
+    const questionnaireId = computed((): number => Number(route.params.id))
+    const query = computed((): string => route.query.tab)
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, query.value)

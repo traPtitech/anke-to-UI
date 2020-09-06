@@ -1,5 +1,6 @@
 <template>
   <div class="has-navbar-fixed-bottom">
+    <!-- TODO QuestionsとPagenationをどうにかする -->
     <!-- <questions :questions-props="questionData"></questions>
     <pagination
       :range="range"
@@ -11,6 +12,8 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { useRoute } from 'vue-router'
+// TODO QuestionsとPagenationをどうにかする
 // import Questions from '/@/components/Questions/Questions.vue'
 // import Pagination from '/@/components/Utils/Pagination.vue'
 
@@ -38,19 +41,19 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props, context) {
+  setup(props) {
     const range = computed(() => ({
       first: 1,
       last: props.results.length
     }))
+
+    const route = useRoute()
     const currentPage = computed(() => {
-      return context.root.$route.query.page
-        ? Number(context.root.$route.query.page)
-        : range.value.first
+      return route.query.page ? Number(route.query.page) : range.value.first
     })
     const defaultPageLink = computed(() => ({
       name: 'Results',
-      params: { id: context.root.$route.params.id },
+      params: { id: route.params.id },
       query: { tab: 'individual' }
     }))
     return {

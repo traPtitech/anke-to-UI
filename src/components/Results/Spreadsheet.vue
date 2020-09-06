@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
+import { useRoute } from 'vue-router'
 import Icon from '/@/components/UI/Icon.vue'
 
 type State = {
@@ -134,8 +135,9 @@ export default defineComponent({
             responseToString(response)
           )
         )
+      return ret
     }
-    // TODO responseToString
+
     const responseToString = (body: any): string => {
       let ret = ''
       switch (body.question_type) {
@@ -157,6 +159,7 @@ export default defineComponent({
           return body.response
       }
     }
+
     const downloadTable = (): void => {
       if (!isTextTable.value) return
       let form: { type: string; ext: string; data: string }
@@ -182,6 +185,7 @@ export default defineComponent({
       link.click()
       document.body.removeChild(link)
     }
+
     const sort = (index: number) => {
       let query = ''
       if (state.sorted !== index) {
@@ -219,16 +223,18 @@ export default defineComponent({
       state.sorted === Math.abs(index + 1)
     const isColumnHidden = (index: number): boolean =>
       state.showColumn.length === tableWidth.value && !state.showColumn[index]
+
     const copyTable = (): void => {
-      context.root.$copyText(textTables.value[state.tableForm])
+      // TODO vue clipboardがないのでどうするか
+      // context.root.$copyText(textTables.value[state.tableForm])
     }
 
     const tableWidth = computed(
       (): number => defaultColumns.length + props.questions.length
     )
-    const questionnaireId = computed(
-      (): string => context.root.$route.params.id
-    )
+
+    const route = useRoute()
+    const questionnaireId = computed((): number => Number(route.params.id))
     const tableHeaders = computed((): string[] =>
       defaultColumns.map(column => column.label).concat(props.questions)
     )
