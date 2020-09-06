@@ -48,7 +48,11 @@ export default defineComponent({
   components: {
     ResultTab
   },
+<<<<<<< HEAD
   setup() {
+=======
+  setup(props) {
+>>>>>>> router fix
     const state = reactive<State>({
       information: {},
       hasResponded: false,
@@ -61,8 +65,14 @@ export default defineComponent({
     })
 
     const route = useRoute()
+<<<<<<< HEAD
     const questionnaireId = computed(() => <string>route.params.id || '')
     const query = computed(() => route.query.tab || '')
+=======
+
+    const questionnaireId = computed((): number => Number(route.params.id))
+    const query = computed((): string => route.query.tab)
+>>>>>>> router fix
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, <string>query.value)

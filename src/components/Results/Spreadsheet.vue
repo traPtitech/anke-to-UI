@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts">
+<<<<<<< HEAD
 import {
   defineComponent,
   PropType,
@@ -45,6 +46,11 @@ type State = {
 }
 
 type Context = {}
+=======
+import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+import Icon from '/@/components/UI/Icon.vue'
+>>>>>>> router fix
 
 type State = {
   tableForm: string
@@ -87,6 +93,42 @@ export default defineComponent({
         state.showColumn = new Array(len).fill(true)
       }
     }
+<<<<<<< HEAD
+=======
+    const getTableRow = (index: number): string[] => {
+      const ret = defaultColumns
+        .map(column => props.results[index][column.name])
+        .concat(
+          props.results[index].responseBody.map((response: any) =>
+            responseToString(response)
+          )
+        )
+      return ret
+    }
+
+    const responseToString = (body: any): string => {
+      let ret = ''
+      switch (body.question_type) {
+        case 'MultipleChoice':
+        case 'Checkbox':
+        case 'Dropdown':
+          body.option_response.forEach((response: string) => {
+            if (ret !== '') {
+              ret += ', '
+            }
+            ret += response
+          })
+          return ret
+        case 'TextArea':
+          return state.tableForm === 'markdown'
+            ? body.response.replace(/\n/g, '<br>')
+            : body.response
+        default:
+          return body.response
+      }
+    }
+
+>>>>>>> router fix
     const downloadTable = (): void => {
       if (!isTextTable.value) return
       let form: { type: string; ext: string; data: string }
@@ -113,10 +155,32 @@ export default defineComponent({
       document.body.removeChild(link)
     }
 
+<<<<<<< HEAD
     const changeTab = (tab: string) => (state.tableForm = tab)
 
     const getResults = (queryString: string) => {
       context.emit('get-results', queryString)
+=======
+    const sort = (index: number) => {
+      let query = ''
+      if (state.sorted !== index) {
+        query += '-'
+        state.sorted = index
+      } else {
+        state.sorted = -index
+      }
+      switch (index) {
+        case 1:
+          query += 'traqid'
+          break
+        case 2:
+          query += 'submitted_at'
+          break
+        default:
+          query += index - 2
+      }
+      context.emit('get-results', '?sort=' + query)
+>>>>>>> router fix
     }
     const arrayToMarkdown = (arr: string[]): string => {
       let ret = '|'
@@ -140,7 +204,11 @@ export default defineComponent({
     }
 
     const tableWidth = computed(
+<<<<<<< HEAD
       (): number => DEFAULT_COLUMNS.length + props.questions.length
+=======
+      (): number => defaultColumns.length + props.questions.length
+>>>>>>> router fix
     )
 
     const route = useRoute()

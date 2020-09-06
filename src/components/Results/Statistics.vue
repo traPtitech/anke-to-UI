@@ -28,6 +28,7 @@
 </template>
 
 <script lang="ts">
+<<<<<<< HEAD
 import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
 import { ResponceDetails, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
@@ -93,6 +94,10 @@ const countData = (
 ): CountedData[] => {
   return []
 }
+=======
+import { defineComponent, reactive, computed, toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+>>>>>>> router fix
 
 type State = {
   tableForm: string
@@ -145,8 +150,13 @@ export default defineComponent({
 
     const route = useRoute()
     const questionnaireId = computed((): number => +route.params.id)
+<<<<<<< HEAD
     const countedData = computed((): CountedData[] => {
       if (props.questions.length <= 0 || props.results.length <= 0) return []
+=======
+    const countedData = computed((): any[] | null => {
+      if (props.questions.length <= 0 || props.results.length <= 0) return null
+>>>>>>> router fix
       return countData(props.questions, props.results)
     })
     // TODO markdownのテーブル生成
