@@ -14,9 +14,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
 
-export default {
+export default defineComponent({
   name: 'QuestionnairesTable',
   components: {
     QuestionnairesTableRow
@@ -28,7 +29,7 @@ export default {
       headers
     }
   }
-}
+})
 </script>
 
 <style lang="scss" module>

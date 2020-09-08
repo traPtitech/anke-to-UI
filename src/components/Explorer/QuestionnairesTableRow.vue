@@ -28,10 +28,10 @@
 </template>
 
 <script lang="ts">
-import { reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
-export default {
+export default defineComponent({
   name: 'QuestionnaireTableRow',
   components: {
     Icon
@@ -64,7 +64,7 @@ export default {
       data
     }
   }
-}
+})
 </script>
 
 <style lang="scss" module>

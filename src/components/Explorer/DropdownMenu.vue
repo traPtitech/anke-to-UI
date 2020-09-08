@@ -19,11 +19,11 @@
 </template>
 
 <script lang="ts">
-import { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { DropdownSortOrders, DropdownTargetedOptions } from './use/useOptions'
 import Icon from '/@/components/UI/Icon.vue'
 
-export default {
+export default defineComponent({
   name: 'DropdownMenu',
   components: {
     Icon
@@ -52,7 +52,7 @@ export default {
       open
     }
   }
-}
+})
 </script>
 
 <style lang="scss" module>

@@ -18,11 +18,11 @@
 </template>
 
 <script lang="ts">
-import { reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
 import { sortOrders, targetedOptions } from './use/useOptions'
 
-export default {
+export default defineComponent({
   name: 'Menus',
   components: {
     DropdownMenu
@@ -50,7 +50,7 @@ export default {
       openOption
     }
   }
-}
+})
 </script>
 
 <style lang="scss" module>

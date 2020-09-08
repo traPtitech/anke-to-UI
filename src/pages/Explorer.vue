@@ -14,18 +14,19 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownMenu from '/@/components/Explorer/Menus.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
 
-export default {
+export default defineComponent({
   name: 'Explorer',
   components: {
     Icon,
     DropdownMenu,
     QuestionnairesTable
   }
-}
+})
 </script>
 
 <style lang="scss" module>
