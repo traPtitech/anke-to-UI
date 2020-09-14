@@ -6,15 +6,7 @@
         <icon name="chevron-down" :class="$style.icon" />
       </div>
     </button>
-    <div v-if="isOpen" :class="$style.dropdown_menu">
-      <p
-        v-for="(content, index) in contents"
-        :key="index"
-        :class="$style.contents"
-      >
-        {{ content.str }}
-      </p>
-    </div>
+    <dropdown-contents :is-open="isOpen" :contents="contents" />
   </div>
 </template>
 
@@ -22,23 +14,25 @@
 import { defineComponent, PropType } from 'vue'
 import { DropdownSortOrders, DropdownTargetedOptions } from './use/useOptions'
 import Icon from '/@/components/UI/Icon.vue'
+import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
 
 export default defineComponent({
   name: 'DropdownMenu',
   components: {
-    Icon
+    Icon,
+    DropdownContents
   },
   props: {
     title: {
       type: String,
       required: true
     },
-    contents: {
-      type: Array as PropType<DropdownSortOrders[] | DropdownTargetedOptions[]>,
-      required: true
-    },
     isOpen: {
       type: Boolean,
+      required: true
+    },
+    contents: {
+      type: Array as PropType<DropdownSortOrders[] | DropdownTargetedOptions[]>,
       required: true
     }
   },
@@ -57,29 +51,11 @@ export default defineComponent({
 
 <style lang="scss" module>
 .dropdown_trigger {
-  position: relative;
   display: flex;
   padding: 0.3em 1em 0.3em 1.4em;
+  align-items: center;
   .title {
-    padding-top: 0.2em;
     margin: 0 0.3em 0 0;
-  }
-}
-.dropdown_menu {
-  position: absolute;
-  .contents {
-    background-color: #ffffff;
-    box-shadow: 0.5em 0 1em -0.3em rgba(10, 10, 10, 0.1);
-    box-sizing: inherit;
-    border: solid 0.01em #e7e7e7;
-    border-radius: 0.3em;
-    margin: 0;
-    padding: 0.5em 1em;
-    text-align: left;
-    cursor: pointer;
-    &:hover {
-      background-color: #f4ecec;
-    }
   }
 }
 .button {

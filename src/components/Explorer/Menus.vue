@@ -57,7 +57,7 @@ export default defineComponent({
 .container {
   display: flex;
   .dropdown {
-    padding-right: 0.5em;
+    margin-right: 0.5em;
   }
 }
 </style>
