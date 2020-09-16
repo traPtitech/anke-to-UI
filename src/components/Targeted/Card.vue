@@ -42,7 +42,7 @@ export default defineComponent({
       questionnaires: [
         {
           questionnaireID: 1,
-          title: '投票こんにちは',
+          title: 'こんにちは',
           res_time_limit: '2020-12-31',
           created_at: '2020-1-1',
           modified_at: '2020-1-1',
@@ -101,7 +101,7 @@ export default defineComponent({
   .table_item_date {
     min-width: 8em;
     padding-left: 0.8em;
-    padding-right: 3em;
+    padding-bottom: 0.8em;
   }
 }
 .link {
