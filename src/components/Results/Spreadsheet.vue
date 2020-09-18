@@ -49,8 +49,15 @@ type Context = {}
 =======
 import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
+<<<<<<< HEAD
 import Icon from '/@/components/UI/Icon.vue'
 >>>>>>> router fix
+=======
+import { Responce, Question, ResponceBody } from '/@/lib/apis'
+import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
+import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
+import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
+>>>>>>> tableHeaders
 
 type State = {
   tableForm: string
@@ -58,10 +65,16 @@ type State = {
   sorted: string | number
 }
 
+type Props = {
+  resutls: Responce[]
+  questions: Question[]
+}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
     Tab,
+<<<<<<< HEAD
     ScrollView
   },
   props: {
@@ -76,6 +89,13 @@ export default defineComponent({
   },
   setup(props, context) {
     const DEFAULT_COLUMNS = [
+=======
+    TableHeader,
+    TableBody
+  },
+  setup(props: Props, context) {
+    const defaultColumns = [
+>>>>>>> tableHeaders
       { name: 'traqId', label: 'traQID' },
       { name: 'submittedAt', label: '回答日時' }
     ]
@@ -106,7 +126,7 @@ export default defineComponent({
       return ret
     }
 
-    const responseToString = (body: any): string => {
+    const responseToString = (body: ResponceBody): string => {
       let ret = ''
       switch (body.question_type) {
         case 'MultipleChoice':
