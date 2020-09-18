@@ -50,6 +50,11 @@ type State = {
   sorted: string | number
 }
 
+type Props = {
+  resutls: Responce[]
+  questions: Question[]
+}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
