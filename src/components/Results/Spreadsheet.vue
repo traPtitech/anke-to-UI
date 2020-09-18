@@ -37,24 +37,17 @@ import { Responce, Question, ResponceBody } from '/@/lib/apis'
 import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
 
-type State = {
-  tableForm: string
-  showColumn: boolean[]
-}
-
-type Context = {}
-
-type State = {
-  tableForm: string
-  showColumn: boolean[]
-}
-
 type Context = {}
 
 type State = {
   tableForm: string
   showColumn: boolean[]
   sorted: string | number
+}
+
+type Props = {
+  resutls: Responce[]
+  questions: Question[]
 }
 
 export default defineComponent({
