@@ -1,75 +1,35 @@
 <template>
   <div class="wrapper">
     <div class="card">
-      <div class="tabs">
-        <ul>
-          <li
-            v-for="tab in tableFormTabs"
-            :key="tab"
-            class="tab"
-            :class="{ 'is-active': tableForm === tab }"
-          >
-            <a @click="tableForm = tab">{{ tab }}</a>
-          </li>
-        </ul>
+      <Tab
+        :table-form-tabs="tableFormTabs"
+        :table-form="tableForm"
+        :is-text-table="isTextTable"
+      />
+      <div class="scroll-view">
+        <!-- table view -->
+        <table v-show="tableForm === 'view'" class="table is-striped">
+          <TableHeader
+            :table-headers="tableHeaders"
+            :sorted="sorted"
+            :show-column="showColumn"
+            @sort="sort"
+            @toggle-show-column="toggleShowColumn"
+          />
+          <TableBody />
+        </table>
+
+        <!-- markdown, csv view -->
         <button v-if="isTextTable" class="button copy" @click="copyTable">
-          <span class="ti-clipboard"></span>
+          <Icon name="clipboard" />
         </button>
         <button
           v-if="isTextTable"
           class="button download"
           @click="downloadTable"
         >
-          <span class="ti-download"></span>
+          <Icon name="download" />
         </button>
-      </div>
-      <div class="scroll-view">
-        <!-- table view -->
-        <table v-show="tableForm === 'view'" class="table is-striped">
-          <thead>
-            <tr>
-              <th
-                v-for="(header, k) in tableHeaders"
-                :key="k"
-                :class="{
-                  'active-header': isColumnActive(k),
-                  hidden: isColumnHidden(k)
-                }"
-              >
-                <span class="header-wrapper">
-                  <span class="header-icon-left" @click="toggleShowColumn(k)">
-                    <Icon
-                      :name="isColumnHidden(k) ? 'eye-closed' : 'eye'"
-                      color="var(--base-darkbrown)"
-                      class="clickable"
-                    ></Icon>
-                  </span>
-                  <span class="header-label">
-                    {{ header }}
-                  </span>
-                  <span
-                    class="header-icon-right clickable"
-                    :class="sorted !== k + 1 ? 'ti-angle-up' : 'ti-angle-down'"
-                    @click="sort(k + 1)"
-                  ></span>
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(row, j) in results" :key="j">
-              <td
-                v-for="(item, k) in getTableRow(j)"
-                :key="k"
-                :class="{ hidden: isColumnHidden(k) }"
-              >
-                {{ item }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- markdown, csv view -->
         <textarea
           v-for="(table, name) in textTables"
           v-show="tableForm === name"
@@ -87,7 +47,10 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
-import Icon from '/@/components/UI/Icon.vue'
+import { Responce, Question, ResponceBody } from '/@/lib/apis'
+import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
+import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
+import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
 
 type State = {
   tableForm: string
@@ -95,22 +58,19 @@ type State = {
   sorted: string | number
 }
 
+type Props = {
+  resutls: Responce[]
+  questions: Question[]
+}
+
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
-    Icon
+    Tab,
+    TableHeader,
+    TableBody
   },
-  props: {
-    results: {
-      type: Array,
-      required: true
-    },
-    questions: {
-      type: Array,
-      required: true
-    }
-  },
-  setup(props, context) {
+  setup(props: Props, context) {
     const defaultColumns = [
       { name: 'traqId', label: 'traQID' },
       { name: 'submittedAt', label: '回答日時' }
@@ -138,7 +98,7 @@ export default defineComponent({
       return ret
     }
 
-    const responseToString = (body: any): string => {
+    const responseToString = (body: ResponceBody): string => {
       let ret = ''
       switch (body.question_type) {
         case 'MultipleChoice':
