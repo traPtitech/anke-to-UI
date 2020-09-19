@@ -47,11 +47,10 @@ type Context = {}
 type State = {
   tableForm: string
   showColumn: boolean[]
-  sorted: string | number
 }
 
 type Props = {
-  resutls: Responce[]
+  results: Responce[]
   questions: Question[]
 }
 
