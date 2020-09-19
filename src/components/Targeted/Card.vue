@@ -4,7 +4,7 @@
     :key="index"
     :class="$style.container"
   >
-    <div :class="$style.table_item_title">
+    <div :class="$style.tableItemTitle">
       <icon name="open-in-new" :class="$style.icon" />
       <router-link
         :to="'/questionnaires/' + questionnaire.questionnaireID"
@@ -12,11 +12,11 @@
         >{{ questionnaire.title }}</router-link
       >
     </div>
-    <div :class="$style.table_item_description">
+    <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
     <div class="media">
-      <div :class="$style.table_item_date">
+      <div :class="$style.tableItemDate">
         <th class="content column res-time-limit">
           回答期限: {{ questionnaire.res_time_limit }}
         </th>
@@ -83,14 +83,14 @@ export default defineComponent({
 <style lang="scss" module>
 .container {
   border: solid 1.5px #d9d9d9;
-  .table_item_title {
+  .tableItemTitle {
     min-width: 10em;
     text-align: left;
     padding-top: 0.8em;
     padding-left: 0.8em;
     font-size: 15pt;
   }
-  .table_item_description {
+  .tableItemDescription {
     min-width: 8em;
     text-align: left;
     padding-left: 1.6em;
@@ -98,7 +98,7 @@ export default defineComponent({
     padding-bottom: 0.8em;
     word-break: break-all;
   }
-  .table_item_date {
+  .tableItemDate {
     min-width: 8em;
     padding-left: 0.8em;
     padding-bottom: 0.8em;
