@@ -15,14 +15,10 @@
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
-    <div class="media">
+    <div>
       <div :class="$style.tableItemDate">
-        <th class="content column res-time-limit">
-          回答期限: {{ questionnaire.res_time_limit }}
-        </th>
-        <th class="content column modified-at">
-          更新日: {{ questionnaire.modified_at }}
-        </th>
+        <th>回答期限: {{ questionnaire.res_time_limit }}</th>
+        <th>更新日: {{ questionnaire.modified_at }}</th>
       </div>
     </div>
   </tr>
