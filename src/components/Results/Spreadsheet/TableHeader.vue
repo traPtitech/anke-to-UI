@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 type Props = {
@@ -47,14 +47,47 @@ export default defineComponent({
     Icon
   },
   setup(props: Props, context) {
+    const state = reactive<{
+      sorted: string | number
+    }>({
+      sorted: ''
+    })
+
     const isColumnActive = (index: number): boolean =>
-      props.sorted === Math.abs(index + 1)
+      state.sorted === Math.abs(index + 1)
     const isColumnHidden = (index: number): boolean =>
       props.showColumn.length === props.tableHeaders.length &&
       !props.showColumn[index]
     const toggleShowColumn = (index: number) =>
       context.emit('toggle-show-column', index)
-    const sort = (index: number) => context.emit('sort', index)
+
+    const sort = (index: number) => {
+      let query = ''
+      if (state.sorted !== index) {
+        query += '-'
+        state.sorted = index
+      } else {
+        state.sorted = -index
+      }
+      switch (index) {
+        case 1:
+          query += 'traqid'
+          break
+        case 2:
+          query += 'submitted_at'
+          break
+        default:
+          query += index - 2
+      }
+      context.emit('get-results', '?sort=' + query)
+    }
+
+    return {
+      isColumnActive,
+      isColumnHidden,
+      toggleShowColumn,
+      sort
+    }
   }
 })
 </script>

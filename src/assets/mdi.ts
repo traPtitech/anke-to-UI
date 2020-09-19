@@ -4,7 +4,9 @@ import {
   mdiOpenInNew,
   mdiHelpCircleOutline,
   mdiEyeOff,
-  mdiEye
+  mdiEye,
+  mdiClipboard,
+  mdiDownload
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -14,7 +16,9 @@ const mdi = new Map<string, string>([
   ['help-circle-outline', mdiHelpCircleOutline],
   ['chevron-down', mdiChevronDown],
   ['eye-closed', mdiEyeOff],
-  ['eye', mdiEye]
+  ['eye', mdiEye],
+  ['clipboard', mdiClipboard],
+  ['download', mdiDownload]
 ])
 
 export default mdi

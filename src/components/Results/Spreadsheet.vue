@@ -5,18 +5,26 @@
         :table-form-tabs="tableFormTabs"
         :table-form="tableForm"
         :is-text-table="isTextTable"
+        @change-tab="changeTab"
+        @copy-table="copyTable"
+        @download-table="downloadTable"
       />
       <div class="scroll-view">
         <!-- table view -->
         <table v-show="tableForm === 'view'" class="table is-striped">
           <TableHeader
             :table-headers="tableHeaders"
-            :sorted="sorted"
             :show-column="showColumn"
-            @sort="sort"
-            @toggle-show-column="toggleShowColumn"
+            :get-results="getResults"
+            :toggle-show-column="toggleShowColumn"
           />
-          <TableBody />
+          <TableBody
+            :results="results"
+            :default-columns="defaultColumns"
+            :table-headers="tableHeaders"
+            :show-column="showColumn"
+            :table-form="tableForm"
+          />
         </table>
 
         <!-- markdown, csv view -->
@@ -55,11 +63,10 @@ import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
 type State = {
   tableForm: string
   showColumn: boolean[]
-  sorted: string | number
 }
 
 type Props = {
-  resutls: Responce[]
+  results: Responce[]
   questions: Question[]
 }
 
@@ -78,45 +85,12 @@ export default defineComponent({
     const downloadLabel = 'CSV形式でダウンロード'
     const state = reactive<State>({
       tableForm: 'view',
-      showColumn: [],
-      sorted: ''
+      showColumn: []
     })
 
     const initializeShowColumn = (len: number): void => {
       if (state.showColumn.length < len) {
         state.showColumn = new Array(len).fill(true)
-      }
-    }
-    const getTableRow = (index: number): string[] => {
-      const ret = defaultColumns
-        .map(column => props.results[index][column.name])
-        .concat(
-          props.results[index].responseBody.map((response: any) =>
-            responseToString(response)
-          )
-        )
-      return ret
-    }
-
-    const responseToString = (body: ResponceBody): string => {
-      let ret = ''
-      switch (body.question_type) {
-        case 'MultipleChoice':
-        case 'Checkbox':
-        case 'Dropdown':
-          body.option_response.forEach((response: string) => {
-            if (ret !== '') {
-              ret += ', '
-            }
-            ret += response
-          })
-          return ret
-        case 'TextArea':
-          return state.tableForm === 'markdown'
-            ? body.response.replace(/\n/g, '<br>')
-            : body.response
-        default:
-          return body.response
       }
     }
 
@@ -146,25 +120,10 @@ export default defineComponent({
       document.body.removeChild(link)
     }
 
-    const sort = (index: number) => {
-      let query = ''
-      if (state.sorted !== index) {
-        query += '-'
-        state.sorted = index
-      } else {
-        state.sorted = -index
-      }
-      switch (index) {
-        case 1:
-          query += 'traqid'
-          break
-        case 2:
-          query += 'submitted_at'
-          break
-        default:
-          query += index - 2
-      }
-      context.emit('get-results', '?sort=' + query)
+    const changeTab = (tab: string) => (state.tableForm = tab)
+
+    const getResults = (queryString: string) => {
+      context.emit('get-results', queryString)
     }
     const arrayToMarkdown = (arr: string[]): string => {
       let ret = '|'
@@ -179,8 +138,6 @@ export default defineComponent({
     const toggleShowColumn = (index: number): void => {
       state.showColumn[index] = !state.showColumn[index]
     }
-    const isColumnActive = (index: number): boolean =>
-      state.sorted === Math.abs(index + 1)
     const isColumnHidden = (index: number): boolean =>
       state.showColumn.length === tableWidth.value && !state.showColumn[index]
 
@@ -217,17 +174,16 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      defaultColumns,
       tableFormTabs: ['view', 'markdown', 'csv'],
       isTextTable,
       copyTable,
+      changeTab,
       downloadTable,
       tableHeaders,
-      isColumnActive,
       isColumnHidden,
       toggleShowColumn,
-      sorted: '',
-      sort,
-      getTableRow,
+      getResults,
       textTables
     }
   }
