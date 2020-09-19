@@ -62,11 +62,10 @@ import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
 type State = {
   tableForm: string
   showColumn: boolean[]
-  sorted: string | number
 }
 
 type Props = {
-  resutls: Responce[]
+  results: Responce[]
   questions: Question[]
 }
 
@@ -114,6 +113,7 @@ export default defineComponent({
       }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     const getTableRow = (index: number): string[] => {
       const ret = defaultColumns
@@ -147,6 +147,8 @@ export default defineComponent({
           return body.response
       }
     }
+=======
+>>>>>>> SpreadSheet分割
 
 >>>>>>> router fix
     const downloadTable = (): void => {
@@ -176,10 +178,14 @@ export default defineComponent({
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> SpreadSheet分割
     const changeTab = (tab: string) => (state.tableForm = tab)
 
     const getResults = (queryString: string) => {
       context.emit('get-results', queryString)
+<<<<<<< HEAD
 =======
     const sort = (index: number) => {
       let query = ''
@@ -201,6 +207,8 @@ export default defineComponent({
       }
       context.emit('get-results', '?sort=' + query)
 >>>>>>> router fix
+=======
+>>>>>>> SpreadSheet分割
     }
     const arrayToMarkdown = (arr: string[]): string => {
       let ret = '|'
@@ -255,7 +263,11 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+<<<<<<< HEAD
       DEFAULT_COLUMNS,
+=======
+      defaultColumns,
+>>>>>>> SpreadSheet分割
       tableFormTabs: ['view', 'markdown', 'csv'],
       isTextTable,
       copyTable,
