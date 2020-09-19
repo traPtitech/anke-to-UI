@@ -2,7 +2,7 @@
   <tr
     v-for="(questionnaire, index) in data.questionnaires"
     :key="index"
-    :class="$style.body"
+    :class="$style.container"
   >
     <div :class="$style.table_item_title">
       <icon name="open-in-new" :class="$style.icon" />
@@ -81,7 +81,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.body {
+.container {
   border: solid 1.5px #d9d9d9;
   .table_item_title {
     min-width: 10em;
