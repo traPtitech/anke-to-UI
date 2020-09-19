@@ -1,12 +1,10 @@
 <template>
-  <div class="wrapper">
-    <table :class="$style.table">
-      <tr :class="$style.header">
-        回答対象になっているアンケート
-      </tr>
-      <Card />
-    </table>
-  </div>
+  <table :class="$style.table">
+    <tr :class="$style.header">
+      回答対象になっているアンケート
+    </tr>
+    <Card />
+  </table>
 </template>
 
 <script lang="ts">
