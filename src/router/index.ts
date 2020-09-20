@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Index from '/@/pages/Index.vue'
 import Hello from '/@/pages/Hello.vue'
 import Explorer from '/@/pages/Explorer.vue'
-
+import Targeted from '/@/pages/Targeted.vue'
 export const routerHistory = createWebHistory()
 
 export default createRouter({
@@ -22,6 +22,11 @@ export default createRouter({
       path: '/explorer',
       name: 'explorer',
       component: Explorer
+    },
+    {
+      path: '/targeted',
+      name: 'targeted',
+      component: Targeted
     }
   ]
 })
