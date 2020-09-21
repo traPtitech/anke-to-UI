@@ -42,6 +42,7 @@ export default defineComponent({
   setup(props, context) {
     const changeTab = (tab: string) => context.emit('change-tab', tab)
     const downloadTable = () => context.emit('download-table')
+
     return {
       changeTab,
       downloadTable
