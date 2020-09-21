@@ -28,7 +28,6 @@
 </template>
 
 <script lang="ts">
-<<<<<<< HEAD
 import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
 import { ResponceDetails, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
@@ -94,20 +93,39 @@ const countData = (
 ): CountedData[] => {
   return []
 }
-=======
-import { defineComponent, reactive, computed, toRefs } from 'vue'
-import { useRoute } from 'vue-router'
->>>>>>> router fix
+
+type Props = {
+  results: Responce[]
+  questions: Question[]
+}
 
 type State = {
   tableForm: string
+}
+
+export type CountedData = {
+  title: string
+  type: string
+  total: {
+    average: number
+    standardDeviation: number
+    median: number
+    mode: number
+  }
+  data: {
+    choice: string | number
+    ids: string
+  }[]
 }
 
 const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
-const countData = (questions: any[], results: any[]): any[] => {
+const countData = (
+  questions: Question[],
+  results: Responce[]
+): CountedData[] => {
   return []
 }
 
@@ -151,10 +169,14 @@ export default defineComponent({
     const route = useRoute()
     const questionnaireId = computed((): number => +route.params.id)
 <<<<<<< HEAD
+<<<<<<< HEAD
     const countedData = computed((): CountedData[] => {
       if (props.questions.length <= 0 || props.results.length <= 0) return []
 =======
     const countedData = computed((): any[] | null => {
+=======
+    const countedData = computed((): CountedData[] | null => {
+>>>>>>> statistics
       if (props.questions.length <= 0 || props.results.length <= 0) return null
 >>>>>>> router fix
       return countData(props.questions, props.results)
