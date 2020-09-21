@@ -134,7 +134,6 @@ export default defineComponent({
           return ''
       }
     })
-
     return {
       summaryProps,
       selectedTab,
