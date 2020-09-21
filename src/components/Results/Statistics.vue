@@ -32,6 +32,11 @@ import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
 import { Responce, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 
+type Props = {
+  results: Responce[]
+  questions: Question[]
+}
+
 type State = {
   tableForm: string
 }
@@ -70,7 +75,10 @@ const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
-const countData = (questions: any[], results: any[]): any[] => {
+const countData = (
+  questions: Question[],
+  results: Responce[]
+): CountedData[] => {
   return []
 }
 
