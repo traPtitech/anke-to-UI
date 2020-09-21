@@ -64,15 +64,38 @@ const countData = (
   return []
 }
 
+type Props = {
+  results: Responce[]
+  questions: Question[]
+}
+
 type State = {
   tableForm: string
+}
+
+export type CountedData = {
+  title: string
+  type: string
+  total: {
+    average: number
+    standardDeviation: number
+    median: number
+    mode: number
+  }
+  data: {
+    choice: string | number
+    ids: string
+  }[]
 }
 
 const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
-const countData = (questions: any[], results: any[]): any[] => {
+const countData = (
+  questions: Question[],
+  results: Responce[]
+): CountedData[] => {
   return []
 }
 
