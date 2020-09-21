@@ -35,7 +35,6 @@ export default defineComponent({
   components: {
     Responce
   },
-  setup(props: Props) {
-  }
+  setup(props: Props) {}
 })
 </script>
