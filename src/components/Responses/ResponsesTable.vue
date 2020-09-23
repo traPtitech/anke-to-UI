@@ -1,34 +1,34 @@
 <template>
   <table :class="$style.table">
-    <thead>
-      <tr>
-        <th v-for="(header, index) in headers" :key="index">{{ header }}</th>
-      </tr>
-    </thead>
     <tbody>
       <tr
-        v-for="(response, index) in data.responses"
+        v-for="(questionnaire, index) in data.questionnaires"
         :key="index"
-        :class="$style.header"
+        :class="$style.body"
       >
-        <td :class="$style.table - item - title">
-          <router-link :to="'/questionnaires/' + response.questionnaireID">{{
-            response.title
-          }}</router-link>
-        </td>
-        <td :class="$style.table - item - date">
-          {{ response.res_time_limit }}
-        </td>
-        <td :class="$style.table - item - date">{{ response.submitted_at }}</td>
-        <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
-        <td :class="$style.table - item - date">{{ response.modified_at }}</td>
-        <td :class="$style.table - item - myAnswer">
+        <td :class="$style.tableItemTitle">
           <router-link
-            :to="'/responses/' + response.responseID"
-            target="_blank"
+            :to="'/questionnaires/' + questionnaire.questionnaireID"
+            >{{ response.title }}</router-link
           >
-            <icon name="mdi-open-in-new" />
-            <br />Open
+        </td>
+        <td :class="$style.tableItemDate">
+          {{ questionnaire.res_time_limit }}
+        </td>
+        <td :class="$style.tableItemDate">
+          {{ questionnaire.submitted_at }}
+        </td>
+        <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
+        <td>
+          {{ questionnaire.modified_at }}
+        </td>
+        <td :class="$style.myAnswer">
+          <router-link
+            :to="'/responses/' + questionnaire.questionnaireID"
+            :class="$style.link"
+          >
+            <icon name="open-in-new" :class="$style.icon" />
+            <p>Open</p>
           </router-link>
         </td>
       </tr>
@@ -46,15 +46,8 @@ export default defineComponent({
     Icon
   },
   setup() {
-    const headers = [
-      'anke-to_title',
-      '回答期限',
-      '回答日時',
-      '更新日時',
-      '回答'
-    ]
     const data = reactive({
-      responses: [
+      questionnaires: [
         {
           questionnaireID: 1,
           title: 'こんにちは',
@@ -76,7 +69,6 @@ export default defineComponent({
       ]
     })
     return {
-      headers,
       data
     }
   }
@@ -84,26 +76,29 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-td {
-  vertical-align: middle;
-  font-size: 0.9em;
-}
-.header {
-  min-width: 12em;
-  font-size: 1.5em;
-}
-.table-item-title {
-  min-width: 10em;
-  font-size: 1em;
-}
-.table-item-date {
-  min-width: 8em;
-  text-align: center;
-}
-.table-item-myAnswer {
-  vertical-align: middle;
-  .icon {
-    height: 1em;
+.table {
+  border: solid 1.5px #d9d9d9;
+  .header {
+    min-width: 12em;
+    font-size: 1.5em;
+  }
+  .body {
+    min-width: 12em;
+    font-size: 1.5em;
+  }
+  .tableItemTitle {
+    min-width: 10em;
+    font-size: 1em;
+  }
+  .tableItemDate {
+    min-width: 8em;
+    text-align: center;
+  }
+  .myAnswer {
+    vertical-align: middle;
+    .icon {
+      height: 1em;
+    }
   }
 }
 </style>
