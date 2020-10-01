@@ -49,10 +49,14 @@ export default defineComponent({
     ResultTab
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   setup() {
 =======
   setup(props) {
 >>>>>>> router fix
+=======
+  setup() {
+>>>>>>> ResultTab分離
     const state = reactive<State>({
       information: {},
       hasResponded: false,
@@ -70,12 +74,21 @@ export default defineComponent({
     const query = computed(() => route.query.tab || '')
 =======
 
+<<<<<<< HEAD
     const questionnaireId = computed((): number => Number(route.params.id))
     const query = computed((): string => route.query.tab)
 >>>>>>> router fix
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, <string>query.value)
+=======
+    const questionnaireId = computed(() => Number(route.params.id))
+    const query = computed(() => route.query.tab)
+
+    // nanikashokikakansu(state, questionnaireId.value)
+    dummy(state, questionnaireId.value, <string>query.value)
+
+>>>>>>> ResultTab分離
     const canViewResults = computed(() => {
       // return common.canViewResults(
       //   state.information,
@@ -84,10 +97,17 @@ export default defineComponent({
       // )
       return true
     })
+<<<<<<< HEAD
     return {
       ...toRefs(state),
       questionnaireId,
       query,
+=======
+
+    return {
+      ...toRefs(state),
+      detailTabs: ['Statistics', 'Spreadsheet', 'Individual'],
+>>>>>>> ResultTab分離
       getResults,
       canViewResults
     }
