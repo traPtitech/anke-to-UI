@@ -14,7 +14,7 @@
           </ul>
         </div>
         <div class="table-container">
-          <Responce />
+          <Responce :is-select-type="isSelectType" :question="question" />
         </div>
       </div>
     </div>
@@ -22,19 +22,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { Question } from '/@/lib/apis'
 import Responce from '/@/src/components/Results/Statistics/Responce.vue'
 import { CountedData } from '/@/src/components/Results/Statistics.vue'
-
-type Props = {
-  countedData: CountedData
-}
 
 export default defineComponent({
   name: 'Data',
   components: {
     Responce
   },
-  setup(props: Props) {}
+  props: {
+    countedData: {
+      type: Array as PropType<CountedData>,
+      required: true
+    },
+    isSelectType: {
+      type: Function,
+      required: true
+    }
+  },
+  setup() {}
 })
 </script>

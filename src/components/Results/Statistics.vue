@@ -3,7 +3,7 @@
     <div class="card">
       <Tab
         :table-form="tableForm"
-        :table-form-tabs="tableFormTabs"
+        :table-form-tabs="TABLE_FORM_TABS"
         :can-download="canDownload"
         @change-tab="changeTab"
         @download-table="downloadTable"
@@ -11,7 +11,7 @@
       <div class="scroll-view">
         <!-- table view -->
         <div v-show="tableForm === 'view'">
-          <Data />
+          <Data :counted-data="countedData" :is-select-type="isSelectType" />
         </div>
 
         <!-- markdown view -->
@@ -28,14 +28,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, toRefs } from 'vue'
+import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
 import { Responce, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
-
-type Props = {
-  results: Responce[]
-  questions: Question[]
-}
 
 type State = {
   tableForm: string
@@ -70,7 +65,17 @@ const countData = (
 export default defineComponent({
   name: 'Statistics',
   components: {},
-  setup(props: Props, context) {
+  props: {
+    results: {
+      type: Array as PropType<Response[]>,
+      required: true
+    },
+    questions: {
+      type: Array as PropType<Question[]>,
+      required: true
+    }
+  },
+  setup(props, context) {
     const state = reactive<State>({
       tableForm: 'view'
     })
@@ -103,7 +108,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-      tableFormTabs: ['view', 'markdown'],
+      TABLE_FORM_TABS: ['view', 'markdown'],
       canDownload,
       downloadTable,
       countedData,
