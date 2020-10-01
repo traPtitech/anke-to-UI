@@ -1,35 +1,13 @@
 <template>
   <div>
     <div v-if="canViewResults" class="details is-fullheight">
-      <div class="tabs is-centered">
-        <router-link id="return-button" :to="summaryProps.titleLink">
-          <span class="ti-arrow-left"></span>
-        </router-link>
-        <ul>
-          <li
-            v-for="(tab, index) in detailTabs"
-            :key="index"
-            class="tab"
-            :class="{ 'is-active': selectedTab === tab }"
-          >
-            <router-link :to="getTabLink(tab)">{{ tab }}</router-link>
-          </li>
-        </ul>
-      </div>
-      <!-- <information-summary :information="summaryProps"></information-summary> -->
-      <component
-        :is="currentTabComponent"
-        class="details-child is-fullheight"
-        :name="currentTabComponent"
-        :results="results"
+      <ResultTab
+        :questionnaire-id="questionnaireId"
+        :query="query"
         :information="information"
-        :questions="questions"
-        :question-data="questionData"
         :response-data="responseData"
-        @get-results="getResults"
-      ></component>
+      />
     </div>
-
     <div
       v-if="information.administrators && !canViewResults"
       class="message is-danger"
@@ -44,24 +22,16 @@
 import { defineComponent, reactive, computed, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
 // import common from '@/bin/common'
-// import {
-//   getQuestionnaire,
-//   getMyResponses,
-//   getResults,
-//   getQuestions
-// } from '@/lib/api'
-import Routes from '/@/components/Routes.vue'
-import Individual from '/@/components/Results/Individual.vue'
-import Statistics from '/@/components/Results/Statistics.vue'
-import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
+import { Questionnaire, Response } from '/@/lib/api'
+import ResultTab from '/@/components/Results/ResultTab.vue'
 
 // TODO 型
 type State = {
-  information: any
+  information: Questionnaire
   hasResponded: boolean
   canViewResults: boolean
-  results: any[]
-  questions: any[]
+  results: Response[]
+  questions: string[]
   questionData: any[]
   responseData: any
 }
@@ -69,12 +39,9 @@ type State = {
 export default defineComponent({
   name: 'Results',
   components: {
-    Routes,
-    individual: Individual,
-    statistics: Statistics,
-    spreadsheet: Spreadsheet
+    ResultTab
   },
-  setup(props) {
+  setup() {
     const state = reactive<State>({
       information: {},
       hasResponded: false,
@@ -87,35 +54,11 @@ export default defineComponent({
 
     const route = useRoute()
 
-    const questionnaireId = computed((): number => Number(route.params.id))
-    const query = computed((): string => route.query.tab)
+    const questionnaireId = computed(() => Number(route.params.id))
+    const query = computed(() => route.query.tab)
 
     // nanikashokikakansu(state, questionnaireId.value)
-    dummy(state, questionnaireId.value, query.value)
-
-    const selectedTab = computed(() => {
-      if (!query.value) {
-        return 'Statistics'
-      }
-      return query.value.replace(/^[a-z]/, (ch: string) => ch.toUpperCase())
-    })
-
-    const summaryProps = computed(() => {
-      let ret = {
-        title: state.information.title,
-        // TODO questionnairesに書き換え
-        titleLink: '/results/' + questionnaireId.value,
-        responseDetails: {}
-      }
-      if (selectedTab.value === 'Individual') {
-        ret.responseDetails = {
-          timeLabel: '回答日時',
-          time: state.responseData.submittedAt,
-          respondent: state.responseData.traqId
-        }
-      }
-      return ret
-    })
+    dummy(state, questionnaireId.value, <string>query.value)
 
     const canViewResults = computed(() => {
       // return common.canViewResults(
@@ -126,41 +69,9 @@ export default defineComponent({
       return true
     })
 
-    const getTabLink = (tab: string) => {
-      let ret = {
-        name: 'results',
-        params: { id: questionnaireId.value },
-        query: {
-          tab: ''
-        }
-      }
-      if (['Individual', 'Statistics', 'Spreadsheet'].includes(tab)) {
-        ret.query.tab = tab.toLowerCase()
-      } else {
-        ret.query.tab = 'statistics'
-      }
-      return ret
-    }
-
-    const currentTabComponent = computed(() => {
-      switch (selectedTab.value) {
-        case 'Statistics':
-        case 'Spreadsheet':
-        case 'Individual':
-          return selectedTab.value.toLowerCase()
-        default:
-          console.error('unexpected selectedTab')
-          return ''
-      }
-    })
-
     return {
       ...toRefs(state),
-      summaryProps,
       detailTabs: ['Statistics', 'Spreadsheet', 'Individual'],
-      selectedTab,
-      getTabLink,
-      currentTabComponent,
       getResults,
       canViewResults
     }
