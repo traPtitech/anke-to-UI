@@ -64,11 +64,6 @@ const countData = (
   return []
 }
 
-type Props = {
-  results: Responce[]
-  questions: Question[]
-}
-
 type State = {
   tableForm: string
 }
