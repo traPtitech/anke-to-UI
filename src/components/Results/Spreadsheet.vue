@@ -49,11 +49,6 @@ type State = {
   showColumn: boolean[]
 }
 
-type Props = {
-  results: Responce[]
-  questions: Question[]
-}
-
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
