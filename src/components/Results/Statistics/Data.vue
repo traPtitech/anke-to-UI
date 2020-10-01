@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Question } from '/@/lib/apis'
+import { QuestionDetails } from '/@/lib/apis'
 import Responce from '/@/components/Results/Statistics/Responces.vue'
 import { CountedData } from '/@/src/components/Results/Statistics.vue'
 
