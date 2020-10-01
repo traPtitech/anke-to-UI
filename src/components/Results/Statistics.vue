@@ -32,11 +32,6 @@ import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
 import { Responce, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 
-type Props = {
-  results: Responce[]
-  questions: Question[]
-}
-
 type State = {
   tableForm: string
 }

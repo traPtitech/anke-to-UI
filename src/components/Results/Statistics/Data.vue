@@ -42,8 +42,6 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    
-  }
+  setup() {}
 })
 </script>
