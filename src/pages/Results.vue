@@ -66,7 +66,6 @@ export default defineComponent({
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, <string>query.value)
-
     const canViewResults = computed(() => {
       // return common.canViewResults(
       //   state.information,
