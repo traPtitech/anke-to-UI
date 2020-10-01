@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts">
-<<<<<<< HEAD
 import {
   defineComponent,
   PropType,
@@ -34,7 +33,7 @@ import {
   toRefs
 } from 'vue'
 import { useRoute } from 'vue-router'
-import { Responce, Question, ResponceBody } from '/@/lib/apis'
+import { Responce, QuestionDetails, ResponseBody } from '/@/lib/apis'
 import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
 
@@ -43,37 +42,13 @@ type Context = {}
 type State = {
   tableForm: string
   showColumn: boolean[]
-}
-
-type Context = {}
-=======
-import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
-import { useRoute } from 'vue-router'
-<<<<<<< HEAD
-import Icon from '/@/components/UI/Icon.vue'
->>>>>>> router fix
-=======
-import { Responce, Question, ResponceBody } from '/@/lib/apis'
-import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
-import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
-import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
->>>>>>> tableHeaders
-
-type State = {
-  tableForm: string
-  showColumn: boolean[]
-}
-
-type Props = {
-  results: Responce[]
-  questions: Question[]
+  sorted: number
 }
 
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
     Tab,
-<<<<<<< HEAD
     ScrollView
   },
   props: {
@@ -82,19 +57,12 @@ export default defineComponent({
       required: true
     },
     questions: {
-      type: Array as PropType<Question[]>,
+      type: Array as PropType<string[]>,
       required: true
     }
   },
   setup(props, context) {
     const DEFAULT_COLUMNS = [
-=======
-    TableHeader,
-    TableBody
-  },
-  setup(props: Props, context) {
-    const defaultColumns = [
->>>>>>> tableHeaders
       { name: 'traqId', label: 'traQID' },
       { name: 'submittedAt', label: '回答日時' }
     ]
@@ -102,9 +70,11 @@ export default defineComponent({
     const state = reactive<{
       tableForm: string
       showColumn: boolean[]
+      sorted: number | string
     }>({
       tableForm: 'view',
-      showColumn: []
+      showColumn: [],
+      sorted: ''
     })
 
     const initializeShowColumn = (len: number): void => {
@@ -112,21 +82,18 @@ export default defineComponent({
         state.showColumn = new Array(len).fill(true)
       }
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     const getTableRow = (index: number): string[] => {
-      const ret = defaultColumns
-        .map(column => props.results[index][column.name])
-        .concat(
-          props.results[index].responseBody.map((response: any) =>
-            responseToString(response)
-          )
+      const ret = DEFAULT_COLUMNS.map(
+        column => props.results[index][column.name]
+      ).concat(
+        props.results[index].body.map((response: any) =>
+          responseToString(response)
         )
+      )
       return ret
     }
 
-    const responseToString = (body: ResponceBody): string => {
+    const responseToString = (body: ResponseBody): string => {
       let ret = ''
       switch (body.question_type) {
         case 'MultipleChoice':
@@ -147,10 +114,6 @@ export default defineComponent({
           return body.response
       }
     }
-=======
->>>>>>> SpreadSheet分割
-
->>>>>>> router fix
     const downloadTable = (): void => {
       if (!isTextTable.value) return
       let form: { type: string; ext: string; data: string }
@@ -177,16 +140,11 @@ export default defineComponent({
       document.body.removeChild(link)
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> SpreadSheet分割
     const changeTab = (tab: string) => (state.tableForm = tab)
 
     const getResults = (queryString: string) => {
       context.emit('get-results', queryString)
-<<<<<<< HEAD
-=======
+    }
     const sort = (index: number) => {
       let query = ''
       if (state.sorted !== index) {
@@ -206,9 +164,6 @@ export default defineComponent({
           query += index - 2
       }
       context.emit('get-results', '?sort=' + query)
->>>>>>> router fix
-=======
->>>>>>> SpreadSheet分割
     }
     const arrayToMarkdown = (arr: string[]): string => {
       let ret = '|'
@@ -232,11 +187,7 @@ export default defineComponent({
     }
 
     const tableWidth = computed(
-<<<<<<< HEAD
       (): number => DEFAULT_COLUMNS.length + props.questions.length
-=======
-      (): number => defaultColumns.length + props.questions.length
->>>>>>> router fix
     )
 
     const route = useRoute()
@@ -263,11 +214,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-<<<<<<< HEAD
       DEFAULT_COLUMNS,
-=======
-      defaultColumns,
->>>>>>> SpreadSheet分割
       tableFormTabs: ['view', 'markdown', 'csv'],
       isTextTable,
       copyTable,
