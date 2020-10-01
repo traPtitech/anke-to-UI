@@ -9,81 +9,56 @@
         @copy-table="copyTable"
         @download-table="downloadTable"
       />
-      <div class="scroll-view">
-        <!-- table view -->
-        <table v-show="tableForm === 'view'" class="table is-striped">
-          <TableHeader
-            :table-headers="tableHeaders"
-            :show-column="showColumn"
-            :get-results="getResults"
-            :toggle-show-column="toggleShowColumn"
-          />
-          <TableBody
-            :results="results"
-            :default-columns="defaultColumns"
-            :table-headers="tableHeaders"
-            :show-column="showColumn"
-            :table-form="tableForm"
-          />
-        </table>
-
-        <!-- markdown, csv view -->
-        <button v-if="isTextTable" class="button copy" @click="copyTable">
-          <Icon name="clipboard" />
-        </button>
-        <button
-          v-if="isTextTable"
-          class="button download"
-          @click="downloadTable"
-        >
-          <Icon name="download" />
-        </button>
-        <textarea
-          v-for="(table, name) in textTables"
-          v-show="tableForm === name"
-          :key="name"
-          class="textarea"
-          :value="table"
-          :rows="table.split('\n').length + 3"
-          readonly
-        ></textarea>
-      </div>
+      <ScrollView
+        :table-form="tableForm"
+        :table-headers="tableHeaders"
+        :show-column="showColumn"
+        :toggle-show-column="toggleShowColumn"
+        :results="results"
+        :default-columns="defaultColumns"
+        :is-text-table="isTextTable"
+        :text-tables="textTables"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
+import { defineComponent, PropType, reactive, computed, watchEffect, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
 import { Responce, Question, ResponceBody } from '/@/lib/apis'
-import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
-import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
-import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
+import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
 
 type State = {
   tableForm: string
   showColumn: boolean[]
 }
 
-type Props = {
-  results: Responce[]
-  questions: Question[]
-}
-
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
-    Tab,
-    TableHeader,
-    TableBody
+    ScrollView
   },
-  setup(props: Props, context) {
-    const defaultColumns = [
+  props: {
+    results: {
+      type: Array as PropType<Response[]>,
+      required: true
+    },
+    questions: {
+      type: Array as PropType<Question[]>,
+      required: true
+    }
+  },
+  setup(props, context) {
+    const DEFAULT_COLUMNS = [
       { name: 'traqId', label: 'traQID' },
       { name: 'submittedAt', label: '回答日時' }
     ]
     const downloadLabel = 'CSV形式でダウンロード'
-    const state = reactive<State>({
+    const state = reactive<{
+      tableForm: string
+      showColumn: boolean[]
+    }>({
       tableForm: 'view',
       showColumn: []
     })
@@ -147,13 +122,13 @@ export default defineComponent({
     }
 
     const tableWidth = computed(
-      (): number => defaultColumns.length + props.questions.length
+      (): number => DEFAULT_COLUMNS.length + props.questions.length
     )
 
     const route = useRoute()
     const questionnaireId = computed((): number => Number(route.params.id))
     const tableHeaders = computed((): string[] =>
-      defaultColumns.map(column => column.label).concat(props.questions)
+      DEFAULT_COLUMNS.map(column => column.label).concat(props.questions)
     )
     const textTables = computed((): { [key: string]: string } => ({
       markdown: markdownTable.value,
@@ -174,7 +149,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-      defaultColumns,
+      DEFAULT_COLUMNS,
       tableFormTabs: ['view', 'markdown', 'csv'],
       isTextTable,
       copyTable,
