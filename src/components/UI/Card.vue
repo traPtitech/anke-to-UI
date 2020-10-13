@@ -1,23 +1,16 @@
 <template>
-  <Card>
-    <template #header>回答対象になっているアンケート</template>
-    <template #content>
-      <CardContentDetail />
-    </template>
-  </Card>
+  <div :class="$style.container">
+    <div :class="$style.header">
+      <slot name="header"></slot>
+    </div>
+    <slot name="content"></slot>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Card from '/@/components/UI/Card.vue'
-import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
-
 export default defineComponent({
-  name: 'List',
-  components: {
-    Card,
-    CardContentDetail
-  }
+  name: 'Card'
 })
 </script>
 
