@@ -1,17 +1,22 @@
 <template>
-  <div :class="$style.container">
-    <div :class="$style.header">回答対象になっているアンケート</div>
-    <Card />
-  </div>
+  <Card>
+    <template #header>回答対象になっているアンケート</template>
+    <template #content>
+      <CardContentDetail />
+    </template>
+  </Card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Card from '/@/components/Targeted/Card.vue'
+import Card from '/@/components/UI/Card.vue'
+import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
+
 export default defineComponent({
   name: 'List',
   components: {
-    Card
+    Card,
+    CardContentDetail
   }
 })
 </script>
