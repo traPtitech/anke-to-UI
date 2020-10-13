@@ -4,27 +4,21 @@
       自分の回答
     </tr>
     <tr>
-      <th
-        v-for="(header, index) in headers"
-        :key="index"
-        :class="$style.header"
-      >
+      <th v-for="(header, index) in headers" :key="index" :class="$style.header">
         {{ header }}
       </th>
     </tr>
-    <Responses-table />
+    <responses-table />
   </table>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Routes from '/@/components/Routes.vue'
 import ResponsesTable from '/@/components/Responses/ResponsesTable.vue'
 
 export default defineComponent({
-  name: 'Responses',
-  component: {
-    Routes,
+  name: 'List',
+  components: {
     ResponsesTable
   },
   setup() {
@@ -45,11 +39,13 @@ export default defineComponent({
 <style lang="scss" module>
 .table {
   width: 100%;
-  max-width: fit-content;
   margin: 1em 0;
-  border: solid 1.5px #d9d9d9;
+  border: solid 1.5px #ffffff;
   border-collapse: collapse;
   box-shadow: 0 2px 3px #dfe0d7;
+}
+.header {
+  padding: 0.4em 0em;
 }
 .title {
   text-align: left;

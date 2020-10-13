@@ -9,7 +9,7 @@
         <td :class="$style.tableItemTitle">
           <router-link
             :to="'/questionnaires/' + questionnaire.questionnaireID"
-            >{{ response.title }}</router-link
+            >{{ questionnaire.title }}</router-link
           >
         </td>
         <td :class="$style.tableItemDate">
@@ -65,6 +65,15 @@ export default defineComponent({
           modified_at: '2020-1-1',
           res_shared_to: 'public',
           is_targeted: true
+        },
+        {
+          questionnaireID: 3,
+          title: '長いversionーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー',
+          res_time_limit: '2020-12-31',
+          submitted_at: '2020-1-1',
+          modified_at: '2020-1-1',
+          res_shared_to: 'public',
+          is_targeted: true
         }
       ]
     })
@@ -78,26 +87,25 @@ export default defineComponent({
 <style lang="scss" module>
 .table {
   border: solid 1.5px #d9d9d9;
-  .header {
-    min-width: 12em;
-    font-size: 1.5em;
-  }
   .body {
     min-width: 12em;
     font-size: 1.5em;
   }
-  .tableItemTitle {
+  .table-item-title {
     min-width: 10em;
-    font-size: 1em;
+    text-align: left;
+    padding-left: 0.8em;
   }
-  .tableItemDate {
+  .table-item-date {
     min-width: 8em;
     text-align: center;
   }
-  .myAnswer {
+  .my-answer {
     vertical-align: middle;
+    padding: 0.2em 0.8em;
     .icon {
       height: 1em;
+      width: 1em;
     }
   }
 }
