@@ -1,10 +1,8 @@
 <template>
-  <table :class="$style.table">
-    <tr :class="$style.header">
-      回答対象になっているアンケート
-    </tr>
+  <div :class="$style.container">
+    <div :class="$style.header">回答対象になっているアンケート</div>
     <Card />
-  </table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,7 +17,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.table {
+.container {
   width: 100%;
   max-width: fit-content;
   margin: 1em 0;

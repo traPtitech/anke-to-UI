@@ -1,5 +1,5 @@
 <template>
-  <tr
+  <div
     v-for="(questionnaire, index) in data.questionnaires"
     :key="index"
     :class="$style.container"
@@ -17,11 +17,11 @@
     </div>
     <div>
       <div :class="$style.tableItemDate">
-        <th>回答期限: {{ questionnaire.res_time_limit }}</th>
-        <th>更新日: {{ questionnaire.modified_at }}</th>
+        <div>回答期限: {{ questionnaire.res_time_limit }}</div>
+        <div>更新日: {{ questionnaire.modified_at }}</div>
       </div>
     </div>
-  </tr>
+  </div>
 </template>
 
 <script lang="ts">
