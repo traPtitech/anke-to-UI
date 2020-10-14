@@ -15,7 +15,7 @@
         :show-column="showColumn"
         :toggle-show-column="toggleShowColumn"
         :results="results"
-        :default-columns="defaultColumns"
+        :default-columns="DEFAULT_COLUMNS"
         :is-text-table="isTextTable"
         :text-tables="textTables"
       />
@@ -32,9 +32,9 @@ import {
   watchEffect,
   toRefs
 } from 'vue'
-
 import { useRoute } from 'vue-router'
 import { Responce, Question, ResponceBody } from '/@/lib/apis'
+import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
 
 type State = {
@@ -52,6 +52,7 @@ type State = {
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
+    Tab,
     ScrollView
   },
   props: {

@@ -10,11 +10,10 @@
     <span class="header-label">
       {{ header }}
     </span>
-    <span
-      class="header-icon-right clickable"
-      :class="sorted !== k + 1 ? 'ti-angle-up' : 'ti-angle-down'"
+    <Icon
+      :name="sorted !== k + 1 ? 'chevron-up' : 'chevron-down'"
       @click="sort(k + 1)"
-    ></span>
+    />
   </span>
 </template>
 
@@ -28,10 +27,6 @@ export default defineComponent({
     Icon
   },
   props: {
-    toggleshowColumn: {
-      type: Function,
-      required: true
-    },
     isColumnHidden: {
       type: Function,
       required: true
@@ -41,14 +36,24 @@ export default defineComponent({
       required: true
     },
     sorted: {
-      type: Boolean,
+      type: [Number, String],
       required: true
     },
     sort: {
       type: Function,
       required: true
+    },
+    k: {
+      type: Number,
+      required: true
     }
   },
-  setup() {}
+  setup(props, context) {
+    const toggleShowColumn = (k: number) =>
+      context.emit('toggle-show-column', k)
+    return {
+      toggleShowColumn
+    }
+  }
 })
 </script>

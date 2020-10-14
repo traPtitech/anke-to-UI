@@ -10,11 +10,12 @@
         }"
       >
         <HeaderElem
-          :toggle-show-column="toggleShowColumn"
+          :k="k"
           :is-column-hidden="isColumnHidden"
           :header="header"
           :sorted="sorted"
           :sort="sort"
+          @toggle-show-column="toggleShowColumn"
         />
       </th>
     </tr>
@@ -22,21 +23,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs, PropType } from 'vue'
 import HeaderElem from '/@/components/Results/Spreadsheet/HeaderElem.vue'
-
-type Props = {
-  tableHeaders: string[]
-  sorted: number
-  showColumn: boolean[]
-}
 
 export default defineComponent({
   name: 'TableHeader',
   components: {
     HeaderElem
   },
-  setup(props: Props, context) {
+  props: {
+    tableHeaders: {
+      type: Array as PropType<string[]>,
+      required: true
+    },
+    showColumn: {
+      type: Array as PropType<boolean[]>,
+      required: true
+    }
+  },
+  setup(props, context) {
     const state = reactive<{
       sorted: string | number
     }>({

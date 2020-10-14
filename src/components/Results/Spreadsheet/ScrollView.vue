@@ -5,7 +5,7 @@
       <TableHeader
         :table-headers="tableHeaders"
         :show-column="showColumn"
-        :toggle-show-column="toggleShowColumn"
+        @toggle-show-column="toggleShowColumn"
         @get-results="getResults"
       />
       <TableBody
@@ -40,7 +40,6 @@
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import { Response } from '/@/lib/api'
-import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
 import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
 
@@ -48,7 +47,6 @@ export default defineComponent({
   name: 'ScrollView',
   components: {
     Icon,
-    Tab,
     TableHeader,
     TableBody
   },
@@ -70,7 +68,7 @@ export default defineComponent({
       required: true
     },
     results: {
-      type: Array as PropType<Response>,
+      type: Array as PropType<Response[]>,
       required: true
     },
     defaultColumns: {
@@ -82,7 +80,10 @@ export default defineComponent({
       required: true
     },
     textTables: {
-      type: Array as PropType<string[]>,
+      type: Object as PropType<{
+        markdown: string
+        csv: string
+      }>,
       required: true
     }
   },

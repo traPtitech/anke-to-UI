@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { Responce, ResponceBody } from '/@/lib/apis'
 
 type Props = {
@@ -30,6 +30,33 @@ type Props = {
 export default defineComponent({
   name: 'TableHeader',
   components: {},
+  props: {
+    results: {
+      type: Object as PropType<Response[]>,
+      required: true
+    },
+    defaultColumns: {
+      type: Array as PropType<
+        {
+          name: string
+          label: string
+        }[]
+      >,
+      required: true
+    },
+    tableHeaders: {
+      type: Array as PropType<string[]>,
+      required: true
+    },
+    showColumn: {
+      type: Array as PropType<boolean[]>,
+      required: true
+    },
+    tableForm: {
+      type: String,
+      required: true
+    }
+  },
   setup(props: Props) {
     const getTableRow = (index: number): string[] => {
       const ret = props.defaultColumns

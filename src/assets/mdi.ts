@@ -1,5 +1,6 @@
 import {
   mdiChevronDown,
+  mdiChevronUp,
   mdiMagnify,
   mdiOpenInNew,
   mdiHelpCircleOutline,
@@ -11,6 +12,7 @@ import {
 
 const mdi = new Map<string, string>([
   ['chevron-down', mdiChevronDown],
+  ['chevron-up', mdiChevronUp],
   ['magnify', mdiMagnify],
   ['open-in-new', mdiOpenInNew],
   ['help-circle-outline', mdiHelpCircleOutline],
@@ -18,7 +20,7 @@ const mdi = new Map<string, string>([
   ['eye-closed', mdiEyeOff],
   ['eye', mdiEye],
   ['clipboard', mdiClipboard],
-  ['download', mdiDownload]
+  ['download', mdiDownload],
 ])
 
 export default mdi

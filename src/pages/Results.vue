@@ -76,7 +76,6 @@ export default defineComponent({
       return true
     })
 
-
     return {
       ...toRefs(state),
       questionnaireId,
