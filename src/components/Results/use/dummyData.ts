@@ -1,6 +1,6 @@
-import { Response } from '../../../lib/apis'
+import { ResponseDatails } from '../../../lib/apis'
 
-export const results: Response[] = [
+export const results: ResponseDatails[] = [
   {
     modifiedAt: '1990/01/01 12:00',
     responseId: 1,

@@ -83,6 +83,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    console.log(props.detailTabs);
     const selectedTab = computed(() => {
       if (!props.query) {
         return 'Statistics'

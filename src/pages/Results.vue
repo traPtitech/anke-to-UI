@@ -27,7 +27,12 @@
 import { defineComponent, reactive, computed, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
 // import common from '@/bin/common'
-import { Questionnaire, Response, QuestionData, ResponseData } from '/@/lib/api'
+import {
+  Questionnaire,
+  ResponseDetails,
+  QuestionDetails,
+  ResponseData
+} from '/@/lib/api'
 import ResultTab from '/@/components/Results/ResultTab.vue'
 import * as dummyData from '/@/components/Results/use/dummyData'
 
@@ -38,8 +43,8 @@ type State = {
   canViewResults: boolean
   results: Response[]
   questions: string[]
-  questionData: QuestionData[]
-  responseData: ResponseData
+  questionData: QuestionDetails[]
+  responseData: any
   detailTabs: string[]
 }
 
@@ -85,7 +90,7 @@ export default defineComponent({
   }
 })
 
-const getResults = (query: string): Response[] => {
+const getResults = (query: string): ResponseDetails[] => {
   return dummyData.results
 }
 

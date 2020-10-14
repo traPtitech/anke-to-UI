@@ -103,8 +103,8 @@ export default defineComponent({
 
     const route = useRoute()
     const questionnaireId = computed((): number => +route.params.id)
-    const countedData = computed((): CountedData[] | null => {
-      if (props.questions.length <= 0 || props.results.length <= 0) return null
+    const countedData = computed((): CountedData[] => {
+      if (props.questions.length <= 0 || props.results.length <= 0) return []
       return countData(props.questions, props.results)
     })
     // TODO markdownのテーブル生成
