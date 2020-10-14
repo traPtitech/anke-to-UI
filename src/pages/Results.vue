@@ -79,6 +79,10 @@ export default defineComponent({
       // )
       return true
     })
+<<<<<<< HEAD
+=======
+
+>>>>>>> spreadsheet 修正
     return {
       ...toRefs(state),
       questionnaireId,

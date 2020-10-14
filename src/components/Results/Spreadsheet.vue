@@ -33,7 +33,7 @@ import {
   toRefs
 } from 'vue'
 import { useRoute } from 'vue-router'
-import { Responce, QuestionDetails, ResponseBody } from '/@/lib/apis'
+import { ResponceDetails, QuestionDetails, ResponseBody } from '/@/lib/apis'
 import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
 
