@@ -31,6 +31,8 @@
 import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
 import { Responce, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
+import Tab from '/@/components/Results/Statistics/Tab.vue'
+import Data from '/@/components/Results/Statistics/Data.vue'
 
 type State = {
   tableForm: string
@@ -79,7 +81,10 @@ const countData = (
 
 export default defineComponent({
   name: 'Statistics',
-  components: {},
+  components: {
+    Tab,
+    Data
+  },
   props: {
     results: {
       type: Array as PropType<Response[]>,
@@ -113,8 +118,8 @@ export default defineComponent({
 
     const route = useRoute()
     const questionnaireId = computed((): number => +route.params.id)
-    const countedData = computed((): CountedData[] | null => {
-      if (props.questions.length <= 0 || props.results.length <= 0) return null
+    const countedData = computed((): CountedData[] => {
+      if (props.questions.length <= 0 || props.results.length <= 0) return []
       return countData(props.questions, props.results)
     })
 
@@ -122,13 +127,17 @@ export default defineComponent({
     const markdownTable = computed((): string => '')
     const canDownload = computed((): boolean => state.tableForm === 'markdown')
 
+    const changeTab = (tab: string) => (state.tableForm = tab)
+
     return {
       ...toRefs(state),
       TABLE_FORM_TABS: ['view', 'markdown'],
       canDownload,
       downloadTable,
       countedData,
-      markdownTable
+      markdownTable,
+      changeTab,
+      isSelectType
     }
   }
 })

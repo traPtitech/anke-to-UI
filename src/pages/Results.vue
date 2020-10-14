@@ -6,6 +6,11 @@
         :query="query"
         :information="information"
         :response-data="responseData"
+        :results="results"
+        :questions="questions"
+        :question-data="questionData"
+        :detail-tabs="detailTabs"
+        :get-results="getResults"
       />
     </div>
     <div
@@ -22,8 +27,9 @@
 import { defineComponent, reactive, computed, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
 // import common from '@/bin/common'
-import { Questionnaire, Response } from '/@/lib/api'
+import { Questionnaire, Response, QuestionData, ResponseData } from '/@/lib/api'
 import ResultTab from '/@/components/Results/ResultTab.vue'
+import * as dummyData from '/@/components/Results/use/dummyData'
 
 // TODO 型
 type State = {
@@ -32,8 +38,9 @@ type State = {
   canViewResults: boolean
   results: Response[]
   questions: string[]
-  questionData: any[]
-  responseData: any
+  questionData: QuestionData[]
+  responseData: ResponseData
+  detailTabs: string[]
 }
 
 export default defineComponent({
@@ -49,13 +56,13 @@ export default defineComponent({
       results: [],
       questions: [],
       questionData: [],
-      responseData: {}
+      responseData: {},
+      detailTabs: ['Statistics', 'Spreadsheet', 'Individual']
     })
 
     const route = useRoute()
-
-    const questionnaireId = computed(() => Number(route.params.id))
-    const query = computed(() => route.query.tab)
+    const questionnaireId = computed(() => <string>route.params.id || '')
+    const query = computed(() => route.query.tab || '')
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, <string>query.value)
@@ -69,128 +76,24 @@ export default defineComponent({
       return true
     })
 
+
     return {
       ...toRefs(state),
-      detailTabs: ['Statistics', 'Spreadsheet', 'Individual'],
+      questionnaireId,
+      query,
       getResults,
       canViewResults
     }
   }
 })
 
-const getResults = (query: string) => {
-  return [
-    {
-      modifiedAt: '1990/01/01 12:00',
-      responseId: 1,
-      responseBody: [
-        {
-          option_response: [],
-          questionID: 1,
-          question_type: 'TextArea',
-          response: 'これはテストですか？'
-        },
-        {
-          option_response: [],
-          questionID: 2,
-          question_type: 'TextArea',
-          response: 'これはテストです'
-        }
-      ],
-      submittedAt: '1990/01/01 12:00',
-      traqId: 'Fogrex'
-    },
-    {
-      modifiedAt: '1990/01/01 12:00',
-      responseId: 2,
-      responseBody: [
-        {
-          option_response: [],
-          questionID: 1,
-          question_type: 'TextArea',
-          response: 'これはテストですか？'
-        },
-        {
-          option_response: [],
-          questionID: 2,
-          question_type: 'TextArea',
-          response: 'これはテストです'
-        }
-      ],
-      submittedAt: '1990/01/01 12:00',
-      traqId: 'Ogrex'
-    },
-    {
-      modifiedAt: '1990/01/01 12:00',
-      responseId: 3,
-      responseBody: [
-        {
-          option_response: [],
-          questionID: 1,
-          question_type: 'TextArea',
-          response: 'これはテストですか？'
-        },
-        {
-          option_response: [],
-          questionID: 2,
-          question_type: 'TextArea',
-          response: 'これはテストです'
-        }
-      ],
-      submittedAt: '1990/01/01 12:00',
-      traqId: 'Xergof'
-    }
-  ]
+const getResults = (query: string): Response[] => {
+  return dummyData.results
 }
 
-const dummy = (state: any, id: number, query: string) => {
+const dummy = (state: any, id: string, query: string) => {
   setTimeout(() => {
-    _dummy(state, id, query)
+    dummyData._dummy(state, id, query)
   }, 0.2)
-}
-
-const _dummy = (state: any, id: number, query: string) => {
-  state.information = {
-    administrators: ['Fogrex'],
-    created_at: '1990/01/01 12:00',
-    description: 'テスト質問です。ダミー',
-    modified_at: '1990/01/01 12:00',
-    questionnaireID: 1,
-    res_shared_to: 'public',
-    res_time_limit: 'NULL',
-    respondents: ['Fogrex', 'Ogrex', 'Xergof'],
-    targets: [],
-    title: 'テスト質問'
-  }
-  state.hasResponded = true
-  state.canViewResults = false
-  state.results = getResults(query)
-  state.questions = ['質問', '言いたいこと']
-  state.questionData = [
-    {
-      questionId: 1,
-      type: 'TextArea',
-      component: 'short-answer',
-      questionBody: '質問',
-      isRequired: true,
-      pageNum: 1,
-      responseBody: ''
-    },
-    {
-      questionId: 2,
-      type: 'TextArea',
-      component: 'short-answer',
-      questionBody: '言いたいこと',
-      isRequired: true,
-      pageNum: 1,
-      responseBody: ''
-    }
-  ]
-  state.responseData = state.results[0]
-  let newBody: any = {}
-  state.responseData.responseBody.forEach((data: any) => {
-    newBody[data.questionID] = data
-  })
-  state.responseData.body = newBody
 }
 </script>

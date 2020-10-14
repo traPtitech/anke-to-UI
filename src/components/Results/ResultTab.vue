@@ -24,7 +24,7 @@
     :questions="questions"
     :question-data="questionData"
     :response-data="responseData"
-    @get-results="getResults"
+    :get-results="getResults"
   ></component>
 </template>
 
@@ -34,7 +34,7 @@ import Routes from '/@/components/Routes.vue'
 import Individual from '/@/components/Results/Individual.vue'
 import Statistics from '/@/components/Results/Statistics.vue'
 import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
-import { Questionnaire } from '/@/lib/api'
+import { Questionnaire, Response, Question, QuestionData } from '/@/lib/api'
 
 export default defineComponent({
   name: 'ResultTab',
@@ -60,9 +60,30 @@ export default defineComponent({
     responseData: {
       type: Object,
       required: true
+    },
+    results: {
+      type: Array as PropType<Response[]>,
+      required: true
+    },
+    questions: {
+      type: Array as PropType<Question[]>,
+      required: true
+    },
+    questionData: {
+      type: Array as PropType<QuestionData[]>,
+      required: true
+    },
+    detailTabs: {
+      type: Array as PropType<string[]>,
+      required: true
+    },
+    getResults: {
+      type: Function,
+      required: true
     }
   },
   setup(props) {
+    console.log(props.detailTabs);
     const selectedTab = computed(() => {
       if (!props.query) {
         return 'Statistics'

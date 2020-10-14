@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Question } from '/@/lib/apis'
-import Responce from '/@/src/components/Results/Statistics/Responce.vue'
+import Responce from '/@/components/Results/Statistics/Responces.vue'
 import { CountedData } from '/@/src/components/Results/Statistics.vue'
 
 export default defineComponent({
