@@ -23,7 +23,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'Responces',
-  setup() {}
+  name: 'Responces'
 })
 </script>
