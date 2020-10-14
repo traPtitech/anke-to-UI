@@ -1,4 +1,4 @@
-import { Response } from '/@/lib/api';
+import { Response } from '../../../lib/apis'
 
 export const results: Response[] = [
   {

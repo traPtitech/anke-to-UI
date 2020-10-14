@@ -20,7 +20,7 @@ const mdi = new Map<string, string>([
   ['eye-closed', mdiEyeOff],
   ['eye', mdiEye],
   ['clipboard', mdiClipboard],
-  ['download', mdiDownload],
+  ['download', mdiDownload]
 ])
 
 export default mdi
