@@ -17,11 +17,9 @@
     </div>
     <div>
       <div :class="$style.tableItemDate">
-        <div :class="$style.columnLimit">
-          回答期限: {{ questionnaire.res_time_limit }}
-        </div>
-        <div :class="$style.columnModified">
-          更新日: {{ questionnaire.modified_at }}
+        <div :class="$style.column">
+          <p>回答期限: {{ questionnaire.res_time_limit }}</p>
+          <p>更新日: {{ questionnaire.modified_at }}</p>
         </div>
       </div>
     </div>
@@ -84,37 +82,33 @@ export default defineComponent({
 .container {
   padding: 1rem;
   border-bottom: solid 1.5px #d9d9d9;
-  .tableItemTitle {
-    min-width: 10em;
-    text-align: left;
-    padding-bottom: 0.8em;
-    font-size: 15pt;
-  }
-  .tableItemDescription {
-    min-width: 8em;
-    text-align: left;
-    padding-bottom: 0.8em;
-    word-break: break-all;
-  }
-  .tableItemDate {
-    text-align: left;
-    min-width: 5em;
-    padding-top: 0.8em;
-  }
+  text-align: left;
 }
-
-.columnLimit {
-  padding: 0;
-  margin-right: 100px;
-  margin-left: 24px;
-  margin-bottom: 0;
-  display: inline-block;
+.tableItemTitle {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8em;
 }
-.columnModified {
+.tableItemDescription {
+  margin-bottom: 0.8em;
+  word-break: break-all;
+}
+.tableItemDate {
+  margin-top: 0.8em;
+  padding-left: 24px;
+}
+.container:last-child {
+  border: none;
+}
+.column {
   padding: 0;
-  margin-left: 24px;
+  p:first-of-type {
+    margin-right: 100px;
+  }
   margin-bottom: 0;
-  display: inline-block;
+  display: flex;
+  align-items: center;
 }
 .link {
   cursor: pointer;

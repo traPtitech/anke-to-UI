@@ -2,7 +2,7 @@
   <Card>
     <template #header>回答対象になっているアンケート</template>
     <template #content>
-      <div :class="$style.test">
+      <div :class="$style.frame">
         <CardContentDetail />
       </div>
     </template>
@@ -23,7 +23,7 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" module>
-.test {
+.frame {
   border: solid 1.5px #d9d9d9;
   border-collapse: collapse;
   box-shadow: 0 2px 3px #dfe0d7;
