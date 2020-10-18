@@ -1,15 +1,17 @@
 <template>
-  <table :class="$style.table">
-    <tr :class="$style.title">
-      自分の回答
-    </tr>
-    <tr>
-      <th v-for="(header, index) in headers" :key="index" :class="$style.header">
+  <div :class="$style.title">自分の回答</div>
+  <div :class="$style.content">
+    <table :class="$style.table">
+      <th
+        v-for="(header, index) in headers"
+        :key="index"
+        :class="$style.header"
+      >
         {{ header }}
       </th>
-    </tr>
-    <responses-table />
-  </table>
+      <responses-table />
+    </table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -22,13 +24,7 @@ export default defineComponent({
     ResponsesTable
   },
   setup() {
-    const headers = [
-      'anke-to_title',
-      '回答期限',
-      '回答日時',
-      '更新日時',
-      '回答'
-    ]
+    const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
     return {
       headers
     }
@@ -37,19 +33,25 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.title {
+  font-size: 14pt;
+  text-align: left;
+  padding: 0.8em;
+  border: solid 1.5px #dfe0d7;
+  width: 100%;
+}
+.content {
+  padding: 1em;
+  border: solid 1.5px #dfe0d7;
+}
 .table {
   width: 100%;
-  margin: 1em 0;
-  border: solid 1.5px #ffffff;
+  padding: 1rem;
   border-collapse: collapse;
-  box-shadow: 0 2px 3px #dfe0d7;
 }
 .header {
-  padding: 0.4em 0em;
-}
-.title {
-  text-align: left;
-  font-size: 15pt;
-  margin: 8px 0;
+  padding: 0.5em 0em;
+  min-width: 8em;
+  border-bottom: solid 2px #dbdbdb;
 }
 </style>
