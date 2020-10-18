@@ -5,7 +5,7 @@
     :class="$style.container"
   >
     <div :class="$style.tableItemTitle">
-      <icon name="open-in-new" :class="$style.icon" />
+      <icon name="open-in-new" />
       <router-link
         :to="'/questionnaires/' + questionnaire.questionnaireID"
         :class="$style.link"
@@ -15,12 +15,10 @@
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
-    <div>
-      <div :class="$style.tableItemDate">
-        <div :class="$style.column">
-          <p>回答期限: {{ questionnaire.res_time_limit }}</p>
-          <p>更新日: {{ questionnaire.modified_at }}</p>
-        </div>
+    <div :class="$style.tableItemDate">
+      <div :class="$style.column">
+        <div>回答期限: {{ questionnaire.res_time_limit }}</div>
+        <div>更新日: {{ questionnaire.modified_at }}</div>
       </div>
     </div>
   </div>
@@ -80,7 +78,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  padding: 1rem;
+  padding: 2rem;
   border-bottom: solid 1.5px #d9d9d9;
   text-align: left;
 }
@@ -95,7 +93,6 @@ export default defineComponent({
   word-break: break-all;
 }
 .tableItemDate {
-  margin-top: 0.8em;
   padding-left: 24px;
 }
 .container:last-child {
@@ -103,10 +100,11 @@ export default defineComponent({
 }
 .column {
   padding: 0;
-  p:first-of-type {
+  div:first-of-type {
     margin-right: 100px;
   }
   margin-bottom: 0;
+  font-weight: 550;
   display: flex;
   align-items: center;
 }
