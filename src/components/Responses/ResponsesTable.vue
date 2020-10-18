@@ -5,7 +5,10 @@
     :class="$style.body"
   >
     <td :class="$style.tableItemTitle">
-      <router-link :to="'/questionnaires/' + questionnaire.questionnaireID">
+      <router-link
+        :to="'/questionnaires/' + questionnaire.questionnaireID"
+        :class="$style.link"
+      >
         {{ questionnaire.title }}
       </router-link>
     </td>
@@ -105,6 +108,14 @@ td {
   font-size: 15px;
   padding: 0.4em 0em 1.8em 0.8em;
   text-align: center;
+}
+.link {
+  cursor: pointer;
+  color: #92413b;
+  text-decoration: none;
+  &:hover {
+    color: #cfb998;
+  }
 }
 .my-answer {
   text-align: middle;
