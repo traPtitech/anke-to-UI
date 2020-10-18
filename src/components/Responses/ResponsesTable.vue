@@ -87,7 +87,7 @@ td {
 }
 .body {
   min-width: 12em;
-  font-size: 1.4em;
+  font-size: 1.5em;
   border-bottom: solid 1.5px #d9d9d9;
   &:nth-child(even) {
     background-color: #fafafa;
@@ -102,14 +102,15 @@ td {
 .table-item-date {
   min-width: 6em;
   max-width: 9em;
-  padding-left: 0.4em 0em;
+  font-size: 15px;
+  padding: 0.4em 0em 1.8em 0.8em;
   text-align: center;
 }
 .my-answer {
   text-align: middle;
   min-width: 4em;
   max-width: 6em;
-  padding: 0em 0.6em;
+  padding: 0.4em 0em 1.8em 0.8em;
   .icon {
     height: 1em;
     width: 1em;

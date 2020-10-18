@@ -38,11 +38,12 @@ export default defineComponent({
   text-align: left;
   padding: 0.8em;
   border: solid 1.5px #dfe0d7;
-  width: 100%;
 }
 .content {
   padding: 1em;
   border: solid 1.5px #dfe0d7;
+  border-collapse: collapse;
+  overflow: auto;
 }
 .table {
   width: 100%;
