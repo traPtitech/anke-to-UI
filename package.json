@@ -18,7 +18,7 @@
     "vuex": "^4.0.0-beta.4"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^1.0.15-5.0.0-beta",
+    "@openapitools/openapi-generator-cli": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "@vue/compiler-sfc": "^3.0.1",
