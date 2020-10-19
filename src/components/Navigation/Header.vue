@@ -20,6 +20,7 @@ export default defineComponent({
 
 <style module>
 .container {
+  background-color: #dfe0d7;
   grid-area: header;
   display: flex;
   justify-content: center;
