@@ -4,14 +4,10 @@
     :key="index"
     :class="$style.container"
   >
-    <div :class="$style.tableItemTitle">
-      <icon name="open-in-new" />
-      <router-link
-        :to="'/questionnaires/' + questionnaire.questionnaireID"
-        :class="$style.link"
-        >{{ questionnaire.title }}</router-link
-      >
-    </div>
+    <CardTitle
+      :id="questionnaire.questionnaireID"
+      :title="questionnaire.title"
+    ></CardTitle>
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
@@ -26,12 +22,12 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import Icon from '/@/components/UI/Icon.vue'
+import CardTitle from '/@/components/UI/CardTitle.vue'
 
 export default defineComponent({
   name: 'CardContentDetail',
   components: {
-    Icon
+    CardTitle
   },
   setup() {
     const data = reactive({
@@ -90,12 +86,6 @@ export default defineComponent({
   padding-bottom: 0;
   border: none;
 }
-.tableItemTitle {
-  font-size: 1.25rem;
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.8em;
-}
 .tableItemDescription {
   margin-bottom: 0.8em;
   word-break: break-all;
@@ -112,14 +102,5 @@ export default defineComponent({
   font-weight: 550;
   display: flex;
   align-items: center;
-}
-.link {
-  cursor: pointer;
-  color: #92413b;
-  text-decoration: none;
-  &:hover {
-    color: #cfb998;
-  }
-  margin-left: 8px;
 }
 </style>
