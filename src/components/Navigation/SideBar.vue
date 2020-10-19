@@ -1,9 +1,11 @@
 <template>
   <div :class="$style.container">
-    <div>Targeted</div>
-    <div>Administrates</div>
-    <div>Responses</div>
-    <div>Explorer</div>
+    <router-link to="/targeted">Targeted</router-link>
+    <router-link to="/administrates">Administrates</router-link>
+    <router-link to="/responses">Responses</router-link>
+    <router-link to="/explorer">Explorer</router-link>
+    <div :class="$style.border" />
+    <router-link to="/questionnaires/new">New Questionnaire</router-link>
   </div>
 </template>
 
@@ -21,5 +23,13 @@ export default defineComponent({
 <style module>
 .container {
   grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.border {
+  background-color: #7c6c4d;
+  height: 2px;
+  width: 100%;
 }
 </style>
