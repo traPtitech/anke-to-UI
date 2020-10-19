@@ -78,9 +78,17 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  padding: 2rem;
   border-bottom: solid 1.5px #d9d9d9;
   text-align: left;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.container:first-of-type {
+  padding-top: 0;
+}
+.container:last-of-type {
+  padding-bottom: 0;
+  border: none;
 }
 .tableItemTitle {
   font-size: 1.25rem;
@@ -94,9 +102,6 @@ export default defineComponent({
 }
 .tableItemDate {
   padding-left: 24px;
-}
-.container:last-child {
-  border: none;
 }
 .column {
   padding: 0;
@@ -115,5 +120,6 @@ export default defineComponent({
   &:hover {
     color: #cfb998;
   }
+  margin-left: 8px;
 }
 </style>
