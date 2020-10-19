@@ -24,7 +24,6 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
 .title {
   padding: 1rem;
