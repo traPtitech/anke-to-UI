@@ -4,10 +4,12 @@
     :key="index"
     :class="$style.container"
   >
-    <CardTitle
+    <LinkIconQuestion
       :id="questionnaire.questionnaireID"
       :title="questionnaire.title"
-    ></CardTitle>
+      :iconsize="20"
+      :textsize="20"
+    ></LinkIconQuestion>
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
@@ -22,12 +24,12 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import CardTitle from '/@/components/UI/CardTitle.vue'
+import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
 
 export default defineComponent({
   name: 'CardContentDetail',
   components: {
-    CardTitle
+    LinkIconQuestion
   },
   setup() {
     const data = reactive({

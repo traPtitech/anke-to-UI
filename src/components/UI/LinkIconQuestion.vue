@@ -1,7 +1,11 @@
 <template>
   <div :class="$style.tableItemTitle">
-    <icon name="open-in-new" />
-    <router-link :to="'/questionnaires/' + id" :class="$style.link">
+    <icon name="open-in-new" :size="iconsize" />
+    <router-link
+      :font-size="textsize"
+      :to="'/questionnaires/' + id"
+      :class="$style.link"
+    >
       {{ title }}
     </router-link>
   </div>
@@ -23,6 +27,15 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    iconsize: {
+      type: Number,
+      default: 24
+    },
+    textsize: {
+      type: Number,
+      required: false,
+      default: 24
     }
   }
 }
@@ -30,7 +43,6 @@ export default {
 
 <style lang="scss" module>
 .tableItemTitle {
-  font-size: 1.25rem;
   display: flex;
   align-items: center;
   margin-bottom: 0.8em;
