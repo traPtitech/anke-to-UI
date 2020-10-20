@@ -34,7 +34,7 @@ export default defineComponent({
 }
 .link {
   position: relative;
-  display: inline-block;
+  display: table;
   color: #313033;
   text-decoration: none;
   white-space: nowrap;
