@@ -32,15 +32,15 @@ export default defineComponent({
   align-items: center;
 }
 .title {
-  width: 8rem;
-  padding: 0.5rem 0.7rem;
+  margin: 0.5rem 0.7rem;
   .logo {
-    width: 100%;
+    max-height: 1.75rem;
   }
 }
 .help {
   color: #92413b;
-  margin: 0.4rem 2rem 0 0.5rem;
+  height: 24px;
+  margin-left: 0.5rem;
   &:hover {
     color: #cfb998;
   }
