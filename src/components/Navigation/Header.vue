@@ -7,17 +7,19 @@
       <icon name="help-circle-outline" />
     </a>
     <route />
+    <user-icon :class="$style.icon" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Route from '/@/components/Routes.vue'
+import UserIcon from '/@/components/Navigation/UserIcon.vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
   name: 'Header',
-  components: { Route, Icon },
+  components: { Route, UserIcon, Icon },
   setup() {
     return {}
   }
@@ -44,5 +46,8 @@ export default defineComponent({
   &:hover {
     color: #cfb998;
   }
+}
+.icon {
+  margin: 0 1rem 0 auto;
 }
 </style>
