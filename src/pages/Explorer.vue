@@ -14,10 +14,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownMenu from '/@/components/Explorer/Menus.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
+import apis, { QuestionnaireForList } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'Explorer',
@@ -25,6 +26,21 @@ export default defineComponent({
     Icon,
     DropdownMenu,
     QuestionnairesTable
+  },
+  setup() {
+    const questionnaires = ref<QuestionnaireForList[]>([])
+    onMounted(async () => {
+      try {
+        const { data } = await apis.getQuestionnaires('modified_at', 1, false)
+        questionnaires.value = data
+      } catch (e) {
+        // 今のところ質問がない時404が帰ってくる
+        // TODO: 後で消す
+        // eslint-disable-next-line no-console
+        console.error(e)
+      }
+    })
+    return { questionnaires }
   }
 })
 </script>
