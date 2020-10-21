@@ -14,7 +14,7 @@ import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import apis, { QuestionnaireMyTargeted } from '/@/lib/apis'
 
 export default defineComponent({
-  name: 'List',
+  name: 'Targeted',
   components: {
     Card,
     CardContentDetail
