@@ -7,7 +7,7 @@ const config: UserConfig = {
   },
   proxy: {
     '/api': {
-      target: 'http://localhost:1323',
+      target: 'https://anke-to-dev.trapti.tech',
       changeOrigin: true
     }
   }
