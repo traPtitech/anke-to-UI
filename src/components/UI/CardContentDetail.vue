@@ -8,7 +8,7 @@
       :id="questionnaire.questionnaireID"
       :title="questionnaire.title"
       :iconsize="20"
-      :textsize="20"
+      :textsize="60"
     ></LinkIconQuestion>
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>

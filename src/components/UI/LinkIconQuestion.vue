@@ -2,9 +2,9 @@
   <div :class="$style.tableItemTitle">
     <icon name="open-in-new" :size="iconsize" />
     <router-link
-      :font-size="textsize"
       :to="'/questionnaires/' + id"
       :class="$style.link"
+      style="{{fontSize}}"
     >
       {{ title }}
     </router-link>
@@ -12,6 +12,7 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, computed } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default {
@@ -36,6 +37,14 @@ export default {
       type: Number,
       required: false,
       default: 24
+    }
+  },
+  setup() {
+    const fontSize = computed(() => 
+      font-size: ${textsize}rem;
+    )
+    return {
+      fontSize
     }
   }
 }
