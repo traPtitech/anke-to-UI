@@ -1,25 +1,32 @@
 <template>
   <div :class="$style.container">
-    <router-link :class="$style.link" to="/targeted">Targeted</router-link>
-    <router-link :class="$style.link" to="/administrates"
-      >Administrates</router-link
-    >
-    <router-link :class="$style.link" to="/responses">Responses</router-link>
-    <router-link :class="$style.link" to="/explorer">Explorer</router-link>
+    <side-bar-link
+      v-for="(link, index) in links"
+      :key="index"
+      :title="link.title"
+      :to="link.to"
+    />
     <div :class="$style.border" />
-    <router-link :class="$style.link" to="/questionnaires/new"
-      >New Questionnaire</router-link
-    >
+    <side-bar-link title="New Questionnaire" to="/questionnaires/new" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import SideBarLink from '/@/components/Navigation/SideBarLink.vue'
 
 export default defineComponent({
   name: 'SideBar',
+  components: { SideBarLink },
   setup() {
-    return {}
+    const links = [
+      { title: 'Targeted', to: '/targeted' },
+      { title: 'Administrates', to: '/administrates' },
+      { title: 'Responses', to: '/responses' },
+      { title: 'Explorer', to: '/explorer' }
+    ]
+
+    return { links }
   }
 })
 </script>
@@ -31,30 +38,6 @@ export default defineComponent({
   text-align: left;
   min-width: fit-content;
   padding: 1rem;
-}
-.link {
-  position: relative;
-  display: table;
-  color: #313033;
-  text-decoration: none;
-  white-space: nowrap;
-  padding: 0.5rem;
-  &::after {
-    position: absolute;
-    bottom: 3.5px;
-    left: 0.2rem;
-    content: '';
-    width: 95%;
-    height: 2px;
-    background: #cfb998;
-    transform: scale(0, 1);
-    transform-origin: left top;
-    transition: 0.3s;
-  }
-  &:hover::after {
-    transform-origin: right top;
-    transform: scale(1, 1);
-  }
 }
 .border {
   background-color: #7c6c4d;
