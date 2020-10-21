@@ -8,15 +8,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
+import apis, { QuestionnaireMyTargeted } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'List',
   components: {
     Card,
     CardContentDetail
+  },
+  setup() {
+    const questionnaires = ref<QuestionnaireMyTargeted[]>([])
+    onMounted(async () => {
+      const { data } = await apis.getMyTargeted()
+      questionnaires.value = data
+    })
+    return { questionnaires }
   }
 })
 </script>
