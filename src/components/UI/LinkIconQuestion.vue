@@ -4,7 +4,7 @@
     <router-link
       :to="'/questionnaires/' + id"
       :class="$style.link"
-      style="{{fontSize}}"
+      :style="fontSize"
     >
       {{ title }}
     </router-link>
@@ -15,7 +15,7 @@
 import { defineComponent, computed } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
-export default {
+export default defineComponent({
   name: 'CardTitle',
   components: {
     Icon
@@ -39,15 +39,13 @@ export default {
       default: 24
     }
   },
-  setup() {
-    const fontSize = computed(() => 
-      font-size: ${textsize}rem;
-    )
+  setup(props) {
+    const fontSize = computed(() => `font-size: ${props.textsize}px;`)
     return {
       fontSize
     }
   }
-}
+})
 </script>
 
 <style lang="scss" module>
