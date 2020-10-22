@@ -27,12 +27,7 @@
 import { defineComponent, reactive, computed, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
 // import common from '@/bin/common'
-import {
-  Questionnaire,
-  ResponseDetails,
-  QuestionDetails,
-  ResponseData
-} from '/@/lib/api'
+import { Questionnaire, ResponseResult, QuestionDetails } from '/@/lib/api'
 import ResultTab from '/@/components/Results/ResultTab.vue'
 import * as dummyData from '/@/components/Results/use/dummyData'
 
@@ -41,7 +36,7 @@ type State = {
   information: Questionnaire
   hasResponded: boolean
   canViewResults: boolean
-  results: Response[]
+  results: ResponseResult[]
   questions: string[]
   questionData: QuestionDetails[]
   responseData: any
@@ -79,10 +74,6 @@ export default defineComponent({
       // )
       return true
     })
-<<<<<<< HEAD
-=======
-
->>>>>>> spreadsheet 修正
     return {
       ...toRefs(state),
       questionnaireId,
@@ -94,7 +85,7 @@ export default defineComponent({
   }
 })
 
-const getResults = (query: string): ResponseDetails[] => {
+const getResults = (query: string): ResponseResult[] => {
   return dummyData.results
 }
 

@@ -1,65 +1,65 @@
-import { ResponseDatails } from '../../../lib/apis'
+import { ResponseResult } from '../../../lib/apis'
 
-export const results: ResponseDatails[] = [
+export const results: ResponseResult[] = [
   {
-    modifiedAt: '1990/01/01 12:00',
-    responseId: 1,
-    responseBody: [
+    questionnaireID: 1,
+    body: [
       {
-        option_response: [],
         questionID: 1,
         question_type: 'TextArea',
-        response: 'これはテストですか？'
+        response: 'これはテストですか？',
+        option_response: []
       },
       {
-        option_response: [],
         questionID: 2,
         question_type: 'TextArea',
-        response: 'これはテストです'
+        response: 'これはテストです',
+        option_response: []
       }
     ],
-    submittedAt: '1990/01/01 12:00',
+    modified_at: '1990/01/01 12:00',
+    submitted_at: '1990/01/01 12:00',
     traqId: 'Fogrex'
   },
   {
-    modifiedAt: '1990/01/01 12:00',
-    responseId: 2,
-    responseBody: [
+    questionnaireID: 1,
+    body: [
       {
-        option_response: [],
         questionID: 1,
         question_type: 'TextArea',
-        response: 'これはテストですか？'
+        response: 'これはテストですか？',
+        option_response: []
       },
       {
-        option_response: [],
         questionID: 2,
         question_type: 'TextArea',
-        response: 'これはテストです'
+        response: 'これはテストです',
+        option_response: []
       }
     ],
-    submittedAt: '1990/01/01 12:00',
+    modified_at: '1990/01/01 12:00',
+    submitted_at: '1990/01/01 12:00',
     traqId: 'Ogrex'
   },
   {
-    modifiedAt: '1990/01/01 12:00',
-    responseId: 3,
-    responseBody: [
+    questionnaireID: 1,
+    body: [
       {
-        option_response: [],
         questionID: 1,
         question_type: 'TextArea',
-        response: 'これはテストですか？'
+        response: 'これはテストですか？',
+        option_response: []
       },
       {
-        option_response: [],
         questionID: 2,
         question_type: 'TextArea',
-        response: 'これはテストです'
+        response: 'これはテストです',
+        option_response: []
       }
     ],
-    submittedAt: '1990/01/01 12:00',
-    traqId: 'Xergof'
+    modified_at: '1990/01/01 12:00',
+    submitted_at: '1990/01/01 12:00',
+    traqId: 'Emogrex'
   }
 ]
 
@@ -82,26 +82,44 @@ export const _dummy = (state: any, id: string, query: string): void => {
   state.questions = ['質問', '言いたいこと']
   state.questionData = [
     {
+      questionnaireID: 1,
+      page_num: 1,
+      question_num: 1,
+      question_type: 'TextArea',
+      body: '質問',
+      is_required: true,
+      options: [],
+      scale_label_right: 'そう思わない',
+      scale_label_left: 'そう思う',
+      scale_min: 1,
+      scale_max: 5,
+      regex_pattern: '',
+      min_bound: '',
+      max_bound: '',
       questionId: 1,
-      type: 'TextArea',
-      component: 'short-answer',
-      questionBody: '質問',
-      isRequired: true,
-      pageNum: 1,
-      responseBody: ''
+      created_at: '1990/01/01 12:00'
     },
     {
-      questionId: 2,
-      type: 'TextArea',
-      component: 'short-answer',
-      questionBody: '言いたいこと',
-      isRequired: true,
-      pageNum: 1,
-      responseBody: ''
+      questionnaireID: 1,
+      page_num: 1,
+      question_num: 1,
+      question_type: 'TextArea',
+      body: '言いたいこと',
+      is_required: true,
+      options: [],
+      scale_label_right: 'そう思わない',
+      scale_label_left: 'そう思う',
+      scale_min: 1,
+      scale_max: 5,
+      regex_pattern: '',
+      min_bound: '',
+      max_bound: '',
+      questionId: 1,
+      created_at: '1990/01/01 12:00'
     }
   ]
   state.responseData = state.results[0]
-  let newBody: any = {}
+  const newBody: any = {}
   state.responseData.responseBody.forEach((data: any) => {
     newBody[data.questionID] = data
   })

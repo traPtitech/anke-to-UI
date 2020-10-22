@@ -34,7 +34,7 @@ import Routes from '/@/components/Routes.vue'
 import Individual from '/@/components/Results/Individual.vue'
 import Statistics from '/@/components/Results/Statistics.vue'
 import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
-import { Questionnaire, Response, Question, QuestionData } from '/@/lib/api'
+import { Questionnaire, Response, QuestionDetails } from '/@/lib/api'
 
 export default defineComponent({
   name: 'ResultTab',
@@ -66,11 +66,11 @@ export default defineComponent({
       required: true
     },
     questions: {
-      type: Array as PropType<Question[]>,
+      type: Array as PropType<string[]>,
       required: true
     },
     questionData: {
-      type: Array as PropType<QuestionData[]>,
+      type: Array as PropType<QuestionDetails[]>,
       required: true
     },
     detailTabs: {

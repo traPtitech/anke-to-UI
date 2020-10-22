@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Responce, ResponceBody } from '/@/lib/apis'
+import { ResponceDetails, ResponceBody } from '/@/lib/apis'
 
 type Props = {
   results: Responce[]

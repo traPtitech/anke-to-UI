@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
-import { ResponceDetails, QuestionDetails } from '/@/lib/apis'
+import { ResponceDetails, Question } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 import Tab from '/@/components/Results/Statistics/Tab.vue'
 import Data from '/@/components/Results/Statistics/Data.vue'
@@ -58,7 +58,22 @@ const isSelectType = (type: string): boolean =>
 const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
 const countData = (
-  questions: QuestionDetails[],
+  questions: Question[],
+  results: ResponceDetails[]
+): CountedData[] => {
+  return []
+}
+
+type State = {
+  tableForm: string
+}
+
+const isSelectType = (type: string): boolean =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
+const isNumberType = (type: string): boolean =>
+  ['LinearScale', 'Number'].includes(type)
+const countData = (
+  questions: Question[],
   results: ResponceDetails[]
 ): CountedData[] => {
   return []

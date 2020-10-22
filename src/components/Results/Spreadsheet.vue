@@ -33,17 +33,11 @@ import {
   toRefs
 } from 'vue'
 import { useRoute } from 'vue-router'
-import { ResponceDetails, QuestionDetails, ResponseBody } from '/@/lib/apis'
+import { ResponseResult } from '/@/lib/apis'
 import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
 
 type Context = {}
-
-type State = {
-  tableForm: string
-  showColumn: boolean[]
-  sorted: number
-}
 
 export default defineComponent({
   name: 'Spreadsheet',
@@ -53,7 +47,7 @@ export default defineComponent({
   },
   props: {
     results: {
-      type: Array as PropType<Response[]>,
+      type: Array as PropType<ResponseDetails[]>,
       required: true
     },
     questions: {
@@ -93,7 +87,7 @@ export default defineComponent({
       return ret
     }
 
-    const responseToString = (body: ResponseBody): string => {
+    const responseToString = (body: ResponseResult): string => {
       let ret = ''
       switch (body.question_type) {
         case 'MultipleChoice':
