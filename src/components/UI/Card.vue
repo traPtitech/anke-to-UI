@@ -19,7 +19,7 @@ export default defineComponent({
   border: solid 1.5px #d9d9d9;
   border-collapse: collapse;
   text-align: left;
-  font-size: 15pt;
+  font-size: 1.25rem;
   padding: 1rem;
 }
 </style>
