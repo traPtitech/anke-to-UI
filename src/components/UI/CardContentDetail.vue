@@ -4,19 +4,17 @@
     :key="index"
     :class="$style.container"
   >
-    <div :class="$style.tableItemTitle">
-      <icon name="open-in-new" :class="$style.icon" />
-      <router-link
-        :to="'/questionnaires/' + questionnaire.questionnaireID"
-        :class="$style.link"
-        >{{ questionnaire.title }}</router-link
-      >
-    </div>
+    <LinkIconQuestion
+      :id="questionnaire.questionnaireID"
+      :title="questionnaire.title"
+      :iconsize="24"
+      :textsize="20"
+    ></LinkIconQuestion>
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
-    <div>
-      <div :class="$style.tableItemDate">
+    <div :class="$style.tableItemDate">
+      <div :class="$style.column">
         <div>回答期限: {{ questionnaire.res_time_limit }}</div>
         <div>更新日: {{ questionnaire.modified_at }}</div>
       </div>
@@ -26,12 +24,12 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import Icon from '/@/components/UI/Icon.vue'
+import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
 
 export default defineComponent({
   name: 'CardContentDetail',
   components: {
-    Icon
+    LinkIconQuestion
   },
   setup() {
     const data = reactive({
@@ -78,34 +76,33 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  border: solid 1.5px #d9d9d9;
-  .tableItemTitle {
-    min-width: 10em;
-    text-align: left;
-    padding-top: 0.8em;
-    padding-left: 0.8em;
-    font-size: 15pt;
-  }
-  .tableItemDescription {
-    min-width: 8em;
-    text-align: left;
-    padding-left: 1.6em;
-    padding-right: 1.6em;
-    padding-bottom: 0.8em;
-    word-break: break-all;
-  }
-  .tableItemDate {
-    min-width: 8em;
-    padding-left: 0.8em;
-    padding-bottom: 0.8em;
-  }
+  border-bottom: solid 1.5px #d9d9d9;
+  text-align: left;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
-.link {
-  cursor: pointer;
-  color: #92413b;
-  text-decoration: none;
-  &:hover {
-    color: #cfb998;
+.container:first-of-type {
+  padding-top: 0;
+}
+.container:last-of-type {
+  padding-bottom: 0;
+  border: none;
+}
+.tableItemDescription {
+  margin-bottom: 0.8em;
+  word-break: break-all;
+}
+.tableItemDate {
+  padding-left: 24px;
+}
+.column {
+  padding: 0;
+  div:first-of-type {
+    margin-right: 100px;
   }
+  margin-bottom: 0;
+  font-weight: 550;
+  display: flex;
+  align-items: center;
 }
 </style>
