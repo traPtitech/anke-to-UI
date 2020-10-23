@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
-import { ResponceResult, QuestionDetails } from '/@/lib/apis'
+import { ResponseResult, QuestionDetails } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 import Tab from '/@/components/Results/Statistics/Tab.vue'
 import Data from '/@/components/Results/Statistics/Data.vue'
@@ -59,9 +59,8 @@ const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
 const countData = (
   questions: QuestionDetails[],
-  results: ResponceResult[]
+  results: ResponseResult[]
 ): CountedData[] => {
-  
   return []
 }
 

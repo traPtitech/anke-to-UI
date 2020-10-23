@@ -14,10 +14,10 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { ResponceDetails, ResponceBody } from '/@/lib/apis'
+import { ResponseResult, ResponseBody } from '/@/lib/apis'
 
 type Props = {
-  results: Responce[]
+  results: ResponseResult[]
   defaultColumns: {
     name: string
     label: string
@@ -32,7 +32,7 @@ export default defineComponent({
   components: {},
   props: {
     results: {
-      type: Object as PropType<Response[]>,
+      type: Object as PropType<ResponseResult[]>,
       required: true
     },
     defaultColumns: {
@@ -68,7 +68,7 @@ export default defineComponent({
         )
       return ret
     }
-    const responseToString = (body: ResponceBody): string => {
+    const responseToString = (body: ResponseBody): string => {
       let ret = ''
       switch (body.question_type) {
         case 'MultipleChoice':

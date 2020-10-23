@@ -37,8 +37,6 @@ import { ResponseResult } from '/@/lib/apis'
 import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
 
-type Context = {}
-
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
@@ -47,7 +45,7 @@ export default defineComponent({
   },
   props: {
     results: {
-      type: Array as PropType<ResponseDetails[]>,
+      type: Array as PropType<ResponseResult[]>,
       required: true
     },
     questions: {
