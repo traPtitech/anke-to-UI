@@ -26,17 +26,16 @@ export default defineComponent({
 <style lang="scss" module>
 .link {
   position: relative;
-  display: table;
   color: #313033;
   text-decoration: none;
   white-space: nowrap;
   padding: 0.5rem;
   &::after {
     position: absolute;
-    bottom: 3.5px;
+    bottom: 4px;
     left: 0.2rem;
     content: '';
-    width: 95%;
+    width: calc(100% - 0.2rem * 2);
     height: 2px;
     background: #cfb998;
     transform: scale(0, 1);

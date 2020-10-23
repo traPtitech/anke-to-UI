@@ -1,7 +1,7 @@
 <template>
   <img
     :class="$style.icon"
-    :src="'https://q.trap.jp/api/v3/public/icon/' + userID"
+    :src="`https://q.trap.jp/api/v3/public/icon/${userID}`"
   />
 </template>
 
@@ -9,18 +9,22 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'UserIcon',
+  props: {
+    userID: {
+      type: String,
+      default: 'traP'
+    }
+  },
   setup() {
-    const userID = 'traP'
-
-    return { userID }
+    return {}
   }
 })
 </script>
 
 <style lang="scss" module>
 .icon {
-  border-radius: 18px;
-  width: 36px;
-  height: 36px;
+  border-radius: 16px;
+  width: 32px;
+  height: 32px;
 }
 </style>

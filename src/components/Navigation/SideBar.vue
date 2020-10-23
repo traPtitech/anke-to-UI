@@ -1,13 +1,12 @@
 <template>
   <div :class="$style.container">
-    <side-bar-link
-      v-for="(link, index) in links"
-      :key="index"
-      :title="link.title"
-      :to="link.to"
-    />
+    <div v-for="(link, index) in links" :key="index" :class="$style.link">
+      <side-bar-link :title="link.title" :to="link.to" />
+    </div>
     <div :class="$style.border" />
-    <side-bar-link title="New Questionnaire" to="/questionnaires/new" />
+    <div :class="$style.link">
+      <side-bar-link title="New Questionnaire" to="/questionnaires/new" />
+    </div>
   </div>
 </template>
 
@@ -33,11 +32,16 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
+  display: flex;
+  flex-direction: column;
   background-color: #e0d1c5;
   grid-area: sidebar;
   text-align: left;
   min-width: fit-content;
   padding: 1rem;
+}
+.link {
+  margin: 0.5rem 0;
 }
 .border {
   background-color: #7c6c4d;
