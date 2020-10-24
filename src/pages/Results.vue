@@ -5,7 +5,6 @@
         :questionnaire-id="questionnaireId"
         :query="query"
         :information="information"
-        :response-data="responseData"
         :results="results"
         :questions="questions"
         :question-data="questionData"
@@ -27,19 +26,23 @@
 import { defineComponent, reactive, computed, toRefs } from 'vue'
 import { useRoute } from 'vue-router'
 // import common from '@/bin/common'
-import { Questionnaire, ResponseResult, QuestionDetails } from '/@/lib/api'
+import {
+  QuestionnaireByID,
+  ResponseResult,
+  QuestionDetails,
+  QuestionnaireByIDResSharedToEnum
+} from '/@/lib/apis'
 import ResultTab from '/@/components/Results/ResultTab.vue'
 import * as dummyData from '/@/components/Results/use/dummyData'
 
 // TODO 型
 type State = {
-  information: Questionnaire
+  information: QuestionnaireByID
   hasResponded: boolean
   canViewResults: boolean
   results: ResponseResult[]
   questions: string[]
   questionData: QuestionDetails[]
-  responseData: any
   detailTabs: string[]
 }
 
@@ -50,19 +53,29 @@ export default defineComponent({
   },
   setup() {
     const state = reactive<State>({
-      information: {},
+      information: {
+        administrators: ['Fogrex'],
+        created_at: '1990/01/01 12:00',
+        description: 'テスト質問です。ダミー',
+        modified_at: '1990/01/01 12:00',
+        questionnaireID: 1,
+        res_shared_to: QuestionnaireByIDResSharedToEnum.Public,
+        res_time_limit: 'NULL',
+        respondents: ['Fogrex', 'Ogrex', 'Xergof'],
+        targets: [],
+        title: 'テスト質問'
+      },
       hasResponded: false,
       canViewResults: false,
       results: [],
       questions: [],
       questionData: [],
-      responseData: {},
       detailTabs: ['Statistics', 'Spreadsheet', 'Individual']
     })
 
     const route = useRoute()
-    const questionnaireId = computed((): number => Number(route.params.id))
-    const query = computed((): string => route.query.tab)
+    const questionnaireId = computed(() => <string>route.params.id)
+    const query = computed(() => route.query.tab || '')
 
     // nanikashokikakansu(state, questionnaireId.value)
     dummy(state, questionnaireId.value, <string>query.value)

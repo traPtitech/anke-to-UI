@@ -72,7 +72,7 @@ export default defineComponent({
   },
   props: {
     results: {
-      type: Array as PropType<Response[]>,
+      type: Array as PropType<ResponseResult[]>,
       required: true
     },
     questions: {

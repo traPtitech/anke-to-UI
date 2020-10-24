@@ -55,8 +55,8 @@ export default defineComponent({
   },
   setup(props, context) {
     const DEFAULT_COLUMNS = [
-      { name: 'traqId', label: 'traQID' },
-      { name: 'submittedAt', label: '回答日時' }
+      { name: 'traqID', label: 'traQID' },
+      { name: 'submitted_at', label: '回答日時' }
     ]
     const downloadLabel = 'CSV形式でダウンロード'
     const state = reactive<{

@@ -1,4 +1,21 @@
-import { ResponseResult } from '../../../lib/apis'
+import {
+  ResponseResult,
+  ResponseBodyQuestionTypeEnum,
+  QuestionnaireByID,
+  QuestionDetails,
+  QuestionnaireByIDResSharedToEnum,
+  QuestionDetailsQuestionTypeEnum
+} from '../../../lib/apis'
+
+type State = {
+  information: QuestionnaireByID | null
+  hasResponded: boolean
+  canViewResults: boolean
+  results: ResponseResult[]
+  questions: string[]
+  questionData: QuestionDetails[]
+  detailTabs: string[]
+}
 
 export const results: ResponseResult[] = [
   {
@@ -6,60 +23,60 @@ export const results: ResponseResult[] = [
     body: [
       {
         questionID: 1,
-        question_type: 'TextArea',
+        question_type: ResponseBodyQuestionTypeEnum.TextArea,
         response: 'これはテストですか？',
         option_response: []
       },
       {
         questionID: 2,
-        question_type: 'TextArea',
+        question_type: ResponseBodyQuestionTypeEnum.TextArea,
         response: 'これはテストです',
         option_response: []
       }
     ],
     modified_at: '1990/01/01 12:00',
     submitted_at: '1990/01/01 12:00',
-    traqId: 'Fogrex'
+    traqID: 'Forex'
   },
   {
     questionnaireID: 1,
     body: [
       {
         questionID: 1,
-        question_type: 'TextArea',
+        question_type: ResponseBodyQuestionTypeEnum.TextArea,
         response: 'これはテストですか？',
         option_response: []
       },
       {
         questionID: 2,
-        question_type: 'TextArea',
+        question_type: ResponseBodyQuestionTypeEnum.TextArea,
         response: 'これはテストです',
         option_response: []
       }
     ],
     modified_at: '1990/01/01 12:00',
     submitted_at: '1990/01/01 12:00',
-    traqId: 'Ogrex'
+    traqID: 'Ogrex'
   },
   {
     questionnaireID: 1,
     body: [
       {
         questionID: 1,
-        question_type: 'TextArea',
+        question_type: ResponseBodyQuestionTypeEnum.TextArea,
         response: 'これはテストですか？',
         option_response: []
       },
       {
         questionID: 2,
-        question_type: 'TextArea',
+        question_type: ResponseBodyQuestionTypeEnum.TextArea,
         response: 'これはテストです',
         option_response: []
       }
     ],
     modified_at: '1990/01/01 12:00',
     submitted_at: '1990/01/01 12:00',
-    traqId: 'Emogrex'
+    traqID: 'Emogrex'
   }
 ]
 
@@ -70,7 +87,7 @@ export const _dummy = (state: any, id: string, query: string): void => {
     description: 'テスト質問です。ダミー',
     modified_at: '1990/01/01 12:00',
     questionnaireID: 1,
-    res_shared_to: 'public',
+    res_shared_to: QuestionnaireByIDResSharedToEnum.Public,
     res_time_limit: 'NULL',
     respondents: ['Fogrex', 'Ogrex', 'Xergof'],
     targets: [],
@@ -85,7 +102,7 @@ export const _dummy = (state: any, id: string, query: string): void => {
       questionnaireID: 1,
       page_num: 1,
       question_num: 1,
-      question_type: 'TextArea',
+      question_type: QuestionDetailsQuestionTypeEnum.TextArea,
       body: '質問',
       is_required: true,
       options: [],
@@ -96,14 +113,14 @@ export const _dummy = (state: any, id: string, query: string): void => {
       regex_pattern: '',
       min_bound: '',
       max_bound: '',
-      questionId: 1,
+      questionID: 1,
       created_at: '1990/01/01 12:00'
     },
     {
       questionnaireID: 1,
       page_num: 1,
       question_num: 1,
-      question_type: 'TextArea',
+      question_type: QuestionDetailsQuestionTypeEnum.TextArea,
       body: '言いたいこと',
       is_required: true,
       options: [],
@@ -114,14 +131,15 @@ export const _dummy = (state: any, id: string, query: string): void => {
       regex_pattern: '',
       min_bound: '',
       max_bound: '',
-      questionId: 1,
+      questionID: 1,
       created_at: '1990/01/01 12:00'
     }
   ]
-  state.responseData = state.results[0]
-  const newBody: any = {}
-  state.responseData.responseBody.forEach((data: any) => {
-    newBody[data.questionID] = data
-  })
-  state.responseData.body = newBody
+  // console.log(results)
+  // state.responseData = state.results[0]
+  // const newBody: any = {}
+  // results[0].body.forEach((data: ResponseBody) => {
+  //   newBody[data.questionID] = data
+  // })
+  // state.responseData.body = newBody
 }

@@ -39,7 +39,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import { Response } from '/@/lib/api'
+import { ResponseResult } from '/@/lib/apis'
 import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
 import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
 
@@ -68,7 +68,7 @@ export default defineComponent({
       required: true
     },
     results: {
-      type: Array as PropType<Response[]>,
+      type: Array as PropType<ResponseResult[]>,
       required: true
     },
     defaultColumns: {

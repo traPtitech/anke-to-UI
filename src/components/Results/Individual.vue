@@ -28,10 +28,10 @@ export default defineComponent({
       type: Array,
       required: true
     },
-    responseData: {
-      type: Object,
-      required: true
-    },
+    // responseData: {
+    //   type: Object,
+    //   required: true
+    // },
     questionData: {
       type: Array,
       required: true

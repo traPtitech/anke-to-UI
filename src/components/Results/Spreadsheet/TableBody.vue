@@ -62,9 +62,13 @@ export default defineComponent({
       const ret = props.defaultColumns
         .map(column => props.results[index][column.name])
         .concat(
-          props.results[index].responseBody.map((response: any) =>
-            responseToString(response)
-          )
+          (() => {
+            const mapper: string[] = []
+            props.results[index].body.forEach((response: any) =>
+              mapper.push(responseToString(response))
+            )
+            return mapper
+          })()
         )
       return ret
     }

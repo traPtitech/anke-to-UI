@@ -23,7 +23,6 @@
     :information="information"
     :questions="questions"
     :question-data="questionData"
-    :response-data="responseData"
     :get-results="getResults"
   ></component>
 </template>
@@ -34,7 +33,7 @@ import Routes from '/@/components/Routes.vue'
 import Individual from '/@/components/Results/Individual.vue'
 import Statistics from '/@/components/Results/Statistics.vue'
 import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
-import { Questionnaire, Response, QuestionDetails } from '/@/lib/api'
+import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'ResultTab',
@@ -54,15 +53,15 @@ export default defineComponent({
       required: true
     },
     information: {
-      type: Object as PropType<Questionnaire>,
+      type: Object as PropType<QuestionnaireByID>,
       required: true
     },
-    responseData: {
-      type: Object,
-      required: true
-    },
+    // responseData: {
+    //   type: Object,
+    //   required: true
+    // },
     results: {
-      type: Array as PropType<Response[]>,
+      type: Array as PropType<ResponseResult[]>,
       required: true
     },
     questions: {
@@ -97,13 +96,13 @@ export default defineComponent({
         titleLink: '/results/' + props.questionnaireId,
         responseDetails: {}
       }
-      if (selectedTab.value === 'Individual') {
-        ret.responseDetails = {
-          timeLabel: '回答日時',
-          time: props.responseData.submittedAt,
-          respondent: props.responseData.traqId
-        }
-      }
+      // if (selectedTab.value === 'Individual') {
+      //   ret.responseDetails = {
+      //     timeLabel: '回答日時',
+      //     time: props.responseData.submittedAt,
+      //     respondent: props.responseData.traqId
+      //   }
+      // }
       return ret
     })
 
