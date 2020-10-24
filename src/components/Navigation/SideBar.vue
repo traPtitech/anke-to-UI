@@ -41,7 +41,7 @@ export default defineComponent({
   padding: 1rem;
 }
 .link {
-  margin: 0.5rem 0;
+  padding: 0.5rem 0;
 }
 .border {
   background-color: #7c6c4d;
