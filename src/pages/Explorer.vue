@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$style.container">
     <div :class="$style.tool_wrapper">
       <dropdown-menu />
       <div :class="$style.search">
@@ -46,6 +46,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.container {
+  padding: 1em;
+}
 .tool_wrapper {
   display: flex;
   flex-wrap: wrap;

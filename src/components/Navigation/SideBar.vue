@@ -1,35 +1,51 @@
 <template>
   <div :class="$style.container">
-    <router-link to="/targeted">Targeted</router-link>
-    <router-link to="/administrates">Administrates</router-link>
-    <router-link to="/responses">Responses</router-link>
-    <router-link to="/explorer">Explorer</router-link>
+    <div v-for="(link, index) in links" :key="index" :class="$style.link">
+      <side-bar-link :title="link.title" :to="link.to" />
+    </div>
     <div :class="$style.border" />
-    <router-link to="/questionnaires/new">New Questionnaire</router-link>
+    <div :class="$style.link">
+      <side-bar-link title="New Questionnaire" to="/questionnaires/new" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import SideBarLink from '/@/components/Navigation/SideBarLink.vue'
 
 export default defineComponent({
   name: 'SideBar',
+  components: { SideBarLink },
   setup() {
-    return {}
+    const links = [
+      { title: 'Targeted', to: '/targeted' },
+      { title: 'Administrates', to: '/administrates' },
+      { title: 'Responses', to: '/responses' },
+      { title: 'Explorer', to: '/explorer' }
+    ]
+
+    return { links }
   }
 })
 </script>
 
-<style module>
+<style lang="scss" module>
 .container {
-  grid-area: sidebar;
   display: flex;
   flex-direction: column;
+  background-color: #e0d1c5;
+  grid-area: sidebar;
+  text-align: left;
+  min-width: fit-content;
   padding: 1rem;
+}
+.link {
+  padding: 0.5rem 0;
 }
 .border {
   background-color: #7c6c4d;
-  height: 2px;
-  width: 100%;
+  height: 4px;
+  margin: 0.3rem 0;
 }
 </style>

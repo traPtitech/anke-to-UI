@@ -32,7 +32,7 @@ export default defineComponent({
     'header header'
     'sidebar content';
   grid-template-rows: min-content 1fr;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 15% 1fr;
 }
 .content {
   grid-area: content;
