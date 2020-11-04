@@ -19,10 +19,26 @@
   </table>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
+import { CountedData } from '/@/src/components/Results/Statistics.vue'
 
 export default defineComponent({
-  name: 'Responces'
+  name: 'Responces',
+  props: {
+    question: {
+      type: Object as PropType<CountedData>,
+      required: true
+    }
+  },
+  setup() {
+    const isSelectType = (type: string): boolean =>
+      ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
+    const isNumberType = (type: string): boolean =>
+      ['LinearScale', 'Number'].includes(type)
+    return {
+      isSelectType
+    }
+  }
 })
 </script>

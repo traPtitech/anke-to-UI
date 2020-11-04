@@ -11,7 +11,7 @@
       <div class="scroll-view">
         <!-- table view -->
         <div v-show="tableForm === 'view'">
-          <Data :counted-data="countedData" :is-select-type="isSelectType" />
+          <Data :counted-data="countedData" />
         </div>
 
         <!-- markdown view -->
@@ -52,11 +52,6 @@ export type CountedData = {
     ids: string
   }[]
 }
-
-const isSelectType = (type: string): boolean =>
-  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
-const isNumberType = (type: string): boolean =>
-  ['LinearScale', 'Number'].includes(type)
 const countData = (
   questions: QuestionDetails[],
   results: ResponseResult[]
@@ -120,8 +115,7 @@ export default defineComponent({
       downloadTable,
       countedData,
       markdownTable,
-      changeTab,
-      isSelectType
+      changeTab
     }
   }
 })

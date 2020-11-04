@@ -3,7 +3,7 @@
     <span class="header-icon-left">
       <Icon :name="'eye'" color="var(--base-darkbrown)" class="clickable" />
     </span>
-    <span class="header-label">
+    <span>
       {{ header }}
     </span>
     <Icon :name="'chevron-up'" />

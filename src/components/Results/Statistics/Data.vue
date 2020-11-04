@@ -14,7 +14,7 @@
           </ul>
         </div>
         <div class="table-container">
-          <Responce :is-select-type="isSelectType" :question="question" />
+          <Responce :question="question" />
         </div>
       </div>
     </div>
@@ -34,11 +34,7 @@ export default defineComponent({
   },
   props: {
     countedData: {
-      type: Array as PropType<CountedData>,
-      required: true
-    },
-    isSelectType: {
-      type: Function,
+      type: Array as PropType<CountedData[]>,
       required: true
     }
   }
