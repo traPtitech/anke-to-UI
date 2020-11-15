@@ -55,8 +55,6 @@ export default defineComponent({
     SideBarWrapper
   },
   setup() {
-    const store = useStore()
-
     const { isSideBarShown, canSideBarShown, toggleSideBarShown } =
       useNavigationShown()
 
