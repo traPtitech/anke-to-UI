@@ -10,7 +10,7 @@
         class="tab"
         :class="{ 'is-active': selectedTab === tab }"
       >
-        <router-link :to="getTabLink(tab)">{{ tab }}</router-link>
+        <router-link :to="index">{{ tab }}</router-link>
       </li>
     </ul>
   </div>
@@ -19,11 +19,6 @@
     :is="currentTabComponent"
     class="details-child is-fullheight"
     :name="currentTabComponent"
-    :results="results"
-    :information="information"
-    :questions="questions"
-    :question-data="questionData"
-    :get-results="getResults"
   ></component>
 </template>
 
@@ -34,6 +29,7 @@ import Individual from '/@/components/Results/Individual.vue'
 import Statistics from '/@/components/Results/Statistics.vue'
 import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
+import * as dummyData from '/@/components/Results/use/dummyData'
 
 export default defineComponent({
   name: 'ResultTab',
@@ -43,84 +39,47 @@ export default defineComponent({
     Statistics,
     Spreadsheet
   },
-  props: {
-    questionnaireId: {
-      type: String,
-      required: true
-    },
-    query: {
-      type: String,
-      required: true
-    },
-    information: {
-      type: Object as PropType<QuestionnaireByID>,
-      required: true
-    },
-    // responseData: {
-    //   type: Object,
-    //   required: true
-    // },
-    results: {
-      type: Array as PropType<ResponseResult[]>,
-      required: true
-    },
-    questions: {
-      type: Array as PropType<string[]>,
-      required: true
-    },
-    questionData: {
-      type: Array as PropType<QuestionDetails[]>,
-      required: true
-    },
-    detailTabs: {
-      type: Array as PropType<string[]>,
-      required: true
-    },
-    getResults: {
-      type: Function,
-      required: true
-    }
-  },
   setup(props) {
     const selectedTab = computed(() => {
-      if (!props.query) {
-        return 'Statistics'
-      }
-      return props.query.replace(/^[a-z]/, (ch: string) => ch.toUpperCase())
-    })
-
-    const summaryProps = computed(() => {
-      let ret = {
-        title: props.information.title,
-        // TODO questionnairesに書き換え
-        titleLink: '/results/' + props.questionnaireId,
-        responseDetails: {}
-      }
-      // if (selectedTab.value === 'Individual') {
-      //   ret.responseDetails = {
-      //     timeLabel: '回答日時',
-      //     time: props.responseData.submittedAt,
-      //     respondent: props.responseData.traqId
-      //   }
+      // if (!props.query) {
+      //   return 'Statistics'
       // }
-      return ret
+      // return props.query.replace(/^[a-z]/, (ch: string) => ch.toUpperCase())
+      return 'Statistics'
     })
 
-    const getTabLink = (tab: string) => {
-      let ret = {
-        name: 'results',
-        params: { id: props.questionnaireId },
-        query: {
-          tab: ''
-        }
-      }
-      if (['Individual', 'Statistics', 'Spreadsheet'].includes(tab)) {
-        ret.query.tab = tab.toLowerCase()
-      } else {
-        ret.query.tab = 'statistics'
-      }
-      return ret
-    }
+    // const summaryProps = computed(() => {
+    //   let ret = {
+    //     title: props.information.title,
+    //     // TODO questionnairesに書き換え
+    //     titleLink: '/results/' + props.questionnaireId,
+    //     responseDetails: {}
+    //   }
+    //   // if (selectedTab.value === 'Individual') {
+    //   //   ret.responseDetails = {
+    //   //     timeLabel: '回答日時',
+    //   //     time: props.responseData.submittedAt,
+    //   //     respondent: props.responseData.traqId
+    //   //   }
+    //   // }
+    //   return ret
+    // })
+
+    // const getTabLink = (tab: string) => {
+    //   let ret = {
+    //     name: 'results',
+    //     params: { id: props.questionnaireId },
+    //     query: {
+    //       tab: ''
+    //     }
+    //   }
+    //   if (['Individual', 'Statistics', 'Spreadsheet'].includes(tab)) {
+    //     ret.query.tab = tab.toLowerCase()
+    //   } else {
+    //     ret.query.tab = 'statistics'
+    //   }
+    //   return ret
+    // }
 
     const currentTabComponent = computed(() => {
       switch (selectedTab.value) {
@@ -134,9 +93,7 @@ export default defineComponent({
       }
     })
     return {
-      summaryProps,
       selectedTab,
-      getTabLink,
       currentTabComponent
     }
   }

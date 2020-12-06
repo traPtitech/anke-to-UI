@@ -1,11 +1,7 @@
 <template>
   <tbody>
     <tr v-for="(row, j) in results" :key="j">
-      <td
-        v-for="(item, k) in getTableRow(j)"
-        :key="k"
-        :class="{ hidden: isColumnHidden(k) }"
-      >
+      <td v-for="(item, k) in getTableRow(j)" :key="k">
         {{ item }}
       </td>
     </tr>
@@ -14,36 +10,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { ResponseResult, ResponseBody } from '/@/lib/apis'
-
-type Props = {
-  results: ResponseResult[]
-  defaultColumns: {
-    name: string
-    label: string
-  }[]
-  tableHeaders: string[]
-  showColumn: boolean[]
-  tableForm: string
-}
+import { ResponseBody } from '/@/lib/apis'
+import * as dummyData from '/@/components/Results/use/dummyData'
+import * as utils from '/@/components/Results/use/utils'
 
 export default defineComponent({
   name: 'TableHeader',
-  components: {},
   props: {
-    results: {
-      type: Object as PropType<ResponseResult[]>,
-      required: true
-    },
-    defaultColumns: {
-      type: Array as PropType<
-        {
-          name: string
-          label: string
-        }[]
-      >,
-      required: true
-    },
     tableHeaders: {
       type: Array as PropType<string[]>,
       required: true
@@ -57,14 +30,14 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props: Props) {
+  setup(props) {
     const getTableRow = (index: number): string[] => {
-      const ret = props.defaultColumns
-        .map(column => props.results[index][column.name])
+      const ret = utils.defaultColumns
+        .map(column => dummyData.results[index][column.name])
         .concat(
           (() => {
             const mapper: string[] = []
-            props.results[index].body.forEach((response: any) =>
+            dummyData.results[index].body.forEach((response: ResponseBody) =>
               mapper.push(responseToString(response))
             )
             return mapper
@@ -94,13 +67,8 @@ export default defineComponent({
       }
     }
 
-    const isColumnHidden = (index: number): boolean =>
-      props.showColumn.length === props.tableHeaders.length &&
-      !props.showColumn[index]
-
     return {
-      getTableRow,
-      isColumnHidden
+      getTableRow
     }
   }
 })

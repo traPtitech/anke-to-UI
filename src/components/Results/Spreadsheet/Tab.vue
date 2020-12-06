@@ -7,7 +7,7 @@
         class="tab"
         :class="{ 'is-active': tableForm === tab }"
       >
-        <a @click="() => changeTab(tab)">{{ tab }}</a>
+        <a @click="() => {}">{{ tab }}</a>
       </li>
     </ul>
   </div>
@@ -27,16 +27,6 @@ export default defineComponent({
     tableFormTabs: {
       type: Array as PropType<string[]>,
       required: true
-    },
-    canDownload: {
-      type: Boolean,
-      required: true
-    }
-  },
-  setup(props, context) {
-    const changeTab = (tab: string) => context.emit('change-tab', tab)
-    return {
-      changeTab
     }
   }
 })

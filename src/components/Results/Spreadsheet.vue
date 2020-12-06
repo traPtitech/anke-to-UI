@@ -5,17 +5,11 @@
         :table-form-tabs="tableFormTabs"
         :table-form="tableForm"
         :is-text-table="isTextTable"
-        @change-tab="changeTab"
-        @copy-table="copyTable"
-        @download-table="downloadTable"
       />
       <ScrollView
         :table-form="tableForm"
         :table-headers="tableHeaders"
         :show-column="showColumn"
-        :toggle-show-column="toggleShowColumn"
-        :results="results"
-        :default-columns="DEFAULT_COLUMNS"
         :is-text-table="isTextTable"
         :text-tables="textTables"
       />
@@ -24,18 +18,11 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  PropType,
-  reactive,
-  computed,
-  watchEffect,
-  toRefs
-} from 'vue'
-import { useRoute } from 'vue-router'
-import { ResponseResult } from '/@/lib/apis'
+import { defineComponent, reactive, computed, watchEffect, toRefs } from 'vue'
 import Tab from '/@/components/Results/Spreadsheet/Tab.vue'
 import ScrollView from '/@/components/Results/Spreadsheet/ScrollView.vue'
+import * as utils from '/@/components/Results/use/utils'
+import * as dummyData from '/@/components/Results/use/dummyData'
 
 export default defineComponent({
   name: 'Spreadsheet',
@@ -43,22 +30,7 @@ export default defineComponent({
     Tab,
     ScrollView
   },
-  props: {
-    results: {
-      type: Array as PropType<ResponseResult[]>,
-      required: true
-    },
-    questions: {
-      type: Array as PropType<string[]>,
-      required: true
-    }
-  },
   setup(props, context) {
-    const DEFAULT_COLUMNS = [
-      { name: 'traqID', label: 'traQID' },
-      { name: 'submitted_at', label: '回答日時' }
-    ]
-    const downloadLabel = 'CSV形式でダウンロード'
     const state = reactive<{
       tableForm: string
       showColumn: boolean[]
@@ -74,118 +46,18 @@ export default defineComponent({
         state.showColumn = new Array(len).fill(true)
       }
     }
-    const getTableRow = (index: number): string[] => {
-      const ret = DEFAULT_COLUMNS.map(
-        column => props.results[index][column.name]
-      ).concat(
-        props.results[index].body.map((response: any) =>
-          responseToString(response)
-        )
-      )
-      return ret
-    }
 
-    const responseToString = (body: ResponseResult): string => {
-      let ret = ''
-      switch (body.question_type) {
-        case 'MultipleChoice':
-        case 'Checkbox':
-        case 'Dropdown':
-          body.option_response.forEach((response: string) => {
-            if (ret !== '') {
-              ret += ', '
-            }
-            ret += response
-          })
-          return ret
-        case 'TextArea':
-          return state.tableForm === 'markdown'
-            ? body.response.replace(/\n/g, '<br>')
-            : body.response
-        default:
-          return body.response
-      }
-    }
-    const downloadTable = (): void => {
-      if (!isTextTable.value) return
-      let form: { type: string; ext: string; data: string }
-      switch (state.tableForm) {
-        case 'markdown':
-          form = {
-            type: 'text/markdown',
-            ext: '.md',
-            data: markdownTable.value
-          }
-          break
-        case 'csv':
-          form = { type: 'text/csv', ext: '.csv', data: csvTable.value }
-          break
-        default:
-          return
-      }
-      const blob = new Blob([form.data], { type: form.type })
-      let link = document.createElement('a')
-      link.href = window.URL.createObjectURL(blob)
-      link.download = 'Result' + form.ext
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    }
-
-    const changeTab = (tab: string) => (state.tableForm = tab)
-
-    const getResults = (queryString: string) => {
-      context.emit('get-results', queryString)
-    }
-    const sort = (index: number) => {
-      let query = ''
-      if (state.sorted !== index) {
-        query += '-'
-        state.sorted = index
-      } else {
-        state.sorted = -index
-      }
-      switch (index) {
-        case 1:
-          query += 'traqid'
-          break
-        case 2:
-          query += 'submitted_at'
-          break
-        default:
-          query += index - 2
-      }
-      context.emit('get-results', '?sort=' + query)
-    }
-    const arrayToMarkdown = (arr: string[]): string => {
-      let ret = '|'
-      arr
-        .filter((val, index) => !isColumnHidden(index))
-        .forEach(val => {
-          ret += ' ' + val + ' |'
-        })
-      ret += '\n'
-      return ret
-    }
-    const toggleShowColumn = (index: number): void => {
-      state.showColumn[index] = !state.showColumn[index]
-    }
     const isColumnHidden = (index: number): boolean =>
       state.showColumn.length === tableWidth.value && !state.showColumn[index]
 
-    const copyTable = (): void => {
-      // TODO vue clipboardがないのでどうするか
-      // context.root.$copyText(textTables.value[state.tableForm])
-    }
-
     const tableWidth = computed(
-      (): number => DEFAULT_COLUMNS.length + props.questions.length
+      (): number => utils.defaultColumns.length + dummyData.questions.length
     )
 
-    const route = useRoute()
-    const questionnaireId = computed((): number => Number(route.params.id))
     const tableHeaders = computed((): string[] =>
-      DEFAULT_COLUMNS.map(column => column.label).concat(props.questions)
+      utils.defaultColumns
+        .map(column => column.label)
+        .concat(dummyData.questions)
     )
     const textTables = computed((): { [key: string]: string } => ({
       markdown: markdownTable.value,
@@ -206,16 +78,10 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-      DEFAULT_COLUMNS,
-      tableFormTabs: ['view', 'markdown', 'csv'],
+      tableFormTabs: utils.tableFormTabs,
       isTextTable,
-      copyTable,
-      changeTab,
-      downloadTable,
       tableHeaders,
       isColumnHidden,
-      toggleShowColumn,
-      getResults,
       textTables
     }
   }

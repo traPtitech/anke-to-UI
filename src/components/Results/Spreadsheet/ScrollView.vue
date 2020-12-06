@@ -2,15 +2,8 @@
   <div class="scroll-view">
     <!-- table view -->
     <table v-show="tableForm === 'view'" class="table is-striped">
-      <TableHeader
-        :table-headers="tableHeaders"
-        :show-column="showColumn"
-        @toggle-show-column="toggleShowColumn"
-        @get-results="getResults"
-      />
+      <TableHeader :table-headers="tableHeaders" :show-column="showColumn" />
       <TableBody
-        :results="results"
-        :default-columns="defaultColumns"
         :table-headers="tableHeaders"
         :show-column="showColumn"
         :table-form="tableForm"
@@ -39,7 +32,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import { ResponseResult } from '/@/lib/apis'
 import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
 import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
 
@@ -63,18 +55,6 @@ export default defineComponent({
       type: Array as PropType<boolean[]>,
       required: true
     },
-    toggleShowColumn: {
-      type: Function,
-      required: true
-    },
-    results: {
-      type: Array as PropType<ResponseResult[]>,
-      required: true
-    },
-    defaultColumns: {
-      type: Array as PropType<string[]>,
-      required: true
-    },
     isTextTable: {
       type: Boolean,
       required: true
@@ -85,12 +65,6 @@ export default defineComponent({
         csv: string
       }>,
       required: true
-    }
-  },
-  setup(props, context) {
-    const getResults = (query: string) => context.emit('get-results', query)
-    return {
-      getResults
     }
   }
 })
