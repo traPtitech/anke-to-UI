@@ -2,12 +2,8 @@
   <div class="scroll-view">
     <!-- table view -->
     <table v-show="tableForm === 'view'" class="table is-striped">
-      <TableHeader :table-headers="tableHeaders" :show-column="showColumn" />
-      <TableBody
-        :table-headers="tableHeaders"
-        :show-column="showColumn"
-        :table-form="tableForm"
-      />
+      <TableHeader />
+      <TableBody />
     </table>
 
     <!-- markdown, csv view -->
@@ -30,10 +26,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
 import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
+import {
+  tableForm,
+  tableHeaders,
+  showColumn,
+  isTextTable,
+  textTables
+} from '/@/components/Results/use/dummyData'
 
 export default defineComponent({
   name: 'ScrollView',
@@ -42,29 +45,17 @@ export default defineComponent({
     TableHeader,
     TableBody
   },
-  props: {
-    tableForm: {
-      type: String,
-      required: true
-    },
-    tableHeaders: {
-      type: Array as PropType<string[]>,
-      required: true
-    },
-    showColumn: {
-      type: Array as PropType<boolean[]>,
-      required: true
-    },
-    isTextTable: {
-      type: Boolean,
-      required: true
-    },
-    textTables: {
-      type: Object as PropType<{
-        markdown: string
-        csv: string
-      }>,
-      required: true
+  setup() {
+    const copyTable = () => console.log('copy')
+    const downloadTable = () => console.log('download')
+    return {
+      tableForm,
+      copyTable,
+      downloadTable,
+      tableHeaders,
+      showColumn,
+      isTextTable,
+      textTables
     }
   }
 })

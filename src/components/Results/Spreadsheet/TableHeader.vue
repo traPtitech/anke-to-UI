@@ -9,22 +9,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import HeaderElem from '/@/components/Results/Spreadsheet/HeaderElem.vue'
-
+import { tableHeaders } from '/@/components/Results/use/dummyData'
 export default defineComponent({
   name: 'TableHeader',
   components: {
     HeaderElem
   },
-  props: {
-    tableHeaders: {
-      type: Array as PropType<string[]>,
-      required: true
-    },
-    showColumn: {
-      type: Array as PropType<boolean[]>,
-      required: true
+  setup() {
+    return {
+      tableHeaders
     }
   }
 })

@@ -3,3 +3,4 @@ export const defaultColumns = [
   { name: 'submitted_at', label: '回答日時' }
 ]
 export const tableFormTabs = ['view', 'markdown', 'csv']
+export const detailTabs = ['Statistics', 'Spreadsheet', 'Individual']

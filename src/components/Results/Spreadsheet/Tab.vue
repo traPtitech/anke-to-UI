@@ -15,18 +15,15 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+import { tableFormTabs } from '/@/components/Results/use/utils'
+import { tableForm } from '/@/components/Results/use/dummyData'
 
 export default defineComponent({
   name: 'Tab',
-  components: {},
-  props: {
-    tableForm: {
-      type: String,
-      required: true
-    },
-    tableFormTabs: {
-      type: Array as PropType<string[]>,
-      required: true
+  setup() {
+    return {
+      tableForm,
+      tableFormTabs
     }
   }
 })
