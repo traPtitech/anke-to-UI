@@ -7,7 +7,8 @@ import {
   mdiEyeOff,
   mdiEye,
   mdiClipboard,
-  mdiDownload
+  mdiDownload,
+  mdiArrowLeft
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -20,7 +21,8 @@ const mdi = new Map<string, string>([
   ['eye-closed', mdiEyeOff],
   ['eye', mdiEye],
   ['clipboard', mdiClipboard],
-  ['download', mdiDownload]
+  ['download', mdiDownload],
+  ['arrow-left', mdiArrowLeft]
 ])
 
 export default mdi
