@@ -9,17 +9,19 @@ export const detailTabs = ['Statistics', 'Spreadsheet', 'Individual']
 export const selectedTab = 'Spreadsheet'
 export const tableForm = 'view'
 export const isTextTable = ['markdown', 'csv'].includes(tableForm)
-export const isSelectType = (type: string) =>
+export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
-export const isNumberType = (type: string) =>
+export const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
 export const textTables = {
   markdown: '',
   csv: ''
 }
 export const getTableRow = (index: number): string[] => {
-  const ret = defaultColumns
-    .map(column => results[index][column.name])
+  // typecheck対策
+  // const ret = defaultColumns
+  //   .map(column => results[index][column.name])
+  const ret = [results[index].traqID, results[index].submitted_at]
     .concat(
       (() => {
         const mapper: string[] = []
@@ -45,9 +47,11 @@ const responseToString = (body: ResponseBody): string => {
       })
       return ret
     case 'TextArea':
-      return tableForm === 'markdown'
-        ? body.response.replace(/\n/g, '<br>')
-        : body.response
+      // type check対策
+      // return tableForm === 'markdown'
+      //   ? body.response.replace(/\n/g, '<br>')
+      //   : body.response
+      return body.response
     default:
       return body.response
   }

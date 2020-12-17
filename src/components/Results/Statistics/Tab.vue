@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import { tableForm, tableFormTabs } from '/@/components/Results/use/utils'
 import { canDownload } from '/@/components/Results/use/dummyData'
@@ -27,7 +27,7 @@ export default defineComponent({
   components: {
     Icon
   },
-  setup(props, context) {
+  setup() {
     const changeTab = (tab: string) => console.log(`change tab to: ${tab}`)
     const downloadTable = () => console.log('download-table')
 

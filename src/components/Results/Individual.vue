@@ -11,8 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { defineComponent } from 'vue'
 // TODO QuestionsとPagenationをどうにかする
 // import Questions from '/@/components/Questions/Questions.vue'
 // import Pagination from '/@/components/Utils/Pagination.vue'

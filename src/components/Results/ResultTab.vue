@@ -40,13 +40,12 @@ export default defineComponent({
     Spreadsheet,
     Icon
   },
-  setup(props) {
-
+  setup() {
     const currentTabComponent = computed(() => {
       switch (selectedTab) {
         case 'Statistics':
         case 'Spreadsheet':
-          case 'Individual':
+        case 'Individual':
           return selectedTab.toLowerCase()
         default:
           console.error('unexpected selectedTab')

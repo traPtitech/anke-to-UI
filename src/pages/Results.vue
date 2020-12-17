@@ -14,8 +14,7 @@
 
 <script lang="ts">
 // import InformationSummary from '@/components/Information/InformationSummary'
-import { defineComponent, reactive, computed, toRefs } from 'vue'
-import { useRoute } from 'vue-router'
+import { defineComponent } from 'vue'
 import ResultTab from '/@/components/Results/ResultTab.vue'
 
 export default defineComponent({
