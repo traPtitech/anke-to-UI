@@ -21,16 +21,15 @@ export const getTableRow = (index: number): string[] => {
   // typecheck対策
   // const ret = defaultColumns
   //   .map(column => results[index][column.name])
-  const ret = [results[index].traqID, results[index].submitted_at]
-    .concat(
-      (() => {
-        const mapper: string[] = []
-        results[index].body.forEach((response: ResponseBody) =>
-          mapper.push(responseToString(response))
-        )
-        return mapper
-      })()
-    )
+  const ret = [results[index].traqID, results[index].submitted_at].concat(
+    (() => {
+      const mapper: string[] = []
+      results[index].body.forEach((response: ResponseBody) =>
+        mapper.push(responseToString(response))
+      )
+      return mapper
+    })()
+  )
   return ret
 }
 const responseToString = (body: ResponseBody): string => {
