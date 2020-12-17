@@ -30,13 +30,12 @@ import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
 import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
+import { tableHeaders, showColumn } from '/@/components/Results/use/dummyData'
 import {
   tableForm,
-  tableHeaders,
-  showColumn,
   isTextTable,
   textTables
-} from '/@/components/Results/use/dummyData'
+} from '/@/components/Results/use/utils'
 
 export default defineComponent({
   name: 'ScrollView',

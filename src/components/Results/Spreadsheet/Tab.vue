@@ -14,9 +14,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { tableFormTabs } from '/@/components/Results/use/utils'
-import { tableForm } from '/@/components/Results/use/dummyData'
+import { defineComponent } from 'vue'
+import { tableFormTabs, tableForm } from '/@/components/Results/use/utils'
 
 export default defineComponent({
   name: 'Tab',

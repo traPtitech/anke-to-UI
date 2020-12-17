@@ -127,48 +127,6 @@ export const questionData: QuestionDetails[] = [
   }
 ]
 
-export const detailTabs = ['Statistics', 'Spreadsheet', 'Individual']
 export const tableHeaders = ['traQID', '回答日時', '質問', '言いたいこと']
 export const showColumn = [true, true, true, true]
 export const tableWidth = 4
-export const tableForm = 'view'
-export const isTextTable = ['markdown', 'csv'].includes(tableForm)
-export const textTables = {
-  markdown: '',
-  csv: ''
-}
-export const getTableRow = (index: number): string[] => {
-  const ret = defaultColumns
-    .map(column => results[index][column.name])
-    .concat(
-      (() => {
-        const mapper: string[] = []
-        results[index].body.forEach((response: ResponseBody) =>
-          mapper.push(responseToString(response))
-        )
-        return mapper
-      })()
-    )
-  return ret
-}
-const responseToString = (body: ResponseBody): string => {
-  let ret = ''
-  switch (body.question_type) {
-    case 'MultipleChoice':
-    case 'Checkbox':
-    case 'Dropdown':
-      body.option_response.forEach((response: string) => {
-        if (ret !== '') {
-          ret += ', '
-        }
-        ret += response
-      })
-      return ret
-    case 'TextArea':
-      return tableForm === 'markdown'
-        ? body.response.replace(/\n/g, '<br>')
-        : body.response
-    default:
-      return body.response
-  }
-}

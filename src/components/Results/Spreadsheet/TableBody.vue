@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { results, getTableRow } from '/@/components/Results/use/dummyData'
-import * as utils from '/@/components/Results/use/utils'
+import { results } from '/@/components/Results/use/dummyData'
+import { getTableRow } from '/@/components/Results/use/utils'
 
 export default defineComponent({
   name: 'TableHeader',
