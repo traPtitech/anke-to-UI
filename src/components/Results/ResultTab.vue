@@ -29,28 +29,25 @@ import Individual from '/@/components/Results/Individual.vue'
 import Statistics from '/@/components/Results/Statistics.vue'
 import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
 import Icon from '/@/components/UI/Icon.vue'
-import { detailTabs } from '/@/components/Results/use/utils'
+import { detailTabs, selectedTab } from '/@/components/Results/use/utils'
 
 export default defineComponent({
   name: 'ResultTab',
   components: {
     Routes,
-    // Individual,
-    // Statistics,
+    Individual,
+    Statistics,
     Spreadsheet,
     Icon
   },
   setup(props) {
-    const selectedTab = computed(() => {
-      return 'Spreadsheet'
-    })
 
     const currentTabComponent = computed(() => {
-      switch (selectedTab.value) {
-        // case 'Statistics':
+      switch (selectedTab) {
+        case 'Statistics':
         case 'Spreadsheet':
-          // case 'Individual':
-          return selectedTab.value.toLowerCase()
+          case 'Individual':
+          return selectedTab.toLowerCase()
         default:
           console.error('unexpected selectedTab')
           return ''

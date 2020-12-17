@@ -4,10 +4,9 @@ import {
   QuestionnaireByID,
   QuestionDetails,
   QuestionnaireByIDResSharedToEnum,
-  QuestionDetailsQuestionTypeEnum,
-  ResponseBody
+  QuestionDetailsQuestionTypeEnum
 } from '../../../lib/apis'
-import { defaultColumns } from './utils'
+import { CountedData } from './utils'
 
 export const results: ResponseResult[] = [
   {
@@ -130,3 +129,6 @@ export const questionData: QuestionDetails[] = [
 export const tableHeaders = ['traQID', '回答日時', '質問', '言いたいこと']
 export const showColumn = [true, true, true, true]
 export const tableWidth = 4
+export const canDownload = true
+export const countedData: CountedData[] = []
+export const markdownTable = ''

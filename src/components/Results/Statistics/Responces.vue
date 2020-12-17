@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { CountedData } from '/@/src/components/Results/Statistics.vue'
+import { CountedData, isSelectType } from '/@/components/Results/use/utils'
 
 export default defineComponent({
   name: 'Responces',
@@ -32,10 +32,6 @@ export default defineComponent({
     }
   },
   setup() {
-    const isSelectType = (type: string): boolean =>
-      ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
-    const isNumberType = (type: string): boolean =>
-      ['LinearScale', 'Number'].includes(type)
     return {
       isSelectType
     }

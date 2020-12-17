@@ -1,17 +1,11 @@
 <template>
   <div class="wrapper">
     <div class="card">
-      <Tab
-        :table-form="tableForm"
-        :table-form-tabs="TABLE_FORM_TABS"
-        :can-download="canDownload"
-        @change-tab="changeTab"
-        @download-table="downloadTable"
-      />
+      <Tab />
       <div class="scroll-view">
         <!-- table view -->
         <div v-show="tableForm === 'view'">
-          <Data :counted-data="countedData" />
+          <Data />
         </div>
 
         <!-- markdown view -->
@@ -28,36 +22,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, toRefs, PropType } from 'vue'
-import { ResponseResult, QuestionDetails } from '/@/lib/apis'
-import { useRoute } from 'vue-router'
+import { defineComponent } from 'vue'
 import Tab from '/@/components/Results/Statistics/Tab.vue'
 import Data from '/@/components/Results/Statistics/Data.vue'
-
-type State = {
-  tableForm: string
-}
-
-export type CountedData = {
-  title: string
-  type: string
-  total: {
-    average: number
-    standardDeviation: number
-    median: number
-    mode: number
-  }
-  data: {
-    choice: string | number
-    ids: string
-  }[]
-}
-const countData = (
-  questions: QuestionDetails[],
-  results: ResponseResult[]
-): CountedData[] => {
-  return []
-}
+import { tableForm } from '/@/components/Results/use/utils'
+import { markdownTable } from '/@/components/Results/use/dummyData'
 
 export default defineComponent({
   name: 'Statistics',
@@ -65,57 +34,10 @@ export default defineComponent({
     Tab,
     Data
   },
-  props: {
-    results: {
-      type: Array as PropType<ResponseResult[]>,
-      required: true
-    },
-    questions: {
-      type: Array as PropType<string[]>,
-      required: true
-    }
-  },
-  setup(props, context) {
-    const state = reactive<State>({
-      tableForm: 'view'
-    })
-
-    const downloadTable = (): void => {
-      if (!canDownload.value) return
-      let form = {
-        type: 'text/markdown',
-        ext: '.md',
-        data: markdownTable.value
-      }
-      const blob = new Blob([form.data], { type: form.type })
-      let link = document.createElement('a')
-      link.href = window.URL.createObjectURL(blob)
-      link.download = 'Result' + form.ext
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    }
-
-    const route = useRoute()
-    const questionnaireId = computed((): number => +route.params.id)
-    const countedData = computed((): CountedData[] => {
-      if (props.questions.length <= 0 || props.results.length <= 0) return []
-      return countData(props.questions, props.results)
-    })
-    // TODO markdownのテーブル生成
-    const markdownTable = computed((): string => '')
-    const canDownload = computed((): boolean => state.tableForm === 'markdown')
-
-    const changeTab = (tab: string) => (state.tableForm = tab)
-
+  setup() {
     return {
-      ...toRefs(state),
-      TABLE_FORM_TABS: ['view', 'markdown'],
-      canDownload,
-      downloadTable,
-      countedData,
-      markdownTable,
-      changeTab
+      tableForm,
+      markdownTable
     }
   }
 })

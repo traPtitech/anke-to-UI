@@ -14,7 +14,7 @@
           </ul>
         </div>
         <div class="table-container">
-          <Responce :question="question" />
+          <Responces :question="question" />
         </div>
       </div>
     </div>
@@ -22,20 +22,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { QuestionDetails } from '/@/lib/apis'
-import Responce from '/@/components/Results/Statistics/Responces.vue'
-import { CountedData } from '/@/src/components/Results/Statistics.vue'
+import { defineComponent } from 'vue'
+import Responces from '/@/components/Results/Statistics/Responces.vue'
+import { countedData } from '/@/components/Results/use/dummyData'
 
 export default defineComponent({
   name: 'Data',
   components: {
-    Responce
+    Responces
   },
-  props: {
-    countedData: {
-      type: Array as PropType<CountedData[]>,
-      required: true
+  setup() {
+    return {
+      countedData
     }
   }
 })

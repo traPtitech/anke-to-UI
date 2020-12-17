@@ -19,31 +19,22 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
+import { tableForm, tableFormTabs } from '/@/components/Results/use/utils'
+import { canDownload } from '/@/components/Results/use/dummyData'
 
 export default defineComponent({
   name: 'Tab',
   components: {
     Icon
   },
-  props: {
-    tableForm: {
-      type: String,
-      required: true
-    },
-    tableFormTabs: {
-      type: Array as PropType<string[]>,
-      required: true
-    },
-    canDownload: {
-      type: Boolean,
-      required: true
-    }
-  },
   setup(props, context) {
-    const changeTab = (tab: string) => context.emit('change-tab', tab)
-    const downloadTable = () => context.emit('download-table')
+    const changeTab = (tab: string) => console.log(`change tab to: ${tab}`)
+    const downloadTable = () => console.log('download-table')
 
     return {
+      tableForm,
+      tableFormTabs,
+      canDownload,
       changeTab,
       downloadTable
     }

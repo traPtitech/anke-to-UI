@@ -22,44 +22,6 @@ export default defineComponent({
   components: {
     // questions: Questions,
     // pagination: Pagination
-  },
-  props: {
-    results: {
-      type: Array,
-      required: true
-    },
-    // responseData: {
-    //   type: Object,
-    //   required: true
-    // },
-    questionData: {
-      type: Array,
-      required: true
-    },
-    information: {
-      type: Object,
-      required: true
-    }
-  },
-  setup(props) {
-    const range = computed(() => ({
-      first: 1,
-      last: props.results.length
-    }))
-
-    const route = useRoute()
-    const currentPage = computed(() => {
-      return route.query.page ? Number(route.query.page) : range.value.first
-    })
-    const defaultPageLink = computed(() => ({
-      name: 'Results',
-      params: { id: route.params.id },
-      query: { tab: 'individual' }
-    }))
-    return {
-      currentPage,
-      defaultPageLink
-    }
   }
 })
 </script>
