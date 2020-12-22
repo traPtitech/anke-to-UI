@@ -52,7 +52,7 @@ export default defineComponent({
 .tableItemTitle {
   display: flex;
   align-items: center;
-  margin-bottom: 0.8em;
+  margin-bottom: 0.8rem;
 }
 .link {
   cursor: pointer;

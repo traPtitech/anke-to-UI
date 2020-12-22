@@ -34,11 +34,11 @@ export default defineComponent({
   position: absolute;
   .contents {
     background-color: #ffffff;
-    box-shadow: 0.5em 0 1em -0.3em rgba(10, 10, 10, 0.1);
-    border: solid 0.01em #e7e7e7;
-    border-radius: 0.3em;
+    box-shadow: 0.5 0 1 -0.3 rgba(10, 10, 10, 0.1);
+    border: solid 0.01 #e7e7e7;
+    border-radius: 0.3;
     margin: 0;
-    padding: 0.5em 1em;
+    padding: 0.5 1;
     text-align: left;
     cursor: pointer;
     &:hover {
