@@ -89,7 +89,7 @@ export default defineComponent({
   border: none;
 }
 .tableItemDescription {
-  margin-bottom: 0.8em;
+  margin-bottom: 0.8rem;
   word-break: break-all;
 }
 .tableItemDate {

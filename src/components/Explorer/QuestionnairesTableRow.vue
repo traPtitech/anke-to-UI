@@ -74,23 +74,23 @@ export default defineComponent({
     background-color: #fafafa;
   }
   .table_item_title {
-    min-width: 10em;
+    min-width: 10rem;
     text-align: left;
-    padding-left: 0.8em;
+    padding-left: 0.8rem;
   }
   .table_item_date {
-    min-width: 8em;
-    padding-left: 0.8em;
+    min-width: 8rem;
+    padding-left: 0.8rem;
   }
   .result {
     text-align: left;
-    padding: 0.2em 0.8em;
+    padding: 0.2rem 0.8rem;
     .open {
       margin: 0;
     }
     .icon {
-      height: 1em;
-      width: 1em;
+      height: 1rem;
+      width: 1rem;
     }
   }
 }

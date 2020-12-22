@@ -52,16 +52,16 @@ export default defineComponent({
 <style lang="scss" module>
 .dropdown_trigger {
   display: flex;
-  padding: 0.3em 1em 0.3em 1.4em;
+  padding: 0.3rem 1rem 0.3rem 1.4rem;
   align-items: center;
   .title {
-    margin: 0 0.3em 0 0;
+    margin: 0 0.3rem 0 0;
   }
 }
 .button {
   background-color: #ffffff;
-  border: solid 0.1em #cfb998;
-  border-radius: 0.3em;
+  border: solid 0.1rem #cfb998;
+  border-radius: 0.3rem;
   padding: 0;
   cursor: pointer;
   &:hover {

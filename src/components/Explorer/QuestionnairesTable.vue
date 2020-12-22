@@ -36,12 +36,12 @@ export default defineComponent({
 .table {
   width: 100%;
   max-width: fit-content;
-  margin: 1em 0;
+  margin: 1rem 0;
   border: solid 1.5px #d9d9d9;
   border-collapse: collapse;
   box-shadow: 0 2px 3px #dfe0d7;
 }
 .header {
-  padding: 0.4em 0;
+  padding: 0.4rem 0;
 }
 </style>

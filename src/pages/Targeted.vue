@@ -31,6 +31,7 @@ export default defineComponent({
   }
 })
 </script>
+
 <style lang="scss" module>
 .frame {
   border: solid 1.5px #d9d9d9;

@@ -50,28 +50,28 @@ export default defineComponent({
 }
 .search {
   display: inherit;
-  margin-left: 1.5em;
+  margin-left: 1.5rem;
   .input {
-    border: solid 0.1em #dbdbdb;
-    border-radius: 0.3em 0 0 0.3em;
-    padding-left: 0.8em;
+    border: solid 0.1rem #dbdbdb;
+    border-radius: 0.3rem 0 0 0.3rem;
+    padding-left: 0.8rem;
     &::placeholder {
       color: #dbdbdb;
     }
   }
   .search_icon {
-    border-radius: 0 0.3em 0.3em 0;
+    border-radius: 0 0.3rem 0.3rem 0;
     .icon {
-      height: 1.5em;
-      width: 1.5em;
-      padding: 0.3em;
+      height: 1.5rem;
+      width: 1.5rem;
+      padding: 0.3rem;
     }
   }
 }
 .button {
   background-color: #ffffff;
-  border: solid 0.1em #cfb998;
-  border-radius: 0.3em;
+  border: solid 0.1rem #cfb998;
+  border-radius: 0.3rem;
   padding: 0;
   cursor: pointer;
   &:hover {
