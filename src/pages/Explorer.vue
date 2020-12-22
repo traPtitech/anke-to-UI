@@ -1,16 +1,14 @@
 <template>
-  <div :class="$style.container">
-    <div :class="$style.tool_wrapper">
-      <dropdown-menu />
-      <div :class="$style.search">
-        <input type="text" placeholder="検索" :class="$style.input" />
-        <button :class="[$style.button, $style.search_icon]">
-          <icon name="magnify" :class="$style.icon" />
-        </button>
-      </div>
+  <div :class="$style.tool_wrapper">
+    <dropdown-menu />
+    <div :class="$style.search">
+      <input type="text" placeholder="検索" :class="$style.input" />
+      <button :class="[$style.button, $style.search_icon]">
+        <icon name="magnify" :class="$style.icon" />
+      </button>
     </div>
-    <questionnaires-table />
   </div>
+  <questionnaires-table />
 </template>
 
 <script lang="ts">
@@ -46,9 +44,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.container {
-  padding: 1em;
-}
 .tool_wrapper {
   display: flex;
   flex-wrap: wrap;

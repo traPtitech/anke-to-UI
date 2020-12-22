@@ -36,5 +36,6 @@ export default defineComponent({
 }
 .content {
   grid-area: content;
+  padding: 1.5rem;
 }
 </style>
