@@ -4,6 +4,7 @@ import Hello from '/@/pages/Hello.vue'
 import Explorer from '/@/pages/Explorer.vue'
 import Targeted from '/@/pages/Targeted.vue'
 import Results from '/@/pages/Results.vue'
+import Responses from '/@/pages/Responses.vue'
 export const routerHistory = createWebHistory()
 
 export default createRouter({

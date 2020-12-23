@@ -1,8 +1,12 @@
 <template>
   <div>
-    <router-link :to="{ name: 'index' }">Index</router-link>
-    <span>|</span>
-    <router-link :to="{ name: 'hello' }">Hello</router-link>
+    <router-link :to="pages[0].path">{{ pages[0].name }}</router-link>
+    <template v-for="page in pages.slice(1)" :key="page.path">
+      <span>|</span>
+      <router-link :to="page.path">
+        {{ page.name }}
+      </router-link>
+    </template>
   </div>
 </template>
 
@@ -25,7 +29,7 @@ export default defineComponent({
 })
 </script>
 
-<style module>
+<style lang="scss" module>
 .re {
   font-weight: bold;
 }
