@@ -56,6 +56,7 @@ export default defineComponent({
   align-items: center;
   .title {
     margin: 0 0.3rem 0 0;
+    font-size: 1rem;
   }
 }
 .button {

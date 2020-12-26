@@ -38,7 +38,7 @@ export default defineComponent({
     border: solid 0.01 #e7e7e7;
     border-radius: 0.3;
     margin: 0;
-    padding: 0.5 1;
+    padding: 1rem;
     text-align: left;
     cursor: pointer;
     &:hover {
