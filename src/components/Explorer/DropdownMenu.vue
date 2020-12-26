@@ -3,7 +3,12 @@
     <button :class="$style.button" @click="open">
       <div :class="$style.dropdown_trigger">
         <p :class="$style.title">{{ title }}</p>
-        <icon name="chevron-down" :class="$style.icon" />
+        <div v-if="isOpen">
+          <icon name="chevron-up" :class="$style.icon" />
+        </div>
+        <div v-else>
+          <icon name="chevron-down" :class="$style.icon" />
+        </div>
       </div>
     </button>
     <dropdown-contents :is-open="isOpen" :contents="contents" />
