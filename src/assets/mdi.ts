@@ -2,7 +2,7 @@ import {
   mdiChevronDown,
   mdiMagnify,
   mdiOpenInNew,
-  mdiHelpCircleOutline,
+  mdiHelpCircleOutline
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([

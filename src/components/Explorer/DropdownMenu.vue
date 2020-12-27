@@ -3,7 +3,10 @@
     <button :class="$style.button" @click="open">
       <div :class="$style.dropdown_trigger">
         <p :class="$style.title">{{ title }}</p>
-        <icon name="chevron-down" :class="[$style.icon, isOpen ? $style.rotate : '']" />
+        <icon
+          name="chevron-down"
+          :class="[$style.icon, isOpen ? $style.rotate : '']"
+        />
       </div>
     </button>
     <dropdown-contents :is-open="isOpen" :contents="contents" />
@@ -70,6 +73,6 @@ export default defineComponent({
   }
 }
 .rotate {
-  transform:rotate(180deg);
+  transform: rotate(180deg);
 }
 </style>
