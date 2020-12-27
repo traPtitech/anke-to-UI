@@ -3,12 +3,7 @@
     <button :class="$style.button" @click="open">
       <div :class="$style.dropdown_trigger">
         <p :class="$style.title">{{ title }}</p>
-        <div v-if="isOpen">
-          <icon name="chevron-up" :class="$style.icon" />
-        </div>
-        <div v-else>
-          <icon name="chevron-down" :class="$style.icon" />
-        </div>
+        <icon name="chevron-down" :class="[$style.icon, isOpen ? $style.rotate : '']" />
       </div>
     </button>
     <dropdown-contents :is-open="isOpen" :contents="contents" />
@@ -73,5 +68,8 @@ export default defineComponent({
   &:hover {
     background-color: #f4ecec;
   }
+}
+.rotate {
+  transform:rotate(180deg);
 }
 </style>

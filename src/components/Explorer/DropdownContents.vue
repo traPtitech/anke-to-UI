@@ -1,13 +1,15 @@
 <template>
-  <div v-if="isOpen" :class="$style.dropdown_menu">
-    <p
-      v-for="(content, index) in contents"
-      :key="index"
-      :class="$style.contents"
-    >
-      {{ content.str }}
-    </p>
-  </div>
+  <transition name="fade">
+    <div v-if="isOpen" :class="$style.dropdown_menu">
+      <p
+        v-for="(content, index) in contents"
+        :key="index"
+        :class="$style.contents"
+      >
+        {{ content.str }}
+      </p>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -30,12 +32,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .dropdown_menu {
   position: absolute;
+  margin-top: 0.5rem;
   .contents {
     background-color: #ffffff;
-    box-shadow: 0.5 0 1 -0.3 rgba(10, 10, 10, 0.1);
-    border: solid 0.01 #e7e7e7;
+    box-shadow: 0.5rem 0rem 1rem -0.3rem rgba(10, 10, 10, 0.1);
+    border: solid 0.01rem #e7e7e7;
     border-radius: 0.3;
     margin: 0;
     padding: 1rem;
