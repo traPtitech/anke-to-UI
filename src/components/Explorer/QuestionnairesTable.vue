@@ -2,7 +2,7 @@
   <table :class="$style.table">
     <tr>
       <th
-        v-for="(header, index) in data.headers"
+        v-for="(header, index) in Headers"
         :key="index"
         :class="$style.header"
       >
@@ -13,7 +13,6 @@
       v-for="questionnaire in data.questionnaires"
       :key="questionnaire.questionnaireID"
       :questionnaire="questionnaire"
-      :class="$style.row"
     />
   </table>
 </template>
@@ -22,6 +21,8 @@
 import { defineComponent, reactive } from 'vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
 
+const Headers = ['', '回答期限', '更新日時', '作成日時', '結果']
+
 export default defineComponent({
   name: 'QuestionnairesTable',
   components: {
@@ -29,7 +30,6 @@ export default defineComponent({
   },
   setup() {
     const data = reactive({
-      headers: ['', '回答期限', '更新日時', '作成日時', '結果'],
       questionnaires: [
         {
           questionnaireID: 1,
@@ -53,7 +53,8 @@ export default defineComponent({
     })
 
     return {
-      data
+      data,
+      Headers
     }
   }
 })
@@ -70,11 +71,5 @@ export default defineComponent({
 }
 .header {
   padding: 0.4rem 0;
-}
-.row {
-  border: solid 1.5px #d9d9d9;
-  &:nth-child(odd) {
-    background-color: #fafafa;
-  }
 }
 </style>

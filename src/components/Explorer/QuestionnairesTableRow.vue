@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr :class="$style.row">
     <td :class="$style.table_item_title">
       <router-link
         :to="'/questionnaires/' + questionnaire.questionnaireID"
@@ -24,7 +24,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { Questionnaire } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
@@ -34,7 +35,7 @@ export default defineComponent({
   },
   props: {
     questionnaire: {
-      type: String,
+      type: Object as PropType<Questionnaire>,
       required: true
     }
   },
@@ -45,6 +46,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.row {
+  border: solid 1.5px #d9d9d9;
+  &:nth-child(odd) {
+    background-color: #fafafa;
+  }
+}
 .table_item_title {
   min-width: 10rem;
   text-align: left;
