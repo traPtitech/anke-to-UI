@@ -2,7 +2,7 @@
   <table :class="$style.table">
     <tr>
       <th
-        v-for="(header, index) in Headers"
+        v-for="(header, index) in HEADERS"
         :key="index"
         :class="$style.header"
       >
@@ -21,7 +21,7 @@
 import { defineComponent, reactive } from 'vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
 
-const Headers = ['', '回答期限', '更新日時', '作成日時', '結果']
+const HEADERS = ['', '回答期限', '更新日時', '作成日時', '結果']
 
 export default defineComponent({
   name: 'QuestionnairesTable',
@@ -54,7 +54,7 @@ export default defineComponent({
 
     return {
       data,
-      Headers
+      HEADERS
     }
   }
 })
