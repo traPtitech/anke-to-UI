@@ -35,11 +35,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.enter-active {
-  transition: opacity 0.5s;
-}
-.leave-active {
-  transition: opacity 0.5s;
+:global {
+  .enter-active {
+    transition: opacity 0.5s;
+  }
+  .leave-active {
+    transition: opacity 0.5s;
+  }
 }
 .dropdown_menu {
   position: absolute;
