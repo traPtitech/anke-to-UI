@@ -1,9 +1,5 @@
 <template>
-  <tr
-    v-for="(questionnaire, index) in data.questionnaires"
-    :key="index"
-    :class="$style.body"
-  >
+  <tr :class="$style.row">
     <td :class="$style.table_item_title">
       <router-link
         :to="'/questionnaires/' + questionnaire.questionnaireID"
@@ -28,7 +24,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { Questionnaire } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
@@ -36,62 +33,43 @@ export default defineComponent({
   components: {
     Icon
   },
-  setup() {
-    const data = reactive({
-      questionnaires: [
-        {
-          questionnaireID: 1,
-          title: 'こんにちは',
-          res_time_limit: '2020-12-31',
-          created_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true
-        },
-        {
-          questionnaireID: 2,
-          title: 'こんばんは',
-          res_time_limit: '2020-12-31',
-          created_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true
-        }
-      ]
-    })
-
-    return {
-      data
+  props: {
+    questionnaire: {
+      type: Object as PropType<Questionnaire>,
+      required: true
     }
+  },
+  setup() {
+    return {}
   }
 })
 </script>
 
 <style lang="scss" module>
-.body {
+.row {
   border: solid 1.5px #d9d9d9;
   &:nth-child(odd) {
     background-color: #fafafa;
   }
-  .table_item_title {
-    min-width: 10rem;
-    text-align: left;
-    padding-left: 0.8rem;
+}
+.table_item_title {
+  min-width: 10rem;
+  text-align: left;
+  padding-left: 0.8rem;
+}
+.table_item_date {
+  min-width: 8rem;
+  padding-left: 0.8rem;
+}
+.result {
+  text-align: left;
+  padding: 0.2rem 0.8rem;
+  .open {
+    margin: 0;
   }
-  .table_item_date {
-    min-width: 8rem;
-    padding-left: 0.8rem;
-  }
-  .result {
-    text-align: left;
-    padding: 0.2rem 0.8rem;
-    .open {
-      margin: 0;
-    }
-    .icon {
-      height: 1rem;
-      width: 1rem;
-    }
+  .icon {
+    height: 1rem;
+    width: 1rem;
   }
 }
 .link {

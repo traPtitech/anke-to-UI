@@ -2,20 +2,26 @@
   <table :class="$style.table">
     <tr>
       <th
-        v-for="(header, index) in headers"
+        v-for="(header, index) in HEADERS"
         :key="index"
         :class="$style.header"
       >
         {{ header }}
       </th>
     </tr>
-    <questionnaires-table-row />
+    <questionnaires-table-row
+      v-for="questionnaire in data.questionnaires"
+      :key="questionnaire.questionnaireID"
+      :questionnaire="questionnaire"
+    />
   </table>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
+
+const HEADERS = ['', '回答期限', '更新日時', '作成日時', '結果']
 
 export default defineComponent({
   name: 'QuestionnairesTable',
@@ -23,10 +29,32 @@ export default defineComponent({
     QuestionnairesTableRow
   },
   setup() {
-    const headers = ['', '回答期限', '更新日時', '作成日時', '結果']
+    const data = reactive({
+      questionnaires: [
+        {
+          questionnaireID: 1,
+          title: 'こんにちは',
+          res_time_limit: '2020-12-31',
+          created_at: '2020-1-1',
+          modified_at: '2020-1-1',
+          res_shared_to: 'public',
+          is_targeted: true
+        },
+        {
+          questionnaireID: 2,
+          title: 'こんばんは',
+          res_time_limit: '2020-12-31',
+          created_at: '2020-1-1',
+          modified_at: '2020-1-1',
+          res_shared_to: 'public',
+          is_targeted: true
+        }
+      ]
+    })
 
     return {
-      headers
+      data,
+      HEADERS
     }
   }
 })
