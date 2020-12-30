@@ -73,7 +73,7 @@ export default defineComponent({
   }
 }
 .icon {
-  transition: 0.5s;
+  transition: 0.3s;
 }
 .rotate {
   transform: rotate(-180deg);
