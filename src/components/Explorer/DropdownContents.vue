@@ -1,8 +1,5 @@
 <template>
-  <transition
-    :enter-active-class="$style.enter_active"
-    :leave-active-class="$style.leave_active"
-  >
+  <transition name="fade" mode="out-in">
     <div v-if="isOpen" :class="$style.dropdown_menu">
       <p
         v-for="(content, index) in contents"
@@ -36,11 +33,17 @@ export default defineComponent({
 
 <style lang="scss" module>
 :global {
-  .enter-active {
+  .fade-enter-active,
+  .fade-leave-active {
     transition: opacity 0.5s;
   }
-  .leave-active {
-    transition: opacity 0.5s;
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+  .fade-enter-to,
+  .fade-leave {
+    opacity: 1;
   }
 }
 .dropdown_menu {

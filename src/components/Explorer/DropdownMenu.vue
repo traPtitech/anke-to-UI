@@ -72,7 +72,10 @@ export default defineComponent({
     background-color: #f4ecec;
   }
 }
+.icon {
+  transition: 0.5s;
+}
 .rotate {
-  transform: rotate(180deg);
+  transform: rotate(-180deg);
 }
 </style>
