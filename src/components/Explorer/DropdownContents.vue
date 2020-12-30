@@ -35,15 +35,11 @@ export default defineComponent({
 :global {
   .fade-enter-active,
   .fade-leave-active {
-    transition: opacity 0.5s;
+    transition: opacity 0.5s ease;
   }
-  .fade-enter,
+  .fade-enter-from,
   .fade-leave-to {
     opacity: 0;
-  }
-  .fade-enter-to,
-  .fade-leave {
-    opacity: 1;
   }
 }
 .dropdown_menu {
