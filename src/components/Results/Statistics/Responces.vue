@@ -1,5 +1,5 @@
 <template>
-  <table class="table is-striped">
+  <table>
     <thead>
       <td>回答</td>
       <td>回答数</td>

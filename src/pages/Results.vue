@@ -1,13 +1,10 @@
 <template>
   <div>
-    <div v-if="true" class="details is-fullheight">
+    <div v-if="true">
       <ResultTab />
     </div>
-    <div
-      v-if="/* information.administrators && !canViewResults */ false"
-      class="message is-danger"
-    >
-      <p class="message-body error-message">結果を閲覧する権限がありません</p>
+    <div v-if="/* information.administrators && !canViewResults */ false">
+      <p>結果を閲覧する権限がありません</p>
     </div>
   </div>
 </template>

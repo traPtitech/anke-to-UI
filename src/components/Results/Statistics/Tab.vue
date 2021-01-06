@@ -1,16 +1,11 @@
 <template>
-  <div class="tabs">
+  <div>
     <ul>
-      <li
-        v-for="tab in tableFormTabs"
-        :key="tab"
-        class="tab"
-        :class="{ 'is-active': tableForm === tab }"
-      >
+      <li v-for="tab in tableFormTabs" :key="tab">
         <a @click="() => changeTab(tab)">{{ tab }}</a>
       </li>
     </ul>
-    <button v-if="canDownload" class="button download" @click="downloadTable">
+    <button v-if="canDownload" @click="downloadTable">
       <Icon name="download" />
     </button>
   </div>

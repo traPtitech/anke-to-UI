@@ -1,25 +1,16 @@
 <template>
-  <div class="tabs is-centered">
-    <router-link id="return-button" to="/results/200">
+  <div>
+    <router-link to="/results/200">
       <Icon name="arrow-left" />
     </router-link>
     <ul>
-      <li
-        v-for="(tab, index) in detailTabs"
-        :key="index"
-        class="tab"
-        :class="{ 'is-active': selectedTab === tab }"
-      >
+      <li v-for="(tab, index) in detailTabs" :key="index">
         <router-link :to="index + ''">{{ tab }}</router-link>
       </li>
     </ul>
   </div>
   <!-- <information-summary :information="summaryProps"></information-summary> -->
-  <component
-    :is="currentTabComponent"
-    class="details-child is-fullheight"
-    :name="currentTabComponent"
-  ></component>
+  <component :is="currentTabComponent" :name="currentTabComponent"></component>
 </template>
 
 <script lang="ts">
@@ -46,7 +37,7 @@ export default defineComponent({
         case 'Statistics':
         case 'Spreadsheet':
         case 'Individual':
-          return selectedTab.toLowerCase()
+          return selectedTab
         default:
           console.error('unexpected selectedTab')
           return ''

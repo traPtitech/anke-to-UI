@@ -1,9 +1,7 @@
 <template>
-  <div class="wrapper">
-    <div class="card">
-      <Tab />
-      <ScrollView />
-    </div>
+  <div>
+    <Tab />
+    <ScrollView />
   </div>
 </template>
 

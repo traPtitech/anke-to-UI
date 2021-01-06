@@ -1,23 +1,22 @@
 <template>
-  <div class="scroll-view">
+  <div>
     <!-- table view -->
-    <table v-show="tableForm === 'view'" class="table is-striped">
+    <table v-show="tableForm === 'view'">
       <TableHeader />
       <TableBody />
     </table>
 
     <!-- markdown, csv view -->
-    <button v-if="isTextTable" class="button copy" @click="copyTable">
+    <button v-if="isTextTable" @click="copyTable">
       <Icon name="clipboard" />
     </button>
-    <button v-if="isTextTable" class="button download" @click="downloadTable">
+    <button v-if="isTextTable" @click="downloadTable">
       <Icon name="download" />
     </button>
     <textarea
       v-for="(table, name) in textTables"
       v-show="tableForm === name"
       :key="name"
-      class="textarea"
       :value="table"
       :rows="table.split('\n').length + 3"
       readonly

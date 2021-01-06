@@ -1,7 +1,7 @@
 <template>
   <thead>
     <tr>
-      <th v-for="(header, k) in tableHeaders" :key="k" class="active-header">
+      <th v-for="(header, k) in tableHeaders" :key="k">
         <HeaderElem :k="k" :header="header" />
       </th>
     </tr>

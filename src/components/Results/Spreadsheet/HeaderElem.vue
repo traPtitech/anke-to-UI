@@ -1,12 +1,12 @@
 <template>
-  <span class="header-wrapper">
-    <span class="header-icon-left">
-      <Icon :name="'eye'" color="var(--base-darkbrown)" class="clickable" />
+  <span>
+    <span>
+      <Icon name="eye" />
     </span>
     <span>
       {{ header }}
     </span>
-    <Icon :name="'chevron-up'" />
+    <Icon name="chevron-up" />
   </span>
 </template>
 

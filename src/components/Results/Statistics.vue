@@ -1,8 +1,8 @@
 <template>
-  <div class="wrapper">
-    <div class="card">
+  <div>
+    <div>
       <Tab />
-      <div class="scroll-view">
+      <div>
         <!-- table view -->
         <div v-show="tableForm === 'view'">
           <Data />
@@ -11,7 +11,6 @@
         <!-- markdown view -->
         <textarea
           v-show="tableForm === 'markdown'"
-          class="textarea"
           :value="markdownTable"
           :rows="markdownTable.split('\n').length + 3"
           readonly

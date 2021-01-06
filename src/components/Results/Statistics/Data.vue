@@ -1,11 +1,11 @@
 <template>
-  <div v-for="question in countedData" :key="question.title" class="card">
-    <header class="card-header">
-      <p class="card-header-title">{{ question.title }}</p>
+  <div v-for="question in countedData" :key="question.title">
+    <header>
+      <p>{{ question.title }}</p>
     </header>
-    <div class="card-content">
-      <div class="content">
-        <div v-if="isNumberType(question.type)" class="content">
+    <div>
+      <div>
+        <div v-if="isNumberType(question.type)">
           <ul>
             <li>平均値: {{ question.total.average }}</li>
             <li>標準偏差: {{ question.total.standardDeviation }}</li>
@@ -13,7 +13,7 @@
             <li>最頻値: {{ question.total.mode }}</li>
           </ul>
         </div>
-        <div class="table-container">
+        <div>
           <Responces :question="question" />
         </div>
       </div>
