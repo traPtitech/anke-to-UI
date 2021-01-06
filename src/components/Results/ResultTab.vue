@@ -18,7 +18,6 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import Routes from '/@/components/Routes.vue'
 import Individual from './Individual.vue'
 import Statistics from './Statistics.vue'
 import Spreadsheet from './Spreadsheet.vue'
@@ -28,7 +27,6 @@ import { detailTabs, selectedTab } from './use/utils'
 export default defineComponent({
   name: 'ResultTab',
   components: {
-    Routes,
     Individual,
     Statistics,
     Spreadsheet,
