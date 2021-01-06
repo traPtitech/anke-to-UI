@@ -7,7 +7,7 @@ export const defaultColumns = [
 export const tableFormTabs = ['view', 'markdown', 'csv']
 export const detailTabs = ['Statistics', 'Spreadsheet', 'Individual']
 export const selectedTab = 'Statistics'
-export const tableForm = 'markdown'
+export const tableForm = 'view'
 export const isTextTable = ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
@@ -59,14 +59,12 @@ const responseToString = (body: ResponseBody): string => {
 export type CountedData = {
   title: string
   type: string
+  length?: number
   total: {
     average: number
     standardDeviation: number
     median: number
     mode: number
   }
-  data: {
-    choice: string | number
-    ids: string
-  }[]
+  data?: [choice: string | number, ids: string[]][]
 }

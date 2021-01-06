@@ -1,8 +1,8 @@
 <template>
   <thead>
     <tr>
-      <th v-for="(header, k) in tableHeaders" :key="k">
-        <HeaderElem :k="k" :header="header" />
+      <th v-for="(headerName, headerKey) in tableHeaders" :key="headerKey">
+        <HeaderElem :header-key="k" :header-name="header" />
       </th>
     </tr>
   </thead>

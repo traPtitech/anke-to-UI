@@ -4,7 +4,7 @@
       <Icon name="eye" />
     </span>
     <span>
-      {{ header }}
+      {{ headerName }}
     </span>
     <Icon name="chevron-up" />
   </span>
@@ -20,11 +20,11 @@ export default defineComponent({
     Icon
   },
   props: {
-    header: {
+    headerName: {
       type: String,
       required: true
     },
-    k: {
+    headerKey: {
       type: Number,
       required: true
     }

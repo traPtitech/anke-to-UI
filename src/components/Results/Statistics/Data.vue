@@ -25,6 +25,7 @@
 import { defineComponent } from 'vue'
 import Responces from './Responces.vue'
 import { countedData } from '../use/dummyData'
+import { isNumberType } from '../use/utils'
 
 export default defineComponent({
   name: 'Data',
@@ -33,7 +34,8 @@ export default defineComponent({
   },
   setup() {
     return {
-      countedData
+      countedData,
+      isNumberType
     }
   }
 })

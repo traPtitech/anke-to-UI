@@ -130,5 +130,21 @@ export const tableHeaders = ['traQID', '回答日時', '質問', '言いたい�
 export const showColumn = [true, true, true, true]
 export const tableWidth = 4
 export const canDownload = true
-export const countedData: CountedData[] = []
+export const countedData: CountedData[] = [
+  {
+    title: '質問',
+    type: ResponseBodyQuestionTypeEnum.Checkbox,
+    length: 2,
+    total: {
+      average: 0,
+      standardDeviation: 0,
+      median: 0,
+      mode: 0
+    },
+    data: [
+      ['そう思う', ['Fogrex']],
+      ['そう思わない', ['Ogrex', 'Xergof']]
+    ]
+  }
+]
 export const markdownTable = ''

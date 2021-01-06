@@ -5,12 +5,15 @@
     </router-link>
     <ul>
       <li v-for="(tab, index) in detailTabs" :key="index">
-        <router-link :to="index + ''">{{ tab }}</router-link>
+        <!-- <router-link :to="index + ''">{{ tab }}</router-link> -->
+        <span>{{ tab }}</span>
       </li>
     </ul>
   </div>
   <!-- <information-summary :information="summaryProps"></information-summary> -->
-  <component :is="currentTabComponent" :name="currentTabComponent"></component>
+  <Individual v-if="currentTabComponent === 'Individual'" />
+  <Statistics v-if="currentTabComponent === 'Statistics'" />
+  <Spreadsheet v-if="currentTabComponent === 'Spreadsheet'" />
 </template>
 
 <script lang="ts">
@@ -33,15 +36,9 @@ export default defineComponent({
   },
   setup() {
     const currentTabComponent = computed(() => {
-      switch (selectedTab) {
-        case 'Statistics':
-        case 'Spreadsheet':
-        case 'Individual':
-          return selectedTab
-        default:
-          console.error('unexpected selectedTab')
-          return ''
-      }
+      if (detailTabs.includes(selectedTab)) return selectedTab
+      console.error('unexpected selectedTab')
+      return ''
     })
     return {
       selectedTab,

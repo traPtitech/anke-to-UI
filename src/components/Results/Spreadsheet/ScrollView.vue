@@ -30,11 +30,7 @@ import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from './TableHeader.vue'
 import TableBody from './TableBody.vue'
 import { tableHeaders, showColumn } from '../use/dummyData'
-import {
-  tableForm,
-  isTextTable,
-  textTables
-} from '../use/utils'
+import { tableForm, isTextTable, textTables } from '../use/utils'
 
 export default defineComponent({
   name: 'ScrollView',
