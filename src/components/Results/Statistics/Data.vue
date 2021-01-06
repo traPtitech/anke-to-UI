@@ -23,8 +23,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Responces from '/@/components/Results/Statistics/Responces.vue'
-import { countedData } from '/@/components/Results/use/dummyData'
+import Responces from './Responces.vue'
+import { countedData } from '../use/dummyData'
 
 export default defineComponent({
   name: 'Data',

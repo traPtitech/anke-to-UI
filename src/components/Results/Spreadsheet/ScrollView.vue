@@ -27,14 +27,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
-import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
-import { tableHeaders, showColumn } from '/@/components/Results/use/dummyData'
+import TableHeader from './TableHeader.vue'
+import TableBody from './TableBody.vue'
+import { tableHeaders, showColumn } from '../use/dummyData'
 import {
   tableForm,
   isTextTable,
   textTables
-} from '/@/components/Results/use/utils'
+} from '../use/utils'
 
 export default defineComponent({
   name: 'ScrollView',

@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Tab from '/@/components/Results/Statistics/Tab.vue'
-import Data from '/@/components/Results/Statistics/Data.vue'
-import { tableForm } from '/@/components/Results/use/utils'
-import { markdownTable } from '/@/components/Results/use/dummyData'
+import Tab from './Statistics/Tab.vue'
+import Data from './Statistics/Data.vue'
+import { tableForm } from './use/utils'
+import { markdownTable } from './use/dummyData'
 
 export default defineComponent({
   name: 'Statistics',

@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { CountedData, isSelectType } from '/@/components/Results/use/utils'
+import { CountedData, isSelectType } from '../use/utils'
 
 export default defineComponent({
   name: 'Responces',

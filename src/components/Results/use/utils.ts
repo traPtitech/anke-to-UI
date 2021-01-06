@@ -6,8 +6,8 @@ export const defaultColumns = [
 ]
 export const tableFormTabs = ['view', 'markdown', 'csv']
 export const detailTabs = ['Statistics', 'Spreadsheet', 'Individual']
-export const selectedTab = 'Spreadsheet'
-export const tableForm = 'view'
+export const selectedTab = 'Statistics'
+export const tableForm = 'markdown'
 export const isTextTable = ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)

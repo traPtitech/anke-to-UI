@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HeaderElem from '/@/components/Results/Spreadsheet/HeaderElem.vue'
-import { tableHeaders } from '/@/components/Results/use/dummyData'
+import HeaderElem from './HeaderElem.vue'
+import { tableHeaders } from '../use/dummyData'
 export default defineComponent({
   name: 'TableHeader',
   components: {

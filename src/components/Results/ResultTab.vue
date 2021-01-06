@@ -16,11 +16,11 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import Routes from '/@/components/Routes.vue'
-import Individual from '/@/components/Results/Individual.vue'
-import Statistics from '/@/components/Results/Statistics.vue'
-import Spreadsheet from '/@/components/Results/Spreadsheet.vue'
+import Individual from './Individual.vue'
+import Statistics from './Statistics.vue'
+import Spreadsheet from './Spreadsheet.vue'
 import Icon from '/@/components/UI/Icon.vue'
-import { detailTabs, selectedTab } from '/@/components/Results/use/utils'
+import { detailTabs, selectedTab } from './use/utils'
 
 export default defineComponent({
   name: 'ResultTab',

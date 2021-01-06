@@ -1,6 +1,6 @@
 <template>
   <div class="has-navbar-fixed-bottom">
-    <!-- TODO QuestionsとPagenationをどうにかする -->
+    <!-- TODO あとからどうにかする -->
     <!-- <questions :questions-props="questionData"></questions>
     <pagination
       :range="range"
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-// TODO QuestionsとPagenationをどうにかする
+// TODO あとからどうにかする
 // import Questions from '/@/components/Questions/Questions.vue'
 // import Pagination from '/@/components/Utils/Pagination.vue'
 

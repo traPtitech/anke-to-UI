@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { tableFormTabs, tableForm } from '/@/components/Results/use/utils'
+import { tableFormTabs, tableForm } from '../use/utils'
 
 export default defineComponent({
   name: 'Tab',
