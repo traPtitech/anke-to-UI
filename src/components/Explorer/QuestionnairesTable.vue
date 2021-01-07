@@ -10,7 +10,7 @@
       </th>
     </tr>
     <questionnaires-table-row
-      v-for="questionnaire in data.questionnaires"
+      v-for="questionnaire in questionnaires"
       :key="questionnaire.questionnaireID"
       :questionnaire="questionnaire"
     />
@@ -18,8 +18,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
+import { Questionnaire } from '/@/lib/apis'
 
 const HEADERS = ['', '回答期限', '更新日時', '作成日時', '結果']
 
@@ -28,34 +29,14 @@ export default defineComponent({
   components: {
     QuestionnairesTableRow
   },
-  setup() {
-    const data = reactive({
-      questionnaires: [
-        {
-          questionnaireID: 1,
-          title: 'こんにちは',
-          res_time_limit: '2020-12-31',
-          created_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true
-        },
-        {
-          questionnaireID: 2,
-          title: 'こんばんは',
-          res_time_limit: '2020-12-31',
-          created_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true
-        }
-      ]
-    })
-
-    return {
-      data,
-      HEADERS
+  props: {
+    questionnaires: {
+      type: Object as PropType<Questionnaire>,
+      required: true
     }
+  },
+  setup() {
+    return { HEADERS }
   }
 })
 </script>
