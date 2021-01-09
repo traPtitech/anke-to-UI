@@ -1,3 +1,5 @@
+import { adjustDigits } from '/@/lib/util/number'
+
 export const sortOrders = [
   {
     str: '最近更新された',
@@ -49,17 +51,11 @@ export const getTimeLimit = (limit: string | null): string => {
     return 'なし'
   }
   const limitDate = new Date(limit)
-  return (
-    limitDate.getFullYear() +
-    '/' +
-    limitDate.getMonth() +
-    '/' +
-    limitDate.getDate() +
-    ' ' +
-    limitDate.getHours() +
-    ':' +
-    limitDate.getMinutes()
-  )
+  return `${limitDate.getFullYear()}/${adjustDigits(
+    limitDate.getMonth() + 1
+  )}/${adjustDigits(limitDate.getDate())} ${adjustDigits(
+    limitDate.getHours()
+  )}:${adjustDigits(limitDate.getMinutes())}`
 }
 
 export const getRelativeTime = (previous: string): string => {
