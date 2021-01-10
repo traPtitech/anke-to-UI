@@ -3,9 +3,5 @@
  * @param num 数字
  */
 export const adjustDigits = (num: number): string => {
-  if (num.toString().length === 1) {
-    return `0${num}`
-  } else {
-    return `${num}`
-  }
+  return num.toString().padStart(2, '0')
 }
