@@ -7,9 +7,15 @@
         >{{ questionnaire.title }}</router-link
       >
     </td>
-    <td :class="$style.table_item_date">{{ questionnaire.res_time_limit }}</td>
-    <td :class="$style.table_item_date">{{ questionnaire.modified_at }}</td>
-    <td :class="$style.table_item_date">{{ questionnaire.created_at }}</td>
+    <td :class="$style.table_item_date">
+      {{ getTimeLimit(questionnaire.res_time_limit) }}
+    </td>
+    <td :class="$style.table_item_date">
+      {{ getRelativeTime(questionnaire.modified_at) }}
+    </td>
+    <td :class="$style.table_item_date">
+      {{ getRelativeTime(questionnaire.created_at) }}
+    </td>
     <td :class="$style.result">
       <router-link
         :to="'/results/' + questionnaire.questionnaireID"
@@ -27,6 +33,10 @@
 import { defineComponent, PropType } from 'vue'
 import { Questionnaire } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
+import {
+  getTimeLimit,
+  getRelativeTime
+} from '/@/components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'QuestionnaireTableRow',
@@ -40,7 +50,7 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    return { getTimeLimit, getRelativeTime }
   }
 })
 </script>

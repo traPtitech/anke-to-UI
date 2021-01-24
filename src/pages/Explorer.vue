@@ -8,7 +8,7 @@
       </button>
     </div>
   </div>
-  <questionnaires-table />
+  <questionnaires-table :questionnaires="questionnaires" />
 </template>
 
 <script lang="ts">
@@ -30,7 +30,7 @@ export default defineComponent({
     onMounted(async () => {
       try {
         const { data } = await apis.getQuestionnaires('modified_at', 1, false)
-        questionnaires.value = data
+        questionnaires.value = data.questionnaires
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
         // TODO: 後で消す
