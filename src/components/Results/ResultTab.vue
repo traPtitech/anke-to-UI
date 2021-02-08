@@ -37,7 +37,6 @@ export default defineComponent({
     const route = useRoute()
 
     selectedTab.value = <string>route.query.tab || 'statistics'
-    console.log(route.query)
 
     const currentTabComponent = computed(() => {
       if (detailTabs.includes(selectedTab.value)) return selectedTab.value

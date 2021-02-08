@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th v-for="(headerName, headerKey) in tableHeaders" :key="headerKey">
-        <HeaderElem :header-key="k" :header-name="header" />
+        <HeaderElem :header-key="headerKey" :header-name="headerName" />
       </th>
     </tr>
   </thead>
