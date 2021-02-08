@@ -4,7 +4,7 @@
       <ResultHeader />
     </template>
     <template #content>
-      <div class="has-navbar-fixed-bottom">
+      <div>
         <!-- TODO あとからどうにかする -->
         <!-- <questions :questions-props="questionData"></questions>
         <pagination
