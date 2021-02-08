@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- table view -->
-    <table v-show="tableForm === 'view'">
+    <table v-if="tableForm === 'view'">
       <TableHeader />
       <TableBody />
     </table>

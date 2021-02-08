@@ -20,7 +20,8 @@ export default defineComponent({
       { path: '/', name: 'Home' },
       { path: '/explorer', name: 'Explorer' },
       { path: '/responses', name: 'Responses' },
-      { path: '/targeted', name: 'Targeted' }
+      { path: '/targeted', name: 'Targeted' },
+      { path: '/results', name: 'Results' }
     ]
 
     return { pages }

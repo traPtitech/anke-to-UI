@@ -5,8 +5,7 @@ export const defaultColumns = [
   { name: 'submitted_at', label: '回答日時' }
 ]
 export const tableFormTabs = ['view', 'markdown', 'csv']
-export const detailTabs = ['Statistics', 'Spreadsheet', 'Individual']
-export const selectedTab = 'Statistics'
+export const detailTabs = ['statistics', 'spreadsheet', 'individual']
 export const tableForm = 'view'
 export const isTextTable = ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
