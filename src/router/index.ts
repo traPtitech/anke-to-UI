@@ -35,6 +35,11 @@ export default createRouter({
       path: '/results/:id',
       name: 'results',
       component: Results
+    },
+    {
+      path: '/responses',
+      name: 'responses',
+      component: Responses
     }
   ]
 })

@@ -15,8 +15,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import ResponsesTable from '/@/components/Responses/ResponsesTable.vue'
+import apis, { ResponseSummary } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'List',
@@ -25,8 +26,14 @@ export default defineComponent({
   },
   setup() {
     const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
+    const responsesSummaries = ref<ResponseSummary[]>([])
+    onMounted(async () => {
+      const { data } = await apis.getMyResponses()
+      responsesSummaries.value = data
+    })
     return {
-      headers
+      headers,
+      responsesSummaries
     }
   }
 })
