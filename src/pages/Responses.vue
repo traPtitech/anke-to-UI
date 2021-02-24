@@ -9,7 +9,7 @@
       >
         {{ header }}
       </th>
-      <responses-table />
+      <responses-table :response-summaries="responseSummaries.value" />
     </table>
   </div>
 </template>
@@ -26,14 +26,14 @@ export default defineComponent({
   },
   setup() {
     const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
-    const responsesSummaries = ref<ResponseSummary[]>([])
+    const responseSummaries = ref<ResponseSummary[]>([])
     onMounted(async () => {
       const { data } = await apis.getMyResponses()
-      responsesSummaries.value = data
+      responseSummaries.value = data
     })
     return {
       headers,
-      responsesSummaries
+      responseSummaries
     }
   }
 })

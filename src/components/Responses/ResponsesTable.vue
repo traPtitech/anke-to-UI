@@ -1,32 +1,29 @@
 <template>
   <tr
-    v-for="(questionnaire, index) in data.questionnaires"
+    v-for="(responseSummary, index) in responseSummaries"
     :key="index"
     :class="$style.body"
   >
     <td :class="$style.tableItemTitle">
       <router-link
-        :to="'/questionnaires/' + questionnaire.questionnaireID"
+        :to="'/questionnaires/' + questionnaireID"
         :class="$style.link"
       >
-        {{ questionnaire.title }}
+        {{ questionnaire_title }}
       </router-link>
     </td>
     <td :class="$style.tableItemDate">
-      {{ questionnaire.res_time_limit }}
+      {{ res_time_limit }}
     </td>
     <td :class="$style.tableItemDate">
-      {{ questionnaire.submitted_at }}
+      {{ submitted_at }}
     </td>
     <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
     <td :class="$style.tableItemDate">
-      {{ questionnaire.modified_at }}
+      {{ modified_at }}
     </td>
     <td :class="$style.myAnswer">
-      <router-link
-        :to="'/responses/' + questionnaire.questionnaireID"
-        :class="$style.link"
-      >
+      <router-link :to="'/responses/' + responseID" :class="$style.link">
         <icon name="open-in-new" :class="$style.icon" />
         <span>Open</span>
       </router-link>
@@ -42,6 +39,12 @@ export default defineComponent({
   name: 'ResponsesTable',
   components: {
     Icon
+  },
+  props: {
+    responseSummaries: {
+      type: Array,
+      required: true
+    }
   },
   setup() {
     const data = reactive({
