@@ -13,7 +13,7 @@
     "@mdi/js": "^5.9.55",
     "axios": "^0.21.1",
     "direct-vuex": "^0.12.1",
-    "vue": "^3.0.5",
+    "vue": "^3.0.6",
     "vue-router": "^4.0.4",
     "vuex": "^4.0.0"
   },
@@ -21,7 +21,7 @@
     "@openapitools/openapi-generator-cli": "^2.1.25",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
-    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/compiler-sfc": "^3.0.6",
     "autoprefixer": "^9.8.6",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
