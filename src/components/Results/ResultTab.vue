@@ -33,7 +33,7 @@ export default defineComponent({
 
     watch(
       () => route.query,
-      async newQuery => {
+      newQuery => {
         selectedTab.value = <string>newQuery.tab
       }
     )
