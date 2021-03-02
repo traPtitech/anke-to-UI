@@ -6,24 +6,27 @@
   >
     <td :class="$style.tableItemTitle">
       <router-link
-        :to="'/questionnaires/' + questionnaireID"
+        :to="'/questionnaires/' + responseSummary.questionnaireID"
         :class="$style.link"
       >
-        {{ questionnaire_title }}
+        {{ responseSummary.questionnaire_title }}
       </router-link>
     </td>
     <td :class="$style.tableItemDate">
-      {{ res_time_limit }}
+      {{ responseSummary.res_time_limit }}
     </td>
     <td :class="$style.tableItemDate">
-      {{ submitted_at }}
+      {{ responseSummary.submitted_at }}
     </td>
     <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
     <td :class="$style.tableItemDate">
-      {{ modified_at }}
+      {{ responseSummary.modified_at }}
     </td>
     <td :class="$style.myAnswer">
-      <router-link :to="'/responses/' + responseID" :class="$style.link">
+      <router-link
+        :to="'/responses/' + responseSummary.responseID"
+        :class="$style.link"
+      >
         <icon name="open-in-new" :class="$style.icon" />
         <span>Open</span>
       </router-link>
@@ -32,8 +35,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
+import { ResponseSummary } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'ResponsesTable',
@@ -42,45 +46,8 @@ export default defineComponent({
   },
   props: {
     responseSummaries: {
-      type: Array,
+      type: Array as PropType<ResponseSummary[]>,
       required: true
-    }
-  },
-  setup() {
-    const data = reactive({
-      questionnaires: [
-        {
-          questionnaireID: 1,
-          title: 'こんにちは',
-          res_time_limit: '2020-12-31',
-          submitted_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true
-        },
-        {
-          questionnaireID: 2,
-          title: 'こんばんは',
-          res_time_limit: '2020-12-31',
-          submitted_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true
-        },
-        {
-          questionnaireID: 3,
-          title:
-            '長いversionーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー',
-          res_time_limit: '2020-12-31',
-          submitted_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true
-        }
-      ]
-    })
-    return {
-      data
     }
   }
 })

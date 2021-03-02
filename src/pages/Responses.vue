@@ -9,7 +9,7 @@
       >
         {{ header }}
       </th>
-      <responses-table :response-summaries="responseSummaries.value" />
+      <responses-table :response-summaries="responseSummaries" />
     </table>
   </div>
 </template>
