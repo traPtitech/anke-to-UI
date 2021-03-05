@@ -37,6 +37,22 @@ export const targetedOptions = [
   }
 ]
 
+const SortOrders = {
+  ModifiedLatest: '-modified_at',
+  ModifiedOldest: 'modified_at',
+  TitleOrder: 'title',
+  TitleReverseOrder: '-title',
+  CreatedLatest: '-created_at',
+  CreatedOldest: 'created_at'
+} as const
+export type SortOrders = typeof SortOrders[keyof typeof SortOrders]
+
+const TargetedOptions = {
+  All: 'false',
+  NotTargeted: 'true'
+} as const
+export type TargetedOptions = typeof TargetedOptions[keyof typeof TargetedOptions]
+
 export interface DropdownSortOrders {
   str: string
   opt: string
