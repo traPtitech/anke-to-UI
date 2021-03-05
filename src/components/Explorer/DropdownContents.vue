@@ -1,20 +1,25 @@
 <template>
   <transition name="drop-down-content-fade" mode="out-in">
     <div v-if="isOpen" :class="$style.dropdown_menu">
-      <p
+      <router-link
         v-for="(content, index) in contents"
         :key="index"
         :class="$style.contents"
+        :to="getPath(content)"
       >
         {{ content.str }}
-      </p>
+      </router-link>
     </div>
   </transition>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { DropdownSortOrders, DropdownTargetedOptions } from './use/useOptions'
+import {
+  DropdownSortOrders,
+  DropdownTargetedOptions,
+  getPath
+} from './use/useOptions'
 
 export default defineComponent({
   name: 'DropdownContents',
@@ -27,6 +32,9 @@ export default defineComponent({
       type: Array as PropType<DropdownSortOrders[] | DropdownTargetedOptions[]>,
       required: true
     }
+  },
+  setup() {
+    return { getPath }
   }
 })
 </script>
@@ -46,6 +54,8 @@ export default defineComponent({
   position: absolute;
   margin-top: 0.5rem;
   .contents {
+    display: block;
+    color: #000000;
     background-color: #ffffff;
     box-shadow: 0.5rem 0rem 1rem -0.3rem rgba(10, 10, 10, 0.1);
     border: solid 0.01rem #e7e7e7;
@@ -53,6 +63,7 @@ export default defineComponent({
     margin: 0;
     padding: 1rem;
     text-align: left;
+    text-decoration: none;
     cursor: pointer;
     &:hover {
       background-color: #f4ecec;

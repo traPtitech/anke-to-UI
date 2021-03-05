@@ -12,7 +12,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownMenu from '/@/components/Explorer/Menus.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
@@ -26,10 +27,15 @@ export default defineComponent({
     QuestionnairesTable
   },
   setup() {
+    const route = useRoute()
     const questionnaires = ref<QuestionnaireForList[]>([])
-    onMounted(async () => {
+    const getQuestionnaires = async () => {
       try {
-        const { data } = await apis.getQuestionnaires('modified_at', 1, false)
+        const nontargeted = route.query.nontargeted === 'true'
+        const page = Number(route.query.page ?? 1)
+        const sort = (route.query.sort as string | null) ?? 'modified_at'
+
+        const { data } = await apis.getQuestionnaires(sort, page, nontargeted)
         questionnaires.value = data.questionnaires
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -37,7 +43,10 @@ export default defineComponent({
         // eslint-disable-next-line no-console
         console.error(e)
       }
-    })
+    }
+    onMounted(getQuestionnaires)
+
+    watch(() => route.query, getQuestionnaires)
     return { questionnaires }
   }
 })
