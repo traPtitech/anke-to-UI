@@ -49,6 +49,9 @@ export default defineComponent({
       type: Array as PropType<ResponseSummary[]>,
       required: true
     }
+  },
+  setup() {
+    return
   }
 })
 </script>
