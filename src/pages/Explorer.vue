@@ -44,9 +44,10 @@ export default defineComponent({
         console.error(e)
       }
     }
-    onMounted(getQuestionnaires)
 
+    onMounted(getQuestionnaires)
     watch(() => route.query, getQuestionnaires)
+
     return { questionnaires }
   }
 })
