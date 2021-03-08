@@ -9,7 +9,7 @@
         />
       </div>
     </button>
-    <dropdown-contents :is-open="isOpen" :contents="contents" />
+    <dropdown-contents :is-open="isOpen" :contents="contents" @close="close" />
   </div>
 </template>
 
@@ -39,15 +39,16 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['open'],
+  emits: ['open', 'close'],
   setup(props, context) {
     const open = () => {
       context.emit('open')
     }
-
-    return {
-      open
+    const close = () => {
+      context.emit('close')
     }
+
+    return { open, close }
   }
 })
 </script>

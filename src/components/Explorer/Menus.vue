@@ -6,6 +6,7 @@
       :class="$style.dropdown"
       :is-open="state.isOpenSort"
       @open="openSort"
+      @close="closeMenus"
     />
     <dropdown-menu
       title="フィルター"
@@ -13,6 +14,7 @@
       :class="$style.dropdown"
       :is-open="state.isOpenOption"
       @open="openOption"
+      @close="closeMenus"
     />
   </div>
 </template>
@@ -41,13 +43,18 @@ export default defineComponent({
       state.isOpenOption = !state.isOpenOption
       state.isOpenSort = false
     }
+    const closeMenus = () => {
+      state.isOpenSort = false
+      state.isOpenOption = false
+    }
 
     return {
       state,
       sortOrders,
       targetedOptions,
       openSort,
-      openOption
+      openOption,
+      closeMenus
     }
   }
 })

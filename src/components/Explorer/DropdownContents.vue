@@ -6,6 +6,7 @@
         :key="index"
         :class="$style.contents"
         :to="getPath(content)"
+        @click="close"
       >
         {{ content.str }}
       </router-link>
@@ -33,8 +34,13 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    return { getPath }
+  emits: ['close'],
+  setup(props, context) {
+    const close = () => {
+      context.emit('close')
+    }
+
+    return { getPath, close }
   }
 })
 </script>
