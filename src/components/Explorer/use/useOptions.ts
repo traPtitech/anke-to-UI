@@ -30,11 +30,11 @@ export const sortOrders = [
 export const targetedOptions = [
   {
     str: '全て',
-    opt: false
+    opt: 'false'
   },
   {
     str: '対象外のもののみ',
-    opt: true
+    opt: 'true'
   }
 ]
 
@@ -46,21 +46,21 @@ const SortOrders = {
   CreatedLatest: '-created_at',
   CreatedOldest: 'created_at'
 } as const
-export type SortOrders = typeof SortOrders[keyof typeof SortOrders]
+export type SortOrder = typeof SortOrders[keyof typeof SortOrders]
 
 const TargetedOptions = {
-  All: 'false',
-  NotTargeted: 'true'
+  False: 'false',
+  True: 'true'
 } as const
-export type TargetedOptions = typeof TargetedOptions[keyof typeof TargetedOptions]
+export type TargetedOption = typeof TargetedOptions[keyof typeof TargetedOptions]
 
 export interface DropdownSortOrders {
   str: string
-  opt: string
+  opt: SortOrder
 }
 export interface DropdownTargetedOptions {
   str: string
-  opt: boolean
+  opt: TargetedOption
 }
 
 export const getTimeLimit = (limit: string | null): string => {
@@ -105,9 +105,9 @@ export const getRelativeTime = (previous: string): string => {
 interface Path {
   name: string
   query: {
-    nontargeted: string
+    nontargeted: TargetedOption
     page: string
-    sort: string
+    sort: SortOrder
   }
 }
 

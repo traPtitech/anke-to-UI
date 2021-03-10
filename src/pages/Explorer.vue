@@ -33,7 +33,7 @@ export default defineComponent({
       try {
         const nontargeted = route.query.nontargeted === 'true'
         const page = Number(route.query.page ?? 1)
-        const sort = (route.query.sort as string | null) ?? 'modified_at'
+        const sort = (route.query.sort as string | null) ?? '-modified_at'
 
         const { data } = await apis.getQuestionnaires(sort, page, nontargeted)
         questionnaires.value = data.questionnaires
