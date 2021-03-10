@@ -111,22 +111,37 @@ interface Path {
   }
 }
 
-export const getPath = (
-  option: DropdownSortOrders | DropdownTargetedOptions
-): Path => {
+export const getPath = (option: SortOrder | TargetedOption): Path => {
   const route = useRoute()
-  const nontargeted = (route.query.nontargeted as string | null) ?? 'false'
-  const page = (route.query.page as string | null) ?? '1'
-  const sort = (route.query.sort as string | null) ?? '-modified_at'
-  if (typeof option.opt === 'string') {
+  const nontargeted: TargetedOption = Object.values(TargetedOptions).includes(
+    route.query.nontargeted as TargetedOption
+  )
+    ? (route.query.nontargeted as TargetedOption)
+    : TargetedOptions.False
+  const page = typeof route.query.page === 'string' ? route.query.page : '1'
+  const sort: SortOrder = Object.values(SortOrders).includes(
+    route.query.sort as SortOrder
+  )
+    ? (route.query.sort as SortOrder)
+    : SortOrders.ModifiedLatest
+
+  if (Object.values(TargetedOptions).includes(option as TargetedOption)) {
     return {
       name: 'explorer',
-      query: { nontargeted: nontargeted, page: page, sort: option.opt }
+      query: {
+        nontargeted: option as TargetedOption,
+        page: page,
+        sort: sort
+      }
     }
   } else {
     return {
       name: 'explorer',
-      query: { nontargeted: String(option.opt), page: page, sort: sort }
+      query: {
+        nontargeted: nontargeted,
+        page: page,
+        sort: option as SortOrder
+      }
     }
   }
 }

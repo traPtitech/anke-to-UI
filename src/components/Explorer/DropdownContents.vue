@@ -5,7 +5,7 @@
         v-for="(content, index) in contents"
         :key="index"
         :class="$style.contents"
-        :to="getPath(content)"
+        :to="getPath(content.opt)"
         @click="close"
       >
         {{ content.str }}
