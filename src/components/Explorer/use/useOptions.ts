@@ -1,4 +1,3 @@
-import { useRoute } from 'vue-router'
 import { adjustDigits } from '/@/lib/util/number'
 
 export const sortOrders = [
@@ -99,49 +98,5 @@ export const getRelativeTime = (previous: string): string => {
     return `${Math.floor(secondsDifference / MONTH)}ヶ月前`
   } else {
     return `${Math.floor(secondsDifference / YEAR)}年前`
-  }
-}
-
-interface Path {
-  name: string
-  query: {
-    nontargeted: TargetedOption
-    page: string
-    sort: SortOrder
-  }
-}
-
-export const getPath = (option: SortOrder | TargetedOption): Path => {
-  const route = useRoute()
-  const nontargeted: TargetedOption = Object.values(TargetedOptions).includes(
-    route.query.nontargeted as TargetedOption
-  )
-    ? (route.query.nontargeted as TargetedOption)
-    : TargetedOptions.False
-  const page = typeof route.query.page === 'string' ? route.query.page : '1'
-  const sort: SortOrder = Object.values(SortOrders).includes(
-    route.query.sort as SortOrder
-  )
-    ? (route.query.sort as SortOrder)
-    : SortOrders.ModifiedLatest
-
-  if (Object.values(TargetedOptions).includes(option as TargetedOption)) {
-    return {
-      name: 'explorer',
-      query: {
-        nontargeted: option as TargetedOption,
-        page: page,
-        sort: sort
-      }
-    }
-  } else {
-    return {
-      name: 'explorer',
-      query: {
-        nontargeted: nontargeted,
-        page: page,
-        sort: option as SortOrder
-      }
-    }
   }
 }

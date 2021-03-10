@@ -15,7 +15,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { DropdownSortOrders, DropdownTargetedOptions } from './use/useOptions'
+import {
+  DropdownSortOrders,
+  DropdownTargetedOptions,
+  SortOrder,
+  TargetedOption
+} from './use/useOptions'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
 
@@ -44,8 +49,8 @@ export default defineComponent({
     const open = () => {
       context.emit('open')
     }
-    const close = () => {
-      context.emit('close')
+    const close = (newOption: SortOrder | TargetedOption) => {
+      context.emit('close', newOption)
     }
 
     return { open, close }

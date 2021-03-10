@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.tool_wrapper">
-    <dropdown-menu />
+    <dropdown-menu @get="getQuestionnairesForOption" />
     <div :class="$style.search">
       <input type="text" placeholder="検索" :class="$style.input" />
       <button :class="[$style.button, $style.search_icon]">
@@ -12,12 +12,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { defineComponent, onMounted, ref } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownMenu from '/@/components/Explorer/Menus.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
 import apis, { QuestionnaireForList } from '/@/lib/apis'
+import {
+  SortOrder,
+  TargetedOption,
+  targetedOptions
+} from '../components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'Explorer',
@@ -27,15 +31,20 @@ export default defineComponent({
     QuestionnairesTable
   },
   setup() {
-    const route = useRoute()
+    const option = {
+      sort: '-modified_at',
+      page: 1,
+      nontargeted: false
+    }
+
     const questionnaires = ref<QuestionnaireForList[]>([])
     const getQuestionnaires = async () => {
       try {
-        const nontargeted = route.query.nontargeted === 'true'
-        const page = Number(route.query.page ?? 1)
-        const sort = (route.query.sort as string | null) ?? '-modified_at'
-
-        const { data } = await apis.getQuestionnaires(sort, page, nontargeted)
+        const { data } = await apis.getQuestionnaires(
+          option.sort,
+          option.page,
+          option.nontargeted
+        )
         questionnaires.value = data.questionnaires
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -45,10 +54,20 @@ export default defineComponent({
       }
     }
 
-    onMounted(getQuestionnaires)
-    watch(() => route.query, getQuestionnaires)
+    const getQuestionnairesForOption = (
+      newOption: SortOrder | TargetedOption
+    ) => {
+      if (targetedOptions.some(param => param.opt === newOption)) {
+        option.nontargeted = newOption === 'true'
+      } else {
+        option.sort = newOption
+      }
+      getQuestionnaires()
+    }
 
-    return { questionnaires }
+    onMounted(getQuestionnaires)
+
+    return { questionnaires, getQuestionnairesForOption }
   }
 })
 </script>

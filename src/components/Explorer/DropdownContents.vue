@@ -1,15 +1,14 @@
 <template>
   <transition name="drop-down-content-fade" mode="out-in">
     <div v-if="isOpen" :class="$style.dropdown_menu">
-      <router-link
+      <p
         v-for="(content, index) in contents"
         :key="index"
         :class="$style.contents"
-        :to="getPath(content.opt)"
-        @click="close"
+        @click="close(content.opt)"
       >
         {{ content.str }}
-      </router-link>
+      </p>
     </div>
   </transition>
 </template>
@@ -19,7 +18,8 @@ import { defineComponent, PropType } from 'vue'
 import {
   DropdownSortOrders,
   DropdownTargetedOptions,
-  getPath
+  SortOrder,
+  TargetedOption
 } from './use/useOptions'
 
 export default defineComponent({
@@ -36,11 +36,11 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(props, context) {
-    const close = () => {
-      context.emit('close')
+    const close = (newOption: SortOrder | TargetedOption) => {
+      context.emit('close', newOption)
     }
 
-    return { getPath, close }
+    return { close }
   }
 })
 </script>
