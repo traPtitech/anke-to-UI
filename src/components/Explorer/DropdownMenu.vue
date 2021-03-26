@@ -44,7 +44,11 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['open', 'close'],
+  emits: {
+    open: () => true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    close: (value: SortOrder | TargetedOption) => true
+  },
   setup(props, context) {
     const open = () => {
       context.emit('open')

@@ -34,7 +34,10 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['close'],
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    close: (value: SortOrder | TargetedOption) => true
+  },
   setup(props, context) {
     const close = (newOption: SortOrder | TargetedOption) => {
       context.emit('close', newOption)

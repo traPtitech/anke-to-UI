@@ -34,7 +34,10 @@ export default defineComponent({
   components: {
     DropdownMenu
   },
-  emits: ['get'],
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    get: (value: SortOrder | TargetedOption) => true
+  },
   setup(props, context) {
     const state = reactive({
       isOpenSort: false,
