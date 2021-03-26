@@ -59,7 +59,26 @@ export interface DropdownSortOrders {
 }
 export interface DropdownTargetedOptions {
   str: string
-  opt: TargetedOption
+  opt: `${boolean}`
+}
+
+export interface Option {
+  sort: string
+  page: number
+  nontargeted: boolean
+}
+
+export const changeOption = (
+  option: Option,
+  newOption: SortOrder | TargetedOption
+): Option => {
+  const opt = option
+  if (targetedOptions.some(param => param.opt === newOption)) {
+    opt.nontargeted = newOption === 'true'
+  } else {
+    opt.sort = newOption
+  }
+  return opt
 }
 
 export const getTimeLimit = (limit: string | null): string => {

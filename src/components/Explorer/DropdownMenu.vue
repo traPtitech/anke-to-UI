@@ -9,7 +9,12 @@
         />
       </div>
     </button>
-    <dropdown-contents :is-open="isOpen" :contents="contents" @close="close" />
+    <dropdown-contents
+      :is-open="isOpen"
+      :contents="contents"
+      @close="close"
+      @change-option="change"
+    />
   </div>
 </template>
 
@@ -19,7 +24,9 @@ import {
   DropdownSortOrders,
   DropdownTargetedOptions,
   SortOrder,
-  TargetedOption
+  TargetedOption,
+  Option,
+  changeOption
 } from './use/useOptions'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
@@ -42,22 +49,31 @@ export default defineComponent({
     contents: {
       type: Array as PropType<DropdownSortOrders[] | DropdownTargetedOptions[]>,
       required: true
+    },
+    modelValue: {
+      type: Object as PropType<Option>,
+      required: true
     }
   },
   emits: {
     open: () => true,
+    close: () => true,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    close: (value: SortOrder | TargetedOption) => true
+    'update:modelValue': (value: Option) => true
   },
   setup(props, context) {
     const open = () => {
       context.emit('open')
     }
-    const close = (newOption: SortOrder | TargetedOption) => {
-      context.emit('close', newOption)
+    const close = () => {
+      context.emit('close')
+    }
+    const change = (newOption: SortOrder | TargetedOption) => {
+      const option = changeOption(props.modelValue, newOption)
+      context.emit('update:modelValue', option)
     }
 
-    return { open, close }
+    return { open, close, change }
   }
 })
 </script>

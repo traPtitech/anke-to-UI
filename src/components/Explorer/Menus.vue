@@ -1,6 +1,7 @@
 <template>
   <div :class="$style.container">
     <dropdown-menu
+      v-model="option"
       title="並べ替え"
       :contents="sortOrders"
       :class="$style.dropdown"
@@ -9,6 +10,7 @@
       @close="closeMenus"
     />
     <dropdown-menu
+      v-model="option"
       title="フィルター"
       :contents="targetedOptions"
       :class="$style.dropdown"
@@ -20,29 +22,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, PropType, reactive, ref } from 'vue'
 import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
-import {
-  SortOrder,
-  sortOrders,
-  TargetedOption,
-  targetedOptions
-} from './use/useOptions'
+import { sortOrders, targetedOptions, Option } from './use/useOptions'
 
 export default defineComponent({
   name: 'Menus',
   components: {
     DropdownMenu
   },
-  emits: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get: (value: SortOrder | TargetedOption) => true
+  props: {
+    modelValue: {
+      type: Object as PropType<Option>,
+      required: true
+    }
   },
-  setup(props, context) {
+  setup(props) {
     const state = reactive({
       isOpenSort: false,
       isOpenOption: false
     })
+    const option = ref(props.modelValue)
 
     const openSort = () => {
       state.isOpenSort = !state.isOpenSort
@@ -52,10 +52,9 @@ export default defineComponent({
       state.isOpenOption = !state.isOpenOption
       state.isOpenSort = false
     }
-    const closeMenus = (newOption: SortOrder | TargetedOption) => {
+    const closeMenus = () => {
       state.isOpenSort = false
       state.isOpenOption = false
-      context.emit('get', newOption)
     }
 
     return {
@@ -64,7 +63,8 @@ export default defineComponent({
       targetedOptions,
       openSort,
       openOption,
-      closeMenus
+      closeMenus,
+      option
     }
   }
 })

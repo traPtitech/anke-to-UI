@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.tool_wrapper">
-    <dropdown-menu @get="getQuestionnairesForOption" />
+    <menus v-model="option" />
     <div :class="$style.search">
       <input type="text" placeholder="検索" :class="$style.input" />
       <button :class="[$style.button, $style.search_icon]">
@@ -12,38 +12,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import DropdownMenu from '/@/components/Explorer/Menus.vue'
+import Menus from '/@/components/Explorer/Menus.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
 import apis, { QuestionnaireForList } from '/@/lib/apis'
-import {
-  SortOrder,
-  TargetedOption,
-  targetedOptions
-} from '../components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'Explorer',
   components: {
     Icon,
-    DropdownMenu,
+    Menus,
     QuestionnairesTable
   },
   setup() {
-    const option = {
+    const option = ref({
       sort: '-modified_at',
       page: 1,
       nontargeted: false
-    }
-
+    })
     const questionnaires = ref<QuestionnaireForList[]>([])
+
     const getQuestionnaires = async () => {
       try {
         const { data } = await apis.getQuestionnaires(
-          option.sort,
-          option.page,
-          option.nontargeted
+          option.value.sort,
+          option.value.page,
+          option.value.nontargeted
         )
         questionnaires.value = data.questionnaires
       } catch (e) {
@@ -54,20 +49,10 @@ export default defineComponent({
       }
     }
 
-    const getQuestionnairesForOption = (
-      newOption: SortOrder | TargetedOption
-    ) => {
-      if (targetedOptions.some(param => param.opt === newOption)) {
-        option.nontargeted = newOption === 'true'
-      } else {
-        option.sort = newOption
-      }
-      getQuestionnaires()
-    }
-
     onMounted(getQuestionnaires)
+    watch(option, getQuestionnaires)
 
-    return { questionnaires, getQuestionnairesForOption }
+    return { option, questionnaires }
   }
 })
 </script>

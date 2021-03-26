@@ -5,7 +5,7 @@
         v-for="(content, index) in contents"
         :key="index"
         :class="$style.contents"
-        @click="close(content.opt)"
+        @click="onClick(content.opt)"
       >
         {{ content.str }}
       </p>
@@ -35,15 +35,24 @@ export default defineComponent({
     }
   },
   emits: {
+    close: () => true,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    close: (value: SortOrder | TargetedOption) => true
+    changeOption: (value: SortOrder | TargetedOption) => true
   },
   setup(props, context) {
-    const close = (newOption: SortOrder | TargetedOption) => {
-      context.emit('close', newOption)
+    const close = () => {
+      context.emit('close')
+    }
+    const changeOption = (newOption: SortOrder | TargetedOption) => {
+      context.emit('changeOption', newOption)
     }
 
-    return { close }
+    const onClick = (newOption: SortOrder | TargetedOption) => {
+      close()
+      changeOption(newOption)
+    }
+
+    return { onClick }
   }
 })
 </script>
