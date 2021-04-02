@@ -47,11 +47,7 @@ const SortOrders = {
 } as const
 export type SortOrder = typeof SortOrders[keyof typeof SortOrders]
 
-const TargetedOptions = {
-  False: 'false',
-  True: 'true'
-} as const
-export type TargetedOption = typeof TargetedOptions[keyof typeof TargetedOptions]
+export type TargetedOption = `${boolean}`
 
 export interface DropdownSortOrders {
   str: string

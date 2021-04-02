@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
 import { Option, sortOrders, targetedOptions } from './use/useOptions'
 
@@ -38,7 +38,7 @@ export default defineComponent({
     change: (value: Option) => true
   },
   setup(props, context) {
-    const state = reactive({
+    const state = ref({
       isOpenSort: false,
       isOpenOption: false
     })
@@ -49,16 +49,16 @@ export default defineComponent({
     })
 
     const openSort = () => {
-      state.isOpenSort = !state.isOpenSort
-      state.isOpenOption = false
+      state.value.isOpenSort = !state.value.isOpenSort
+      state.value.isOpenOption = false
     }
     const openOption = () => {
-      state.isOpenOption = !state.isOpenOption
-      state.isOpenSort = false
+      state.value.isOpenOption = !state.value.isOpenOption
+      state.value.isOpenSort = false
     }
     const closeMenus = () => {
-      state.isOpenSort = false
-      state.isOpenOption = false
+      state.value.isOpenSort = false
+      state.value.isOpenOption = false
     }
 
     const change = () => {
