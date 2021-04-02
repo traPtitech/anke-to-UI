@@ -24,9 +24,7 @@ import {
   DropdownSortOrders,
   DropdownTargetedOptions,
   SortOrder,
-  TargetedOption,
-  Option,
-  changeOption
+  TargetedOption
 } from './use/useOptions'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
@@ -51,7 +49,7 @@ export default defineComponent({
       required: true
     },
     modelValue: {
-      type: Object as PropType<Option>,
+      type: [String, Boolean],
       required: true
     }
   },
@@ -59,7 +57,7 @@ export default defineComponent({
     open: () => true,
     close: () => true,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:modelValue': (value: Option) => true
+    'update:modelValue': (value: string | boolean) => true
   },
   setup(props, context) {
     const open = () => {
@@ -69,8 +67,11 @@ export default defineComponent({
       context.emit('close')
     }
     const change = (newOption: SortOrder | TargetedOption) => {
-      const option = changeOption(props.modelValue, newOption)
-      context.emit('update:modelValue', option)
+      if (typeof props.modelValue === 'string') {
+        context.emit('update:modelValue', newOption)
+      } else {
+        context.emit('update:modelValue', newOption === 'true')
+      }
     }
 
     return { open, close, change }

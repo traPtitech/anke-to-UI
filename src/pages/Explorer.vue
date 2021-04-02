@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.tool_wrapper">
-    <menus v-model="option" />
+    <menus @change="changeOption" />
     <div :class="$style.search">
       <input type="text" placeholder="検索" :class="$style.input" />
       <button :class="[$style.button, $style.search_icon]">
@@ -12,11 +12,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import Menus from '/@/components/Explorer/Menus.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
 import apis, { QuestionnaireForList } from '/@/lib/apis'
+import { Option } from '../components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'Explorer',
@@ -26,20 +27,15 @@ export default defineComponent({
     QuestionnairesTable
   },
   setup() {
-    const option = ref({
-      sort: '-modified_at',
-      page: 1,
-      nontargeted: false
-    })
     const questionnaires = ref<QuestionnaireForList[]>([])
 
-    const getQuestionnaires = async () => {
+    const getQuestionnaires = async (
+      sort: string,
+      page: number,
+      nontargeted: boolean
+    ) => {
       try {
-        const { data } = await apis.getQuestionnaires(
-          option.value.sort,
-          option.value.page,
-          option.value.nontargeted
-        )
+        const { data } = await apis.getQuestionnaires(sort, page, nontargeted)
         questionnaires.value = data.questionnaires
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -49,10 +45,15 @@ export default defineComponent({
       }
     }
 
-    onMounted(getQuestionnaires)
-    watch(option, getQuestionnaires)
+    const changeOption = (option: Option) => {
+      getQuestionnaires(option.sort, option.page, option.nontargeted)
+    }
 
-    return { option, questionnaires }
+    onMounted(() => {
+      getQuestionnaires('-modified_at', 1, false)
+    })
+
+    return { questionnaires, changeOption }
   }
 })
 </script>

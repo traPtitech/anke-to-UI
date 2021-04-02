@@ -1,48 +1,52 @@
 <template>
   <div :class="$style.container">
     <dropdown-menu
-      v-model="option"
+      v-model="option.sort"
       title="並べ替え"
       :contents="sortOrders"
       :class="$style.dropdown"
       :is-open="state.isOpenSort"
       @open="openSort"
       @close="closeMenus"
+      @update:modelValue="change"
     />
     <dropdown-menu
-      v-model="option"
+      v-model="option.nontargeted"
       title="フィルター"
       :contents="targetedOptions"
       :class="$style.dropdown"
       :is-open="state.isOpenOption"
       @open="openOption"
       @close="closeMenus"
+      @update:modelValue="change"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
-import { sortOrders, targetedOptions, Option } from './use/useOptions'
+import { Option, sortOrders, targetedOptions } from './use/useOptions'
 
 export default defineComponent({
   name: 'Menus',
   components: {
     DropdownMenu
   },
-  props: {
-    modelValue: {
-      type: Object as PropType<Option>,
-      required: true
-    }
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    change: (value: Option) => true
   },
-  setup(props) {
+  setup(props, context) {
     const state = reactive({
       isOpenSort: false,
       isOpenOption: false
     })
-    const option = ref(props.modelValue)
+    const option = ref({
+      sort: '-modified_at',
+      page: 1,
+      nontargeted: false
+    })
 
     const openSort = () => {
       state.isOpenSort = !state.isOpenSort
@@ -57,6 +61,10 @@ export default defineComponent({
       state.isOpenOption = false
     }
 
+    const change = () => {
+      context.emit('change', option.value)
+    }
+
     return {
       state,
       sortOrders,
@@ -64,7 +72,8 @@ export default defineComponent({
       openSort,
       openOption,
       closeMenus,
-      option
+      option,
+      change
     }
   }
 })
