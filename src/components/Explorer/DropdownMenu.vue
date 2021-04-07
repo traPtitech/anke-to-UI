@@ -20,12 +20,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import {
-  DropdownSortOrders,
-  DropdownTargetedOptions,
-  SortOrder,
-  TargetedOption
-} from './use/useOptions'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
 
@@ -45,11 +39,11 @@ export default defineComponent({
       required: true
     },
     contents: {
-      type: Array as PropType<DropdownSortOrders[] | DropdownTargetedOptions[]>,
+      type: Array as PropType<string[]>,
       required: true
     },
     modelValue: {
-      type: [String, Boolean],
+      type: String,
       required: true
     }
   },
@@ -57,7 +51,7 @@ export default defineComponent({
     open: () => true,
     close: () => true,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:modelValue': (value: string | boolean) => true
+    'update:modelValue': (value: string) => true
   },
   setup(props, context) {
     const open = () => {
@@ -66,12 +60,8 @@ export default defineComponent({
     const close = () => {
       context.emit('close')
     }
-    const change = (newOption: SortOrder | TargetedOption) => {
-      if (typeof props.modelValue === 'string') {
-        context.emit('update:modelValue', newOption)
-      } else {
-        context.emit('update:modelValue', newOption === 'true')
-      }
+    const change = (newOption: string) => {
+      context.emit('update:modelValue', newOption)
     }
 
     return { open, close, change }

@@ -1,41 +1,37 @@
 import { adjustDigits } from '/@/lib/util/number'
 
 export const sortOrders = [
-  {
-    str: '最近更新された',
-    opt: '-modified_at'
-  },
-  {
-    str: '最近更新されていない',
-    opt: 'modified_at'
-  },
-  {
-    str: 'タイトル順',
-    opt: 'title'
-  },
-  {
-    str: 'タイトル逆順',
-    opt: '-title'
-  },
-  {
-    str: '最新',
-    opt: '-created_at'
-  },
-  {
-    str: '最も古い',
-    opt: 'created_at'
-  }
+  '最近更新された',
+  '最近更新されていない',
+  'タイトル順',
+  'タイトル逆順',
+  '最新',
+  '最も古い'
 ]
-export const targetedOptions = [
-  {
-    str: '全て',
-    opt: 'false'
-  },
-  {
-    str: '対象外のもののみ',
-    opt: 'true'
+export const targetedOptions = ['全て', '対象外のもののみ']
+
+export const stringToOption = (str: string): string => {
+  switch (str) {
+    case '最近更新された':
+      return '-modified_at'
+    case '最近更新されていない':
+      return 'modified_at'
+    case 'タイトル順':
+      return 'title'
+    case 'タイトル逆順':
+      return '-title'
+    case '最新':
+      return '-created_at'
+    case '最も古い':
+      return 'created_at'
+    case '全て':
+      return 'false'
+    case '対象外のもののみ':
+      return 'true'
+    default:
+      return ''
   }
-]
+}
 
 const SortOrders = {
   ModifiedLatest: '-modified_at',
@@ -49,32 +45,10 @@ export type SortOrder = typeof SortOrders[keyof typeof SortOrders]
 
 export type TargetedOption = `${boolean}`
 
-export interface DropdownSortOrders {
-  str: string
-  opt: SortOrder
-}
-export interface DropdownTargetedOptions {
-  str: string
-  opt: `${boolean}`
-}
-
 export interface Option {
   sort: string
   page: number
-  nontargeted: boolean
-}
-
-export const changeOption = (
-  option: Option,
-  newOption: SortOrder | TargetedOption
-): Option => {
-  const opt = option
-  if (targetedOptions.some(param => param.opt === newOption)) {
-    opt.nontargeted = newOption === 'true'
-  } else {
-    opt.sort = newOption
-  }
-  return opt
+  nontargeted: string
 }
 
 export const getTimeLimit = (limit: string | null): string => {

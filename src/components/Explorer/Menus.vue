@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <dropdown-menu
-      v-model="option.sort"
+      v-model="optionStr.sort"
       title="並べ替え"
       :contents="sortOrders"
       :class="$style.dropdown"
@@ -11,7 +11,7 @@
       @update:modelValue="change"
     />
     <dropdown-menu
-      v-model="option.nontargeted"
+      v-model="optionStr.nontargeted"
       title="フィルター"
       :contents="targetedOptions"
       :class="$style.dropdown"
@@ -26,7 +26,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
-import { Option, sortOrders, targetedOptions } from './use/useOptions'
+import {
+  Option,
+  sortOrders,
+  stringToOption,
+  targetedOptions
+} from './use/useOptions'
 
 export default defineComponent({
   name: 'Menus',
@@ -42,10 +47,10 @@ export default defineComponent({
       isOpenSort: false,
       isOpenOption: false
     })
-    const option = ref({
-      sort: '-modified_at',
+    const optionStr = ref({
+      sort: '最近更新された',
       page: 1,
-      nontargeted: false
+      nontargeted: '全て'
     })
 
     const openSort = () => {
@@ -62,7 +67,12 @@ export default defineComponent({
     }
 
     const change = () => {
-      context.emit('change', option.value)
+      const option = {
+        sort: stringToOption(optionStr.value.sort),
+        page: optionStr.value.page,
+        nontargeted: stringToOption(optionStr.value.nontargeted)
+      }
+      context.emit('change', option)
     }
 
     return {
@@ -72,7 +82,7 @@ export default defineComponent({
       openSort,
       openOption,
       closeMenus,
-      option,
+      optionStr,
       change
     }
   }

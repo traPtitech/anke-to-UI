@@ -46,7 +46,7 @@ export default defineComponent({
     }
 
     const changeOption = (option: Option) => {
-      getQuestionnaires(option.sort, option.page, option.nontargeted)
+      getQuestionnaires(option.sort, option.page, option.nontargeted === 'true')
     }
 
     onMounted(() => {
