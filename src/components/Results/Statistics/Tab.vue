@@ -23,8 +23,11 @@ export default defineComponent({
     Icon
   },
   setup() {
-    const changeTab = (tab: string) => console.log(`change tab to: ${tab}`)
-    const downloadTable = () => console.log('download-table')
+    const changeTab = (tab: string) => {
+      // eslint-disable-next-line no-console
+      console.log(`change tab to: ${tab}`)
+    }
+    const downloadTable = () => undefined
 
     return {
       tableForm,

@@ -40,8 +40,8 @@ export default defineComponent({
     TableBody
   },
   setup() {
-    const copyTable = () => console.log('copy')
-    const downloadTable = () => console.log('download')
+    const copyTable = () => undefined
+    const downloadTable = () => undefined
     return {
       tableForm,
       copyTable,

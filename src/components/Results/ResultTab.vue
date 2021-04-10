@@ -27,6 +27,7 @@ export default defineComponent({
 
     const currentTabComponent = computed(() => {
       if (detailTabs.includes(selectedTab.value)) return selectedTab.value
+      // eslint-disable-next-line no-console
       console.error('unexpected selectedTab')
       return ''
     })
