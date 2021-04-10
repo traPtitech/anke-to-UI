@@ -14,16 +14,16 @@
     "axios": "^0.21.1",
     "direct-vuex": "^0.12.1",
     "vue": "^3.0.5",
-    "vue-router": "^4.0.5",
+    "vue-router": "^4.0.6",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.2.2",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
+    "@openapitools/openapi-generator-cli": "^2.2.5",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.20.0",
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^9.8.6",
-    "eslint": "^7.22.0",
+    "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.8.0",
@@ -32,7 +32,7 @@
     "rimraf": "^3.0.2",
     "sass": "^1.32.8",
     "ts-morph": "^10.0.2",
-    "typescript": "^4.2.3",
+    "typescript": "^4.2.4",
     "vite": "^1.0.0-rc.13"
   },
   "private": true
