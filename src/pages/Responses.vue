@@ -57,12 +57,6 @@ export default defineComponent({
       headers,
       responseSummaries
     }
-  },
-  async created() {
-    axios.get('/api').then(() => {
-      // eslint-disable-next-line no-console
-      console.log()
-    })
   }
 })
 </script>
