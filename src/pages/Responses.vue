@@ -18,7 +18,6 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import ResponsesTable from '/@/components/Responses/ResponsesTable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
-import axios from 'axios'
 
 export default defineComponent({
   name: 'List',
@@ -36,12 +35,6 @@ export default defineComponent({
       headers,
       responseSummaries
     }
-  },
-  async created() {
-    axios.get('/api').then(() => {
-      // eslint-disable-next-line no-console
-      console.log()
-    })
   }
 })
 </script>
