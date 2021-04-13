@@ -4,7 +4,7 @@ import VuePlugin from '@vitejs/plugin-vue'
 
 const config: UserConfig = {
   alias: {
-    '/@': path.resolve(__dirname, 'src')
+    '/@': path.resolve(__dirname, 'src').replace(/\\/g, '/')
   },
   server: {
     proxy: {
