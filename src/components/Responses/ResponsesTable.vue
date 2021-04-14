@@ -28,8 +28,7 @@
         :class="$style.link"
         target="_blank"
       >
-        <icon name="open-in-new" :class="$style.icon" />
-        <span>Open</span>
+        <icon name="open-in-new" :class="$style.icon" /><span>Open</span>
       </router-link>
     </td>
   </tr>
@@ -63,22 +62,20 @@ td {
   font-size: 0.7em;
 }
 .body {
-  min-width: 12em;
-  font-size: 1.5em;
+  min-width: 10em;
+  font-size: 1.4em;
   border-bottom: solid 1.5px #d9d9d9;
   &:nth-child(even) {
     background-color: #fafafa;
   }
 }
 .table-item-title {
-  min-width: 8em;
-  max-width: 15em;
+  min-width: 10em;
   text-align: left;
   padding: 0.4em 0em 1.8em 0.8em;
 }
 .table-item-date {
-  min-width: 6em;
-  max-width: 9em;
+  min-width: 8em;
   font-size: 15px;
   padding: 0.4em 0em 1.8em 0.8em;
   text-align: center;
