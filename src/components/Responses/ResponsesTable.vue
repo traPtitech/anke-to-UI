@@ -26,6 +26,7 @@
       <router-link
         :to="'/responses/' + responseSummary.responseID"
         :class="$style.link"
+        target="_blank"
       >
         <icon name="open-in-new" :class="$style.icon" />
         <span>Open</span>
