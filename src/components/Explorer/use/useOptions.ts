@@ -1,36 +1,24 @@
 import { adjustDigits } from '/@/lib/util/number'
 
-export const sortOrders = [
-  '最近更新された',
-  '最近更新されていない',
-  'タイトル順',
-  'タイトル逆順',
-  '最新',
-  '最も古い'
+export const sortOrderMap: [string, SortOrder][] = [
+  ['最近更新された', '-modified_at'],
+  ['最近更新されていない', 'modified_at'],
+  ['タイトル順', 'title'],
+  ['タイトル逆順', '-title'],
+  ['最新', '-created_at'],
+  ['最も古い', 'created_at']
 ]
-export const targetedOptions = ['全て', '対象外のもののみ']
+export const targetedOptionMap: [string, TargetedOption][] = [
+  ['全て', 'true'],
+  ['対象外のもののみ', 'false']
+]
 
-export const stringToOption = (str: string): string => {
-  switch (str) {
-    case '最近更新された':
-      return '-modified_at'
-    case '最近更新されていない':
-      return 'modified_at'
-    case 'タイトル順':
-      return 'title'
-    case 'タイトル逆順':
-      return '-title'
-    case '最新':
-      return '-created_at'
-    case '最も古い':
-      return 'created_at'
-    case '全て':
-      return 'false'
-    case '対象外のもののみ':
-      return 'true'
-    default:
-      return ''
+export const stringToOption = <T>(str: string, map: Map<string, T>): T => {
+  const option = map.get(str)
+  if (!option) {
+    throw 'invalid key'
   }
+  return option
 }
 
 const SortOrders = {
@@ -41,14 +29,14 @@ const SortOrders = {
   CreatedLatest: '-created_at',
   CreatedOldest: 'created_at'
 } as const
-export type SortOrder = typeof SortOrders[keyof typeof SortOrders]
+type SortOrder = typeof SortOrders[keyof typeof SortOrders]
 
-export type TargetedOption = `${boolean}`
+type TargetedOption = `${boolean}`
 
 export interface Option {
-  sort: string
+  sort: SortOrder
   page: number
-  nontargeted: string
+  nontargeted: TargetedOption
 }
 
 export const getTimeLimit = (limit: string | null): string => {

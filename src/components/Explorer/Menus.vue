@@ -28,9 +28,9 @@ import { defineComponent, ref } from 'vue'
 import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
 import {
   Option,
-  sortOrders,
-  stringToOption,
-  targetedOptions
+  sortOrderMap,
+  targetedOptionMap,
+  stringToOption
 } from './use/useOptions'
 
 export default defineComponent({
@@ -53,6 +53,9 @@ export default defineComponent({
       nontargeted: '全て'
     })
 
+    const sortOrders = sortOrderMap.map(v => v[0])
+    const targetedOptions = targetedOptionMap.map(v => v[0])
+
     const openSort = () => {
       state.value.isOpenSort = !state.value.isOpenSort
       state.value.isOpenOption = false
@@ -68,9 +71,12 @@ export default defineComponent({
 
     const change = () => {
       const option = {
-        sort: stringToOption(optionStr.value.sort),
+        sort: stringToOption(optionStr.value.sort, new Map(sortOrderMap)),
         page: optionStr.value.page,
-        nontargeted: stringToOption(optionStr.value.nontargeted)
+        nontargeted: stringToOption(
+          optionStr.value.nontargeted,
+          new Map(targetedOptionMap)
+        )
       }
       context.emit('change', option)
     }
