@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.tool_wrapper">
-    <dropdown-menu />
+    <menus @change="changeOption" />
     <div :class="$style.search">
       <input type="text" placeholder="検索" :class="$style.input" />
       <button :class="[$style.button, $style.search_icon]">
@@ -14,22 +14,28 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import DropdownMenu from '/@/components/Explorer/Menus.vue'
+import Menus from '/@/components/Explorer/Menus.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
 import apis, { QuestionnaireForList } from '/@/lib/apis'
+import { Option } from '../components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'Explorer',
   components: {
     Icon,
-    DropdownMenu,
+    Menus,
     QuestionnairesTable
   },
   setup() {
     const questionnaires = ref<QuestionnaireForList[]>([])
-    onMounted(async () => {
+
+    const getQuestionnaires = async (
+      sort: string,
+      page: number,
+      nontargeted: boolean
+    ) => {
       try {
-        const { data } = await apis.getQuestionnaires('modified_at', 1, false)
+        const { data } = await apis.getQuestionnaires(sort, page, nontargeted)
         questionnaires.value = data.questionnaires
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -37,8 +43,17 @@ export default defineComponent({
         // eslint-disable-next-line no-console
         console.error(e)
       }
+    }
+
+    const changeOption = (option: Option) => {
+      getQuestionnaires(option.sort, option.page, option.nontargeted === 'true')
+    }
+
+    onMounted(() => {
+      getQuestionnaires('-modified_at', 1, false)
     })
-    return { questionnaires }
+
+    return { questionnaires, changeOption }
   }
 })
 </script>
