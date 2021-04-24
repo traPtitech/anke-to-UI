@@ -3,7 +3,8 @@ import {
   mdiMagnify,
   mdiOpenInNew,
   mdiHelpCircleOutline,
-  mdiMenu
+  mdiMenu,
+  mdiClose
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -11,7 +12,8 @@ const mdi = new Map<string, string>([
   ['magnify', mdiMagnify],
   ['open-in-new', mdiOpenInNew],
   ['help-circle-outline', mdiHelpCircleOutline],
-  ['menu', mdiMenu]
+  ['menu', mdiMenu],
+  ['close', mdiClose]
 ])
 
 export default mdi

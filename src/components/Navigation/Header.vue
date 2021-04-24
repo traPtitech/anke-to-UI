@@ -1,7 +1,12 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.nav_icon" @click="open">
-      <icon name="menu" />
+      <div v-if="isOpen">
+        <icon name="close" />
+      </div>
+      <div c-else>
+        <icon name="menu" />
+      </div>
     </div>
     <router-link to="/targeted">
       <img :class="$style.logo" src="/@/assets/anke-to_logo.png" />
@@ -23,8 +28,21 @@ import Icon from '/@/components/UI/Icon.vue'
 export default defineComponent({
   name: 'Header',
   components: { Route, UserIcon, Icon },
-  setup() {
-    return {}
+  props: {
+    isOpen: {
+      type: Boolean,
+      required: true
+    }
+  },
+  emits: ['open'],
+  setup(props, context) {
+    const open = () => {
+      context.emit('open')
+    }
+
+    return {
+      open
+    }
   }
 })
 </script>
@@ -52,7 +70,7 @@ export default defineComponent({
   margin-left: auto;
 }
 .nav_icon {
-  display: none;
+  display: flex;
   @media (max-width: 1024px) {
     display: block;
   }
