@@ -1,5 +1,8 @@
 <template>
   <div :class="$style.container">
+    <div :class="$style.nav_icon" @click="open">
+      <icon name="menu" />
+    </div>
     <router-link to="/targeted">
       <img :class="$style.logo" src="/@/assets/anke-to_logo.png" />
     </router-link>
@@ -47,5 +50,18 @@ export default defineComponent({
 }
 .icon {
   margin-left: auto;
+}
+.nav_icon {
+  display: none;
+  @media (max-width: 1024px) {
+    display: block;
+  }
+}
+
+.icon {
+  transition: 0.3s;
+}
+.rotate {
+  transform: rotate(-90deg);
 }
 </style>

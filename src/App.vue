@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <header-component />
-    <side-bar />
+    <side-bar :class="$style.sidebar" />
     <main :class="$style.content">
       <router-view />
     </main>
@@ -37,5 +37,11 @@ export default defineComponent({
 .content {
   grid-area: content;
   padding: 1.5rem;
+}
+.sidebar {
+  display: none;
+  @media (min-width: 1024px) {
+    display: block;
+  }
 }
 </style>
