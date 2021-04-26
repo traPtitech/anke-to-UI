@@ -13,10 +13,18 @@
       </router-link>
     </td>
     <td :class="$style.tableItemDate">
-      {{ responseSummary.res_time_limit }}
+      {{
+        responseSummary.res_time_limit == NULL
+          ? 'なし'
+          : responseSummary.res_time_limit
+      }}
     </td>
     <td :class="$style.tableItemDate">
-      {{ responseSummary.submitted_at }}
+      {{
+        responseSummary.submitted_at == NULL
+          ? '未提出'
+          : responseSummary.submitted_at
+      }}
     </td>
     <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
     <td :class="$style.tableItemDate">
