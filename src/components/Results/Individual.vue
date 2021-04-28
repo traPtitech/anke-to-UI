@@ -1,26 +1,18 @@
 <template>
-  <PageTemplate>
-    <template #header>
-      <ResultHeader />
-    </template>
-    <template #content>
-      <div>
-        <!-- TODO あとからどうにかする -->
-        <!-- <questions :questions-props="questionData"></questions>
-        <pagination
-          :range="range"
-          :current-page="currentPage"
-          :default-page-link="defaultPageLink"
-        ></pagination> -->
-      </div>
-    </template>
-  </PageTemplate>
+  <div>
+    <!-- TODO あとからどうにかする -->
+    <!-- <questions :questions-props="questionData"></questions>
+    <pagination
+      :range="range"
+      :current-page="currentPage"
+      :default-page-link="defaultPageLink"
+    ></pagination> -->
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import PageTemplate from './PageTemplate.vue'
-import ResultHeader from './ResultHeader.vue'
+import { defineComponent, PropType } from 'vue'
+import { QuestionnaireByID } from '/@/lib/apis'
 // TODO あとからどうにかする
 // import Questions from '/@/components/Questions/Questions.vue'
 // import Pagination from '/@/components/Utils/Pagination.vue'
@@ -28,10 +20,14 @@ import ResultHeader from './ResultHeader.vue'
 export default defineComponent({
   name: 'Individual',
   components: {
-    PageTemplate,
-    ResultHeader
     // questions: Questions,
     // pagination: Pagination
+  },
+  props: {
+    questionnaire: {
+      type: Object as PropType<QuestionnaireByID>,
+      required: true
+    }
   }
 })
 </script>
