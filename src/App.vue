@@ -1,23 +1,24 @@
 <template>
   <div :class="$style.container">
     <header-component />
-    <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
-    <div v-else v-show="isSideBarShown" :class="$style.mobileSideBarWrapper">
-      <side-bar :class="$style.mobileSideBar" />
+    <div :class="$style.main">
+      <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
+      <div v-else v-show="isSideBarShown" :class="$style.mobileSideBarWrapper">
+        <side-bar :class="$style.mobileSideBar" />
+      </div>
+      <main :class="$style.content">
+        <router-view />
+      </main>
     </div>
-    <main :class="$style.content">
-      <router-view />
-    </main>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onBeforeMount, watch, readonly } from 'vue'
+import { defineComponent, computed, watch, readonly } from 'vue'
 import HeaderComponent from '/@/components/Navigation/Header.vue'
 import SideBar from '/@/components/Navigation/SideBar.vue'
 import useOpener from '/@/use/opener'
 import useIsMobile from '/@/use/isMobile'
-import { useStore } from 'vuex'
 
 const useNavigationShown = () => {
   const { isOpen, toggle: sideBarShown } = useOpener()
@@ -30,7 +31,7 @@ const useNavigationShown = () => {
 
   return {
     isSideBarShown,
-    canSideBarshown: readonly(isMobile),
+    canSideBarShown: readonly(isMobile),
     sideBarShown
   }
 }
@@ -44,22 +45,14 @@ export default defineComponent({
   setup() {
     const {
       isSideBarShown,
-      canSideBarshown,
+      canSideBarShown,
       sideBarShown
     } = useNavigationShown()
-    const store = useStore()
-    const fetchedMe = computed(() => store.state.me !== null)
-
-    onBeforeMount(() => {
-      if (fetchedMe.value) return
-      store.dispatch.fetchMe()
-    })
 
     return {
       isSideBarShown,
-      canSideBarshown,
-      sideBarShown,
-      fetchedMe
+      canSideBarShown,
+      sideBarShown
     }
   }
 })
@@ -67,36 +60,20 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  min-width: 100%;
-  min-height: 100%;
-  display: grid;
-  position: relative;
-  grid-template-areas:
-    'header header'
-    'sidebar content';
-  grid-template-rows: min-content 1fr;
-  grid-template-columns: max(12rem, 15%) 1fr;
+  display: flex;
+  flex-direction: column;
 }
 .content {
-  flex: 1;
-  overflow: {
-    x: hidden;
-    y: scroll;
-  }
+  padding: 1.5rem;
 }
-.desktopSideBar {
-  flex-shrink: 0;
-}
-.mobileSideBarWrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.main {
   display: flex;
 }
+
+.desktopSideBar {
+}
+.mobileSideBarWrapper {
+}
 .mobileSideBar {
-  width: 260px;
-  flex-shrink: 0;
 }
 </style>
