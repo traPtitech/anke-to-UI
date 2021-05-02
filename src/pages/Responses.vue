@@ -49,13 +49,18 @@ export default defineComponent({
   setup() {
     const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
     const responseSummaries = ref<ResponseSummary[]>([])
+    const getMyResponses = async () => {
+      const { data } = await apis.getMyResponses()
+      responseSummaries.value = data
+    }
     onMounted(async () => {
       const { data } = await apis.getMyResponses()
       responseSummaries.value = data
     })
     return {
       headers,
-      responseSummaries
+      responseSummaries,
+      getMyResponses
     }
   }
 })
