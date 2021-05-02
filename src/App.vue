@@ -1,6 +1,10 @@
 <template>
   <div :class="$style.container">
-    <header-component />
+    <header-component
+      :is-side-bar-shown="isSideBarShown"
+      :can-side-bar-shown="canSideBarShown"
+      @open="open"
+    />
     <div :class="$style.main">
       <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
       <div v-else v-show="isSideBarShown" :class="$style.mobileSideBarWrapper">
@@ -21,7 +25,7 @@ import useOpener from '/@/use/opener'
 import useIsMobile from '/@/use/isMobile'
 
 const useNavigationShown = () => {
-  const { isOpen, toggle: sideBarShown } = useOpener()
+  const { isOpen, toggle: toggleSideBarShown } = useOpener()
   const { isMobile } = useIsMobile()
 
   const isSideBarShown = computed(() => !isMobile.value || isOpen.value)
@@ -32,7 +36,7 @@ const useNavigationShown = () => {
   return {
     isSideBarShown,
     canSideBarShown: readonly(isMobile),
-    sideBarShown
+    toggleSideBarShown
   }
 }
 
@@ -46,13 +50,18 @@ export default defineComponent({
     const {
       isSideBarShown,
       canSideBarShown,
-      sideBarShown
+      toggleSideBarShown
     } = useNavigationShown()
+
+    const open = () => {
+      toggleSideBarShown()
+    }
 
     return {
       isSideBarShown,
       canSideBarShown,
-      sideBarShown
+      toggleSideBarShown,
+      open
     }
   }
 })

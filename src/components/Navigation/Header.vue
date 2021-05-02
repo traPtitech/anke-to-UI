@@ -1,12 +1,8 @@
 <template>
   <div :class="$style.container">
-    <div :class="$style.nav_icon" @click="open">
-      <div v-if="isOpen">
-        <icon name="close" />
-      </div>
-      <div c-else>
-        <icon name="menu" />
-      </div>
+    <div v-show="canSideBarShown" @click="open">
+      <icon v-if="!isSideBarShown" name="menu" />
+      <icon v-else name="close" />
     </div>
     <router-link to="/targeted">
       <img :class="$style.logo" src="/@/assets/anke-to_logo.png" />
@@ -32,9 +28,19 @@ export default defineComponent({
     isOpen: {
       type: Boolean,
       required: true
+    },
+    canSideBarShown: {
+      type: Boolean,
+      required: true
+    },
+    isSideBarShown: {
+      type: Boolean,
+      required: true
     }
   },
-  emits: ['open'],
+  emits: {
+    open: () => true
+  },
   setup(props, context) {
     const open = () => {
       context.emit('open')
