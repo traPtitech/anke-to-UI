@@ -60,6 +60,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
 }
 .logo {
   max-height: 1.75rem;

@@ -80,9 +80,12 @@ export default defineComponent({
 }
 
 .desktopSideBar {
+  height: 100%;
 }
 .mobileSideBarWrapper {
 }
 .mobileSideBar {
+  position: fixed;
+  height: 100%;
 }
 </style>

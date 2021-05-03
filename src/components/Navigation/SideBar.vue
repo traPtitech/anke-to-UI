@@ -38,7 +38,9 @@ export default defineComponent({
   grid-area: sidebar;
   text-align: left;
   min-width: fit-content;
+  z-index: 10;
   padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
 }
 .link {
   padding: 0.5rem 0;
