@@ -22,7 +22,7 @@ import ResponsesTable from '/@/components/Responses/ResponsesTable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 
 export default defineComponent({
-  name: 'List',
+  name: 'Responses',
   components: {
     ResponsesTable
   },
