@@ -83,14 +83,15 @@ td {
   }
 }
 .table-item-title {
+  word-break: break-all;
   min-width: 10rem;
   text-align: left;
-  padding: 0.4rem 0rem 1.8rem 0.8rem;
+  padding: 0.8rem;
 }
 .table-item-date {
   min-width: 8rem;
   font-size: 15px;
-  padding: 0.4rem 0rem 1.8rem 0.8rem;
+  padding: 0.8rem;
   text-align: center;
 }
 .link {
@@ -105,7 +106,7 @@ td {
   text-align: middle;
   min-width: 4rem;
   max-width: 6rem;
-  padding: 0.4rem 0rem 1.8rem 0.8rem;
+  padding: 0.8rem;
   .icon {
     height: 1rem;
     width: 1rem;

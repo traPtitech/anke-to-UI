@@ -56,7 +56,7 @@ export default defineComponent({
   overflow-wrap: normal;
 }
 .title {
-  font-size: 14pt;
+  font-size: 14px;
   text-align: left;
   padding: 0.8rem;
   border: solid 1.5px #dfe0d7;
