@@ -14,14 +14,14 @@
     </td>
     <td :class="$style.tableItemDate">
       {{
-        responseSummary.res_time_limit == NULL
+        responseSummary.res_time_limit === null
           ? 'なし'
           : responseSummary.res_time_limit
       }}
     </td>
     <td :class="$style.tableItemDate">
       {{
-        (responseSummary.submitted_at == NULL
+        (responseSummary.submitted_at === null
           ? (responseSummary.submitted_at = '未提出')
           : getMyResponses,
         responseSummary.submitted_at)
