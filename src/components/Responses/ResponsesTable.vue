@@ -72,25 +72,25 @@ export default defineComponent({
 <style lang="scss" module>
 td {
   vertical-align: middle;
-  font-size: 0.7em;
+  font-size: 0.7rem;
 }
 .body {
-  min-width: 10em;
-  font-size: 1.4em;
+  min-width: 10rem;
+  font-size: 1.4rem;
   border-bottom: solid 1.5px #d9d9d9;
   &:nth-child(even) {
     background-color: #fafafa;
   }
 }
 .table-item-title {
-  min-width: 10em;
+  min-width: 10rem;
   text-align: left;
-  padding: 0.4em 0em 1.8em 0.8em;
+  padding: 0.4rem 0rem 1.8rem 0.8rem;
 }
 .table-item-date {
-  min-width: 8em;
+  min-width: 8rem;
   font-size: 15px;
-  padding: 0.4em 0em 1.8em 0.8em;
+  padding: 0.4rem 0rem 1.8rem 0.8rem;
   text-align: center;
 }
 .link {
@@ -103,12 +103,12 @@ td {
 }
 .my-answer {
   text-align: middle;
-  min-width: 4em;
-  max-width: 6em;
-  padding: 0.4em 0em 1.8em 0.8em;
+  min-width: 4rem;
+  max-width: 6rem;
+  padding: 0.4rem 0rem 1.8rem 0.8rem;
   .icon {
-    height: 1em;
-    width: 1em;
+    height: 1rem;
+    width: 1rem;
   }
 }
 </style>

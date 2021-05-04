@@ -58,12 +58,12 @@ export default defineComponent({
 .title {
   font-size: 14pt;
   text-align: left;
-  padding: 0.8em;
+  padding: 0.8rem;
   border: solid 1.5px #dfe0d7;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.05rem;
 }
 .content {
-  padding: 1em;
+  padding: 1rem;
   border: solid 1.5px #dfe0d7;
   border-collapse: collapse;
   overflow: auto;
@@ -74,8 +74,8 @@ export default defineComponent({
   border-collapse: collapse;
 }
 .header {
-  padding: 0.5em 0em;
-  min-width: 8em;
+  padding: 0.5rem 0rem;
+  min-width: 8rem;
   border-bottom: solid 2px #dbdbdb;
 }
 </style>
