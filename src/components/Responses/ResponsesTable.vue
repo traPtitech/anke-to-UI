@@ -75,7 +75,6 @@ td {
   font-size: 0.7rem;
 }
 .body {
-  min-width: 10rem;
   font-size: 1.4rem;
   border-bottom: solid 1.5px #d9d9d9;
   &:nth-child(even) {
@@ -84,12 +83,10 @@ td {
 }
 .table-item-title {
   word-break: break-all;
-  min-width: 10rem;
   text-align: left;
   padding: 0.8rem;
 }
 .table-item-date {
-  min-width: 8rem;
   font-size: 15px;
   padding: 0.8rem;
   text-align: center;
@@ -104,7 +101,6 @@ td {
 }
 .my-answer {
   text-align: middle;
-  min-width: 4rem;
   max-width: 6rem;
   padding: 0.8rem;
   .icon {
