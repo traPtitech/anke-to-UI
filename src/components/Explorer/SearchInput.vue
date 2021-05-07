@@ -4,6 +4,8 @@
     placeholder="検索"
     :class="$style.input"
     :value="modelValue"
+    @input="update"
+    @keypress.enter="search"
   />
   <button :class="[$style.button, $style.search_icon]" @click="search">
     <icon name="magnify" :class="$style.icon" />
@@ -31,11 +33,14 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
+    const update = (e: InputEvent) => {
+      context.emit('update:modelValue', (e.target as HTMLInputElement).value)
+    }
     const search = () => {
       context.emit('search')
     }
 
-    return { search }
+    return { update, search }
   }
 })
 </script>
