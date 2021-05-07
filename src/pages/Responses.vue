@@ -1,29 +1,33 @@
 <template>
-  <div :class="$style.card">
-    <div :class="$style.title">自分の回答</div>
-    <div :class="$style.content">
-      <table :class="$style.table">
-        <th
-          v-for="(header, index) in headers"
-          :key="index"
-          :class="$style.header"
-        >
-          {{ header }}
-        </th>
-        <responses-table :response-summaries="responseSummaries" />
-      </table>
-    </div>
-  </div>
+  <Card>
+    <template #header>自分の回答</template>
+    <template #content>
+      <div :class="$style.content">
+        <table :class="$style.table">
+          <th
+            v-for="(header, index) in headers"
+            :key="index"
+            :class="$style.header"
+          >
+            {{ header }}
+          </th>
+          <responses-table :response-summaries="responseSummaries" />
+        </table>
+      </div>
+    </template>
+  </Card>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import ResponsesTable from '/@/components/Responses/ResponsesTable.vue'
+import Card from '/@/components/UI/Card.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'Responses',
   components: {
+    Card,
     ResponsesTable
   },
   setup() {
@@ -47,21 +51,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.card {
-  /* width: fit-content; */
-  margin: 1rem 1.5rem;
-  overflow-x: auto;
-  width: auto;
-  max-width: fit-content;
-  overflow-wrap: normal;
-}
-.title {
-  font-size: 14px;
-  text-align: left;
-  padding: 0.8rem;
-  border: solid 1.5px #dfe0d7;
-  letter-spacing: 0.05rem;
-}
 .content {
   padding: 1rem;
   border: solid 1.5px #dfe0d7;
