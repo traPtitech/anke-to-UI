@@ -27,15 +27,22 @@ export default defineComponent({
   },
   setup() {
     const questionnaires = ref<QuestionnaireForList[]>([])
+
+    const option = ref<Option>({
+      sort: '-modified_at',
+      page: 1,
+      nontargeted: 'true'
+    })
     const searchQuery = ref('')
 
-    const getQuestionnaires = async (
-      sort: string,
-      page: number,
-      nontargeted: boolean
-    ) => {
+    const getQuestionnaires = async () => {
       try {
-        const { data } = await apis.getQuestionnaires(sort, page, nontargeted)
+        const { data } = await apis.getQuestionnaires(
+          option.value.sort,
+          option.value.page,
+          option.value.nontargeted === 'true',
+          searchQuery.value
+        )
         questionnaires.value = data.questionnaires
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -45,15 +52,19 @@ export default defineComponent({
       }
     }
 
-    const changeOption = (option: Option) => {
-      getQuestionnaires(option.sort, option.page, option.nontargeted === 'true')
+    const changeOption = (newOption: Option) => {
+      option.value = newOption
+      getQuestionnaires()
+    }
+    const search = () => {
+      getQuestionnaires()
     }
 
     onMounted(() => {
-      getQuestionnaires('-modified_at', 1, false)
+      getQuestionnaires()
     })
 
-    return { questionnaires, searchQuery, changeOption }
+    return { questionnaires, searchQuery, changeOption, search }
   }
 })
 </script>
