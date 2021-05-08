@@ -22,10 +22,6 @@ export default defineComponent({
     responseSummaries: {
       type: Array as PropType<ResponseSummary[]>,
       required: true
-    },
-    getMyResponses: {
-      type: Array as PropType<ResponseSummary[]>,
-      required: true
     }
   },
   setup() {
