@@ -25,7 +25,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from './TableHeader.vue'
 import TableBody from './TableBody.vue'
@@ -38,6 +39,20 @@ export default defineComponent({
     Icon,
     TableHeader,
     TableBody
+  },
+  props: {
+    questionnaire: {
+      type: Object as PropType<QuestionnaireByID>,
+      required: true
+    },
+    results: {
+      type: Object as PropType<ResponseResult[]>,
+      required: true
+    },
+    questions: {
+      type: Object as PropType<QuestionDetails[]>,
+      required: true
+    }
   },
   setup() {
     const copyTable = () => undefined

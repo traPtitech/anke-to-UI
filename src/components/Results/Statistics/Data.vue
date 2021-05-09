@@ -22,7 +22,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Responces from './Responces.vue'
 import { countedData } from '../use/dummyData'
 import { isNumberType } from '../use/utils'
@@ -32,6 +33,16 @@ export default defineComponent({
   components: {
     Responces
   },
+  props: {
+    results: {
+      type: Object as PropType<ResponseResult[]>,
+      required: true
+    },
+    questions: {
+      type: Object as PropType<QuestionDetails[]>,
+      required: true
+    }
+  }
   setup() {
     return {
       countedData,

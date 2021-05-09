@@ -1,6 +1,10 @@
 <template>
   <Tab />
-  <ScrollView />
+  <ScrollView
+    :questionnaire="questionnaire"
+    :results="results"
+    :questions="questions"
+  />
 </template>
 
 <script lang="ts">

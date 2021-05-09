@@ -4,7 +4,7 @@
     <div>
       <!-- table view -->
       <div v-if="tableForm === 'view'">
-        <Data />
+        <Data :results="results" :questions="questions" />
       </div>
 
       <!-- markdown view -->
