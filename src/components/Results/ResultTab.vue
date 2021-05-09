@@ -10,14 +10,20 @@
       <Individual
         v-if="currentTabComponent === 'individual'"
         :questionnaire="questionnaire"
+        :results="results"
+        :questions="questions"
       />
       <Statistics
         v-if="currentTabComponent === 'statistics'"
         :questionnaire="questionnaire"
+        :results="results"
+        :questions="questions"
       />
       <Spreadsheet
         v-if="currentTabComponent === 'spreadsheet'"
         :questionnaire="questionnaire"
+        :results="results"
+        :questions="questions"
       />
     </template>
   </PageTemplate>
@@ -25,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from 'vue'
-import { QuestionnaireByID } from '/@/lib/apis'
+import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 import PageTemplate from './PageTemplate.vue'
 import ResultHeader from './ResultHeader.vue'
@@ -46,6 +52,14 @@ export default defineComponent({
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
+      required: true
+    },
+    results: {
+      type: Object as PropType<ResponseResult[]>,
+      required: true
+    },
+    questions: {
+      type: Object as PropType<QuestionDetails[]>,
       required: true
     }
   },

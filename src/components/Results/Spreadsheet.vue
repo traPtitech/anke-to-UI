@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { QuestionnaireByID } from '/@/lib/apis'
+import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from './Spreadsheet/Tab.vue'
 import ScrollView from './Spreadsheet/ScrollView.vue'
 
@@ -18,6 +18,14 @@ export default defineComponent({
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
+      required: true
+    },
+    results: {
+      type: Object as PropType<ResponseResult[]>,
+      required: true
+    },
+    questions: {
+      type: Object as PropType<QuestionDetails[]>,
       required: true
     }
   }

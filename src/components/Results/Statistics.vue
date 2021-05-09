@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { QuestionnaireByID } from '/@/lib/apis'
+import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from './Statistics/Tab.vue'
 import Data from './Statistics/Data.vue'
 import { tableForm } from './use/utils'
@@ -35,6 +35,14 @@ export default defineComponent({
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
+      required: true
+    },
+    results: {
+      type: Object as PropType<ResponseResult[]>,
+      required: true
+    },
+    questions: {
+      type: Object as PropType<QuestionDetails[]>,
       required: true
     }
   },
