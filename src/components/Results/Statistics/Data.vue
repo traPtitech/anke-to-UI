@@ -42,7 +42,7 @@ export default defineComponent({
       type: Object as PropType<QuestionDetails[]>,
       required: true
     }
-  }
+  },
   setup() {
     return {
       countedData,
