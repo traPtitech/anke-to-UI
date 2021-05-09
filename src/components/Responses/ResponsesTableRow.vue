@@ -17,7 +17,7 @@
   <td :class="$style.tableItemDate">
     {{
       (responseSummary.submitted_at === null
-        ? (responseSummary.submitted_at = '未提出')
+        ? responseSummary.submitted_at == '未提出'
         : getMyResponses,
       responseSummary.submitted_at)
     }}
@@ -49,7 +49,7 @@ export default defineComponent({
   },
   props: {
     responseSummary: {
-      type: Array as PropType<ResponseSummary[]>,
+      type: Object as PropType<ResponseSummary>,
       required: true
     },
     getMyResponses: {

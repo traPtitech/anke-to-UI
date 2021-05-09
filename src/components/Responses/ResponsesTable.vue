@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import ResponsesTableRow from './ResponsesTableRow.vue'
 import { ResponseSummary } from '/@/lib/apis'
 
@@ -25,10 +25,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const responseSummary = ref<ResponseSummary[]>([])
-    return {
-      responseSummary
-    }
+    return
   }
 })
 </script>
