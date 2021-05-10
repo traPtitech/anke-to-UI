@@ -55,10 +55,12 @@ export default defineComponent({
   }
 }
 .search_icon {
+  display: flex;
+  align-items: center;
   border-radius: 0 0.3rem 0.3rem 0;
   .icon {
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1.1rem;
+    width: 1.1rem;
     padding: 0.3rem;
   }
 }
