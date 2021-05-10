@@ -1,7 +1,7 @@
 <template>
   <td :class="$style.tableItemTitle">
     <router-link
-      :to="'/questionnaires/' + responseSummary.questionnaireID"
+      :to="`${/questionnaires/}${responseSummary.questionnaireID}`"
       :class="$style.link"
     >
       {{ responseSummary.questionnaire_title }}
@@ -27,7 +27,7 @@
   </td>
   <td :class="$style.myAnswer">
     <router-link
-      :to="'/responses/' + responseSummary.responseID"
+      :to="`${/responses/}${responseSummary.responseID}`"
       :class="$style.link"
       target="_blank"
     >
