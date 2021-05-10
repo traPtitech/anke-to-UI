@@ -16,10 +16,9 @@
   </td>
   <td :class="$style.tableItemDate">
     {{
-      (responseSummary.submitted_at === null
-        ? responseSummary.submitted_at == '未提出'
-        : getMyResponses,
-      responseSummary.submitted_at)
+      responseSummary.submitted_at === null
+        ? '未提出'
+        : responseSummary.submitted_at
     }}
   </td>
   <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
@@ -50,10 +49,6 @@ export default defineComponent({
   props: {
     responseSummary: {
       type: Object as PropType<ResponseSummary>,
-      required: true
-    },
-    getMyResponses: {
-      type: Array as PropType<ResponseSummary[]>,
       required: true
     }
   },
