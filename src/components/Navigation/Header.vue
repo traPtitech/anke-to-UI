@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.container">
-    <div v-show="canSideBarShown" :class="$style.nav_icon" @click="open">
+    <div v-show="canSideBarShown" :class="$style.nav_icon" @click="toggle">
       <icon v-if="!isSideBarShown" name="menu" />
       <icon v-else name="close" />
     </div>
@@ -37,15 +37,15 @@ export default defineComponent({
     }
   },
   emits: {
-    open: () => true
+    toggle: () => true
   },
   setup(props, context) {
-    const open = () => {
-      context.emit('open')
+    const toggle = () => {
+      context.emit('toggle')
     }
 
     return {
-      open
+      toggle
     }
   }
 })
@@ -77,6 +77,8 @@ export default defineComponent({
   margin-left: auto;
 }
 .nav_icon {
+  align-items: center;
   display: flex;
+  cursor: pointer;
 }
 </style>

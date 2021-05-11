@@ -1,6 +1,6 @@
 import { onUnmounted, Ref, ref } from 'vue'
 
-const MOBILE_BREAKPOINT = '1024'
+const MOBILE_BREAKPOINT = '599'
 
 const mql = window.matchMedia(`(min-width: ${MOBILE_BREAKPOINT}px)`)
 

@@ -3,7 +3,7 @@
     <header-component
       :is-side-bar-shown="isSideBarShown"
       :can-side-bar-shown="canSideBarShown"
-      @open="open"
+      @toggle="toggleSideBarShown()"
     />
     <div :class="$style.main">
       <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
@@ -23,6 +23,7 @@ import HeaderComponent from '/@/components/Navigation/Header.vue'
 import SideBar from '/@/components/Navigation/SideBar.vue'
 import useOpener from '/@/use/opener'
 import useIsMobile from '/@/use/isMobile'
+import router from './router'
 
 const useNavigationShown = () => {
   const { isOpen, toggle: toggleSideBarShown } = useOpener()
@@ -31,6 +32,9 @@ const useNavigationShown = () => {
   const isSideBarShown = computed(() => !isMobile.value || isOpen.value)
   watch(isMobile, isMobile => {
     isOpen.value = !isMobile
+  })
+  router.afterEach(() => {
+    isOpen.value = false
   })
 
   return {
@@ -53,15 +57,10 @@ export default defineComponent({
       toggleSideBarShown
     } = useNavigationShown()
 
-    const open = () => {
-      toggleSideBarShown()
-    }
-
     return {
       isSideBarShown,
       canSideBarShown,
-      toggleSideBarShown,
-      open
+      toggleSideBarShown
     }
   }
 })
@@ -85,7 +84,7 @@ export default defineComponent({
 }
 
 .mobileSideBar {
-  position: fixed;
+  position: absolute;
   height: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
   animation: slideIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) 1 forwards;
