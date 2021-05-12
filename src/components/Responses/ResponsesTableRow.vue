@@ -1,5 +1,5 @@
 <template>
-  <td :class="$style.tableItemTitle">
+  <td :class="[$style.tableData, $style.tableItemTitle]">
     <router-link
       :to="`${/questionnaires/}${responseSummary.questionnaireID}`"
       :class="$style.link"
@@ -7,14 +7,14 @@
       {{ responseSummary.questionnaire_title }}
     </router-link>
   </td>
-  <td :class="$style.tableItemDate">
+  <td :class="[$style.tableData, $style.tableItemDate]">
     {{
       responseSummary.res_time_limit === null
         ? 'なし'
         : responseSummary.res_time_limit
     }}
   </td>
-  <td :class="$style.tableItemDate">
+  <td :class="[$style.tableData, $style.tableItemDate]">
     {{
       responseSummary.submitted_at === null
         ? '未提出'
@@ -22,10 +22,10 @@
     }}
   </td>
   <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
-  <td :class="$style.tableItemDate">
+  <td :class="[$style.tableData, $style.tableItemDate]">
     {{ responseSummary.modified_at }}
   </td>
-  <td :class="$style.myAnswer">
+  <td :class="[$style.tableData, $style.myAnswer]">
     <router-link
       :to="`${/responses/}${responseSummary.responseID}`"
       :class="$style.link"
@@ -59,7 +59,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-td {
+.table-data {
   vertical-align: middle;
   font-size: 0.7rem;
 }
