@@ -21,7 +21,6 @@
         : responseSummary.submitted_at
     }}
   </td>
-  <!-- response.submitted_at == 'NULL' | '未提出'  のときに {データをもう一度確認してくる | このテーブルを移さないようにする}-->
   <td :class="[$style.tableData, $style.tableItemDate]">
     {{ responseSummary.modified_at }}
   </td>
