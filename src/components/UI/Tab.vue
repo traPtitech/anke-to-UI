@@ -3,16 +3,18 @@
     <div
       v-for="(content, index) in contents"
       :key="index"
-      :class="[content === modelValue ? $style.selected : '', $style.tab]"
-      @click="changeTab(content)"
+      :ref="content === modelValue ? 'initRef' : ''"
+      :class="$style.tab"
+      @click="changeTab($event, content)"
     >
       {{ content }}
     </div>
+    <span :style="lineStyle" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, onMounted, PropType, ref } from 'vue'
 
 export default defineComponent({
   name: 'Tab',
@@ -31,11 +33,32 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    const changeTab = (newTab: string) => {
+    const lineStyle = ref({
+      position: 'absolute',
+      top: '',
+      left: '',
+      width: '',
+      height: '2px',
+      backgroundColor: '#92413b',
+      transition: '0.3s'
+    })
+    const updateStyle = (el: HTMLElement) => {
+      lineStyle.value.top = `${el.offsetTop + el.offsetHeight - 1}px`
+      lineStyle.value.left = `${el.offsetLeft}px`
+      lineStyle.value.width = `${el.offsetWidth}px`
+    }
+
+    const initRef = ref()
+    onMounted(() => {
+      updateStyle(initRef.value as HTMLElement)
+    })
+
+    const changeTab = (event: Event, newTab: string) => {
+      updateStyle(event.target as HTMLElement)
       context.emit('update:modelValue', newTab)
     }
 
-    return { changeTab }
+    return { lineStyle, initRef, changeTab }
   }
 })
 </script>
@@ -47,17 +70,12 @@ export default defineComponent({
   box-sizing: border-box;
   border-bottom: solid 1px;
   .tab {
-    padding: 0 0.5rem;
+    padding: 0.2rem 0.5rem;
     cursor: pointer;
-    margin: -1px 0;
-    &:hover:not(.selected) {
-      border-bottom: solid 1px #cfb998;
+    &:hover {
       color: #cfb998;
-      transition: border-bottom, color 0.2s;
+      transition: color 0.2s;
     }
-  }
-  .selected {
-    border-bottom: solid 2px #92413b;
   }
 }
 </style>
