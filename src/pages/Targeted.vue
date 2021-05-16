@@ -3,7 +3,7 @@
     <template #header>回答対象になっているアンケート</template>
     <template #content>
       <div :class="$style.frame">
-        <CardContentDetail />
+        <CardContentDetail :questionnaires="questionnaires" />
       </div>
     </template>
   </Card>
