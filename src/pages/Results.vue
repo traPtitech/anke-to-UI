@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-// import InformationSummary from '@/components/Information/InformationSummary'
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import ResultTab from '/@/components/Results/ResultTab.vue'
@@ -37,14 +36,17 @@ export default defineComponent({
     const hasResponded = ref<boolean>(false)
 
     onMounted(async () => {
+      if (isNaN(Number(route.params.id))) return
       const questionnaireId = Number(route.params.id)
-      const { data: qdata } = await apis.getQuestionnaire(questionnaireId, '')
-      const { data: rdata } = await apis.getResults(questionnaireId, '')
-      const { data: qsdata } = await apis.getQuestions(questionnaireId, '')
+      const [qres, rres, qsres] = await Promise.all([
+        apis.getQuestionnaire(questionnaireId, ''),
+        apis.getResults(questionnaireId, ''),
+        apis.getQuestions(questionnaireId, '')
+      ])
 
-      questionnaire.value = qdata
-      results.value = rdata
-      questions.value = qsdata
+      questionnaire.value = qres.data
+      results.value = rres.data
+      questions.value = qsres.data
     })
 
     return {

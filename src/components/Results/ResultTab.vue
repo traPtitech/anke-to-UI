@@ -63,7 +63,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  setup() {
     const selectedTab = ref('Statistics')
     const route = useRoute()
 
@@ -83,7 +83,6 @@ export default defineComponent({
       }
     )
     return {
-      ...props,
       selectedTab,
       currentTabComponent
     }
