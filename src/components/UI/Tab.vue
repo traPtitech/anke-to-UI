@@ -3,18 +3,18 @@
     <div
       v-for="(content, index) in contents"
       :key="index"
-      :ref="content === modelValue ? 'initRef' : ''"
+      :ref="setTabRef"
       :class="$style.tab"
-      @click="changeTab($event, content)"
+      @click="changeTab(index)"
     >
       {{ content }}
     </div>
-    <span :style="lineStyle" />
+    <span :class="$style.tab_line" :style="lineStyle" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref } from 'vue'
+import { defineComponent, onBeforeUpdate, onMounted, PropType, ref } from 'vue'
 
 export default defineComponent({
   name: 'Tab',
@@ -33,38 +33,54 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
+    let tabRefs: HTMLElement[] = []
+    const setTabRef = (el: HTMLElement) => {
+      if (el) tabRefs.push(el)
+    }
+    onBeforeUpdate(() => {
+      tabRefs = []
+    })
+
     const lineStyle = ref({
-      position: 'absolute',
-      top: '',
       left: '',
       width: '',
-      height: '2px',
-      backgroundColor: '#92413b',
       transition: '0.3s'
     })
-    const updateStyle = (el: HTMLElement) => {
-      lineStyle.value.top = `${el.offsetTop + el.offsetHeight - 1}px`
+    const updateStyle = (el: HTMLElement, shouldTransition = true) => {
       lineStyle.value.left = `${el.offsetLeft}px`
       lineStyle.value.width = `${el.offsetWidth}px`
+      if (shouldTransition) {
+        lineStyle.value.transition = '0.3s'
+      } else {
+        lineStyle.value.transition = ''
+      }
     }
 
-    const initRef = ref()
+    let selectedIndex = 0
+
+    const changeTab = (index: number) => {
+      updateStyle(tabRefs[index])
+      selectedIndex = index
+      context.emit('update:modelValue', props.contents[index])
+    }
+
     onMounted(() => {
-      updateStyle(initRef.value as HTMLElement)
+      selectedIndex = props.contents.findIndex(v => v === props.modelValue)
+      updateStyle(tabRefs[selectedIndex])
+
+      window.addEventListener('resize', () => {
+        updateStyle(tabRefs[selectedIndex], false)
+      })
     })
 
-    const changeTab = (event: Event, newTab: string) => {
-      updateStyle(event.target as HTMLElement)
-      context.emit('update:modelValue', newTab)
-    }
-
-    return { lineStyle, initRef, changeTab }
+    return { setTabRef, lineStyle, changeTab }
   }
 })
 </script>
 
 <style lang="scss" module>
 .tab_wrapper {
+  position: relative;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
@@ -76,6 +92,12 @@ export default defineComponent({
       color: #cfb998;
       transition: color 0.2s;
     }
+  }
+  .tab_line {
+    position: absolute;
+    bottom: -1px;
+    height: 2px;
+    background-color: #92413b;
   }
 }
 </style>
