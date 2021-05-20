@@ -5,7 +5,7 @@
       :key="index"
       :ref="setTabRef"
       :class="$style.tab"
-      @click="changeTab(index)"
+      @click="changeTab(content)"
     >
       {{ content }}
     </div>
@@ -14,7 +14,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeUpdate, onMounted, PropType, ref } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onBeforeUpdate,
+  onMounted,
+  onUnmounted,
+  PropType,
+  ref
+} from 'vue'
 
 export default defineComponent({
   name: 'Tab',
@@ -56,12 +64,17 @@ export default defineComponent({
       }
     }
 
-    let selectedIndex = 0
+    const selected = ref(props.modelValue)
+    const selectedIndex = computed(() => {
+      const index = props.contents.findIndex(v => v === selected.value)
+      if (index < 0) return 0
+      else return index
+    })
 
-    const changeTab = (index: number) => {
-      updateStyle(tabRefs[index])
-      selectedIndex = index
-      context.emit('update:modelValue', props.contents[index])
+    const changeTab = (content: string) => {
+      selected.value = content
+      updateStyle(tabRefs[selectedIndex.value])
+      context.emit('update:modelValue', props.contents[selectedIndex.value])
     }
 
     onMounted(() => {
