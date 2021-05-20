@@ -102,7 +102,8 @@ export default defineComponent({
   box-sizing: border-box;
   border-bottom: solid 1px;
   .tab {
-    padding: 0.2rem 0.5rem;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
     cursor: pointer;
     &:hover {
       color: #cfb998;
@@ -112,7 +113,7 @@ export default defineComponent({
   .tabLine {
     position: absolute;
     bottom: -1px;
-    height: 2px;
+    height: 0.2rem;
     background-color: #92413b;
   }
 }
