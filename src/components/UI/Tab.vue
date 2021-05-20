@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.tab_wrapper">
+  <div :class="$style.tabWrapper">
     <div
       v-for="(content, index) in contents"
       :key="index"
@@ -9,7 +9,7 @@
     >
       {{ content }}
     </div>
-    <span :class="$style.tab_line" :style="lineStyle" />
+    <span :class="$style.tabLine" :style="lineStyle" />
   </div>
 </template>
 
@@ -21,6 +21,7 @@ import {
   onMounted,
   onUnmounted,
   PropType,
+  Ref,
   ref
 } from 'vue'
 
@@ -41,12 +42,12 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    let tabRefs: HTMLElement[] = []
+    let tabRefs: Ref<HTMLElement[]> = ref([])
     const setTabRef = (el: HTMLElement) => {
-      if (el) tabRefs.push(el)
+      if (el) tabRefs.value.push(el)
     }
     onBeforeUpdate(() => {
-      tabRefs = []
+      tabRefs.value = []
     })
 
     const lineStyle = ref({
@@ -73,17 +74,19 @@ export default defineComponent({
 
     const changeTab = (content: string) => {
       selected.value = content
-      updateStyle(tabRefs[selectedIndex.value])
+      updateStyle(tabRefs.value[selectedIndex.value])
       context.emit('update:modelValue', props.contents[selectedIndex.value])
     }
 
+    const handleResize = () => {
+      updateStyle(tabRefs.value[selectedIndex.value], false)
+    }
     onMounted(() => {
-      selectedIndex = props.contents.findIndex(v => v === props.modelValue)
-      updateStyle(tabRefs[selectedIndex])
-
-      window.addEventListener('resize', () => {
-        updateStyle(tabRefs[selectedIndex], false)
-      })
+      updateStyle(tabRefs.value[selectedIndex.value])
+      window.addEventListener('resize', handleResize)
+    })
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize)
     })
 
     return { setTabRef, lineStyle, changeTab }
@@ -92,7 +95,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.tab_wrapper {
+.tabWrapper {
   position: relative;
   display: flex;
   justify-content: center;
@@ -106,7 +109,7 @@ export default defineComponent({
       transition: color 0.2s;
     }
   }
-  .tab_line {
+  .tabLine {
     position: absolute;
     bottom: -1px;
     height: 2px;
