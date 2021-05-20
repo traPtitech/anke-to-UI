@@ -1,13 +1,13 @@
 <template>
   <div :class="$style.tabWrapper">
     <div
-      v-for="(content, index) in contents"
+      v-for="(tab, index) in tabs"
       :key="index"
       :ref="setTabRef"
       :class="$style.tab"
-      @click="changeTab(content)"
+      @click="changeTab(tab)"
     >
-      {{ content }}
+      {{ tab }}
     </div>
     <span :class="$style.tabLine" :style="lineStyle" />
   </div>
@@ -28,7 +28,7 @@ import {
 export default defineComponent({
   name: 'Tab',
   props: {
-    contents: {
+    tabs: {
       type: Array as PropType<string[]>,
       required: true
     },
@@ -67,7 +67,7 @@ export default defineComponent({
 
     const selected = ref(props.modelValue)
     const selectedIndex = computed(() => {
-      const index = props.contents.findIndex(v => v === selected.value)
+      const index = props.tabs.findIndex(v => v === selected.value)
       if (index < 0) return 0
       else return index
     })
@@ -75,7 +75,7 @@ export default defineComponent({
     const changeTab = (content: string) => {
       selected.value = content
       updateStyle(tabRefs.value[selectedIndex.value])
-      context.emit('update:modelValue', props.contents[selectedIndex.value])
+      context.emit('update:modelValue', props.tabs[selectedIndex.value])
     }
 
     const handleResize = () => {
