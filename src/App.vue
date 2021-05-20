@@ -3,13 +3,19 @@
     <header-component
       :is-side-bar-shown="isSideBarShown"
       :can-side-bar-shown="canSideBarShown"
+      :class="$style.header"
       @toggle="toggleSideBarShown()"
     />
     <div :class="$style.main">
-      <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
-      <div v-else v-show="isSideBarShown">
-        <side-bar :class="$style.mobileSideBar" />
-      </div>
+      <transition name="sidebar">
+        <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
+        <div v-else v-show="isSideBarShown">
+          <side-bar :class="$style.mobileSideBar" />
+          <transition name="overlay">
+            <div v-if="isSideBarShown" :class="$style.overlay"></div>
+          </transition>
+        </div>
+      </transition>
       <main :class="$style.content">
         <router-view />
       </main>
@@ -71,32 +77,54 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
+.header {
+  flex-shrink: 1;
+}
 .content {
   padding: 1.5rem;
 }
-
 .main {
   display: flex;
 }
-
 .desktopSideBar {
   height: 100vh;
 }
-
 .mobileSideBar {
   position: absolute;
-  height: 100%;
+  height: 100vh;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-  animation: slideIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) 1 forwards;
+}
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9;
 }
 
-@keyframes slideIn {
-  0% {
-    transform: translateX(-180px);
-    opacity: 0;
+:global {
+  .sidebar-enter-active,
+  .sidebar-leave-active {
+    transform: translate(0px, 0px);
+    transition: transform 0.3s cubic-bezier(0.5, 0, 0.5, 1) 0ms;
+    height: 100vh;
+    z-index: 10;
   }
-  100% {
-    transform: translateX(0);
+  .sidebar-enter-from,
+  .sidebar-leave-to {
+    transform: translateX(-200px) translateX(0px);
+    height: 100vh;
+    z-index: 10;
+  }
+  .overlay-enter-active,
+  .overlay-leave-active {
+    transition: opacity 0.3s ease;
+  }
+  .overlay-enter-from,
+  .overlay-leave-to {
+    opacity: 0;
   }
 }
 </style>

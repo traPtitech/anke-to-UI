@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.container">
-    <div v-show="canSideBarShown" :class="$style.nav_icon" @click="toggle">
+    <div v-show="canSideBarShown" :class="$style.navIcon" @click="toggle">
       <icon v-if="!isSideBarShown" name="menu" />
       <icon v-else name="close" />
     </div>
@@ -59,7 +59,7 @@ export default defineComponent({
   align-items: center;
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-  z-index: 100;
+  z-index: 11;
 }
 .logo {
   max-height: 1.75rem;
@@ -76,7 +76,7 @@ export default defineComponent({
 .icon {
   margin-left: auto;
 }
-.nav_icon {
+.navIcon {
   align-items: center;
   display: flex;
   cursor: pointer;
