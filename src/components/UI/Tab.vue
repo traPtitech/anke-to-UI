@@ -99,7 +99,6 @@ export default defineComponent({
   position: relative;
   display: flex;
   justify-content: center;
-  box-sizing: border-box;
   border-bottom: solid 1px;
   .tab {
     font-size: 1.2rem;
