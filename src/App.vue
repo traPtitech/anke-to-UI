@@ -78,7 +78,7 @@ export default defineComponent({
   flex-direction: column;
 }
 .header {
-  flex-shrink: 1;
+  flex-shrink: 0;
 }
 .content {
   padding: 1.5rem;
