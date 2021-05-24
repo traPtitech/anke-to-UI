@@ -12,7 +12,11 @@
         <div v-else v-show="isSideBarShown">
           <side-bar :class="$style.mobileSideBar" />
           <transition name="overlay">
-            <div v-if="isSideBarShown" :class="$style.overlay"></div>
+            <div
+              v-if="isSideBarShown"
+              :class="$style.overlay"
+              @click="toggleSideBarShown"
+            ></div>
           </transition>
         </div>
       </transition>
