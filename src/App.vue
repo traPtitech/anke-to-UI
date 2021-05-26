@@ -15,7 +15,7 @@
       </transition>
       <transition name="overlay">
         <div
-          v-if="isSideBarShown"
+          v-if="isSideBarShown && canSideBarShown"
           :class="$style.overlay"
           @click="toggleSideBarShown"
         ></div>
