@@ -38,7 +38,6 @@ export default defineComponent({
   grid-area: sidebar;
   text-align: left;
   min-width: fit-content;
-  z-index: 10;
   padding: 1rem;
 }
 .link {

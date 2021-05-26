@@ -23,10 +23,6 @@ export default defineComponent({
   name: 'Header',
   components: { UserIcon, Icon },
   props: {
-    isOpen: {
-      type: Boolean,
-      required: true
-    },
     canSideBarShown: {
       type: Boolean,
       required: true

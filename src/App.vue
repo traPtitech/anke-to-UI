@@ -7,19 +7,10 @@
       @toggle="toggleSideBarShown()"
     />
     <div :class="$style.main">
-      <transition name="sidebar">
-        <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
-        <div v-else v-show="isSideBarShown">
-          <side-bar :class="$style.mobileSideBar" />
-        </div>
-      </transition>
-      <transition name="overlay">
-        <div
-          v-if="isSideBarShown && canSideBarShown"
-          :class="$style.overlay"
-          @click="toggleSideBarShown"
-        ></div>
-      </transition>
+      <side-bar-wrapper
+        :can-side-bar-shown="canSideBarShown"
+        :is-side-bar-shown="isSideBarShown"
+      />
       <main :class="$style.content">
         <router-view />
       </main>
@@ -30,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, computed, watch, readonly } from 'vue'
 import HeaderComponent from '/@/components/Navigation/Header.vue'
-import SideBar from '/@/components/Navigation/SideBar.vue'
+import SideBarWrapper from '/@/components/Navigation/SideBarWrapper.vue'
 import useOpener from '/@/use/opener'
 import useIsMobile from '/@/use/isMobile'
 import router from './router'
@@ -58,7 +49,7 @@ export default defineComponent({
   name: 'App',
   components: {
     HeaderComponent,
-    SideBar
+    SideBarWrapper
   },
   setup() {
     const {
@@ -89,43 +80,5 @@ export default defineComponent({
 }
 .main {
   display: flex;
-}
-.desktopSideBar {
-  height: 100vh;
-}
-.mobileSideBar {
-  position: absolute;
-  height: 100vh;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-}
-.overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 9;
-  transition: opacity 0.3s ease;
-}
-
-:global {
-  .sidebar-enter-active,
-  .sidebar-leave-active {
-    transform: translate(0px, 0px);
-    transition: transform 0.3s cubic-bezier(0.5, 0, 0.5, 1) 0ms;
-    height: 100vh;
-    z-index: 10;
-  }
-  .sidebar-enter-from,
-  .sidebar-leave-to {
-    transform: translateX(-200px) translateX(0px);
-    height: 100vh;
-    z-index: 10;
-  }
-  .overlay-enter-from,
-  .overlay-leave-to {
-    opacity: 0;
-  }
 }
 </style>
