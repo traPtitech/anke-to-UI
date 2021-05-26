@@ -43,13 +43,14 @@ export default defineComponent({
 .sideBar {
   z-index: 10;
   position: relative;
+  display: flex;
+  flex: 1;
+  height: 100%;
 }
 .desktopSideBar {
-  height: 100vh;
 }
 .mobileSideBar {
   position: absolute;
-  height: 100vh;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
 }
 .overlay {
@@ -67,12 +68,10 @@ export default defineComponent({
   .sidebar-leave-active {
     transform: translate(0px, 0px);
     transition: transform 0.3s cubic-bezier(0.5, 0, 0.5, 1) 0ms;
-    height: 100vh;
   }
   .sidebar-enter-from,
   .sidebar-leave-to {
     transform: translateX(-200px) translateX(0px);
-    height: 100vh;
   }
   .overlay-enter-from,
   .overlay-leave-to {
