@@ -9,10 +9,7 @@
       </transition>
     </div>
     <transition name="overlay" :class="$style.overlay">
-      <div
-        v-if="isSideBarShown && canSideBarShown"
-        @click="toggleSideBarShown"
-      ></div>
+      <div v-if="isSideBarShown && canSideBarShown" />
     </transition>
   </div>
 </template>
