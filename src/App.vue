@@ -11,14 +11,14 @@
         <side-bar v-if="!canSideBarShown" :class="$style.desktopSideBar" />
         <div v-else v-show="isSideBarShown">
           <side-bar :class="$style.mobileSideBar" />
-          <transition name="overlay">
-            <div
-              v-if="isSideBarShown"
-              :class="$style.overlay"
-              @click="toggleSideBarShown"
-            ></div>
-          </transition>
         </div>
+      </transition>
+      <transition name="overlay">
+        <div
+          v-if="isSideBarShown"
+          :class="$style.overlay"
+          @click="toggleSideBarShown"
+        ></div>
       </transition>
       <main :class="$style.content">
         <router-view />
@@ -106,6 +106,7 @@ export default defineComponent({
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
   z-index: 9;
+  transition: opacity 0.3s ease;
 }
 
 :global {
@@ -121,10 +122,6 @@ export default defineComponent({
     transform: translateX(-200px) translateX(0px);
     height: 100vh;
     z-index: 10;
-  }
-  .overlay-enter-active,
-  .overlay-leave-active {
-    transition: opacity 0.3s ease;
   }
   .overlay-enter-from,
   .overlay-leave-to {
