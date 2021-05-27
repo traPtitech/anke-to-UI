@@ -8,7 +8,7 @@
         </div>
       </transition>
     </div>
-    <transition name="overlay" :class="$style.overlay">
+    <transition name="overlay" :class="$style.overlay" @click="toggle">
       <div v-if="isSideBarShown && canSideBarShown" />
     </transition>
   </div>
@@ -31,6 +31,17 @@ export default defineComponent({
     isSideBarShown: {
       type: Boolean,
       required: true
+    }
+  },
+  emits: {
+    toggle: () => true
+  },
+  setup(props, context) {
+    const toggle = () => {
+      context.emit('toggle')
+    }
+    return {
+      toggle
     }
   }
 })

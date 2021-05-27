@@ -10,6 +10,7 @@
       <side-bar-wrapper
         :can-side-bar-shown="canSideBarShown"
         :is-side-bar-shown="isSideBarShown"
+        @toggle="toggleSideBarShown()"
       />
       <main :class="$style.content">
         <router-view />
