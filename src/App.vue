@@ -72,15 +72,18 @@ export default defineComponent({
 .container {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 .header {
   flex-shrink: 0;
 }
 .content {
   padding: 1.5rem;
+  overflow-y: auto;
 }
 .main {
   display: flex;
   flex: 1;
+  min-height: 0;
 }
 </style>

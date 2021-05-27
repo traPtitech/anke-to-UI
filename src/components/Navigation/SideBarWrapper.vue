@@ -53,13 +53,12 @@ export default defineComponent({
   position: relative;
   display: flex;
   flex: 1;
-  min-height: 100%;
-}
-.desktopSideBar {
+  height: 100%;
+  box-sizing: border-box;
 }
 .mobileSideBar {
   position: absolute;
-  min-height: 100%;
+  height: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
 }
 .overlay {
