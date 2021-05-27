@@ -1,35 +1,48 @@
 <template>
   <div :class="$style.tool_wrapper">
-    <dropdown-menu />
-    <div :class="$style.search">
-      <input type="text" placeholder="検索" :class="$style.input" />
-      <button :class="[$style.button, $style.search_icon]">
-        <icon name="magnify" :class="$style.icon" />
-      </button>
-    </div>
+    <menus @change="changeOption" />
+    <search-input
+      v-model="searchQuery"
+      :class="$style.search"
+      @search="search"
+    />
   </div>
   <questionnaires-table :questionnaires="questionnaires" />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import Icon from '/@/components/UI/Icon.vue'
-import DropdownMenu from '/@/components/Explorer/Menus.vue'
+import Menus from '/@/components/Explorer/Menus.vue'
+import SearchInput from '/@/components/Explorer/SearchInput.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
 import apis, { QuestionnaireForList } from '/@/lib/apis'
+import { Option } from '../components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'Explorer',
   components: {
-    Icon,
-    DropdownMenu,
-    QuestionnairesTable
+    Menus,
+    QuestionnairesTable,
+    SearchInput
   },
   setup() {
     const questionnaires = ref<QuestionnaireForList[]>([])
-    onMounted(async () => {
+
+    const option = ref<Option>({
+      sort: '-modified_at',
+      page: 1,
+      nontargeted: 'true'
+    })
+    const searchQuery = ref('')
+
+    const getQuestionnaires = async () => {
       try {
-        const { data } = await apis.getQuestionnaires('modified_at', 1, false)
+        const { data } = await apis.getQuestionnaires(
+          option.value.sort,
+          option.value.page,
+          option.value.nontargeted === 'true',
+          searchQuery.value
+        )
         questionnaires.value = data.questionnaires
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -37,8 +50,21 @@ export default defineComponent({
         // eslint-disable-next-line no-console
         console.error(e)
       }
+    }
+
+    const changeOption = (newOption: Option) => {
+      option.value = newOption
+      getQuestionnaires()
+    }
+    const search = () => {
+      getQuestionnaires()
+    }
+
+    onMounted(() => {
+      getQuestionnaires()
     })
-    return { questionnaires }
+
+    return { questionnaires, searchQuery, changeOption, search }
   }
 })
 </script>
@@ -47,35 +73,5 @@ export default defineComponent({
 .tool_wrapper {
   display: flex;
   flex-wrap: wrap;
-}
-.search {
-  display: inherit;
-  margin-left: 1.5rem;
-  .input {
-    border: solid 0.1rem #dbdbdb;
-    border-radius: 0.3rem 0 0 0.3rem;
-    padding-left: 0.8rem;
-    &::placeholder {
-      color: #dbdbdb;
-    }
-  }
-  .search_icon {
-    border-radius: 0 0.3rem 0.3rem 0;
-    .icon {
-      height: 1.5rem;
-      width: 1.5rem;
-      padding: 0.3rem;
-    }
-  }
-}
-.button {
-  background-color: #ffffff;
-  border: solid 0.1rem #cfb998;
-  border-radius: 0.3rem;
-  padding: 0;
-  cursor: pointer;
-  &:hover {
-    background-color: #f4ecec;
-  }
 }
 </style>

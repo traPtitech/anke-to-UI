@@ -5,8 +5,9 @@
         v-for="(content, index) in contents"
         :key="index"
         :class="$style.contents"
+        @click="onClick(content)"
       >
-        {{ content.str }}
+        {{ content }}
       </p>
     </div>
   </transition>
@@ -14,7 +15,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { DropdownSortOrders, DropdownTargetedOptions } from './use/useOptions'
 
 export default defineComponent({
   name: 'DropdownContents',
@@ -24,9 +24,29 @@ export default defineComponent({
       required: true
     },
     contents: {
-      type: Array as PropType<DropdownSortOrders[] | DropdownTargetedOptions[]>,
+      type: Array as PropType<string[]>,
       required: true
     }
+  },
+  emits: {
+    close: () => true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    changeOption: (value: string) => true
+  },
+  setup(props, context) {
+    const close = () => {
+      context.emit('close')
+    }
+    const changeOption = (newOption: string) => {
+      context.emit('changeOption', newOption)
+    }
+
+    const onClick = (newOption: string) => {
+      close()
+      changeOption(newOption)
+    }
+
+    return { onClick }
   }
 })
 </script>

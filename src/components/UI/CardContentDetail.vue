@@ -1,6 +1,6 @@
 <template>
   <div
-    v-for="(questionnaire, index) in data.questionnaires"
+    v-for="(questionnaire, index) in questionnaires"
     :key="index"
     :class="$style.container"
   >
@@ -23,53 +23,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
+import { QuestionnaireMyTargeted } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'CardContentDetail',
   components: {
     LinkIconQuestion
   },
-  setup() {
-    const data = reactive({
-      questionnaires: [
-        {
-          questionnaireID: 1,
-          title: 'こんにちは',
-          res_time_limit: '2020-12-31',
-          created_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true,
-          description: 'mijikai'
-        },
-        {
-          questionnaireID: 2,
-          title: 'こんばんは',
-          res_time_limit: '2020-12-31',
-          created_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true,
-          description:
-            'nagaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii'
-        },
-        {
-          questionnaireID: 3,
-          title: 'こんにちは',
-          res_time_limit: '2020-12-31',
-          created_at: '2020-1-1',
-          modified_at: '2020-1-1',
-          res_shared_to: 'public',
-          is_targeted: true,
-          description: 'あいうえおかきくけこさしすせそ'
-        }
-      ]
-    })
-    return {
-      data
+  props: {
+    questionnaires: {
+      type: Array as PropType<QuestionnaireMyTargeted[]>,
+      required: true
     }
+  },
+  setup() {
+    return {}
   }
 })
 </script>

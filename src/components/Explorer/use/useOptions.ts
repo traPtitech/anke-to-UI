@@ -1,49 +1,42 @@
 import { adjustDigits } from '/@/lib/util/number'
 
-export const sortOrders = [
-  {
-    str: '最近更新された',
-    opt: '-modified_at'
-  },
-  {
-    str: '最近更新されていない',
-    opt: 'modified_at'
-  },
-  {
-    str: 'タイトル順',
-    opt: 'title'
-  },
-  {
-    str: 'タイトル逆順',
-    opt: '-title'
-  },
-  {
-    str: '最新',
-    opt: '-created_at'
-  },
-  {
-    str: '最も古い',
-    opt: 'created_at'
-  }
+export const sortOrderMap: [string, SortOrder][] = [
+  ['最近更新された', '-modified_at'],
+  ['最近更新されていない', 'modified_at'],
+  ['タイトル順', 'title'],
+  ['タイトル逆順', '-title'],
+  ['最新', '-created_at'],
+  ['最も古い', 'created_at']
 ]
-export const targetedOptions = [
-  {
-    str: '全て',
-    opt: false
-  },
-  {
-    str: '対象外のもののみ',
-    opt: true
-  }
+export const targetedOptionMap: [string, TargetedOption][] = [
+  ['全て', 'true'],
+  ['対象外のもののみ', 'false']
 ]
 
-export interface DropdownSortOrders {
-  str: string
-  opt: string
+export const stringToOption = <T>(str: string, map: Map<string, T>): T => {
+  const option = map.get(str)
+  if (!option) {
+    throw 'invalid key'
+  }
+  return option
 }
-export interface DropdownTargetedOptions {
-  str: string
-  opt: boolean
+
+const SortOrders = {
+  ModifiedLatest: '-modified_at',
+  ModifiedOldest: 'modified_at',
+  TitleOrder: 'title',
+  TitleReverseOrder: '-title',
+  CreatedLatest: '-created_at',
+  CreatedOldest: 'created_at'
+} as const
+type SortOrder = typeof SortOrders[keyof typeof SortOrders]
+
+type TargetedOption = `${boolean}`
+
+export interface Option {
+  sort: SortOrder
+  page: number
+  nontargeted: TargetedOption
 }
 
 export const getTimeLimit = (limit: string | null): string => {
