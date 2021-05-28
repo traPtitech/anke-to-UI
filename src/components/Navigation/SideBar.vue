@@ -39,6 +39,7 @@ export default defineComponent({
   text-align: left;
   min-width: fit-content;
   padding: 1rem;
+  box-sizing: border-box;
 }
 .link {
   padding: 0.5rem 0;
