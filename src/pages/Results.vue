@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="true">
+    <div v-if="!!questionnaire">
       <ResultTab
         :questionnaire="questionnaire"
         :results="results"
@@ -30,7 +30,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
-    const questionnaire = ref<QuestionnaireByID>()
+    const questionnaire = ref<QuestionnaireByID | null>(null)
     const results = ref<ResponseResult[]>([])
     const questions = ref<QuestionDetails[]>([])
     const hasResponded = ref<boolean>(false)

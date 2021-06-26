@@ -152,6 +152,7 @@ export const countData = (questions: QuestionDetails[], results: ResponseResult[
     title: question.body,
     type: question.question_type,
     data: generateIdTable(question.question_type, data[index]),
-    total: generateStats(question.question_type, data[index])
+    total: generateStats(question.question_type, data[index]),
+    length: data[index].length,
   }));
 };
