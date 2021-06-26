@@ -58,14 +58,11 @@ export default defineComponent({
     const downloadTable = () => undefined
     const questionLabels = computed(() => questions.map(question => question.body));
     const tableHeaders = computed(() => defaultColumns.map((data) => data.label).concat(questionLabels.value));
-    
-    console.log(questions);
+
     // カラムの表示非表示
     let showColumns = ref(new Array(questions.length + DEFAULT_COLUMNS_NUM).fill(true));
     watch(questions, () => {
-      console.log(questions);
       showColumns.value = new Array(questions.length + DEFAULT_COLUMNS_NUM).fill(true);
-      console.log(showColumns.value);
     });
     const toggleShowColumn = (index) => {
       if(index < 0 || index >= showColumns.value.length) return;
