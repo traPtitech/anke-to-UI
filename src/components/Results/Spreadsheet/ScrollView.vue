@@ -18,7 +18,7 @@
       v-show="tableForm === name"
       :key="name"
       :value="table"
-      :rows="table.split('\n').length + 3"
+      :rows="table.split('\n').length + textareaAdditionalLineNum"
       readonly
     ></textarea>
   </div>
@@ -30,7 +30,7 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from './TableHeader.vue'
 import TableBody from './TableBody.vue'
-import { isTextTable, textTables, defaultColumns } from '../use/utils'
+import { isTextTable, textTables, defaultColumns, textareaAdditionalLineNum } from '../use/utils'
 
 export default defineComponent({
   name: 'ScrollView',
@@ -80,7 +80,8 @@ export default defineComponent({
       showColumns,
       isTextTable,
       textTables,
-      toggleShowColumn
+      toggleShowColumn,
+      textareaAdditionalLineNum
     }
   }
 })

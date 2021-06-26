@@ -15,7 +15,7 @@
       <textarea
         v-if="tableForm === 'markdown'"
         :value="markdownTable"
-        :rows="markdownTable.split('\n').length + 3"
+        :rows="markdownTable.split('\n').length + textareaAdditionalLineNum"
         readonly
       ></textarea>
     </div>
@@ -27,7 +27,7 @@ import { defineComponent, PropType, computed, ref } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from './Statistics/Tab.vue'
 import Data from './Statistics/Data.vue'
-import { tableFormStyle, tableFormTabs } from './use/utils'
+import { tableFormStyle, tableFormTabs, textareaAdditionalLineNum } from './use/utils'
 
 export default defineComponent({
   name: 'Statistics',
@@ -62,7 +62,8 @@ export default defineComponent({
       tableForm,
       tableFormTabs,
       changeTableForm,
-      markdownTable
+      markdownTable,
+      textareaAdditionalLineNum
     }
   }
 })

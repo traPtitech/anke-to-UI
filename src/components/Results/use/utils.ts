@@ -17,6 +17,9 @@ export const textTables = {
   markdown: '',
   csv: ''
 }
+
+export const textareaAdditionalLineNum = 3;
+
 export const getTableRow = (results: ResponseResult[], index: number): string[] => {
   // typecheck対策
   // const ret = defaultColumns
