@@ -2,8 +2,8 @@
   <div>
     <!-- table view -->
     <table v-if="tableForm === 'view'">
-      <TableHeader />
-      <TableBody />
+      <TableHeader :table-headers="tableHeaders" :toggle-show-column="toggleShowColumn" :showColumns="showColumns" />
+      <TableBody :results="results" />
     </table>
 
     <!-- markdown, csv view -->
@@ -25,13 +25,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed, ref, watch } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from './TableHeader.vue'
 import TableBody from './TableBody.vue'
-import { tableHeaders, showColumn } from '../use/dummyData'
-import { tableForm, isTextTable, textTables } from '../use/utils'
+import { tableForm, isTextTable, textTables, DEFAULT_COLUMNS_NUM, defaultColumns } from '../use/utils'
 
 export default defineComponent({
   name: 'ScrollView',
@@ -54,17 +53,34 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
+  setup({ questions }) {
     const copyTable = () => undefined
     const downloadTable = () => undefined
+    const questionLabels = computed(() => questions.map(question => question.body));
+    const tableHeaders = computed(() => defaultColumns.map((data) => data.label).concat(questionLabels.value));
+    
+    console.log(questions);
+    // カラムの表示非表示
+    let showColumns = ref(new Array(questions.length + DEFAULT_COLUMNS_NUM).fill(true));
+    watch(questions, () => {
+      console.log(questions);
+      showColumns.value = new Array(questions.length + DEFAULT_COLUMNS_NUM).fill(true);
+      console.log(showColumns.value);
+    });
+    const toggleShowColumn = (index) => {
+      if(index < 0 || index >= showColumns.value.length) return;
+      showColumns.value[index] = !showColumns[index];
+    }
+
     return {
       tableForm,
       copyTable,
       downloadTable,
       tableHeaders,
-      showColumn,
+      showColumns,
       isTextTable,
-      textTables
+      textTables,
+      toggleShowColumn
     }
   }
 })

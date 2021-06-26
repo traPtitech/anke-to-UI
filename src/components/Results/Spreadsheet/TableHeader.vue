@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th v-for="(headerName, headerKey) in tableHeaders" :key="headerKey">
-        <HeaderElem :header-key="headerKey" :header-name="headerName" />
+        <HeaderElem :header-key="headerKey" :header-name="headerName" :toggle-show-column="toggleShowColumn" :is-show-column="showColumns[headerKey]" />
       </th>
     </tr>
   </thead>
@@ -11,16 +11,27 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import HeaderElem from './HeaderElem.vue'
-import { tableHeaders } from '../use/dummyData'
 export default defineComponent({
   name: 'TableHeader',
   components: {
     HeaderElem
   },
-  setup() {
-    return {
-      tableHeaders
+  props: {
+    tableHeaders: {
+      type: Object as PropType<string[]>,
+      required: true
+    },
+    toggleShowColumn: {
+      type: Function,
+      required: true
+    },
+    showColumns: {
+      type: Object as PropType<boolean[]>,
+      required: true
     }
+  },
+  setup() {
+    return {}
   }
 })
 </script>

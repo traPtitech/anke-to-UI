@@ -19,12 +19,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from './Statistics/Tab.vue'
 import Data from './Statistics/Data.vue'
 import { tableForm } from './use/utils'
-import { markdownTable } from './use/dummyData'
 
 export default defineComponent({
   name: 'Statistics',
@@ -47,6 +46,10 @@ export default defineComponent({
     }
   },
   setup() {
+    const markdownTable = computed(() => {
+      // マークダウン生成
+      return ''
+    })
     return {
       tableForm,
       markdownTable
