@@ -36,8 +36,8 @@ export default defineComponent({
     const hasResponded = ref<boolean>(false)
 
     onMounted(async () => {
-      if (isNaN(Number(route.params.id))) return
       const questionnaireId = Number(route.params.id)
+      if (isNaN(questionnaireId)) return
       const [qres, rres, qsres] = await Promise.all([
         apis.getQuestionnaire(questionnaireId, ''),
         apis.getResults(questionnaireId, ''),
