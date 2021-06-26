@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { ResponseResult } from '/@/lib/apis'
 import { getTableRow } from '../use/utils'
 
 export default defineComponent({

@@ -27,7 +27,6 @@ import { ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Responces from './Responces.vue'
 import { countData, isNumberType } from '../use/utils'
 
-
 export default defineComponent({
   name: 'Data',
   components: {
@@ -43,9 +42,9 @@ export default defineComponent({
       required: true
     }
   },
-  setup({results, questions}) {
+  setup(props) {
     return {
-      countedData: countData(questions, results),
+      countedData: countData(props.questions, props.results),
       isNumberType
     }
   }

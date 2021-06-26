@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Tab 
+    <Tab
       :table-form="tableForm"
       :table-form-tabs="tableFormTabs"
       :change-table-form="changeTableForm"
@@ -27,7 +27,11 @@ import { defineComponent, PropType, computed, ref } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from './Statistics/Tab.vue'
 import Data from './Statistics/Data.vue'
-import { tableFormStyle, tableFormTabs, textareaAdditionalLineNum } from './use/utils'
+import {
+  TableFormStyle,
+  tableFormTabs,
+  textareaAdditionalLineNum
+} from './use/utils'
 
 export default defineComponent({
   name: 'Statistics',
@@ -56,7 +60,8 @@ export default defineComponent({
     })
 
     const tableForm = ref<TableFormStyle>('view')
-    const changeTableForm = (newTableForm: tableFormStyle) => tableForm.value = newTableForm;
+    const changeTableForm = (newTableForm: TableFormStyle) =>
+      (tableForm.value = newTableForm)
 
     return {
       tableForm,

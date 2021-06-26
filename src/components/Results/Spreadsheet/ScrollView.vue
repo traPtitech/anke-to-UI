@@ -2,7 +2,11 @@
   <div>
     <!-- table view -->
     <table v-if="tableForm === 'view'">
-      <TableHeader :table-headers="tableHeaders" :toggle-show-column="toggleShowColumn" :showColumns="showColumns" />
+      <TableHeader
+        :table-headers="tableHeaders"
+        :toggle-show-column="toggleShowColumn"
+        :show-columns="showColumns"
+      />
       <TableBody :results="results" />
     </table>
 
@@ -30,7 +34,13 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from './TableHeader.vue'
 import TableBody from './TableBody.vue'
-import { isTextTable, textTables, defaultColumns, textareaAdditionalLineNum } from '../use/utils'
+import {
+  TableFormStyle,
+  isTextTable,
+  textTables,
+  defaultColumns,
+  textareaAdditionalLineNum
+} from '../use/utils'
 
 export default defineComponent({
   name: 'ScrollView',
@@ -57,20 +67,28 @@ export default defineComponent({
       required: true
     }
   },
-  setup({ questions }) {
+  setup(props) {
     const copyTable = () => undefined
     const downloadTable = () => undefined
-    const questionLabels = computed(() => questions.map(question => question.body));
-    const tableHeaders = computed(() => defaultColumns.map((data) => data.label).concat(questionLabels.value));
+    const questionLabels = computed(() =>
+      props.questions.map(question => question.body)
+    )
+    const tableHeaders = computed(() =>
+      defaultColumns.map(data => data.label).concat(questionLabels.value)
+    )
 
     // カラムの表示非表示
-    let showColumns = ref(new Array(questions.length + defaultColumns.length).fill(true));
-    watch(questions, () => {
-      showColumns.value = new Array(questions.length + defaultColumns.length).fill(true);
-    });
-    const toggleShowColumn = (index) => {
-      if(index < 0 || index >= showColumns.value.length) return;
-      showColumns.value[index] = !showColumns[index];
+    let showColumns = ref(
+      new Array(props.questions.length + defaultColumns.length).fill(true)
+    )
+    watch(props.questions, () => {
+      showColumns.value = new Array(
+        props.questions.length + defaultColumns.length
+      ).fill(true)
+    })
+    const toggleShowColumn = index => {
+      if (index < 0 || index >= showColumns.value.length) return
+      showColumns.value[index] = !showColumns[index]
     }
 
     return {

@@ -41,7 +41,8 @@ export default defineComponent({
   },
   setup() {
     const tableForm = ref<TableFormStyle>('view')
-    const changeTableForm = (newTableForm: TableFormStyle) => tableForm.value = newTableForm
+    const changeTableForm = (newTableForm: TableFormStyle) =>
+      (tableForm.value = newTableForm)
     return {
       tableForm,
       tableFormTabs,

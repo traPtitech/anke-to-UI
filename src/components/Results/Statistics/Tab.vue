@@ -12,9 +12,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed,PropType } from 'vue'
+import { defineComponent, computed, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import { TableFormStyle, tableFormTabs } from '../use/utils'
+import { TableFormStyle } from '../use/utils'
 
 export default defineComponent({
   name: 'Tab',
@@ -24,7 +24,8 @@ export default defineComponent({
   props: {
     tableForm: {
       type: String as PropType<TableFormStyle>,
-      reqiured: true
+      reqiured: true,
+      default: 'view'
     },
     tableFormTabs: {
       type: Array as PropType<TableFormStyle[]>,
@@ -41,8 +42,8 @@ export default defineComponent({
     }
     const canDownload = computed(() => {
       // ダウンロードできるかの判断
-      return true;
-    });
+      return true
+    })
 
     return {
       canDownload,
