@@ -12,10 +12,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import { tableForm, tableFormTabs } from '../use/utils'
-import { canDownload } from '../use/dummyData'
 
 export default defineComponent({
   name: 'Tab',
@@ -27,7 +26,13 @@ export default defineComponent({
       // eslint-disable-next-line no-console
       console.log(`change tab to: ${tab}`)
     }
-    const downloadTable = () => undefined
+    const downloadTable = () => {
+      // ダウンロード処理
+    }
+    const canDownload = computed(() => {
+      // ダウンロードできるかの判断
+      return true;
+    });
 
     return {
       tableForm,

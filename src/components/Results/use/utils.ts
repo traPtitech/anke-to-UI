@@ -1,6 +1,6 @@
 import { ResponseBody, QuestionDetails, ResponseResult } from '/@/lib/apis'
-import { results } from './dummyData'
 
+export const DEFAULT_COLUMNS_NUM = 2;
 export const defaultColumns = [
   { name: 'traqID', label: 'traQID' },
   { name: 'submitted_at', label: '回答日時' }
@@ -17,7 +17,7 @@ export const textTables = {
   markdown: '',
   csv: ''
 }
-export const getTableRow = (index: number): string[] => {
+export const getTableRow = (results: ResponseResult[], index: number): string[] => {
   // typecheck対策
   // const ret = defaultColumns
   //   .map(column => results[index][column.name])
@@ -72,17 +72,17 @@ export type CountedData = {
 }
 
 type AnswerData = {
-  traqId      : string
-  modifiedAt  : string
-  answer      : number | string | string[]
+  traqId: string
+  modifiedAt: string
+  answer: number | string | string[]
 }
 
 const generateIdTable = (questionType: string, answers: AnswerData[]): [choice: string | number, ids: string[]][] => {
   const total = new Map();
   answers.forEach((answer: AnswerData) => {
     if (isSelectType(questionType)) {
-      (<string[]> answer.answer).forEach((value) => {
-        if(!total.has(value)) total.set(value, []);
+      (<string[]>answer.answer).forEach((value) => {
+        if (!total.has(value)) total.set(value, []);
         total.get(value).push(answer.traqId);
       });
     } else {
@@ -108,7 +108,7 @@ const generateStats = (questionType: string, answers: AnswerData[]): {
   const center = Math.floor(answers.length / 2);
   const sorted = answers.sort((a, b) => <number>a.answer - <number>b.answer);
   const median = answers.length % 2 == 0 ?
-    (<number>sorted[center - 1].answer + <number>sorted[center].answer) * 0.5:
+    (<number>sorted[center - 1].answer + <number>sorted[center].answer) * 0.5 :
     <number>sorted[center].answer;
 
   const table = new Map();
@@ -128,8 +128,8 @@ const generateStats = (questionType: string, answers: AnswerData[]): {
   };
 }
 
-export const countData = (questions: QuestionDetails[], results: ResponseResult[] ): null | CountedData[] => {
-  if(questions.length <= 0 || results.length <= 0) return null;
+export const countData = (questions: QuestionDetails[], results: ResponseResult[]): null | CountedData[] => {
+  if (questions.length <= 0 || results.length <= 0) return null;
   const data: AnswerData[][] = Array.from({ length: questions.length }, () => []);
 
   // question毎に各結果を格納
@@ -138,12 +138,12 @@ export const countData = (questions: QuestionDetails[], results: ResponseResult[
 
     answers.forEach((answer: ResponseBody, index: number) => {
       data[index].push({
-        traqId      : result.traqID,
-        modifiedAt  : result.modified_at,
-        answer      :
-          isSelectType(answer.question_type) ? answer.option_response:
-          isNumberType(answer.question_type) ? +answer.response:
-          answer.response,
+        traqId: result.traqID,
+        modifiedAt: result.modified_at,
+        answer:
+          isSelectType(answer.question_type) ? answer.option_response :
+            isNumberType(answer.question_type) ? +answer.response :
+              answer.response,
       });
     });
   });
