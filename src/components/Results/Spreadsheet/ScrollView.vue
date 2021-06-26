@@ -30,7 +30,7 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from './TableHeader.vue'
 import TableBody from './TableBody.vue'
-import { tableForm, isTextTable, textTables, DEFAULT_COLUMNS_NUM, defaultColumns } from '../use/utils'
+import { isTextTable, textTables, defaultColumns } from '../use/utils'
 
 export default defineComponent({
   name: 'ScrollView',
@@ -51,6 +51,10 @@ export default defineComponent({
     questions: {
       type: Object as PropType<QuestionDetails[]>,
       required: true
+    },
+    tableForm: {
+      type: Object as PropType<TableFormStyle>,
+      required: true
     }
   },
   setup({ questions }) {
@@ -60,9 +64,9 @@ export default defineComponent({
     const tableHeaders = computed(() => defaultColumns.map((data) => data.label).concat(questionLabels.value));
 
     // カラムの表示非表示
-    let showColumns = ref(new Array(questions.length + DEFAULT_COLUMNS_NUM).fill(true));
+    let showColumns = ref(new Array(questions.length + defaultColumns.length).fill(true));
     watch(questions, () => {
-      showColumns.value = new Array(questions.length + DEFAULT_COLUMNS_NUM).fill(true);
+      showColumns.value = new Array(questions.length + defaultColumns.length).fill(true);
     });
     const toggleShowColumn = (index) => {
       if(index < 0 || index >= showColumns.value.length) return;
@@ -70,7 +74,6 @@ export default defineComponent({
     }
 
     return {
-      tableForm,
       copyTable,
       downloadTable,
       tableHeaders,

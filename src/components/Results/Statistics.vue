@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Tab />
+    <Tab 
+      :table-form="tableForm"
+      :table-form-tabs="tableFormTabs"
+      :change-table-form="changeTableForm"
+    />
     <div>
       <!-- table view -->
       <div v-if="tableForm === 'view'">
@@ -19,11 +23,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, ref } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from './Statistics/Tab.vue'
 import Data from './Statistics/Data.vue'
-import { tableForm } from './use/utils'
+import { tableFormStyle, tableFormTabs } from './use/utils'
 
 export default defineComponent({
   name: 'Statistics',
@@ -50,8 +54,14 @@ export default defineComponent({
       // マークダウン生成
       return ''
     })
+
+    const tableForm = ref<TableFormStyle>('view')
+    const changeTableForm = (newTableForm: tableFormStyle) => tableForm.value = newTableForm;
+
     return {
       tableForm,
+      tableFormTabs,
+      changeTableForm,
       markdownTable
     }
   }

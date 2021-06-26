@@ -2,7 +2,7 @@
   <div>
     <ul>
       <li v-for="tab in tableFormTabs" :key="tab">
-        <a @click="() => changeTab(tab)">{{ tab }}</a>
+        <a @click="() => changeTableForm(tab)">{{ tab }}</a>
       </li>
     </ul>
     <button v-if="canDownload" @click="downloadTable">
@@ -12,20 +12,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed,PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import { tableForm, tableFormTabs } from '../use/utils'
+import { TableFormStyle, tableFormTabs } from '../use/utils'
 
 export default defineComponent({
   name: 'Tab',
   components: {
     Icon
   },
-  setup() {
-    const changeTab = (tab: string) => {
-      // eslint-disable-next-line no-console
-      console.log(`change tab to: ${tab}`)
+  props: {
+    tableForm: {
+      type: String as PropType<TableFormStyle>,
+      reqiured: true
+    },
+    tableFormTabs: {
+      type: Array as PropType<TableFormStyle[]>,
+      required: true
+    },
+    changeTableForm: {
+      type: Function,
+      required: true
     }
+  },
+  setup() {
     const downloadTable = () => {
       // ダウンロード処理
     }
@@ -35,10 +45,7 @@ export default defineComponent({
     });
 
     return {
-      tableForm,
-      tableFormTabs,
       canDownload,
-      changeTab,
       downloadTable
     }
   }

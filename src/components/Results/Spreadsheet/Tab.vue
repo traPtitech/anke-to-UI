@@ -2,7 +2,7 @@
   <div>
     <ul>
       <li v-for="tab in tableFormTabs" :key="tab">
-        <a @click="() => {}">{{ tab }}</a>
+        <a @click="changeTableForm(tab)">{{ tab }}</a>
       </li>
     </ul>
   </div>
@@ -14,10 +14,18 @@ import { tableFormTabs, tableForm } from '../use/utils'
 
 export default defineComponent({
   name: 'Tab',
-  setup() {
-    return {
-      tableForm,
-      tableFormTabs
+  props: {
+    tableForm: {
+      type: String as PropType<TableFormStyle>,
+      reqiured: true
+    },
+    tableFormTabs: {
+      type: Array as PropType<TableFormStyle[]>,
+      required: true
+    },
+    changeTableForm: {
+      type: Function,
+      required: true
     }
   }
 })

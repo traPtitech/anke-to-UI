@@ -1,14 +1,14 @@
 import { ResponseBody, QuestionDetails, ResponseResult } from '/@/lib/apis'
 
-export const DEFAULT_COLUMNS_NUM = 2;
 export const defaultColumns = [
   { name: 'traqID', label: 'traQID' },
   { name: 'submitted_at', label: '回答日時' }
 ]
-export const tableFormTabs = ['view', 'markdown', 'csv']
-export const detailTabs = ['statistics', 'spreadsheet', 'individual']
-export const tableForm = 'view'
-export const isTextTable = ['markdown', 'csv'].includes(tableForm)
+export type TableFormTypes = 'view' | 'markdown' | 'csv'
+export const tableFormTabs: TableFormTypes[] = ['view', 'markdown', 'csv']
+export type DetailTabTypes = 'statistics' | 'spreadsheet' | 'individual';
+export const detailTabs: DetailTabTypes[] = ['statistics', 'spreadsheet', 'individual']
+export const isTextTable = (tableForm: TableFormTypes) => ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 export const isNumberType = (type: string): boolean =>
