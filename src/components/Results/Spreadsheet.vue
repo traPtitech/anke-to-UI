@@ -1,31 +1,46 @@
 <template>
-  <PageTemplate>
-    <template #header>
-      <ResultHeader />
-    </template>
-    <template #content>
-      <div>
-        <Tab />
-        <ScrollView />
-      </div>
-    </template>
-  </PageTemplate>
+  <Tab v-model="tableForm" :tabs="tableFormTabs" />
+  <ScrollView
+    :questionnaire="questionnaire"
+    :results="results"
+    :questions="questions"
+    :table-form="tableForm"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import PageTemplate from './PageTemplate.vue'
-import ResultHeader from './ResultHeader.vue'
-import Tab from './Spreadsheet/Tab.vue'
+import { defineComponent, PropType, ref } from 'vue'
+import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
+import Tab from '/@/components/UI/Tab.vue'
 import ScrollView from './Spreadsheet/ScrollView.vue'
+import { TableFormTypes, tableFormTabs } from './use/utils'
 
 export default defineComponent({
   name: 'Spreadsheet',
   components: {
-    PageTemplate,
-    ResultHeader,
     Tab,
     ScrollView
+  },
+  props: {
+    questionnaire: {
+      type: Object as PropType<QuestionnaireByID>,
+      required: true
+    },
+    results: {
+      type: Array as PropType<ResponseResult[]>,
+      default: []
+    },
+    questions: {
+      type: Array as PropType<QuestionDetails[]>,
+      default: []
+    }
+  },
+  setup() {
+    const tableForm = ref<TableFormTypes>('view')
+    return {
+      tableForm,
+      tableFormTabs
+    }
   }
 })
 </script>

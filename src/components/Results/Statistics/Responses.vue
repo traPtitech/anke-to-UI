@@ -7,11 +7,11 @@
       <td>その回答をした人</td>
     </thead>
     <tbody>
-      <tr v-for="[choice, ids] of question.data" :key="choice">
+      <tr v-for="[choice, ids] of question.data || []" :key="choice">
         <td>{{ choice }}</td>
         <td>{{ ids.length }}</td>
         <td v-if="isSelectType(question.type)">
-          {{ `${((ids.length / question.length) * 100).toFixed(2)}%` }}
+          {{ `${((ids.length / (question.length ?? 1)) * 100).toFixed(2)}%` }}
         </td>
         <td>{{ ids.join(', ') }}</td>
       </tr>

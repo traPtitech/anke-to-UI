@@ -1,29 +1,75 @@
 <template>
-  <Individual v-if="currentTabComponent === 'individual'" />
-  <Statistics v-if="currentTabComponent === 'statistics'" />
-  <Spreadsheet v-if="currentTabComponent === 'spreadsheet'" />
+  <PageTemplate>
+    <template #header>
+      <ResultHeader />
+    </template>
+    <div>
+      {{ questionnaire.title }}
+    </div>
+    <template #content>
+      <Individual
+        v-if="currentTabComponent === 'individual'"
+        :questionnaire="questionnaire"
+        :results="results"
+        :questions="questions"
+      />
+      <Statistics
+        v-if="currentTabComponent === 'statistics'"
+        :questionnaire="questionnaire"
+        :results="results"
+        :questions="questions"
+      />
+      <Spreadsheet
+        v-if="currentTabComponent === 'spreadsheet'"
+        :questionnaire="questionnaire"
+        :results="results"
+        :questions="questions"
+      />
+    </template>
+  </PageTemplate>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue'
+import { defineComponent, ref, computed, watch, PropType, onMounted } from 'vue'
+import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
+import PageTemplate from './PageTemplate.vue'
+import ResultHeader from './ResultHeader.vue'
 import Individual from './Individual.vue'
 import Statistics from './Statistics.vue'
 import Spreadsheet from './Spreadsheet.vue'
-import { detailTabs } from './use/utils'
+import { detailTabs, DetailTabTypes } from './use/utils'
 
 export default defineComponent({
   name: 'ResultTab',
   components: {
+    PageTemplate,
+    ResultHeader,
     Individual,
     Statistics,
     Spreadsheet
   },
+  props: {
+    questionnaire: {
+      type: Object as PropType<QuestionnaireByID>,
+      required: true
+    },
+    results: {
+      type: Object as PropType<ResponseResult[]>,
+      required: true
+    },
+    questions: {
+      type: Object as PropType<QuestionDetails[]>,
+      required: true
+    }
+  },
   setup() {
-    const selectedTab = ref('Statistics')
+    const selectedTab = ref<DetailTabTypes>('statistics')
     const route = useRoute()
 
-    selectedTab.value = <string>route.query.tab || 'statistics'
+    onMounted(() => {
+      selectedTab.value = <DetailTabTypes>route.query.tab || 'statistics'
+    })
 
     const currentTabComponent = computed(() => {
       if (detailTabs.includes(selectedTab.value)) return selectedTab.value
@@ -35,7 +81,7 @@ export default defineComponent({
     watch(
       () => route.query,
       newQuery => {
-        selectedTab.value = <string>newQuery.tab
+        selectedTab.value = <DetailTabTypes>newQuery.tab
       }
     )
     return {

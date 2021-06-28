@@ -77,6 +77,7 @@ export default defineComponent({
 .content {
   padding: 1.5rem;
   overflow-y: auto;
+  width: 100%;
 }
 .main {
   display: flex;

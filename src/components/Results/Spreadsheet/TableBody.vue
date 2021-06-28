@@ -1,7 +1,7 @@
 <template>
   <tbody>
     <tr v-for="(row, j) in results" :key="j">
-      <td v-for="(item, k) in getTableRow(j)" :key="k">
+      <td v-for="(item, k) in getTableRow(results, j)" :key="k">
         {{ item }}
       </td>
     </tr>
@@ -9,16 +9,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { results } from '../use/dummyData'
+import { defineComponent, PropType } from 'vue'
+import { ResponseResult } from '/@/lib/apis'
 import { getTableRow } from '../use/utils'
 
 export default defineComponent({
-  name: 'TableHeader',
+  name: 'TableBody',
+  props: {
+    results: {
+      type: Array as PropType<ResponseResult[]>,
+      default: []
+    }
+  },
   setup() {
     return {
-      getTableRow,
-      results
+      getTableRow
     }
   }
 })

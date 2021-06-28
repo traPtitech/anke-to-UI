@@ -2,9 +2,9 @@
   <header>
     <slot name="header"></slot>
   </header>
-  <main>
+  <div>
     <slot name="content"></slot>
-  </main>
+  </div>
 </template>
 
 <script>

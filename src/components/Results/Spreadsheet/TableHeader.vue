@@ -2,25 +2,43 @@
   <thead>
     <tr>
       <th v-for="(headerName, headerKey) in tableHeaders" :key="headerKey">
-        <HeaderElem :header-key="headerKey" :header-name="headerName" />
+        <HeaderElem
+          :header-name="headerName"
+          :is-show-column="showColumns[headerKey]"
+          @toggleShowColumn="() => toggleShowColumn(headerKey)"
+        />
       </th>
     </tr>
   </thead>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import HeaderElem from './HeaderElem.vue'
-import { tableHeaders } from '../use/dummyData'
 export default defineComponent({
   name: 'TableHeader',
   components: {
     HeaderElem
   },
-  setup() {
-    return {
-      tableHeaders
+  props: {
+    tableHeaders: {
+      type: Array as PropType<string[]>,
+      default: []
+    },
+    showColumns: {
+      type: Array as PropType<boolean[]>,
+      default: []
     }
+  },
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    toggleShowColumn: (headerKey: number) => true
+  },
+  setup(_, context) {
+    const toggleShowColumn = (headerKey: number) => {
+      context.emit('toggleShowColumn', headerKey)
+    }
+    return { toggleShowColumn }
   }
 })
 </script>

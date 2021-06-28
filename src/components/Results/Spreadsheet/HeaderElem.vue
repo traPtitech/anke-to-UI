@@ -1,7 +1,7 @@
 <template>
   <span>
-    <span>
-      <Icon name="eye" />
+    <span @click="toggleShowColumn">
+      <Icon :name="isShowColumn ? 'eye' : 'eye-closed'" />
     </span>
     <span>
       {{ headerName }}
@@ -24,10 +24,19 @@ export default defineComponent({
       type: String,
       required: true
     },
-    headerKey: {
-      type: Number,
+    isShowColumn: {
+      type: Boolean,
       required: true
     }
+  },
+  emits: {
+    toggleShowColumn: () => true
+  },
+  setup(_, context) {
+    const toggleShowColumn = () => {
+      context.emit('toggleShowColumn')
+    }
+    return { toggleShowColumn }
   }
 })
 </script>
