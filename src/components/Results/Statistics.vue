@@ -46,11 +46,11 @@ export default defineComponent({
     },
     results: {
       type: Array as PropType<ResponseResult[]>,
-     default: []
+      default: []
     },
     questions: {
       type: Object as PropType<QuestionDetails[]>,
-      required: true
+      default: []
     }
   },
   setup() {
