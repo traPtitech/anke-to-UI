@@ -55,8 +55,8 @@ export default defineComponent({
       required: true
     },
     results: {
-      type: Object as PropType<ResponseResult[]>,
-      required: true
+      type: Arrayas PropType<ResponseResult[]>,
+      default: []
     },
     questions: {
       type: Object as PropType<QuestionDetails[]>,

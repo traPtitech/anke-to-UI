@@ -17,8 +17,8 @@ export default defineComponent({
   name: 'TableHeader',
   props: {
     results: {
-      type: Object as PropType<ResponseResult[]>,
-      required: true
+      type: Array as PropType<ResponseResult[]>,
+      default: []
     }
   },
   setup() {

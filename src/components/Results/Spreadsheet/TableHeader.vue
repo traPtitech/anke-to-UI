@@ -23,16 +23,16 @@ export default defineComponent({
   },
   props: {
     tableHeaders: {
-      type: Object as PropType<string[]>,
-      required: true
+      type: Array as PropType<string[]>,
+      default: []
     },
     toggleShowColumn: {
       type: Function,
       required: true
     },
     showColumns: {
-      type: Object as PropType<boolean[]>,
-      required: true
+      type: Array as PropType<boolean[]>,
+      default: []
     }
   },
   setup() {

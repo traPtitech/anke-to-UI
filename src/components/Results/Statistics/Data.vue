@@ -34,12 +34,12 @@ export default defineComponent({
   },
   props: {
     results: {
-      type: Object as PropType<ResponseResult[]>,
-      required: true
+      type: Array as PropType<ResponseResult[]>,
+      default: []
     },
     questions: {
-      type: Object as PropType<QuestionDetails[]>,
-      required: true
+      type: Array as PropType<QuestionDetails[]>,
+      default: []
     }
   },
   setup(props) {
