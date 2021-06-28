@@ -59,8 +59,8 @@ export default defineComponent({
       default: []
     },
     questions: {
-      type: Object as PropType<QuestionDetails[]>,
-      required: true
+      type: Array as PropType<QuestionDetails[]>,
+      default: []
     },
     tableForm: {
       type: Object as PropType<TableFormStyle>,
