@@ -3,10 +3,9 @@
     <tr>
       <th v-for="(headerName, headerKey) in tableHeaders" :key="headerKey">
         <HeaderElem
-          :header-key="headerKey"
           :header-name="headerName"
-          :toggle-show-column="toggleShowColumn"
           :is-show-column="showColumns[headerKey]"
+          @toggleShowColumn="() => toggleShowColumn(headerKey)"
         />
       </th>
     </tr>
@@ -26,17 +25,20 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: []
     },
-    toggleShowColumn: {
-      type: Function,
-      required: true
-    },
     showColumns: {
       type: Array as PropType<boolean[]>,
       default: []
     }
   },
-  setup() {
-    return {}
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    toggleShowColumn: (headerKey: number) => true
+  },
+  setup(_, context) {
+    const toggleShowColumn = (headerKey: number) => {
+      context.emit('toggleShowColumn', headerKey)
+    }
+    return { toggleShowColumn }
   }
 })
 </script>

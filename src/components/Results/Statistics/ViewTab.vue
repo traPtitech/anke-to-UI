@@ -1,5 +1,5 @@
 <template>
-  <div v-for="question in countedData" :key="question.title">
+  <div v-for="question in countedData || []" :key="question.title">
     <header>
       <p>{{ question.title }}</p>
     </header>
@@ -7,10 +7,10 @@
       <div>
         <div v-if="isNumberType(question.type)">
           <ul>
-            <li>平均値: {{ question.total.average }}</li>
-            <li>標準偏差: {{ question.total.standardDeviation }}</li>
-            <li>中央値: {{ question.total.median }}</li>
-            <li>最頻値: {{ question.total.mode }}</li>
+            <li>平均値: {{ question.total?.average }}</li>
+            <li>標準偏差: {{ question.total?.standardDeviation }}</li>
+            <li>中央値: {{ question.total?.median }}</li>
+            <li>最頻値: {{ question.total?.mode }}</li>
           </ul>
         </div>
         <div>
@@ -22,13 +22,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import { ResponseResult, QuestionDetails } from '/@/lib/apis'
-import Responces from './Responces.vue'
+import Responces from './Responses.vue'
 import { countData, isNumberType } from '../use/utils'
 
 export default defineComponent({
-  name: 'Data',
+  name: 'ViewTab',
   components: {
     Responces
   },
@@ -43,8 +43,11 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const countedData = computed(() =>
+      countData(props.questions, props.results)
+    )
     return {
-      countedData: countData(props.questions, props.results),
+      countedData,
       isNumberType
     }
   }

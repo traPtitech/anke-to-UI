@@ -1,9 +1,5 @@
 <template>
-  <Tab
-    :table-form="tableForm"
-    :table-form-tabs="tableFormTabs"
-    :change-table-form="changeTableForm"
-  />
+  <Tab v-model="tableForm" :tabs="tableFormTabs" />
   <ScrollView
     :questionnaire="questionnaire"
     :results="results"
@@ -15,9 +11,9 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-import Tab from './Spreadsheet/Tab.vue'
+import Tab from '/@/components/UI/Tab.vue.vue'
 import ScrollView from './Spreadsheet/ScrollView.vue'
-import { TableFormStyle, tableFormTabs } from './use/utils'
+import { TableFormTypes, tableFormTabs } from './use/utils'
 
 export default defineComponent({
   name: 'Spreadsheet',
@@ -40,13 +36,10 @@ export default defineComponent({
     }
   },
   setup() {
-    const tableForm = ref<TableFormStyle>('view')
-    const changeTableForm = (newTableForm: TableFormStyle) =>
-      (tableForm.value = newTableForm)
+    const tableForm = ref<TableFormTypes>('view')
     return {
       tableForm,
-      tableFormTabs,
-      changeTableForm
+      tableFormTabs
     }
   }
 })

@@ -1,28 +1,13 @@
 <template>
-  <div>
-    <!-- TODO あとからどうにかする -->
-    <!-- <questions :questions-props="questionData"></questions>
-    <pagination
-      :range="range"
-      :current-page="currentPage"
-      :default-page-link="defaultPageLink"
-    ></pagination> -->
-  </div>
+  <div>個人の回答を表示する</div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-// TODO あとからどうにかする
-// import Questions from '/@/components/Questions/Questions.vue'
-// import Pagination from '/@/components/Utils/Pagination.vue'
 
 export default defineComponent({
   name: 'Individual',
-  components: {
-    // questions: Questions,
-    // pagination: Pagination
-  },
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
@@ -34,8 +19,11 @@ export default defineComponent({
     },
     questions: {
       type: Object as PropType<QuestionDetails[]>,
-      required: true
+      default: []
     }
+  },
+  setup() {
+    return {}
   }
 })
 </script>

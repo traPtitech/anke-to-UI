@@ -1,23 +1,21 @@
 <template>
   <div>
-    <Tab
-      :table-form="tableForm"
-      :table-form-tabs="tableFormTabs"
-      :change-table-form="changeTableForm"
-    />
+    <Tab v-model="tableForm" :tabs="tableFormTabs" />
     <div>
       <!-- table view -->
       <div v-if="tableForm === 'view'">
-        <Data :results="results" :questions="questions" />
+        <view-tab
+          v-if="tableForm === 'view'"
+          :results="results"
+          :questions="questions"
+        />
       </div>
 
       <!-- markdown view -->
-      <textarea
-        v-if="tableForm === 'markdown'"
+      <markdown-tab
+        v-else-if="tableForm === 'markdown'"
         :value="markdownTable"
-        :rows="markdownTable.split('\n').length + textareaAdditionalLineNum"
-        readonly
-      ></textarea>
+      />
     </div>
   </div>
 </template>
@@ -25,19 +23,17 @@
 <script lang="ts">
 import { defineComponent, PropType, computed, ref } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-import Tab from './Statistics/Tab.vue'
-import Data from './Statistics/Data.vue'
-import {
-  TableFormStyle,
-  tableFormTabs,
-  textareaAdditionalLineNum
-} from './use/utils'
+import Tab from '/@/components/UI/Tab.vue.vue'
+import ViewTab from './Statistics/ViewTab.vue'
+import MarkdownTab from './Statistics/MarkdownTab.vue'
+import { TableFormTypes, tableFormTabs } from './use/utils'
 
 export default defineComponent({
   name: 'Statistics',
   components: {
     Tab,
-    Data
+    ViewTab,
+    MarkdownTab
   },
   props: {
     questionnaire: {
@@ -59,16 +55,12 @@ export default defineComponent({
       return ''
     })
 
-    const tableForm = ref<TableFormStyle>('view')
-    const changeTableForm = (newTableForm: TableFormStyle) =>
-      (tableForm.value = newTableForm)
+    const tableForm = ref<TableFormTypes>('view')
 
     return {
       tableForm,
       tableFormTabs,
-      changeTableForm,
-      markdownTable,
-      textareaAdditionalLineNum
+      markdownTable
     }
   }
 })

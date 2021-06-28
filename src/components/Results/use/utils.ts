@@ -12,7 +12,7 @@ export const detailTabs: DetailTabTypes[] = [
   'spreadsheet',
   'individual'
 ]
-export const isTextTable = (tableForm: TableFormTypes): boolean =>
+export const getIsTextTable = (tableForm: TableFormTypes): boolean =>
   ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
@@ -23,7 +23,7 @@ export const textTables = {
   csv: ''
 }
 
-export const textareaAdditionalLineNum = 3
+export const TEXTAREA_ADDITIONAL_LINE_NUM = 3
 
 export const getTableRow = (
   results: ResponseResult[],

@@ -4,17 +4,17 @@
     <table v-if="tableForm === 'view'">
       <TableHeader
         :table-headers="tableHeaders"
-        :toggle-show-column="toggleShowColumn"
         :show-columns="showColumns"
+        @toggleShowColumn="toggleShowColumn"
       />
       <TableBody :results="results" />
     </table>
 
     <!-- markdown, csv view -->
-    <button v-if="isTextTable" @click="copyTable">
+    <button v-if="isTextTable">
       <Icon name="clipboard" />
     </button>
-    <button v-if="isTextTable" @click="downloadTable">
+    <button v-if="isTextTable">
       <Icon name="download" />
     </button>
     <textarea
@@ -22,7 +22,7 @@
       v-show="tableForm === name"
       :key="name"
       :value="table"
-      :rows="table.split('\n').length + textareaAdditionalLineNum"
+      :rows="table.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
       readonly
     ></textarea>
   </div>
@@ -35,11 +35,11 @@ import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from './TableHeader.vue'
 import TableBody from './TableBody.vue'
 import {
-  TableFormStyle,
-  isTextTable,
+  TableFormTypes,
+  getIsTextTable,
   textTables,
   defaultColumns,
-  textareaAdditionalLineNum
+  TEXTAREA_ADDITIONAL_LINE_NUM
 } from '../use/utils'
 
 export default defineComponent({
@@ -63,13 +63,12 @@ export default defineComponent({
       default: []
     },
     tableForm: {
-      type: Object as PropType<TableFormStyle>,
+      type: String as PropType<TableFormTypes>,
       required: true
     }
   },
   setup(props) {
-    const copyTable = () => undefined
-    const downloadTable = () => undefined
+    const isTextTable = computed(() => getIsTextTable(props.tableForm))
     const questionLabels = computed(() =>
       props.questions.map(question => question.body)
     )
@@ -86,20 +85,18 @@ export default defineComponent({
         props.questions.length + defaultColumns.length
       ).fill(true)
     })
-    const toggleShowColumn = index => {
+    const toggleShowColumn = (index: number) => {
       if (index < 0 || index >= showColumns.value.length) return
-      showColumns.value[index] = !showColumns[index]
+      showColumns.value[index] = !showColumns.value[index]
     }
 
     return {
-      copyTable,
-      downloadTable,
       tableHeaders,
       showColumns,
       isTextTable,
       textTables,
       toggleShowColumn,
-      textareaAdditionalLineNum
+      TEXTAREA_ADDITIONAL_LINE_NUM
     }
   }
 })

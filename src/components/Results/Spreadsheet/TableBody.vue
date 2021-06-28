@@ -14,7 +14,7 @@ import { ResponseResult } from '/@/lib/apis'
 import { getTableRow } from '../use/utils'
 
 export default defineComponent({
-  name: 'TableHeader',
+  name: 'TableBody',
   props: {
     results: {
       type: Array as PropType<ResponseResult[]>,
