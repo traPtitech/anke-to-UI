@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <div v-if="!!questionnaire">
-      <ResultTab
-        :questionnaire="questionnaire"
-        :results="results"
-        :questions="questions"
-      />
-    </div>
-    <div v-if="/* information.administrators && !canViewResults */ false">
-      <p>結果を閲覧する権限がありません</p>
-    </div>
+  <div v-if="questionnaire">
+    <ResultTab
+      :questionnaire="questionnaire"
+      :results="results"
+      :questions="questions"
+    />
+  </div>
+  <div v-if="/* information.administrators && !canViewResults */ false">
+    <p>結果を閲覧する権限がありません</p>
   </div>
 </template>
 

@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, PropType } from 'vue'
+import { defineComponent, ref, computed, watch, PropType, onMounted } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 import PageTemplate from './PageTemplate.vue'
@@ -38,7 +38,7 @@ import ResultHeader from './ResultHeader.vue'
 import Individual from './Individual.vue'
 import Statistics from './Statistics.vue'
 import Spreadsheet from './Spreadsheet.vue'
-import { detailTabs } from './use/utils'
+import { detailTabs, DetailTabTypes } from './use/utils'
 
 export default defineComponent({
   name: 'ResultTab',
@@ -64,10 +64,12 @@ export default defineComponent({
     }
   },
   setup() {
-    const selectedTab = ref('Statistics')
+    const selectedTab = ref<DetailTabTypes>('statistics')
     const route = useRoute()
 
-    selectedTab.value = <string>route.query.tab || 'statistics'
+    onMounted(() => {
+      selectedTab.value = <DetailTabTypes>route.query.tab || 'statistics'
+    })
 
     const currentTabComponent = computed(() => {
       if (detailTabs.includes(selectedTab.value)) return selectedTab.value
@@ -79,7 +81,7 @@ export default defineComponent({
     watch(
       () => route.query,
       newQuery => {
-        selectedTab.value = <string>newQuery.tab
+        selectedTab.value = <DetailTabTypes>newQuery.tab
       }
     )
     return {

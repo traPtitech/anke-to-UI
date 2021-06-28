@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-import Tab from '/@/components/UI/Tab.vue.vue'
+import Tab from '/@/components/UI/Tab.vue'
 import ScrollView from './Spreadsheet/ScrollView.vue'
 import { TableFormTypes, tableFormTabs } from './use/utils'
 
