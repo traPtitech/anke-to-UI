@@ -27,6 +27,7 @@ module.exports = {
         name: '/@/lib/apis/generated',
         message: 'Please use /@/lib/apis instead.'
       }
-    ]
+    ],
+    'vue/require-valid-default-prop': 'off'
   }
 }
