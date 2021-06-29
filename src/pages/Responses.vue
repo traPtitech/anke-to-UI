@@ -2,18 +2,25 @@
   <Card>
     <template #header>自分の回答</template>
     <template #content>
-      <div :class="$style.content">
-        <table :class="$style.table">
-          <th
-            v-for="(header, index) in headers"
-            :key="index"
-            :class="$style.header"
-          >
-            {{ header }}
-          </th>
+      <ATable>
+        <template #header>
+          <div :class="$style.content">
+            <table :class="$style.table">
+              <th
+                v-for="(header, index) in headers"
+                :key="index"
+                :class="$style.header"
+              >
+                {{ header }}
+              </th>
+            </table>
+          </div>
+        </template>
+        <template #content>
           <responses-table :response-summaries="responseSummaries" />
-        </table>
-      </div>
+          <!-- table-row v-forで書き換える -->
+        </template>
+      </ATable>
     </template>
   </Card>
 </template>
@@ -22,12 +29,14 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import ResponsesTable from '/@/components/Responses/ResponsesTable.vue'
 import Card from '/@/components/UI/Card.vue'
+import ATable from '/@/components/Responses/ATable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'Responses',
   components: {
     Card,
+    ATable,
     ResponsesTable
   },
   setup() {
