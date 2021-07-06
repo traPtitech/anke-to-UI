@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '/@/pages/Index.vue'
 import Hello from '/@/pages/Hello.vue'
+
 import Explorer from '/@/pages/Explorer.vue'
 import Targeted from '/@/pages/Targeted.vue'
 import Results from '/@/pages/Results.vue'
+import Responses from '/@/pages/Responses.vue'
 export const routerHistory = createWebHistory()
 
 export default createRouter({
@@ -33,6 +35,11 @@ export default createRouter({
       path: '/results/:id',
       name: 'results',
       component: Results
+    },
+    {
+      path: '/responses',
+      name: 'responses',
+      component: Responses
     }
   ]
 })
