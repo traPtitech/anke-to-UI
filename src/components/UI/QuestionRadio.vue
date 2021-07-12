@@ -5,18 +5,8 @@
       :key="index"
       :class="$style.label"
     >
-      <div :class="$style.button">
-        <div
-          :class="[
-            index === selectedIndex ? $style.selected : '',
-            $style.innerButton
-          ]"
-        />
-      </div>
-      <input
-        type="radio"
-        name="radio"
-        :class="$style.input"
+      <radio-button
+        :is-selected="index === selectedIndex"
         @input="update(index)"
       />
       <p :class="$style.content">{{ content }}</p>
@@ -26,9 +16,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue'
+import RadioButton from '/@/components/UI/RadioButton.vue'
 
 export default defineComponent({
   name: 'QuestionRadio',
+  components: {
+    RadioButton
+  },
   props: {
     contents: {
       type: Array as PropType<string[]>,
@@ -67,34 +61,5 @@ export default defineComponent({
       margin-left: 0.4rem;
     }
   }
-}
-.button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  content: '';
-  width: 1rem;
-  height: 1rem;
-  border: solid 1px #7c6c4d;
-  border-radius: 50%;
-  cursor: pointer;
-  .innerButton {
-    content: '';
-    width: 75%;
-    height: 75%;
-    background-color: #7c6c4d;
-    border-radius: 50%;
-    transition: transform 0.1s;
-    transform: scale(0);
-  }
-  .selected {
-    transform: scale(1);
-  }
-  &:hover {
-    opacity: 0.6;
-  }
-}
-.input {
-  appearance: none;
 }
 </style>
