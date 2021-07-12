@@ -68,7 +68,6 @@ export default defineComponent({
   flex-direction: column;
   align-items: flex-start;
   padding: 0.5rem;
-  max-width: 100%;
   .label {
     display: flex;
     flex-direction: row;
@@ -92,6 +91,7 @@ export default defineComponent({
   }
   .icon {
     opacity: 0;
+    color: #625c3d;
     height: 100%;
     width: 100%;
     transition: 0.2s;
