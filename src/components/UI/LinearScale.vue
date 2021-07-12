@@ -1,0 +1,73 @@
+<template>
+  <div :class="$style.container">
+    <div :class="$style.leftLabel">{{ leftLabel }}</div>
+    <label v-for="(num, index) in range" :key="index">
+      <radio-button
+        :is-selected="index === selectedIndex"
+        @input="update(index)"
+      />
+      <p :class="$style.name">{{ num }}</p>
+    </label>
+    <div :class="$style.rightLabel">{{ rightLabel }}</div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType, Ref, ref } from 'vue'
+import RadioButton from '/@/components/UI/RadioButton.vue'
+
+export default defineComponent({
+  name: 'LinearScale',
+  components: {
+    RadioButton
+  },
+  props: {
+    range: {
+      type: Array as PropType<number[]>,
+      required: true
+    },
+    leftLabel: {
+      type: String,
+      required: true
+    },
+    rightLabel: {
+      type: String,
+      required: true
+    },
+    modelValue: {
+      type: Number,
+      required: true
+    }
+  },
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:modelValue': (v: number) => true
+  },
+  setup(props, context) {
+    let selectedIndex = ref() as Ref<number>
+    const update = (index: number) => {
+      selectedIndex.value = index
+      context.emit('update:modelValue', props.range[index])
+    }
+
+    return { selectedIndex, update }
+  }
+})
+</script>
+
+<style lang="scss" module>
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .name {
+    margin: -0.5rem 0;
+  }
+  .leftLabel {
+    margin-right: 0.5rem;
+  }
+  .rightLabel {
+    margin-left: 0.5rem;
+  }
+}
+</style>
