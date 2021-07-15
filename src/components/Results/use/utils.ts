@@ -68,7 +68,6 @@ const responseToString = (body: ResponseBody): string => {
 }
 
 // statistic系
-
 export type CountedData = {
   title: string
   type: string

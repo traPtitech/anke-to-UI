@@ -34,6 +34,7 @@ import {
   CountedData
 } from './use/utils'
 
+//export default class Data implements CountedData {}
 export default defineComponent({
   name: 'Statistics',
   components: {
@@ -53,13 +54,19 @@ export default defineComponent({
     questions: {
       type: Object as PropType<QuestionDetails[]>,
       default: []
+    },
+    //cをC（大文字）にするとエラーが出てしまう…
+    counteddata: {
+      type: Object as PropType<CountedData>,
+      required: false
     }
   },
-  setup() {
+
+  setup(props.counteddata) {
     const markdownTable = computed(() => {
       // マークダウン生成
-      // countedData関連のものがダメっぽい
-      if (!this.CountedData) return ''
+      // （５８行目で）
+      if (!this.counteddata) return ''
       return this.CountedData.flatMap(question => {
         const { total, data } = question
         let res = [`# ${question.title}`]
@@ -108,6 +115,6 @@ export default defineComponent({
       tableFormTabs,
       markdownTable
     }
-  }
-})
+  },
+)
 </script>
