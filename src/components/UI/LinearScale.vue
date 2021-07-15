@@ -60,14 +60,14 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  .name {
-    margin: -0.5rem 0;
-  }
-  .leftLabel {
-    margin-right: 0.5rem;
-  }
-  .rightLabel {
-    margin-left: 0.5rem;
-  }
+}
+.name {
+  margin: -0.5rem 0;
+}
+.leftLabel {
+  margin-right: 0.5rem;
+}
+.rightLabel {
+  margin-left: 0.5rem;
 }
 </style>

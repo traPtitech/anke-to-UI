@@ -52,14 +52,14 @@ export default defineComponent({
 <style lang="scss" module>
 .container {
   padding: 0.5rem;
-  .label {
-    display: flex;
-    align-items: center;
-    margin: 0.4rem 0;
-    .content {
-      margin: 0;
-      margin-left: 0.4rem;
-    }
+}
+.label {
+  display: flex;
+  align-items: center;
+  margin: 0.4rem 0;
+  .content {
+    margin: 0;
+    margin-left: 0.4rem;
   }
 }
 </style>

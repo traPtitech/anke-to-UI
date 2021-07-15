@@ -68,14 +68,14 @@ export default defineComponent({
   flex-direction: column;
   align-items: flex-start;
   padding: 0.5rem;
-  .label {
-    display: flex;
-    flex-direction: row;
-    margin: 0.2rem 0;
-    .content {
-      margin: 0;
-      margin-left: 0.4rem;
-    }
+}
+.label {
+  display: flex;
+  flex-direction: row;
+  margin: 0.2rem 0;
+  .content {
+    margin: 0;
+    margin-left: 0.4rem;
   }
 }
 .check {
