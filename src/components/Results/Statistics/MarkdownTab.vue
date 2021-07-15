@@ -1,5 +1,12 @@
 <template>
   <div>{{ value }}</div>
+  <textarea
+    v-show="tableForm === 'markdown'"
+    class="textarea"
+    :value="markdownTable"
+    :rows="markdownTable.split('\n').length + 3"
+    readonly
+  ></textarea>
 </template>
 
 <script lang="ts">

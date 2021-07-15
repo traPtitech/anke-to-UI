@@ -26,8 +26,15 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from '/@/components/UI/Tab.vue'
 import ViewTab from './Statistics/ViewTab.vue'
 import MarkdownTab from './Statistics/MarkdownTab.vue'
-import { TableFormTypes, tableFormTabs } from './use/utils'
+import {
+  TableFormTypes,
+  tableFormTabs,
+  isNumberType,
+  isSelectType,
+  CountedData
+} from './use/utils'
 
+//export default class Data implements CountedData {}
 export default defineComponent({
   name: 'Statistics',
   components: {
@@ -47,12 +54,58 @@ export default defineComponent({
     questions: {
       type: Object as PropType<QuestionDetails[]>,
       default: []
+    },
+    //cをC（大文字）にするとエラーが出てしまう…
+    counteddata: {
+      type: Object as PropType<CountedData>,
+      required: false
     }
   },
-  setup() {
+
+  setup(props.counteddata) {
     const markdownTable = computed(() => {
       // マークダウン生成
-      return ''
+      // （５８行目で）
+      if (!this.counteddata) return ''
+      return this.CountedData.flatMap(question => {
+        const { total, data } = question
+        let res = [`# ${question.title}`]
+        if (isNumberType(question.type)) {
+          res = res.concat([
+            `**平均値**: ${total.average}`,
+            `**標準偏差**: ${total.standardDeviation}`,
+            `**中央値**: ${total.median}`,
+            `**最頻値**: ${total.mode}`,
+            ''
+          ])
+        }
+        if (isSelectType(question.type)) {
+          res = res.concat(
+            [
+              '| 回答 | 回答数 | 選択率 | その回答をした人 |',
+              '| - | - | - | - |'
+            ],
+            data.map(
+              ([choice, ids]) =>
+                `| ${choice ? choice : ''} | ${ids.length} | ${(
+                  (ids.length / question.length) *
+                  100
+                ).toFixed(2)}% | ${ids.join(', ')} |`
+            )
+          )
+        } else {
+          res = res.concat(
+            ['| 回答 | 回答数 | その回答をした人 |', '| - | - | - |'],
+            data.map(([choice, ids]) => {
+              const c = choice ? choice : ''
+              return `| ${
+                isNumberType(question.type) ? c : c.replace(/\n/g, '<br>')
+              } | ${ids.length} | ${ids.join(', ')} |`
+            })
+          )
+        }
+        return res.concat([''])
+      }).join('\n')
     })
 
     const tableForm = ref<TableFormTypes>('view')
@@ -62,6 +115,6 @@ export default defineComponent({
       tableFormTabs,
       markdownTable
     }
-  }
-})
+  },
+)
 </script>
