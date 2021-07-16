@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import RadioButton from '/@/components/UI/RadioButton.vue'
 
 export default defineComponent({
@@ -44,9 +44,10 @@ export default defineComponent({
     'update:modelValue': (v: number) => true
   },
   setup(props, context) {
-    let selectedIndex = ref() as Ref<number>
+    const selectedIndex = computed(() => {
+      return props.range.indexOf(props.modelValue)
+    })
     const update = (index: number) => {
-      selectedIndex.value = index
       context.emit('update:modelValue', props.range[index])
     }
 
