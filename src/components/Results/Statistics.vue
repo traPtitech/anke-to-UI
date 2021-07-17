@@ -8,7 +8,6 @@
           v-if="tableForm === 'view'"
           :results="results"
           :questions="questions"
-          class="textarea"
         />
       </div>
 
@@ -17,6 +16,7 @@
         v-else-if="tableForm === 'markdown'"
         :value="markdownTable"
         :rows="markdownTable.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
+        class="textarea"
       />
     </div>
   </div>
@@ -60,12 +60,6 @@ export default defineComponent({
       type: Object as PropType<QuestionDetails[]>,
       default: []
     }
-    /*
-    countedData: {
-      type: Object as PropType<CountedData>,
-      required: false
-    }
-    */
   },
 
   setup(props) {
