@@ -1,12 +1,7 @@
 <template>
-  <div>{{ value }}</div>
-  <textarea
-    v-show="tableForm === 'markdown'"
-    class="textarea"
-    :value="markdownTable"
-    :rows="markdownTable.split('\n').length + 3"
-    readonly
-  ></textarea>
+  <div>
+    <textarea :value="value" :rows="rows" readonly></textarea>
+  </div>
 </template>
 
 <script lang="ts">
@@ -18,7 +13,8 @@ export default defineComponent({
     value: {
       type: String,
       required: true
-    }
+    },
+    rows: { type: Number, default: 0, required: false }
   },
   setup() {
     return {}

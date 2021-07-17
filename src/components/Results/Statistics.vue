@@ -8,6 +8,7 @@
           v-if="tableForm === 'view'"
           :results="results"
           :questions="questions"
+          class="textarea"
         />
       </div>
 
@@ -15,6 +16,7 @@
       <markdown-tab
         v-else-if="tableForm === 'markdown'"
         :value="markdownTable"
+        :rows="markdownTable.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
       />
     </div>
   </div>
@@ -26,12 +28,15 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from '/@/components/UI/Tab.vue'
 import ViewTab from './Statistics/ViewTab.vue'
 import MarkdownTab from './Statistics/MarkdownTab.vue'
+
 import {
   TableFormTypes,
   tableFormTabs,
   isNumberType,
   isSelectType,
-  CountedData
+  countData,
+  CountedData,
+  TEXTAREA_ADDITIONAL_LINE_NUM
 } from './use/utils'
 
 //export default class Data implements CountedData {}
@@ -54,67 +59,76 @@ export default defineComponent({
     questions: {
       type: Object as PropType<QuestionDetails[]>,
       default: []
-    },
-    //cをC（大文字）にするとエラーが出てしまう…
-    counteddata: {
+    }
+    /*
+    countedData: {
       type: Object as PropType<CountedData>,
       required: false
     }
+    */
   },
 
-  setup(props.counteddata) {
-    const markdownTable = computed(() => {
-      // マークダウン生成
-      // （５８行目で）
-      if (!this.counteddata) return ''
-      return this.CountedData.flatMap(question => {
-        const { total, data } = question
-        let res = [`# ${question.title}`]
-        if (isNumberType(question.type)) {
-          res = res.concat([
-            `**平均値**: ${total.average}`,
-            `**標準偏差**: ${total.standardDeviation}`,
-            `**中央値**: ${total.median}`,
-            `**最頻値**: ${total.mode}`,
-            ''
-          ])
+  setup(props) {
+    const countedData = computed(() => {
+        if (props.questions.length <= 0 || props.results.length <= 0) {
+          return null
         }
-        if (isSelectType(question.type)) {
-          res = res.concat(
-            [
-              '| 回答 | 回答数 | 選択率 | その回答をした人 |',
-              '| - | - | - | - |'
-            ],
-            data.map(
-              ([choice, ids]) =>
-                `| ${choice ? choice : ''} | ${ids.length} | ${(
-                  (ids.length / question.length) *
-                  100
-                ).toFixed(2)}% | ${ids.join(', ')} |`
-            )
-          )
-        } else {
-          res = res.concat(
-            ['| 回答 | 回答数 | その回答をした人 |', '| - | - | - |'],
-            data.map(([choice, ids]) => {
-              const c = choice ? choice : ''
-              return `| ${
-                isNumberType(question.type) ? c : c.replace(/\n/g, '<br>')
-              } | ${ids.length} | ${ids.join(', ')} |`
-            })
-          )
-        }
-        return res.concat([''])
-      }).join('\n')
-    })
+        return countData(props.questions, props.results)
+      }),
+      markdownTable = computed(() => {
+        // マークダウン生成
+        if (!countedData.value) return ''
+        return countedData.value
+          ?.map((question: CountedData) => {
+            const { total, data } = question
+            let res = [`# ${question.title}`]
+            if (isNumberType(question.type)) {
+              res = res.concat([
+                `**平均値**: ${total.average}`,
+                `**標準偏差**: ${total.standardDeviation}`,
+                `**中央値**: ${total.median}`,
+                `**最頻値**: ${total.mode}`,
+                ''
+              ])
+            }
+            if (isSelectType(question.type)) {
+              res = res.concat(
+                [
+                  '| 回答 | 回答数 | 選択率 | その回答をした人 |',
+                  '| - | - | - | - |'
+                ],
+                data.map(
+                  ([choice, ids]) =>
+                    `| ${choice ? choice : ''} | ${ids.length} | ${(
+                      (ids.length / question.length) *
+                      100
+                    ).toFixed(2)}% | ${ids.join(', ')} |`
+                )
+              )
+            } else {
+              res = res.concat(
+                ['| 回答 | 回答数 | その回答をした人 |', '| - | - | - |'],
+                data.map(([choice, ids]) => {
+                  const c = choice ? choice : ''
+                  return `| ${
+                    isNumberType(question.type) ? c : c.replace(/\n/g, '<br>')
+                  } | ${ids.length} | ${ids.join(', ')} |`
+                })
+              )
+            }
+            return res.concat([''])
+          })
+          .join('\n')
+      })
 
     const tableForm = ref<TableFormTypes>('view')
 
     return {
       tableForm,
       tableFormTabs,
-      markdownTable
+      markdownTable,
+      TEXTAREA_ADDITIONAL_LINE_NUM
     }
-  },
-)
+  }
+})
 </script>
