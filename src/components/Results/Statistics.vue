@@ -78,10 +78,10 @@ export default defineComponent({
             let res = [`# ${question.title}`]
             if (isNumberType(question.type)) {
               res = res.concat([
-                `**平均値**: ${total.average}`,
-                `**標準偏差**: ${total.standardDeviation}`,
-                `**中央値**: ${total.median}`,
-                `**最頻値**: ${total.mode}`,
+                `**平均値**: ${total?.average}`,
+                `**標準偏差**: ${total?.standardDeviation}`,
+                `**中央値**: ${total?.median}`,
+                `**最頻値**: ${total?.mode}`,
                 ''
               ])
             }
