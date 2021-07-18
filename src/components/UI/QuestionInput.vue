@@ -1,9 +1,9 @@
 <template>
   <input
-    type="text"
+    :type="isNumber ? 'number' : 'text'"
     :class="$style.input"
     :value="modelValue"
-    placeholder="回答"
+    :placeholder="isNumber ? '数値を入力' : '回答'"
     @input="update"
   />
   <div :class="$style.underline"></div>
@@ -15,6 +15,10 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'QuestionInput',
   props: {
+    isNumber: {
+      type: Boolean,
+      default: false
+    },
     modelValue: {
       type: String,
       required: true
