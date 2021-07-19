@@ -62,5 +62,9 @@ export default defineComponent({
     margin: 0;
     margin-left: 0.4rem;
   }
+  :hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 }
 </style>

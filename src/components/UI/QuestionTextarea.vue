@@ -40,6 +40,8 @@ export default defineComponent({
 .textarea {
   box-sizing: border-box;
   width: 100%;
+  font-size: 1rem;
+  line-height: 1.7rem;
   border: none;
   resize: none;
   outline: 0;

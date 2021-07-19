@@ -76,6 +76,10 @@ export default defineComponent({
     margin: 0;
     margin-left: 0.4rem;
   }
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 }
 .check {
   display: inline-block;
@@ -85,9 +89,6 @@ export default defineComponent({
   width: 1rem;
   border: 1px solid #7c6c4d;
   border-radius: 0.2rem;
-  &:hover {
-    opacity: 0.6;
-  }
   .icon {
     opacity: 0;
     color: #625c3d;

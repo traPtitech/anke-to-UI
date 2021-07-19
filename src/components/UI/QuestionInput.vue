@@ -42,6 +42,7 @@ export default defineComponent({
 .input {
   box-sizing: border-box;
   width: 100%;
+  font-size: 1rem;
   border: none;
   outline: 0;
   padding: 0.4rem;
