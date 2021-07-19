@@ -8,7 +8,7 @@
       <span :class="$style.check">
         <icon
           name="check"
-          :class="[checked[index] ? $style.checked : '', $style.icon]"
+          :class="[isChecked(index) ? $style.checked : '', $style.icon]"
         />
       </span>
       <input type="checkbox" :class="$style.checkbox" @input="check(index)" />
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
@@ -41,15 +41,14 @@ export default defineComponent({
     'update:modelValue': (v: string[]) => true
   },
   setup(props, context) {
-    const checked = ref(new Array<boolean>(props.contents.length).fill(false))
-    const checkedContents: string[] = []
+    const isChecked = (index: number) =>
+      props.modelValue?.includes(props.contents[index])
 
     const check = (index: number) => {
-      checked.value[index] = !checked.value[index]
-
       const content = props.contents[index]
+      const checkedContents = props.modelValue || []
       if (checkedContents.includes(content)) {
-        checkedContents.splice(index, 1)
+        checkedContents.splice(checkedContents.indexOf(content), 1)
       } else {
         checkedContents.push(content)
       }
@@ -57,7 +56,7 @@ export default defineComponent({
       context.emit('update:modelValue', checkedContents)
     }
 
-    return { check, checked }
+    return { check, isChecked }
   }
 })
 </script>
