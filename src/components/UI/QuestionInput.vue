@@ -6,14 +6,18 @@
     :placeholder="isNumber ? '数値を入力' : '回答'"
     @input="update"
   />
-  <div :class="$style.underline"></div>
+  <input-underline :class="$style.underline" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import InputUnderline from '/@/components/UI/InputUnderline.vue'
 
 export default defineComponent({
   name: 'QuestionInput',
+  components: {
+    InputUnderline
+  },
   props: {
     isNumber: {
       type: Boolean,
@@ -50,13 +54,5 @@ export default defineComponent({
   &:focus + .underline {
     transform: scaleX(1);
   }
-}
-.underline {
-  width: 100%;
-  height: 2px;
-  margin-top: -1px;
-  background-color: #7c6c4d;
-  transform: scaleX(0);
-  transition: transform 0.1s;
 }
 </style>

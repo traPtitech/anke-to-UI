@@ -7,15 +7,17 @@
     @input="update"
     @keydown="resize"
   />
-  <div :class="$style.underline"></div>
+  <input-underline :class="$style.underline" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import InputUnderline from '/@/components/UI/InputUnderline.vue'
 import { resize } from './use/question'
 
 export default defineComponent({
   name: 'QuestionTextarea',
+  components: { InputUnderline },
   props: {
     modelValue: {
       type: String,
@@ -37,6 +39,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+$text-area-border: 1px;
+$text-area-padding: 4px;
+$underline-margin: calc(-1 * (#{$text-area-border} + #{$text-area-padding}));
+
 .textarea {
   box-sizing: border-box;
   width: 100%;
@@ -52,11 +58,6 @@ export default defineComponent({
   }
 }
 .underline {
-  width: 100%;
-  height: 2px;
-  margin: -5px 0;
-  background-color: #7c6c4d;
-  transform: scaleX(0);
-  transition: transform 0.1s;
+  margin-top: #{$underline-margin};
 }
 </style>
