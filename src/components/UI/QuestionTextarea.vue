@@ -6,12 +6,14 @@
     placeholder="回答"
     @input="update"
     @keydown="resize"
+    @focusin="focus"
+    @focusout="focus"
   />
-  <input-underline :class="$style.underline" />
+  <input-underline :is-focused="isFocused" :class="$style.underline" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import InputUnderline from '/@/components/UI/InputUnderline.vue'
 import { resize } from './use/question'
 
@@ -33,15 +35,20 @@ export default defineComponent({
       context.emit('update:modelValue', (e.target as HTMLInputElement).value)
     }
 
-    return { update, resize }
+    const isFocused = ref(false)
+    const focus = () => {
+      isFocused.value = !isFocused.value
+    }
+
+    return { resize, update, isFocused, focus }
   }
 })
 </script>
 
 <style lang="scss" module>
-$text-area-border: 1px;
-$text-area-padding: 4px;
-$underline-margin: calc(-1 * (#{$text-area-border} + #{$text-area-padding}));
+$textarea-border: 1px;
+$textarea-padding: 4px;
+$underline-margin: calc(-1 * (#{$textarea-border} + #{$textarea-padding}));
 
 .textarea {
   box-sizing: border-box;
@@ -51,13 +58,10 @@ $underline-margin: calc(-1 * (#{$text-area-border} + #{$text-area-padding}));
   border: none;
   resize: none;
   outline: 0;
-  padding: 0.4rem;
-  border-bottom: 1px dotted #7c6c4d;
-  &:focus + .underline {
-    transform: scaleX(1);
-  }
+  padding: $textarea-padding;
+  border-bottom: $textarea-border dotted #7c6c4d;
 }
 .underline {
-  margin-top: #{$underline-margin};
+  margin-top: $underline-margin;
 }
 </style>
