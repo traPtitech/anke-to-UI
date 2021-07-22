@@ -10,7 +10,7 @@
     <a :class="$style.help" href="https://wiki.trap.jp/SysAd/docs/anke-to">
       <icon name="help-circle-outline" />
     </a>
-    <user-icon :class="$style.icon" />
+    <user-icon :class="$style.icon" :user-name="myName" />
   </div>
 </template>
 
@@ -18,6 +18,7 @@
 import { defineComponent } from 'vue'
 import UserIcon from '/@/components/Navigation/UserIcon.vue'
 import Icon from '/@/components/UI/Icon.vue'
+import useMe from '/@/use/me'
 
 export default defineComponent({
   name: 'Header',
@@ -39,9 +40,11 @@ export default defineComponent({
     const toggle = () => {
       context.emit('toggle')
     }
+    const { name: myName } = useMe()
 
     return {
-      toggle
+      toggle,
+      myName
     }
   }
 })
