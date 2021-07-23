@@ -40,8 +40,7 @@ export default defineComponent({
     const toggle = () => {
       context.emit('toggle')
     }
-    const { name: myName } = useMe()
-
+    const { traqID: myName } = useMe()
     return {
       toggle,
       myName
