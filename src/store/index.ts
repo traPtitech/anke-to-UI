@@ -1,9 +1,9 @@
 import { createDirectStore } from 'direct-vuex'
-import apis, { User } from '/@/lib/apis'
+import apis, { Me } from '/@/lib/apis'
 const { store, rootActionContext } = createDirectStore({
   state: {
     count: 0,
-    me: null as User | null
+    me: null as Me | null
   },
   getters: {
     countString(state) {
@@ -16,7 +16,7 @@ const { store, rootActionContext } = createDirectStore({
     increment(state) {
       state.count++
     },
-    setMe(state, me: User) {
+    setMe(state, me: Me) {
       state.me = me
     }
   },
@@ -24,7 +24,7 @@ const { store, rootActionContext } = createDirectStore({
     async fetchMe(context) {
       const { commit } = rootActionContext(context)
 
-      const { data: me } = await apis.getMe()
+      const { data: me } = await apis.getUsersMe()
       commit.setMe(me)
     }
   }
