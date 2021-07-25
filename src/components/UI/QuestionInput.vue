@@ -5,14 +5,12 @@
     :value="modelValue"
     :placeholder="isNumber ? '数値を入力' : '回答'"
     @input="update"
-    @focusin="focus"
-    @focusout="focus"
   />
-  <input-underline :is-focused="isFocused" :class="$style.underline" />
+  <input-underline :class="$style.underline" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import InputUnderline from '/@/components/UI/InputUnderline.vue'
 
 export default defineComponent({
@@ -39,12 +37,7 @@ export default defineComponent({
       context.emit('update:modelValue', (e.target as HTMLInputElement).value)
     }
 
-    const isFocused = ref(false)
-    const focus = () => {
-      isFocused.value = !isFocused.value
-    }
-
-    return { update, isFocused, focus }
+    return { update }
   }
 })
 </script>

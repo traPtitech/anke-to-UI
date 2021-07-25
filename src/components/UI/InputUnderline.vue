@@ -1,5 +1,5 @@
 <template>
-  <div :class="[isFocused ? $style.focused : '', $style.underline]" />
+  <div :class="$style.underline" />
 </template>
 
 <script lang="ts">
@@ -7,12 +7,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'InputUnderline',
-  props: {
-    isFocused: {
-      type: Boolean,
-      required: true
-    }
-  },
   setup() {
     return {}
   }
@@ -26,8 +20,9 @@ export default defineComponent({
   background-color: #7c6c4d;
   transform: scaleX(0);
   transition: transform 0.1s;
-}
-.focused {
-  transform: scaleX(1);
+  textarea:focus + &,
+  input:focus + & {
+    transform: scaleX(1);
+  }
 }
 </style>
