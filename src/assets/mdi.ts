@@ -10,7 +10,8 @@ import {
   mdiEye,
   mdiClipboard,
   mdiDownload,
-  mdiArrowLeft
+  mdiArrowLeft,
+  mdiCheck
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -26,7 +27,8 @@ const mdi = new Map<string, string>([
   ['eye', mdiEye],
   ['clipboard', mdiClipboard],
   ['download', mdiDownload],
-  ['arrow-left', mdiArrowLeft]
+  ['arrow-left', mdiArrowLeft],
+  ['check', mdiCheck]
 ])
 
 export default mdi
