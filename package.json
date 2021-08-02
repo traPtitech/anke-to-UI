@@ -18,7 +18,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.3.7",
+    "@openapitools/openapi-generator-cli": "^2.3.9",
     "@types/node": "^16.4.0",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
