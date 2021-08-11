@@ -14,7 +14,7 @@ export default defineComponent({
       type: String,
       required: true
     },
-    rows: { type: Number, default: 0, required: false }
+    rows: { type: Number, default: 0 }
   },
   setup() {
     return {}
