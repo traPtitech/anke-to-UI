@@ -75,6 +75,9 @@ export default defineComponent({
       return countedData.value
         ?.map((question: CountedData) => {
           const { total, data } = question
+          //console.log(total)→null
+          //console.log(total?.average)→undefined
+          //console.log(data)→["hoge",["bantyo"]]  [] means array
           let res = [`# ${question.title}`]
           if (isNumberType(question.type)) {
             res = res.concat([
@@ -85,31 +88,42 @@ export default defineComponent({
               ''
             ])
           }
-          if (isSelectType(question.type)) {
-            res = res.concat(
-              [
-                '| 回答 | 回答数 | 選択率 | その回答をした人 |',
-                '| - | - | - | - |'
-              ],
-              data.map(
-                ([choice, ids]) =>
-                  `| ${choice ? choice : ''} | ${ids.length} | ${(
-                    (ids.length / question.length) *
-                    100
-                  ).toFixed(2)}% | ${ids.join(', ')} |`
+          if (typeof data !== 'undefined') {
+            if (
+              //typeof question.length !== 'undefined' &&
+              isSelectType(question.type)
+            ) {
+              res = res.concat(
+                [
+                  '| 回答 | 回答数 | 選択率 | その回答をした人 |',
+                  '| - | - | - | - |'
+                ],
+                data.map(
+                  ([choice, ids]) =>
+                    `| ${choice ? choice : ''} | ${ids.length} | ${(
+                      (ids.length / question.length) *
+                      100
+                    ).toFixed(2)}% | ${ids.join(', ')} |`
+                )
               )
-            )
+            } else {
+              res = res.concat(
+                ['| 回答 | 回答数 | その回答をした人 |', '| - | - | - |'],
+                data.map(([choice, ids]) => {
+                  const c = choice ? choice : ''
+                  return `| ${
+                    isNumberType(question.type) ? c : c.replace(/\n/g, '<br>')
+                  } | ${ids.length} | ${ids.join(', ')} |`
+                })
+              )
+            }
           } else {
-            res = res.concat(
-              ['| 回答 | 回答数 | その回答をした人 |', '| - | - | - |'],
-              data.map(([choice, ids]) => {
-                const c = choice ? choice : ''
-                return `| ${
-                  isNumberType(question.type) ? c : c.replace(/\n/g, '<br>')
-                } | ${ids.length} | ${ids.join(', ')} |`
-              })
-            )
+            res = res.concat([
+              '| 回答 | 回答数 | 選択率 | その回答をした人 |',
+              '| - | - | - | - |'
+            ])
           }
+
           res.concat([''])
           return res.join('\n')
           //return res.concat([''])
