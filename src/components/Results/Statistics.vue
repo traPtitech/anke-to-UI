@@ -33,9 +33,8 @@ import {
   TableFormTypes,
   tableFormTabs,
   isNumberType,
-  isSelectType,
+  //isSelectType,
   isSelectTypeData,
-  IsSelectTypeData,
   countData,
   CountedData,
   TEXTAREA_ADDITIONAL_LINE_NUM
@@ -77,9 +76,6 @@ export default defineComponent({
       return countedData.value
         ?.map((question: CountedData) => {
           const { total, data } = question
-          //console.log(total)→null
-          //console.log(total?.average)→undefined
-          //console.log(data)→["hoge",["bantyo"]]  [] means array
           let res = [`# ${question.title}`]
           if (isNumberType(question.type)) {
             res = res.concat([
@@ -90,35 +86,9 @@ export default defineComponent({
               ''
             ])
           }
-          /*//（１）
-          //コメントの前半部分でryohaさんの言ったことはこんな感じですかね
-          
           if (typeof data !== 'undefined') {
-            const len = question.length
-            if (typeof len !== 'undefined' && isSelectType(question.type)) {
-              res = res.concat(
-                [
-                  '| 回答 | 回答数 | 選択率 | その回答をした人 |',
-                  '| - | - | - | - |'
-                ],
-                data.map(
-                  ([choice, ids]) =>
-                    `| ${choice ? choice : ''} | ${ids.length} | ${
-                      //(ids.length / question.length) *
-                      ((ids.length / len) * 100).toFixed(2)
-                    }% | ${ids.join(', ')} |`
-                )
-              )
-          */
-
-          if (typeof data !== 'undefined') {
-            if (IsSelectTypeData(question) && isSelectType(question.type)) {
-              /*//（２）
-              //上(113行目)のでやると127行目のエラーが消えたけど、その代わりに下(117行目)のでやると消えなかった。
-              //IsSelectTypeData と isSelectTypeData はどういう意図で書いたかはgithubのコメントに書きます。
-              //if (isSelectTypeData(question) && isSelectType(question.type)) {
-              */
-
+            //if (isSelectTypeData(question) && isSelectType(question.type)) {
+            if (isSelectTypeData(question)) {
               res = res.concat(
                 [
                   '| 回答 | 回答数 | 選択率 | その回答をした人 |',

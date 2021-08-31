@@ -12,12 +12,34 @@ export const detailTabs: DetailTabTypes[] = [
   'spreadsheet',
   'individual'
 ]
+
 export const getIsTextTable = (tableForm: TableFormTypes): boolean =>
   ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 export const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
+
+//した二つの関数は前回質問時のもので、確認のため残しました（いらなくなったら消します）
+/*
+export const isSelectTypeData = (arg: CountedData): boolean => {
+  if ((arg as SelectTypeData)?.total === null) {
+    return true
+  } else return false
+}
+export const IsSelectTypeData = (arg: CountedData): arg is SelectTypeData => {
+  if ((arg as SelectTypeData)?.total === null) {
+    return true
+  } else return false
+}
+*/
+export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(arg.type)
+
+export type SelectTypeData = Required<CountedData> & {
+  total: null
+}
+
 export const textTables = {
   markdown: '',
   csv: ''
@@ -79,43 +101,6 @@ export type CountedData = {
   } | null
   data?: [choice: string | number, ids: string[]][]
 }
-
-export const isSelectTypeData = (arg: CountedData): boolean => {
-  if ((arg as SelectTypeData)?.total === null) {
-    return true
-  } else return false
-}
-
-export const IsSelectTypeData = (arg: CountedData): arg is SelectTypeData => {
-  if ((arg as SelectTypeData)?.total === null) {
-    return true
-  } else return false
-}
-
-
-export type SelectTypeData = Required<CountedData> & {
-  total: null
-  length: number
-}
-/*//(3)
-//本当はisSelectTypeにまとめて書きたかった（以下）。type = CountedData の時はそれが SelectTypeData だと
-//保証するようにしたかったが、type = CountedData をするためには CountedData かどうかを判断する関数が必要そう
-export const isSelectType = (type: string | CountedData): boolean =>{
-  if (typeof type === 'string')
-    ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
-  else if (isCountedData(type)){
-    ...
-  }
-}
-
-const isCountedData = (arg: any): arg is CountedData => {
-  //わからないのがここ。arg:anyがどういう条件を持てばCountedDataになるのか（=つまりこの関数でtrueを返せるのか）
-  //がわからなかったのでこの関数をつくることができなかった。
-  //もしこの関数を作れれば98行目で else if (isCountedData(type)) でもし type が CountedData なら…
-  //とできそう。→その else if の中で上記の isSelectTypeData を使えばよさそう…？
-  return true
-  }
-*/
 
 type AnswerData = {
   traqId: string
