@@ -33,7 +33,6 @@ import {
   TableFormTypes,
   tableFormTabs,
   isNumberType,
-  //isSelectType,
   isSelectTypeData,
   countData,
   CountedData,
@@ -87,7 +86,6 @@ export default defineComponent({
             ])
           }
           if (typeof data !== 'undefined') {
-            //if (isSelectTypeData(question) && isSelectType(question.type)) {
             if (isSelectTypeData(question)) {
               res = res.concat(
                 [
