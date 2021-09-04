@@ -5,6 +5,7 @@
     </template>
     <template #content>
       <InformationTextarea v-model="description" />
+      <TimeLimit />
     </template>
   </Card>
 </template>
@@ -14,13 +15,15 @@ import { defineComponent, ref } from 'vue'
 import Card from '/@/components/UI/Card.vue'
 import InformationInput from './InformationInput.vue'
 import InformationTextarea from './InformationTextarea.vue'
+import TimeLimit from './TimeLimit.vue'
 
 export default defineComponent({
   name: 'Information',
   components: {
     Card,
     InformationInput,
-    InformationTextarea
+    InformationTextarea,
+    TimeLimit
   },
   setup() {
     const title = ref('')
