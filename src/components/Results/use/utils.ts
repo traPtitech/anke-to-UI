@@ -1,5 +1,4 @@
 import { ResponseBody, QuestionDetails, ResponseResult } from '/@/lib/apis'
-
 export const defaultColumns = [
   { name: 'traqID', label: 'traQID' },
   { name: 'submitted_at', label: '回答日時' }
@@ -109,12 +108,12 @@ type AnswerData = {
 }
 
 const generateIdTable = (
-  questionType: string,
+  question: CountedData,
   answers: AnswerData[]
 ): [choice: string | number, ids: string[]][] => {
   const total = new Map()
   answers.forEach((answer: AnswerData) => {
-    if (isSelectType(questionType)) {
+    if (isSelectTypeData(question)) {
       ;(<string[]>answer.answer).forEach(value => {
         if (!total.has(value)) total.set(value, [])
         total.get(value).push(answer.traqId)
@@ -125,7 +124,7 @@ const generateIdTable = (
     }
   })
   let arr = [...total]
-  if (isNumberType(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
+  if (isNumberType(question.type)) arr = arr.sort((a, b) => b[0] - a[0])
   return arr
 }
 
