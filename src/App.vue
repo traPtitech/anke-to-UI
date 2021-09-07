@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.container">
+  <div v-if="isFetched" :class="$style.container">
     <header-component
       :is-side-bar-shown="isSideBarShown"
       :can-side-bar-shown="canSideBarShown"
@@ -20,12 +20,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, readonly } from 'vue'
+import { defineComponent, computed, watch, readonly, ref, onMounted } from 'vue'
 import HeaderComponent from '/@/components/Navigation/Header.vue'
 import SideBarWrapper from '/@/components/Navigation/SideBarWrapper.vue'
 import useOpener from '/@/use/opener'
 import useIsMobile from '/@/use/isMobile'
 import router from './router'
+import { useStore } from '/@/store'
 
 const useNavigationShown = () => {
   const { isOpen, toggle: toggleSideBarShown } = useOpener()
@@ -53,13 +54,22 @@ export default defineComponent({
     SideBarWrapper
   },
   setup() {
+    const store = useStore()
+
     const { isSideBarShown, canSideBarShown, toggleSideBarShown } =
       useNavigationShown()
+
+    const isFetched = ref(false)
+    onMounted(async () => {
+      await store.dispatch.fetchMe()
+      isFetched.value = true
+    })
 
     return {
       isSideBarShown,
       canSideBarShown,
-      toggleSideBarShown
+      toggleSideBarShown,
+      isFetched
     }
   }
 })
