@@ -17,6 +17,7 @@
       </main>
     </div>
   </div>
+  <div v-else>読み込み中…</div>
 </template>
 
 <script lang="ts">
