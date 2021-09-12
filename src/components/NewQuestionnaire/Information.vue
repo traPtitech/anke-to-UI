@@ -5,7 +5,7 @@
     </template>
     <template #content>
       <InformationTextarea v-model="description" />
-      <TimeLimit />
+      <TimeLimit v-model="date" />
     </template>
   </Card>
 </template>
@@ -28,8 +28,9 @@ export default defineComponent({
   setup() {
     const title = ref('')
     const description = ref('')
+    const date = ref(new Date())
 
-    return { title, description }
+    return { title, description, date }
   }
 })
 </script>

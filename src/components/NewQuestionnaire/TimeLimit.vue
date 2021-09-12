@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
 import { DatePicker } from 'v-calendar'
 import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
 
@@ -32,14 +32,27 @@ export default defineComponent({
     DatePicker,
     QuestionCheckbox
   },
-  setup() {
+  props: {
+    modelValue: {
+      type: Object as PropType<Date>,
+      required: true
+    }
+  },
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:modelValue': (v: Date) => true
+  },
+  setup(props, context) {
     const checked = ref<string[]>([])
     const checkboxContents = ['期限なし']
     const shouldSetTimeLimit = computed(() => {
       return !checked.value.includes('期限なし')
     })
 
-    const date = new Date()
+    const date = computed({
+      get: () => props.modelValue,
+      set: (v: Date) => context.emit('update:modelValue', v)
+    })
 
     return {
       checked,
