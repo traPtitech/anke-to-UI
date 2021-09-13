@@ -9,51 +9,46 @@ export * from '/@/lib/apis/generated'
 
 export const traP_ID = 1
 
-type QuestionnaireResultQuestion = {
+export type QuestionnaireWithResultsQuestions = {
   questionnaire: QuestionnaireByID
-  results: ResponseResult
-  questions: QuestionDetails
+  results: ResponseResult[]
+  questions: QuestionDetails[]
 }
 
-export const getQuestionnaireDetail = async (): Promise<void> => {
-  const questionnaireId = Number(route.params.id)
-  if (isNaN(questionnaireId)) return
-  let aQuestionnaireResultQuestion: QuestionnaireResultQuestion
-  /*//↓これはなんかエラーだった
-  [
-    aQuestionnaireResultQuestion.questionnaire,
-    aQuestionnaireResultQuestion.results,
-    aQuestionnaireResultQuestion.questions
-  ] = await Promise.all([
-    apis.getQuestionnaire(questionnaireId, ''),
-    apis.getResults(questionnaireId, ''),
-    apis.getQuestions(questionnaireId, '')
-  ])
-  */
+//編集用
+export const getQuestionnaireDetail = async (
+  questionnaireId: number
+): Promise<QuestionnaireWithResultsQuestions> => {
+  //let QRQ: QuestionnaireWithResultsQuestions
   const [qres, rres, qsres] = await Promise.all([
-    apis.getQuestionnaire(questionnaireId, ''),
-    apis.getResults(questionnaireId, ''),
-    apis.getQuestions(questionnaireId, '')
+    apis.getQuestionnaire(questionnaireId),
+    apis.getResults(questionnaireId),
+    apis.getQuestions(questionnaireId)
   ])
-  aQuestionnaireResultQuestion.questionnaire = qres.data
-  aQuestionnaireResultQuestion.results = rres.data
-  aQuestionnaireResultQuestion.questions = qsres.data
-  return aQuestionnaireResultQuestion
+  //adjustQuestionsにqres, rres, qsresたちをわたしてきっちりした型に修正、それをreturnしたい
+  return {
+    questionnaire: qres.data,
+    results: rres.data,
+    questions: qsres.data
+  }
 }
 
-//↓コメントのコピー
-/*
-onMounted(async () => {
-  const questionnaireId = Number(route.params.id)
-  if (isNaN(questionnaireId)) return
-  const [qres, rres, qsres] = await Promise.all([
-    apis.getQuestionnaire(questionnaireId, ''),
-    apis.getResults(questionnaireId, ''),
-    apis.getQuestions(questionnaireId, '')
-  ])
+/*//念のためコピー…ステップ1終了時点
 
-  questionnaire.value = qres.data
-  results.value = rres.data
-  questions.value = qsres.data
-})
+export const getQuestionnaireDetail = async (
+  questionnaireId: number
+): Promise<QuestionnaireWithResultsQuestions> => {
+  //let QRQ: QuestionnaireWithResultsQuestions
+  const [qres, rres, qsres] = await Promise.all([
+    apis.getQuestionnaire(questionnaireId),
+    apis.getResults(questionnaireId, ''),
+    apis.getQuestions(questionnaireId)
+  ])
+  return {
+    questionnaire: qres.data,
+    results: rres.data,
+    questions: qsres.data
+  }
+}
+
 */
