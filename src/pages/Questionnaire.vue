@@ -1,7 +1,11 @@
 <template>
   <template v-if="questionnaire">
-    <Header :questionnaire="questionnaire"></Header>
-    <Information></Information>
+    <div>
+      <Header :questionnaire="questionnaire"></Header>
+    </div>
+    <div>
+      <Information :information="questionnaire"></Information>
+    </div>
   </template>
   <template v-else>
     <div>読み込み中</div>

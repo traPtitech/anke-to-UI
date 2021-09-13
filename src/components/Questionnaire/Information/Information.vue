@@ -9,7 +9,7 @@
       <div>
         <!-- 管理者 -->
         <details open>
-          <summary>管理者({{ information.administrators.length }}}}</summary>
+          <summary>管理者({{ information.administrators.length }})</summary>
           {{ information.administrators.join(', ') }}
         </details>
       </div>
@@ -37,7 +37,6 @@
       </div>
     </template>
   </Card>
-  <div>aaaaaaaaaaaaaaaaa</div>
 </template>
 
 <script lang="ts">
