@@ -1,26 +1,18 @@
 <template>
   <template v-if="questionnaire">
-    <div>
-      <Header :questionnaire="questionnaire"></Header>
-    </div>
-    <div>
-      <Information :information="questionnaire"></Information>
-    </div>
+    <Informations :questionnaire="questionnaire"></Informations>
   </template>
-  <template v-else>
-    <div>読み込み中</div>
-  </template>
+  <template v-else> 読み込み中 </template>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import apis, { QuestionnaireByID } from '../lib/apis'
-import Header from '/@/components/Questionnaire/Information/Header.vue'
-import Information from '/@/components/Questionnaire/Information/Information.vue'
+import Informations from '/@/components/Questionnaire/Informations.vue'
 
 export default defineComponent({
   name: 'Questionnaire',
-  components: { Header, Information },
+  components: { Informations },
   setup() {
     const questionnaire = ref<QuestionnaireByID | null>(null)
     onMounted(async () => {

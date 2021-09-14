@@ -1,24 +1,23 @@
 <template>
   <Card :class="$style.card">
-    <template #header>自分の回答</template>
+    <template #header>操作</template>
     <template #content>
-      <div v-for="in questionnaire">
-      </div>
-    </template>
+        <button></button>
+     </template>
   </Card>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Card from '/@/components/UI/Card.vue'
-import {  } from '/@/lib/apis'
+import { QuestionnaireByID } from '/@/lib/apis'
 
 export default defineComponent({
-  name: 'Myanswer',
+  name: 'Manipulation',
   components: { Card },
   props: {
     questionnaire: {
-      type: Object as PropType<>,
+      type: Object as PropType<QuestionnaireByID>,
       required: true
     }
   },
