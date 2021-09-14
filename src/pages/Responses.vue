@@ -2,42 +2,47 @@
   <Card>
     <template #header>自分の回答</template>
     <template #content>
-      <ATable>
-        <template #header>
-          <div :class="$style.content">
-            <table :class="$style.table">
-              <th
-                v-for="(header, index) in headers"
-                :key="index"
-                :class="$style.header"
-              >
-                {{ header }}
-              </th>
-            </table>
-          </div>
-        </template>
-        <template #content>
-          <responses-table :response-summaries="responseSummaries" />
-          <!-- table-row v-forで書き換える -->
-        </template>
-      </ATable>
+      <div :class="$style.container">
+        <ATable>
+          <template #tableheader>
+            <th
+              v-for="(header, index) in headers"
+              :key="index"
+              :class="$style.header"
+            >
+              {{ header }}
+            </th>
+          </template>
+          <template #tablecontent>
+            <table-row
+              v-for="(responseSummary, index) in responseSummaries"
+              :key="index"
+              :class="$style.table"
+            >
+              <responses-table-row :response-summary="responseSummary" />
+            </table-row>
+          </template>
+        </ATable>
+      </div>
     </template>
   </Card>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import ResponsesTable from '/@/components/Responses/ResponsesTable.vue'
 import Card from '/@/components/UI/Card.vue'
-import ATable from '/@/components/Responses/ATable.vue'
+import ATable from '/@/components/UI/ATable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
+import TableRow from '/@/components/UI/TableRow.vue'
+import ResponsesTableRow from '/@/components/Responses/ResponsesTableRow.vue'
 
 export default defineComponent({
   name: 'Responses',
   components: {
     Card,
     ATable,
-    ResponsesTable
+    TableRow,
+    ResponsesTableRow
   },
   setup() {
     const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
@@ -55,20 +60,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.content {
-  padding: 1rem;
-  border: solid 1.5px #dfe0d7;
-  border-collapse: collapse;
+.container {
+  border: solid 1.5px #d9d9d9;
   overflow: auto;
 }
-.table {
-  width: 100%;
-  padding: 1rem;
-  border-collapse: collapse;
-}
 .header {
-  padding: 0.5rem 0rem;
-  min-width: 8rem;
-  border-bottom: solid 2px #dbdbdb;
+  text-align: left;
+  padding: 0.8rem;
 }
 </style>
