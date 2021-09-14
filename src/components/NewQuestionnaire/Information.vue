@@ -8,6 +8,10 @@
       <TimeLimit v-model="date" />
     </template>
   </Card>
+  <div :class="$style.row">
+    <InformationCard :class="$style.information" />
+    <OperationCard :class="$style.operation" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -16,6 +20,8 @@ import Card from '/@/components/UI/Card.vue'
 import InformationInput from './InformationInput.vue'
 import InformationTextarea from './InformationTextarea.vue'
 import TimeLimit from './TimeLimit.vue'
+import InformationCard from './InformationCard.vue'
+import OperationCard from './OperationCard.vue'
 
 export default defineComponent({
   name: 'Information',
@@ -23,7 +29,9 @@ export default defineComponent({
     Card,
     InformationInput,
     InformationTextarea,
-    TimeLimit
+    TimeLimit,
+    InformationCard,
+    OperationCard
   },
   setup() {
     const title = ref('')
@@ -37,6 +45,20 @@ export default defineComponent({
 
 <style lang="scss" module>
 .card {
-  box-shadow: 0 0 0.5rem #00000030;
+  border: solid 1px #e0d1c5;
+  box-shadow: 0 0.25rem 0.5rem #00000030;
+}
+.row {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  padding: 1rem 0;
+  .information {
+    width: 50%;
+  }
+  .operation {
+    width: 50%;
+    margin-left: 1rem;
+  }
 }
 </style>
