@@ -23,6 +23,7 @@
         :model-value="question.modelValue"
       />
     </div>
+    <AddButtons @add-question="addQuestion" />
   </div>
 </template>
 
@@ -33,6 +34,7 @@ import QuestionCheckbox from '../UI/QuestionCheckbox.vue'
 import QuestionInput from '../UI/QuestionInput.vue'
 import QuestionRadio from '../UI/QuestionRadio.vue'
 import QuestionTextarea from '../UI/QuestionTextarea.vue'
+import AddButtons from './AddButtons.vue'
 
 interface QuestionLite {
   type: QuestionType
@@ -46,13 +48,20 @@ export default defineComponent({
     QuestionCheckbox,
     QuestionInput,
     QuestionRadio,
-    QuestionTextarea
+    QuestionTextarea,
+    AddButtons
   },
   setup() {
     const questions = ref<QuestionLite[]>([])
 
+    const addQuestion = (type: string) => {
+      console.log(`add question : ${type}`)
+      // questions.value = questions.value.push();
+    }
+
     return {
-      questions
+      questions,
+      addQuestion
     }
   }
 })
