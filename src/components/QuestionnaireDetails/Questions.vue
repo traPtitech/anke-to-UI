@@ -3,17 +3,17 @@
     <div v-if="questions.length === 0">質問がありません</div>
     <div v-for="(question, i) in questions" :key="i">
       <QuestionCheckbox
-        v-if="question.type === 'MultipleChoice'"
+        v-if="question.type === 'Checkbox'"
         :contents="question.contents"
         :model-value="question.modelValue"
       />
       <QuestionInput
-        v-if="question.type === 'Text'"
+        v-if="question.type === 'Text' || question.type === 'Number'"
         :contents="question.contents"
         :model-value="question.modelValue"
       />
       <QuestionRadio
-        v-if="question.type === 'Checkbox'"
+        v-if="question.type === 'MultipleChoice'"
         :contents="question.contents"
         :model-value="question.modelValue"
       />
@@ -35,12 +35,9 @@ import QuestionInput from '../UI/QuestionInput.vue'
 import QuestionRadio from '../UI/QuestionRadio.vue'
 import QuestionTextarea from '../UI/QuestionTextarea.vue'
 import AddButtons from './AddButtons.vue'
+import { createNewQuestion, QuestionLite } from './use/utils'
 
-interface QuestionLite {
-  type: QuestionType
-  contents: string[]
-  modelValue: string[]
-}
+
 
 export default defineComponent({
   name: 'Questions',
@@ -56,7 +53,7 @@ export default defineComponent({
 
     const addQuestion = (type: string) => {
       console.log(`add question : ${type}`)
-      // questions.value = questions.value.push();
+      questions.value.push(createNewQuestion(type))
     }
 
     return {
