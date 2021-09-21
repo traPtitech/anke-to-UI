@@ -11,18 +11,18 @@
     {{
       responseSummary.res_time_limit === null
         ? 'なし'
-        : responseSummary.res_time_limit
+        : getTimeLimit(responseSummary.res_time_limit)
     }}
   </td>
   <td :class="[$style.tableData, $style.tableItemDate]">
     {{
       responseSummary.submitted_at === null
         ? '未提出'
-        : responseSummary.submitted_at
+        : getRelativeTime(responseSummary.submitted_at)
     }}
   </td>
   <td :class="[$style.tableData, $style.tableItemDate]">
-    {{ responseSummary.modified_at }}
+    {{ getRelativeTime(responseSummary.modified_at) }}
   </td>
   <td :class="[$style.tableData, $style.myAnswer]">
     <router-link
@@ -39,6 +39,10 @@
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import { ResponseSummary } from '/@/lib/apis'
+import {
+  getTimeLimit,
+  getRelativeTime
+} from '/@/components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'ResponsesTableRow',
@@ -52,7 +56,7 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    return { getTimeLimit, getRelativeTime }
   }
 })
 </script>
