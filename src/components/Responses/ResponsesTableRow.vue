@@ -58,22 +58,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-td {
+.tableData {
+  vertical-align: middle;
+  font-size: 1rem;
   padding: 0.4rem 1rem;
   min-width: 5rem;
 }
-.table-data {
-  vertical-align: middle;
-  font-size: 0.7rem;
-}
-.table-item-title {
+.tableItemTitle {
+  min-width: 10rem;
   word-break: break-all;
   text-align: left;
-  padding: 0.8rem;
 }
-.table-item-date {
-  font-size: 15px;
-  padding: 0.8rem;
+.tableItemDate {
   text-align: center;
 }
 .link {
@@ -84,7 +80,7 @@ td {
     color: #cfb998;
   }
 }
-.my-answer {
+.myAnswer {
   text-align: middle;
   max-width: 6rem;
   padding: 0.8rem;
