@@ -23,15 +23,7 @@ import {
   QuestionnaireWithResultsQuestions
 } from '/@/lib/apis'
 
-
-export const adjustQuestions(
-  questionnaire: QuestionnaireByID,
-  results: ResponseResult[],
-  questions: QuestionDetails[]
-): QuestionUnion => {
-  questions[].question_type 
-
-  /**この関数でやりたいこと
+/**この関数でやりたいこと
    * (i)返り値の型が(TextType | TextAreaType | MultipleChoice | ...)のユニオン
    * 
    * どうせこのコードの実行時(=ブラウザで表示されるとき)は↓
@@ -42,18 +34,55 @@ export const adjustQuestions(
    * どのタイプの質問か (\"Text\", \"TextArea\", \"Number\", \"MultipleChoice\", \"Checkbox\", \"LinearScale\") 
    * が一意にわかることです
    */
-  return QuestionUnion型のやつ;//←うそ（ただエラー気持ち悪かったのでとりあえずの値）
+
+export const adjustQuestions(
+  questionnaire: QuestionnaireByID,
+  results: ResponseResult[],
+  questions: QuestionDetails[]
+): QuestionUnion["question"] => {
+  //resQuestionsは以下の六つのユニオン型で、その中身はquestionsを整形していく
+  const resQuestions: (Text | TextArea | MultipleChoice | Number | Checkbox | LinearScale )[] = questions.map(q => {
+    //もとのquestionsを、つまりもとの質問一つごとにreturnしているものに変える。んでそのなかにresultsPerQuestionって野が必要なのでまずそれをつくってる
+    //それはresults1を変更させたもの。
+    //findで質問のIDと同じものの中で最初の要素を見つけている、それにフィルターをかけて
+    //質問；下の行の最後「=> !!v」がどうして「=> v !== undefined」と同じなのかわからない
+    const resultsPerQuestion = results.map(r => r.body.find(v => v.questionID === q.questionID)).filter((v): v is Exclude<typeof v, undefined> => !!v)
+    
+    //↓ここのifの意味がわかりませんでした…
+    //if (q.question_type === 'Select') {
+      //type SelectTypeQuestion = Omit<QuestionDetails,'options'>      
+      return {
+        type: q.question_type,
+        question: q,
+        results: resultsPerQuestion,
+      }
+    //}
+  })
+  return resQuestions;//←適当
 }
 
-//まだやってないけどそれぞれの型をつくってく
+//下のインターフェースなかの型設定に関して
+
+/**作りたかったやつ…①
+ * もしtypeがTextなら
+ * type SelectTypeQuestion = Omit<QuestionDetails,いらない型>
+ * もしtypeが…なら…
+ * 
+ * みたいな感じでそのタイプごとに
+ */
+
+/**
+ * ↑①ってやるか
+ * したのTextのようにSelectTypeQuestionっていう文字をつかわない
+ */
+
+
+
 //テキスト
 export interface Text {
   type: 'Text'
-  question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
+  question: Omit<QuestionDetails,'options'> //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
   results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  submitted_at: string
-  modified_at: string
-  traqID: string
 }
 
 //テキスト（長文）
@@ -61,9 +90,6 @@ export interface TextArea {
   type: 'TextArea'
   question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
   results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  submitted_at: string
-  modified_at: string
-  traqID: string
 }
 
 //数値
@@ -71,9 +97,6 @@ export interface Number {
   type: 'Number'
   question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
   results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  submitted_at: string
-  modified_at: string
-  traqID: string
 }
 
 //ラジオボタン
@@ -81,9 +104,6 @@ export interface MultipleChoice {
   type: 'MultipleChoice'
   question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
   results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  submitted_at: string
-  modified_at: string
-  traqID: string
 }
 
 //チェックボックス
@@ -91,9 +111,6 @@ export interface Checkbox {
   type: 'Checkbox'
   question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
   results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  submitted_at: string
-  modified_at: string
-  traqID: string
 }
 
 //メモリ
@@ -101,9 +118,6 @@ export interface LinearScale {
   type: 'LinearScale'
   question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
   results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  submitted_at: string
-  modified_at: string
-  traqID: string
 }
 export interface QuestionUnion {
   questionnare: {} 
@@ -212,4 +226,24 @@ QuestionDetails[]
     scale_min: 0
   }
 ]  
+
+//api.tsにあるやつ
+export interface QuestionDetails {
+   questionnaireID: number
+   /page_num: number
+   /question_num: number
+   /question_type: QuestionType
+   /body: string
+   /is_required: boolean
+   /options: Array<string>
+   /scale_label_right: string
+   /scale_label_left: string
+   /scale_min: number
+   /scale_max: number
+   /regex_pattern: string
+   /min_bound: string
+   /max_bound: string
+   /questionID: number
+   /created_at: string
+ }
 */
