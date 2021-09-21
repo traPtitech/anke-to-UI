@@ -22,7 +22,7 @@ export default defineComponent({
   text-align: left;
   font-size: 1rem;
   border-bottom: solid 1.5px #d9d9d9;
-  &:nth-child(even) {
+  &:nth-child(odd) {
     background-color: #fafafa;
   }
 }

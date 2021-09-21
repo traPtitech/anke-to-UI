@@ -62,7 +62,7 @@ export default defineComponent({
   vertical-align: middle;
   font-size: 1rem;
   padding: 0.4rem 1rem;
-  min-width: 5rem;
+  min-width: 4rem;
 }
 .tableItemTitle {
   min-width: 10rem;
@@ -82,7 +82,6 @@ export default defineComponent({
 }
 .myAnswer {
   text-align: middle;
-  max-width: 6rem;
   padding: 0.8rem;
   .icon {
     height: 1rem;

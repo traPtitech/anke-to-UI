@@ -16,8 +16,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .tablecontainer {
-  max-width: fit-content;
-  margin: 1rem;
+  min-width: 100%;
   font-size: 1rem;
   border-collapse: collapse;
 }
