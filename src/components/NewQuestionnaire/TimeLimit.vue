@@ -5,16 +5,17 @@
       :contents="checkboxContents"
       :class="$style.checkbox"
     />
-    <div :class="[$style.timeLimit, !shouldSetTimeLimit ? $style.hidden : '']">
+    <div :class="[$style.timeLimit, !hasTimeLimit ? $style.hidden : '']">
       <span>回答期限</span>
-      <DatePicker v-model="date">
+      <DatePicker v-model="date" mode="dateTime">
         <template #default="{ inputValue, inputEvents }">
           <input
+            v-if="hasTimeLimit"
             :value="inputValue"
             :class="$style.input"
-            :readonly="!shouldSetTimeLimit ? 'readonly' : ''"
-            v-on="shouldSetTimeLimit ? inputEvents : ''"
+            v-on="inputEvents"
           />
+          <input v-else :value="inputValue" :class="$style.input" readonly />
         </template>
       </DatePicker>
     </div>
@@ -45,7 +46,7 @@ export default defineComponent({
   setup(props, context) {
     const checked = ref<string[]>([])
     const checkboxContents = ['期限なし']
-    const shouldSetTimeLimit = computed(() => {
+    const hasTimeLimit = computed(() => {
       return !checked.value.includes('期限なし')
     })
 
@@ -57,7 +58,7 @@ export default defineComponent({
     return {
       checked,
       checkboxContents,
-      shouldSetTimeLimit,
+      hasTimeLimit,
       date
     }
   }
@@ -76,6 +77,7 @@ export default defineComponent({
 .timeLimit {
   display: flex;
   flex-direction: row;
+  align-items: center;
   transition: 0.2s;
   padding: 0.25rem 0.5rem 0.5rem 0.5rem;
 }
