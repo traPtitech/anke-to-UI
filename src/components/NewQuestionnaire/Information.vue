@@ -12,6 +12,7 @@
     <InformationCard :class="$style.information" />
     <OperationCard :class="$style.operation" />
   </div>
+  <SubmitButton />
 </template>
 
 <script lang="ts">
@@ -22,6 +23,7 @@ import InformationTextarea from './InformationTextarea.vue'
 import TimeLimit from './TimeLimit.vue'
 import InformationCard from './InformationCard.vue'
 import OperationCard from './OperationCard.vue'
+import SubmitButton from './SubmitButton.vue'
 
 export default defineComponent({
   name: 'Information',
@@ -31,7 +33,8 @@ export default defineComponent({
     InformationTextarea,
     TimeLimit,
     InformationCard,
-    OperationCard
+    OperationCard,
+    SubmitButton
   },
   setup() {
     const title = ref('')
