@@ -53,7 +53,7 @@ export default defineComponent({
 }
 .row {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   width: 100%;
   padding: 1rem 0;
   .information {
