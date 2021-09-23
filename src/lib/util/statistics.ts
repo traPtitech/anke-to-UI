@@ -20,7 +20,8 @@ import {
   QuestionnaireByID,
   ResponseResult,
   QuestionDetails,
-  QuestionnaireWithResultsQuestions
+  QuestionnaireWithResultsQuestions,
+  ResponseBody
 } from '/@/lib/apis'
 
 /**この関数でやりたいこと
@@ -46,7 +47,6 @@ export const adjustQuestions(
     //それはresults1を変更させたもの。
     //findで質問のIDと同じものの中で最初の要素を見つけている、それにフィルターをかけて
     const resultsPerQuestion = results.map(r => r.body.find(v => v.questionID === q.questionID)).filter((v): v is Exclude<typeof v, undefined> => !!v)
-    //////////////////(質問一つ目)////////////////////////////
     return {
         type: q.question_type,
         question: q,
@@ -56,58 +56,69 @@ export const adjustQuestions(
   return resQuestions;//←適当
 }
 
-
-//////////////////(質問二つ目)////////////////////////////
+//---------------------------------質問１------------------------------------------
+/**
+ * インターフェースの型定義のquestionで空の文字列はどうするべきか↓
+ * ex.min_bound: ""
+ * 少なくともいまはapi.tsとアンケートのネットワークタブから見たやつとを見比べて、questionnaireIDはOmitしたほうがよさげな気がするのと、
+ * optionsは質問によっているいらないがありそうということまでは把握（違ってたら悲しい）。
+ * なので追加で何をOmitしたらいいのかあれば教えてください。
+ * numberとlinearcaseを書いてないのは単純にアンケートからそいつらを探せてないからです（いつかちゃんとやります）
+ */
+//---------------------------------質問１------------------------------------------
 
 //テキスト
 export interface Text {
   type: 'Text'
-  question: Omit<QuestionDetails,'options'> //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
+  question: Omit<QuestionDetails,'options'|'questionnaireID'> 
+  results: ResponseBody
 }
 
 //テキスト（長文）
 export interface TextArea {
   type: 'TextArea'
-  question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
+  question: Omit<QuestionDetails,'options'|'questionnaireID'> 
+  results: ResponseBody
 }
 
 //数値
 export interface Number {
   type: 'Number'
-  question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
+  question: SelectTypeQuestion 
+  results: ResponseBody
 }
 
 //ラジオボタン
 export interface MultipleChoice {
   type: 'MultipleChoice'
-  question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
+  question: Omit<QuestionDetails,'questionnaireID'> 
+  results: ResponseBody
 }
 
 //チェックボックス
 export interface Checkbox {
   type: 'Checkbox'
-  question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
+  question: Omit<QuestionDetails,'questionnaireID'> 
+  results: ResponseBody
 }
 
 //メモリ
 export interface LinearScale {
   type: 'LinearScale'
-  question: SelectTypeQuestion //ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  results: SelectTypeResult[] //ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
+  question: SelectTypeQuestion 
+  results: ResponseBody
 }
+
 export interface QuestionUnion {
   questionnare: {} 
   question: (Text | TextArea | MultipleChoice | Number | Checkbox | LinearScale )[] 
 }
 
 
-/*
+/*以下はアンケートからとってきたものとapi.tsで定義されている型とをくらべてる。
+QuestionnaireByID, ResponseResult[], QuestionDetails[]の順で。
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //誰によって、対象、回答者などアンケートについて書かれている
 QuestionnaireByID
 
@@ -123,11 +134,10 @@ targets: []
 title: "読書環境を教えてください"
 
 
-
-//////////////////(質問三つ目)////////////////////////////
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //それぞれの人の回答が一人ずつ入ってる、traqIDが違うだけであとは形は同じ
 ResponseResult[]
+
 [
   0: {
     body:[
@@ -144,12 +154,68 @@ ResponseResult[]
     submitted_at: "2021-09-07T01:16:19+09:00"
     traqID: "SSlime"
     }
-  1: {}
+  5: {
+    body: [
+      0:{questionID: 3291, question_type: "MultipleChoice", response: null, option_response: ["ほぼ毎日食べてる"]}
+      1: {questionID: 3292, question_type: "Text", response: "妹がつくってくれるものなんでも", option_response: null}
+    ]
+    modified_at: "2021-09-14T06:20:09+09:00"
+    responseID: 15700
+    submitted_at: "2021-09-14T06:20:09+09:00"
+    traqID: "ryoha"
+
 ]
 
-//////////////////(質問四つ目)////////////////////////////
+//---------------------------------質問2------------------------------------------
 
+上のResponseResult[]を整形して53行目でresultsPerQuestionとつくったものはこんな感じなはず
+
+[
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"]],
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["その他"]],
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"]],
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"]]
+]
+
+で、この段階ではそれぞれの人ごとにちがうmodified_at、submitted_at、traqIDがresultsPerQuestionにはいってないはず
+↓
+本当に作るべきresultsPerQuestion（…RPQとあとでいいます）は上のを編集した
+
+[
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"],modified_at:,submitted_at:,traqID:],
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["その他"],modified_at:,submitted_at:,traqID:],
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"],modified_at:,submitted_at:,traqID:],
+  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"],modified_at:,submitted_at:,traqID:]
+]
+みたいなやつなの（…編集後RPQとあとでいいます）でしょうか？
+もしそうなら、、
+    １；単純に配列？に,modified_at:,submitted_at:,traqID:を追加する方法を調べてわからなかったら聞きます
+    ２；編集後RPQの型の定義、やってみてわからなかったらききます
+もし違うなら、、
+    どういうRPQを想定してますか？あとmodified_at、submitted_at、traqIDこいつらはどこにいれます？
+
+//---------------------------------質問２------------------------------------------
+
+/////////////////api,ts//////////////////
+
+export interface ResponseResult {
+  questionnaireID: number
+  body: Array<ResponseBody>
+  submitted_at: string
+  modified_at: string
+  traqID: string
+}
+export interface ResponseBody {
+  questionID: number
+  question_type: QuestionType
+  response?: string
+  option_response?: Array<string>
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //それぞれの質問の詳細が入ってる
+とりあえず六種類をべつのアンケートからとってきたけど、numberとlinearcaseが探せてない状況
 QuestionDetails[]
 
 [
@@ -210,9 +276,27 @@ QuestionDetails[]
     scale_max: 0
     scale_min: 0
   }
-]  
 
-//api.tsにあるやつ
+0: {
+body: "朝ごはんを"
+created_at: "2021-09-14T05:11:22+09:00"
+is_required: true
+max_bound: ""
+min_bound: ""
+options: ["ほぼ毎日食べてる", "ちょくちょく食べてる", "食べない"]
+page_num: 1
+questionID: 3291
+question_num: 0
+question_type: "MultipleChoice"
+regex_pattern: ""
+scale_label_left: ""
+scale_label_right: ""
+scale_max: 0
+scale_min: 0
+}
+
+/////////////////api,ts//////////////////
+
 export interface QuestionDetails {
    questionnaireID: number
    /page_num: number
