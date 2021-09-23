@@ -45,38 +45,19 @@ export const adjustQuestions(
     //もとのquestionsを、つまりもとの質問一つごとにreturnしているものに変える。んでそのなかにresultsPerQuestionって野が必要なのでまずそれをつくってる
     //それはresults1を変更させたもの。
     //findで質問のIDと同じものの中で最初の要素を見つけている、それにフィルターをかけて
-    //質問；下の行の最後「=> !!v」がどうして「=> v !== undefined」と同じなのかわからない
     const resultsPerQuestion = results.map(r => r.body.find(v => v.questionID === q.questionID)).filter((v): v is Exclude<typeof v, undefined> => !!v)
-    
-    //↓ここのifの意味がわかりませんでした…
-    //if (q.question_type === 'Select') {
-      //type SelectTypeQuestion = Omit<QuestionDetails,'options'>      
-      return {
+    //////////////////(質問一つ目)////////////////////////////
+    return {
         type: q.question_type,
         question: q,
         results: resultsPerQuestion,
-      }
-    //}
+    }
   })
   return resQuestions;//←適当
 }
 
-//下のインターフェースなかの型設定に関して
 
-/**作りたかったやつ…①
- * もしtypeがTextなら
- * type SelectTypeQuestion = Omit<QuestionDetails,いらない型>
- * もしtypeが…なら…
- * 
- * みたいな感じでそのタイプごとに
- */
-
-/**
- * ↑①ってやるか
- * したのTextのようにSelectTypeQuestionっていう文字をつかわない
- */
-
-
+//////////////////(質問二つ目)////////////////////////////
 
 //テキスト
 export interface Text {
@@ -125,7 +106,6 @@ export interface QuestionUnion {
 }
 
 
-
 /*
 
 //誰によって、対象、回答者などアンケートについて書かれている
@@ -142,6 +122,9 @@ respondents: ["SSlime", "Ras", "tenya", "Komichi", "hijiki51", "kegra", "Kamijo"
 targets: []
 title: "読書環境を教えてください"
 
+
+
+//////////////////(質問三つ目)////////////////////////////
 
 //それぞれの人の回答が一人ずつ入ってる、traqIDが違うだけであとは形は同じ
 ResponseResult[]
@@ -163,6 +146,8 @@ ResponseResult[]
     }
   1: {}
 ]
+
+//////////////////(質問四つ目)////////////////////////////
 
 //それぞれの質問の詳細が入ってる
 QuestionDetails[]
