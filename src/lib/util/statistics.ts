@@ -56,56 +56,53 @@ export const adjustQuestions(
   return resQuestions;//←適当
 }
 
-//---------------------------------質問１------------------------------------------
+//---------------------------------質問１からの進捗------------------------------------------
 /**
- * インターフェースの型定義のquestionで空の文字列はどうするべきか↓
- * ex.min_bound: ""
  * 少なくともいまはapi.tsとアンケートのネットワークタブから見たやつとを見比べて、questionnaireIDはOmitしたほうがよさげな気がするのと、
- * optionsは質問によっているいらないがありそうということまでは把握（違ってたら悲しい）。
- * なので追加で何をOmitしたらいいのかあれば教えてください。
- * numberとlinearcaseを書いてないのは単純にアンケートからそいつらを探せてないからです（いつかちゃんとやります）
+ * numberを探せてない（いつかちゃんとやります）
+ * 'max_bound'|'min_bound'|'regex_pattern'　こいつらなにもの？number以外調べたけど空文字…
  */
-//---------------------------------質問１------------------------------------------
+//---------------------------------------------------------------------------
 
 //テキスト
 export interface Text {
   type: 'Text'
-  question: Omit<QuestionDetails,'options'|'questionnaireID'> 
+  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
   results: ResponseBody
 }
 
 //テキスト（長文）
 export interface TextArea {
   type: 'TextArea'
-  question: Omit<QuestionDetails,'options'|'questionnaireID'> 
+  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'> 
   results: ResponseBody
 }
 
-//数値
+//数値…適当
 export interface Number {
   type: 'Number'
-  question: SelectTypeQuestion 
+  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
   results: ResponseBody
 }
 
 //ラジオボタン
 export interface MultipleChoice {
   type: 'MultipleChoice'
-  question: Omit<QuestionDetails,'questionnaireID'> 
+  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
   results: ResponseBody
 }
 
 //チェックボックス
 export interface Checkbox {
   type: 'Checkbox'
-  question: Omit<QuestionDetails,'questionnaireID'> 
+  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
   results: ResponseBody
 }
 
 //メモリ
 export interface LinearScale {
   type: 'LinearScale'
-  question: SelectTypeQuestion 
+  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'>
   results: ResponseBody
 }
 
@@ -141,10 +138,10 @@ ResponseResult[]
 [
   0: {
     body:[
-      0: {questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"]}
+      0: {questionID: 2944, question_type: "LinearScale", response: "5", option_response: null}
       1: {questionID: 3269, question_type: "Text", response: "", option_response: null}
       2: {questionID: 3270, question_type: "Checkbox", response: null, option_response: ["その他"]}
-      3: {questionID: 3271, question_type: "Text", response: "椅子", option_response: null}
+      3 :{questionID: 3291, question_type: "MultipleChoice", response: null, option_response: ["ほぼ毎日食べてる"]}
       4: {questionID: 3274, question_type: "TextArea", response: "月0", option_response: null}
       5: {questionID: 3272, question_type: "TextArea", response: "", option_response: null}
       6: {questionID: 3273, question_type: "TextArea", response: "環境のせいだよ", option_response: null}
@@ -154,16 +151,6 @@ ResponseResult[]
     submitted_at: "2021-09-07T01:16:19+09:00"
     traqID: "SSlime"
     }
-  5: {
-    body: [
-      0:{questionID: 3291, question_type: "MultipleChoice", response: null, option_response: ["ほぼ毎日食べてる"]}
-      1: {questionID: 3292, question_type: "Text", response: "妹がつくってくれるものなんでも", option_response: null}
-    ]
-    modified_at: "2021-09-14T06:20:09+09:00"
-    responseID: 15700
-    submitted_at: "2021-09-14T06:20:09+09:00"
-    traqID: "ryoha"
-
 ]
 
 //---------------------------------質問2------------------------------------------
@@ -215,67 +202,68 @@ export interface ResponseBody {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //それぞれの質問の詳細が入ってる
-とりあえず六種類をべつのアンケートからとってきたけど、numberとlinearcaseが探せてない状況
+とりあえず六種類をべつのアンケートからとってきたけど、numberが探せてない状況
 QuestionDetails[]
 
 [
-  0: {
-    body: "場所"
-    created_at: "2021-09-07T00:25:09+09:00"
-    is_required: false
-    max_bound: ""
-    min_bound: ""
-    options: [
-      0: "自部屋"
-      1: "リビング"
-      2: "図書館"
-      3: "その他"
-    ]
-    page_num: 1
-    questionID: 3268
-    question_num: 0
-    question_type: "Checkbox"
-    regex_pattern: ""
-    scale_label_left: ""
-    scale_label_right: ""
-    scale_max: 0
-    scale_min: 0
+0: {
+body: "場所"
+created_at: "2021-09-07T00:25:09+09:00"
+is_required: false
+max_bound: ""
+min_bound: ""
+options: [
+  0: "自部屋"
+  1: "リビング"
+  2: "図書館"
+  3: "その他"
+]
+page_num: 1
+questionID: 3268
+question_num: 0
+question_type: "Checkbox"
+regex_pattern: ""
+scale_label_left: ""
+scale_label_right: ""
+scale_max: 0
+scale_min: 0
+}
 
-  3:{ 
-    body: "その他 > 何ですか"
-    created_at: "2021-09-07T00:25:09+09:00"
-    is_required: false
-    max_bound: ""
-    min_bound: ""
-    options: []
-    page_num: 1
-    questionID: 3271
-    question_num: 3
-    question_type: "Text"
-    regex_pattern: ""
-    scale_label_left: ""
-    scale_label_right: ""
-    scale_max: 0
-    scale_min: 0
-  }
+3:{ 
+body: "その他 > 何ですか"
+created_at: "2021-09-07T00:25:09+09:00"
+is_required: false
+max_bound: ""
+min_bound: ""
+options: []
+page_num: 1
+questionID: 3271
+question_num: 3
+question_type: "Text"
+regex_pattern: ""
+scale_label_left: ""
+scale_label_right: ""
+scale_max: 0
+scale_min: 0
+}
 
-  4: {
-    body: "ペース 週一とか"
-    created_at: "2021-09-07T00:25:56+09:00"
-    is_required: false
-    max_bound: ""
-    min_bound: ""
-    options: []
-    page_num: 1
-    questionID: 3274
-    question_num: 4
-    question_type: "TextArea"
-    regex_pattern: ""
-    scale_label_left: ""
-    scale_label_right: ""
-    scale_max: 0
-    scale_min: 0
-  }
+4: {
+body: "ペース 週一とか"
+created_at: "2021-09-07T00:25:56+09:00"
+is_required: false
+max_bound: ""
+min_bound: ""
+options: []
+page_num: 1
+questionID: 3274
+question_num: 4
+question_type: "TextArea"
+regex_pattern: ""
+scale_label_left: ""
+scale_label_right: ""
+scale_max: 0
+scale_min: 0
+}
 
 0: {
 body: "朝ごはんを"
@@ -294,6 +282,26 @@ scale_label_right: ""
 scale_max: 0
 scale_min: 0
 }
+
+0: {
+body: "分かりやすさ"
+created_at: "2021-05-22T17:03:23+09:00"
+is_required: true
+max_bound: ""
+min_bound: ""
+options: []
+page_num: 1
+questionID: 2944
+question_num: 0
+question_type: "LinearScale"
+regex_pattern: ""
+scale_label_left: "分かりにくい"
+scale_label_right: "分かりやすい"
+scale_max: 5
+scale_min: 1
+}
+
+]
 
 /////////////////api,ts//////////////////
 
@@ -315,4 +323,5 @@ export interface QuestionDetails {
    /questionID: number
    /created_at: string
  }
+
 */
