@@ -21,7 +21,8 @@ import {
   ResponseResult,
   QuestionDetails,
   QuestionnaireWithResultsQuestions,
-  ResponseBody
+  ResponseBody,
+  QuestionType
 } from '/@/lib/apis'
 
 /**この関数でやりたいこと
@@ -37,7 +38,7 @@ import {
    */
 
 export const adjustQuestions(
-  questionnaire: QuestionnaireByID,
+  //questionnaire: QuestionnaireByID,
   results: ResponseResult[],
   questions: QuestionDetails[]
 ): QuestionUnion["question"] => {
@@ -46,7 +47,17 @@ export const adjustQuestions(
     //もとのquestionsを、つまりもとの質問一つごとにreturnしているものに変える。んでそのなかにresultsPerQuestionって野が必要なのでまずそれをつくってる
     //それはresults1を変更させたもの。
     //findで質問のIDと同じものの中で最初の要素を見つけている、それにフィルターをかけて
-    const resultsPerQuestion = results.map(r => r.body.find(v => v.questionID === q.questionID)).filter((v): v is Exclude<typeof v, undefined> => !!v)
+    const resultsPerQuestion = results.map(r =>
+      // body に modified_at 等が入っていないため body の各要素に modified_at 等を追加した新しい配列を作成
+      r.body.map(body => ({
+        ...body,
+        modified_at: r.modified_at,
+        submitted_at: r.submitted_at,
+        traqID: r.traqID
+      }))
+    ).map(bodies => 
+      bodies.find(v => v.questionID === q.questionID),
+    ).filter((v): v is Exclude<typeof v, undefined> => !!v)
     return {
         type: q.question_type,
         question: q,
@@ -56,59 +67,69 @@ export const adjustQuestions(
   return resQuestions;//←適当
 }
 
-//---------------------------------質問１からの進捗------------------------------------------
-/**
- * 少なくともいまはapi.tsとアンケートのネットワークタブから見たやつとを見比べて、questionnaireIDはOmitしたほうがよさげな気がするのと、
- * numberを探せてない（いつかちゃんとやります）
- * 'max_bound'|'min_bound'|'regex_pattern'　こいつらなにもの？number以外調べたけど空文字…
- */
-//---------------------------------------------------------------------------
-
+ 
 //テキスト
 export interface Text {
   type: 'Text'
   question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: ResponseBody
+  results: Array<TextWithResponse | TextWithNoResponse>
 }
 
 //テキスト（長文）
 export interface TextArea {
   type: 'TextArea'
   question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'> 
-  results: ResponseBody
+  results: Array<TextWithResponse | TextWithNoResponse>
 }
 
-//数値…適当
+//数値
 export interface Number {
   type: 'Number'
   question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: ResponseBody
+  results: Array<Omit<ResonsePerQuestionAndPerson,'option_response'>>
 }
 
 //ラジオボタン
 export interface MultipleChoice {
   type: 'MultipleChoice'
   question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: ResponseBody
+  results: Array<Omit<ResonsePerQuestionAndPerson,'response'>>
 }
 
 //チェックボックス
 export interface Checkbox {
   type: 'Checkbox'
   question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: ResponseBody
+  results: Array<Omit<ResonsePerQuestionAndPerson,'response'>>
 }
 
 //メモリ
 export interface LinearScale {
   type: 'LinearScale'
   question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'>
-  results: ResponseBody
+  results: Array<Omit<ResonsePerQuestionAndPerson,'option_response'>>
 }
 
+//一つの質問、一人あたりの
+export interface ResonsePerQuestionAndPerson extends ResponseBody {
+  submitted_at: string
+  modified_at: string
+  traqID: string
+}
+
+//TextとTextareaのresultsは（自分が確認した中では）以下の二つの型が入り混じった配列になりそう
+export type TextWithResponse = Omit<ResonsePerQuestionAndPerson,'option_response'>
+export type TextWithNoResponse = Omit<ResonsePerQuestionAndPerson,'option_response'|'response'>
+
+//この型なぞ…questionnareってなんですか
 export interface QuestionUnion {
   questionnare: {} 
   question: (Text | TextArea | MultipleChoice | Number | Checkbox | LinearScale )[] 
+}
+
+export const isTextWithResponse = (arg: TextWithResponse|TextWithNoResponse): arg is TextWithResponse => {
+  //TextWithResponse型に強制キャストしてresponseプロパティがあればTextWithResponse型
+  return !!(arg as TextWithResponse)?.response
 }
 
 
@@ -139,12 +160,14 @@ ResponseResult[]
   0: {
     body:[
       0: {questionID: 2944, question_type: "LinearScale", response: "5", option_response: null}
-      1: {questionID: 3269, question_type: "Text", response: "", option_response: null}
+      0: {questionID: 28, question_type: "Number", response: "93", option_response: null}
       2: {questionID: 3270, question_type: "Checkbox", response: null, option_response: ["その他"]}
       3 :{questionID: 3291, question_type: "MultipleChoice", response: null, option_response: ["ほぼ毎日食べてる"]}
+      1: {questionID: 3269, question_type: "Text", response: "", option_response: null}
+      3: {questionID: 3271, question_type: "Text", response: "椅子", option_response: null}
       4: {questionID: 3274, question_type: "TextArea", response: "月0", option_response: null}
       5: {questionID: 3272, question_type: "TextArea", response: "", option_response: null}
-      6: {questionID: 3273, question_type: "TextArea", response: "環境のせいだよ", option_response: null}
+      
     ]
     modified_at: "2021-09-07T01:16:19+09:00"
     responseID: 15641
@@ -153,20 +176,9 @@ ResponseResult[]
     }
 ]
 
-//---------------------------------質問2------------------------------------------
+//---------------------------------------------------------------------------
 
-上のResponseResult[]を整形して53行目でresultsPerQuestionとつくったものはこんな感じなはず
-
-[
-  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"]],
-  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["その他"]],
-  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"]],
-  [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"]]
-]
-
-で、この段階ではそれぞれの人ごとにちがうmodified_at、submitted_at、traqIDがresultsPerQuestionにはいってないはず
-↓
-本当に作るべきresultsPerQuestion（…RPQとあとでいいます）は上のを編集した
+resultsPerQuestion（…RPQ）
 
 [
   [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"],modified_at:,submitted_at:,traqID:],
@@ -174,14 +186,8 @@ ResponseResult[]
   [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"],modified_at:,submitted_at:,traqID:],
   [questionID: 3268, question_type: "Checkbox", response: null, option_response: ["自部屋"],modified_at:,submitted_at:,traqID:]
 ]
-みたいなやつなの（…編集後RPQとあとでいいます）でしょうか？
-もしそうなら、、
-    １；単純に配列？に,modified_at:,submitted_at:,traqID:を追加する方法を調べてわからなかったら聞きます
-    ２；編集後RPQの型の定義、やってみてわからなかったらききます
-もし違うなら、、
-    どういうRPQを想定してますか？あとmodified_at、submitted_at、traqIDこいつらはどこにいれます？
 
-//---------------------------------質問２------------------------------------------
+//---------------------------------------------------------------------------
 
 /////////////////api,ts//////////////////
 
@@ -301,6 +307,23 @@ scale_max: 5
 scale_min: 1
 }
 
+0: {
+body: "100以下の好きな整数を書いてください。2番目に大きい数を書いた人が勝ちです。"
+created_at: "2019-03-30T02:13:30+09:00"
+is_required: true
+max_bound: ""
+min_bound: ""
+options: []
+page_num: 1
+questionID: 28
+question_num: 0
+question_type: "Number"
+regex_pattern: ""
+scale_label_left: ""
+scale_label_right: ""
+scale_max: 0
+scale_min: 0
+}
 ]
 
 /////////////////api,ts//////////////////
