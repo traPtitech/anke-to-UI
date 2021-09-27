@@ -38,10 +38,10 @@ import {
    */
 
 export const adjustQuestions(
-  //questionnaire: QuestionnaireByID,
+  _questionnaire: QuestionnaireByID,
   results: ResponseResult[],
   questions: QuestionDetails[]
-): QuestionUnion["question"] => {
+): QuestionUnion => {
   //resQuestionsは以下の六つのユニオン型で、その中身はquestionsを整形していく
   const resQuestions: (Text | TextArea | MultipleChoice | Number | Checkbox | LinearScale )[] = questions.map(q => {
     //もとのquestionsを、つまりもとの質問一つごとにreturnしているものに変える。んでそのなかにresultsPerQuestionって野が必要なのでまずそれをつくってる
@@ -64,7 +64,10 @@ export const adjustQuestions(
         results: resultsPerQuestion,
     }
   })
-  return resQuestions;//←適当
+  return {
+    questionnare: _questionnaire,
+    question: resQuestions
+  }
 }
 
  
@@ -85,7 +88,7 @@ export interface TextArea {
 //数値
 export interface Number {
   type: 'Number'
-  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
+  question: Omit<QuestionDetails,'questionnaireID'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
   results: Array<Omit<ResonsePerQuestionAndPerson,'option_response'>>
 }
 
