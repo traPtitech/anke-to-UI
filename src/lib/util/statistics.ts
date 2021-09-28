@@ -1,116 +1,140 @@
-/*コメントのコピー
- 
-1でまとめたやつを加工する
-quesionごとに加工する
-lib/util/statistics.tsを作って書いていく
-getQuestionareDetailの中で呼ばれて、resultとquestionを渡されて↓みたな返り値を返す
-interface TextType {
-  type: 'Text'
-  question: SelectTypeQuestion (ただのQuestion型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  results: SelectTypeResult[] (ただのResponseResult型じゃなくてどのプロパティにちゃんと値が入っていると保証している型)
-  submitted_at: string
-  modified_at: string
-  traqID: string
-}
-{ questionnare: {}, question: (TextType | TextAreaType | MultipleChoice | 他にも)[] }
-
-*/
-
 import {
   QuestionnaireByID,
   ResponseResult,
   QuestionDetails,
-  QuestionnaireWithResultsQuestions,
-  ResponseBody,
-  QuestionType
+  ResponseBody
 } from '/@/lib/apis'
 
-/**この関数でやりたいこと
-   * (i)返り値の型が(TextType | TextAreaType | MultipleChoice | ...)のユニオン
-   * 
-   * どうせこのコードの実行時(=ブラウザで表示されるとき)は↓
-   * どの型かはわからないので使うときは逐次返り値.typeが何かで判断します
-   * 
-   * ここの肝は返り値.typeのif文をくぐらせることでそこの中では↓
-   * TypeScriptの型補完がちゃんと効いて、コード上でどんなプロパティをもつ型か↓
-   * どのタイプの質問か (\"Text\", \"TextArea\", \"Number\", \"MultipleChoice\", \"Checkbox\", \"LinearScale\") 
-   * が一意にわかることです
-   */
-
-export const adjustQuestions(
+export const adjustQuestions = (
   _questionnaire: QuestionnaireByID,
   results: ResponseResult[],
   questions: QuestionDetails[]
 ): QuestionUnion => {
-  //resQuestionsは以下の六つのユニオン型で、その中身はquestionsを整形していく
-  const resQuestions: (Text | TextArea | MultipleChoice | Number | Checkbox | LinearScale )[] = questions.map(q => {
-    //もとのquestionsを、つまりもとの質問一つごとにreturnしているものに変える。んでそのなかにresultsPerQuestionって野が必要なのでまずそれをつくってる
-    //それはresults1を変更させたもの。
-    //findで質問のIDと同じものの中で最初の要素を見つけている、それにフィルターをかけて
-    const resultsPerQuestion = results.map(r =>
-      // body に modified_at 等が入っていないため body の各要素に modified_at 等を追加した新しい配列を作成
-      r.body.map(body => ({
-        ...body,
-        modified_at: r.modified_at,
-        submitted_at: r.submitted_at,
-        traqID: r.traqID
-      }))
-    ).map(bodies => 
-      bodies.find(v => v.questionID === q.questionID),
-    ).filter((v): v is Exclude<typeof v, undefined> => !!v)
+  const resQuestions: (
+    | TextTypeQuestion
+    | TextAreaTypeQuestion
+    | MultipleChoiceTypeQuestion
+    | NumberTypeQuestion
+    | CheckboxTypeQuestion
+    | LinearScaleTypeQuestion
+  )[] = questions.map(q => {
+    const resultsPerQuestion = results
+      .map(r =>
+        r.body.map(body => ({
+          ...body,
+          modified_at: r.modified_at,
+          submitted_at: r.submitted_at,
+          traqID: r.traqID
+        }))
+      )
+      .map(bodies => bodies.find(v => v.questionID === q.questionID))
+      .filter((v): v is Exclude<typeof v, undefined> => !!v)
     return {
-        type: q.question_type,
-        question: q,
-        results: resultsPerQuestion,
+      type: q.question_type,
+      question: q,
+      results: resultsPerQuestion
     }
   })
   return {
-    questionnare: _questionnaire,
-    question: resQuestions
+    questionnaire: _questionnaire,
+    questions: resQuestions
   }
 }
 
- 
 //テキスト
-export interface Text {
+export interface TextTypeQuestion {
   type: 'Text'
-  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: Array<TextWithResponse | TextWithNoResponse>
+  question: Omit<
+    QuestionDetails,
+    | 'questionnaireID'
+    | 'max_bound'
+    | 'min_bound'
+    | 'options'
+    | 'regex_pattern'
+    | 'scale_label_left'
+    | 'scale_label_right'
+    | 'scale_max'
+    | 'scale_min'
+  >
+  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
 }
 
 //テキスト（長文）
-export interface TextArea {
+export interface TextAreaTypeQuestion {
   type: 'TextArea'
-  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'> 
-  results: Array<TextWithResponse | TextWithNoResponse>
+  question: Omit<
+    QuestionDetails,
+    | 'questionnaireID'
+    | 'max_bound'
+    | 'min_bound'
+    | 'options'
+    | 'regex_pattern'
+    | 'scale_label_left'
+    | 'scale_label_right'
+    | 'scale_max'
+    | 'scale_min'
+  >
+  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
 }
 
 //数値
-export interface Number {
+export interface NumberTypeQuestion {
   type: 'Number'
-  question: Omit<QuestionDetails,'questionnaireID'|'options'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: Array<Omit<ResonsePerQuestionAndPerson,'option_response'>>
+  question: Omit<
+    QuestionDetails,
+    | 'questionnaireID'
+    | 'options'
+    | 'regex_pattern'
+    | 'scale_label_left'
+    | 'scale_label_right'
+    | 'scale_max'
+    | 'scale_min'
+  >
+  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
 }
 
 //ラジオボタン
-export interface MultipleChoice {
+export interface MultipleChoiceTypeQuestion {
   type: 'MultipleChoice'
-  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: Array<Omit<ResonsePerQuestionAndPerson,'response'>>
+  question: Omit<
+    QuestionDetails,
+    | 'questionnaireID'
+    | 'max_bound'
+    | 'min_bound'
+    | 'regex_pattern'
+    | 'scale_label_left'
+    | 'scale_label_right'
+    | 'scale_max'
+    | 'scale_min'
+  >
+  results: Array<Omit<ResonsePerQuestionAndPerson, 'response'>>
 }
 
 //チェックボックス
-export interface Checkbox {
+export interface CheckboxTypeQuestion {
   type: 'Checkbox'
-  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'regex_pattern'|'scale_label_left'|'scale_label_right'|'scale_max'|'scale_min'>
-  results: Array<Omit<ResonsePerQuestionAndPerson,'response'>>
+  question: Omit<
+    QuestionDetails,
+    | 'questionnaireID'
+    | 'max_bound'
+    | 'min_bound'
+    | 'regex_pattern'
+    | 'scale_label_left'
+    | 'scale_label_right'
+    | 'scale_max'
+    | 'scale_min'
+  >
+  results: Array<Omit<ResonsePerQuestionAndPerson, 'response'>>
 }
 
 //メモリ
-export interface LinearScale {
+export interface LinearScaleTypeQuestion {
   type: 'LinearScale'
-  question: Omit<QuestionDetails,'questionnaireID'|'max_bound'|'min_bound'|'options'|'regex_pattern'>
-  results: Array<Omit<ResonsePerQuestionAndPerson,'option_response'>>
+  question: Omit<
+    QuestionDetails,
+    'questionnaireID' | 'max_bound' | 'min_bound' | 'options' | 'regex_pattern'
+  >
+  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
 }
 
 //一つの質問、一人あたりの
@@ -120,21 +144,28 @@ export interface ResonsePerQuestionAndPerson extends ResponseBody {
   traqID: string
 }
 
-//TextとTextareaのresultsは（自分が確認した中では）以下の二つの型が入り混じった配列になりそう
-export type TextWithResponse = Omit<ResonsePerQuestionAndPerson,'option_response'>
-export type TextWithNoResponse = Omit<ResonsePerQuestionAndPerson,'option_response'|'response'>
-
 //この型なぞ…questionnareってなんですか
 export interface QuestionUnion {
-  questionnare: {} 
-  question: (Text | TextArea | MultipleChoice | Number | Checkbox | LinearScale )[] 
+  questionnaire: QuestionnaireByID
+  questions: (
+    | TextTypeQuestion
+    | TextAreaTypeQuestion
+    | MultipleChoiceTypeQuestion
+    | NumberTypeQuestion
+    | CheckboxTypeQuestion
+    | LinearScaleTypeQuestion
+  )[]
 }
 
-export const isTextWithResponse = (arg: TextWithResponse|TextWithNoResponse): arg is TextWithResponse => {
-  //TextWithResponse型に強制キャストしてresponseプロパティがあればTextWithResponse型
-  return !!(arg as TextWithResponse)?.response
-}
+//ResponseBodyの中のresponseがundefinedかどうかを判定
+export const isResponseExist = (
+  response: string | undefined
+): response is string => typeof response == 'string'
 
+//ResponseBodyの中のoption_responseがundefinedかどうかを判定
+export const isOptionResponseExist = (
+  optionResponse: Array<string> | undefined
+): optionResponse is Array<string> => Array.isArray(optionResponse)
 
 /*以下はアンケートからとってきたものとapi.tsで定義されている型とをくらべてる。
 QuestionnaireByID, ResponseResult[], QuestionDetails[]の順で。
