@@ -2,8 +2,23 @@
   <Card :class="$style.card">
     <template #header>操作</template>
     <template #content>
-        <button></button>
-     </template>
+      <div>
+        <router-link :to="'/responses/new/' + questionnaire.questionnaireID"
+          >回答する</router-link
+        >
+      </div>
+      <div>
+        <input type="url" value="iiiii" readonly />
+        <span><button>リンクコピー</button></span>
+      </div>
+      <div>{{ URL }}</div>
+      <button @click="copy()">Say hi</button>
+      <div>
+        <router-link :to="'/results/' + questionnaire.questionnaireID"
+          >結果を見る</router-link
+        >
+      </div>
+    </template>
   </Card>
 </template>
 
@@ -22,8 +37,10 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
-  }
+    const URL = 'https://anke-to.trap.jp/responses/new/' + '1'
+    return { URL }
+  },
+  methods: {}
 })
 </script>
 

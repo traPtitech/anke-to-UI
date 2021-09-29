@@ -2,8 +2,11 @@
   <Card :class="$style.card">
     <template #header>自分の回答</template>
     <template #content>
-      <div v-for="in questionnaire">
-      </div>
+      <!-- idを用いたvfor -->
+      <router-link :to="'/responses/' + id">
+        >
+        <!-- {{ 回答時間 }} -->
+      </router-link>
     </template>
   </Card>
 </template>
@@ -11,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Card from '/@/components/UI/Card.vue'
-import {  } from '/@/lib/apis'
+import { responsesがわかるようなapiがはいる } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'Myanswer',
