@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
+import { useTitle } from './use/title'
 import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
 import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
@@ -26,6 +27,8 @@ export default defineComponent({
     SearchInput
   },
   setup() {
+    useTitle(ref('アンケート一覧'))
+
     const questionnaires = ref<QuestionnaireForList[]>([])
 
     const option = ref<Option>({

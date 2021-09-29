@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
+import { useTitle } from './use/title'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import apis, { QuestionnaireMyTargeted } from '/@/lib/apis'
@@ -22,6 +23,8 @@ export default defineComponent({
     CardContentDetail
   },
   setup() {
+    useTitle(ref('回答対象のアンケート一覧'))
+
     const questionnaires = ref<QuestionnaireMyTargeted[]>([])
     onMounted(async () => {
       const { data } = await apis.getTargetedQuestionnaire("")
