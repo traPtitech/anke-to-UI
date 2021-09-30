@@ -2,7 +2,9 @@
   <Card :class="$style.card">
     <template #header>{{ questionnaire.title }}</template>
   </Card>
-
+  <Card :class="$style.cardquestion">
+    <template #header>aaaaaaaaaaa</template>
+  </Card>
 </template>
 
 <script lang="ts">
@@ -32,5 +34,10 @@ export default defineComponent({
   text-align: left;
   font-size: 1.25rem;
   padding: 1rem;
+}
+.cardquestion {
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 1.25rem;
 }
 </style>

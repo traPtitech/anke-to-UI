@@ -8,16 +8,16 @@
         >
       </div>
       <div>
-        <input type="url" value="iiiii" readonly />
+        <input type="url" :value="questionnaireLink" readonly />
         <span><button>リンクコピー</button></span>
       </div>
-      <div>{{ URL }}</div>
-      <button @click="copy()">Say hi</button>
       <div>
         <router-link :to="'/results/' + questionnaire.questionnaireID"
           >結果を見る</router-link
         >
       </div>
+      <div><button>アンケートを締め切る</button></div>
+      <div><button>アンケートを削除</button></div>
     </template>
   </Card>
 </template>
@@ -36,11 +36,12 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    const URL = 'https://anke-to.trap.jp/responses/new/' + '1'
-    return { URL }
-  },
-  methods: {}
+  setup(props) {
+    const questionnaireLink =
+      'https://anke-to.trap.jp/responses/new/' +
+      props.questionnaire.questionnaireID
+    return { questionnaireLink }
+  }
 })
 </script>
 

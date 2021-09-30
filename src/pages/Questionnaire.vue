@@ -1,13 +1,16 @@
 <template>
-  <template v-if="questionnaire">
-    <Informations :questionnaire="questionnaire"></Informations>
+  <template v-if="(questionnaire, myresponse)">
+    <Informations
+      :questionnaire="questionnaire"
+      :myresponse="myresponse"
+    ></Informations>
   </template>
-  <template v-else> 読み込み中 </template>
+  <template v-else> 読み込み中</template>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
-import apis, { QuestionnaireByID } from '../lib/apis'
+import apis, { QuestionnaireByID, ResponseSummary } from '../lib/apis'
 import Informations from '/@/components/Questionnaire/Informations.vue'
 
 export default defineComponent({
@@ -15,12 +18,17 @@ export default defineComponent({
   components: { Informations },
   setup() {
     const questionnaire = ref<QuestionnaireByID | null>(null)
+    const myresponse = ref<ResponseSummary[]>([])
     onMounted(async () => {
-      const { data } = await apis.getQuestionnaire(1)
-      questionnaire.value = data
+      const [qdetail, myrdetail] = await Promise.all([
+        apis.getQuestionnaire(1),
+        apis.getMyResponses(1)
+      ])
+      questionnaire.value = qdetail
+      myresponse.value = myrdetail
     })
 
-    return { questionnaire }
+    return { questionnaire, myresponse }
   }
 })
 </script>
