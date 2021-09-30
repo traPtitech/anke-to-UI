@@ -7,7 +7,7 @@
           <router-link :to="'/responses/' + data.responseID">{{
             data.submitted_at
           }}</router-link
-          ><span></span>
+          ><span>ゴミ箱</span>
         </li>
       </ul>
     </template>
