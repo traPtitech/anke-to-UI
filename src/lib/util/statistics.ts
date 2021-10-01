@@ -6,7 +6,7 @@ import {
 } from '/@/lib/apis'
 
 export const adjustQuestions = (
-  _questionnaire: QuestionnaireByID,
+  questionnaire: QuestionnaireByID,
   results: ResponseResult[],
   questions: QuestionDetails[]
 ): QuestionUnion => {
@@ -36,7 +36,7 @@ export const adjustQuestions = (
     }
   })
   return {
-    questionnaire: _questionnaire,
+    questionnaire: questionnaire,
     questions: resQuestions
   }
 }
@@ -56,7 +56,7 @@ export interface TextTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
+  results: StringResultPerQuestion
 }
 
 //テキスト（長文）
@@ -74,7 +74,7 @@ export interface TextAreaTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
+  results: StringResultPerQuestion
 }
 
 //数値
@@ -90,7 +90,7 @@ export interface NumberTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
+  results: StringResultPerQuestion
 }
 
 //ラジオボタン
@@ -107,7 +107,7 @@ export interface MultipleChoiceTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: Array<Omit<ResonsePerQuestionAndPerson, 'response'>>
+  results: ArrayResultPerQuestion
 }
 
 //チェックボックス
@@ -124,7 +124,7 @@ export interface CheckboxTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: Array<Omit<ResonsePerQuestionAndPerson, 'response'>>
+  results: ArrayResultPerQuestion
 }
 
 //メモリ
@@ -134,7 +134,7 @@ export interface LinearScaleTypeQuestion {
     QuestionDetails,
     'questionnaireID' | 'max_bound' | 'min_bound' | 'options' | 'regex_pattern'
   >
-  results: Array<Omit<ResonsePerQuestionAndPerson, 'option_response'>>
+  results: StringResultPerQuestion
 }
 
 //一つの質問、一人あたりの
@@ -144,7 +144,6 @@ export interface ResonsePerQuestionAndPerson extends ResponseBody {
   traqID: string
 }
 
-//この型なぞ…questionnareってなんですか
 export interface QuestionUnion {
   questionnaire: QuestionnaireByID
   questions: (
@@ -157,16 +156,23 @@ export interface QuestionUnion {
   )[]
 }
 
-//ResponseBodyの中のresponseがundefinedかどうかを判定
-export const isResponseExist = (
-  response: string | undefined
-): response is string => typeof response == 'string'
+//少なくともoption_responseがnullのところはresponseがnullじゃなくて、逆もそう
+export type StringResultPerQuestion = Array<
+  Omit<ResonsePerQuestionAndPerson, 'option_response'>
+>
+export type ArrayResultPerQuestion = Array<
+  Omit<ResonsePerQuestionAndPerson, 'response'>
+>
 
-//ResponseBodyの中のoption_responseがundefinedかどうかを判定
-export const isOptionResponseExist = (
-  optionResponse: Array<string> | undefined
-): optionResponse is Array<string> => Array.isArray(optionResponse)
+export const isArrayResultPerQuestion = (
+  resultPerQuestion: StringResultPerQuestion | ArrayResultPerQuestion
+): resultPerQuestion is ArrayResultPerQuestion =>
+  ['Checkbox', 'MultipleChoice'].includes(resultPerQuestion[0].question_type)
 
+/*
+export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(arg.type)
+*/
 /*以下はアンケートからとってきたものとapi.tsで定義されている型とをくらべてる。
 QuestionnaireByID, ResponseResult[], QuestionDetails[]の順で。
 

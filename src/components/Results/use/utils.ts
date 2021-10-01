@@ -14,25 +14,25 @@ export const detailTabs: DetailTabTypes[] = [
 
 export const getIsTextTable = (tableForm: TableFormTypes): boolean =>
   ['markdown', 'csv'].includes(tableForm)
-export const tType = (type: string): boolean =>
+export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 export const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
 
 //した二つの関数は前回質問時のもので、確認のため残しました（いらなくなったら消します）
 /*
-export const tTypeData = (arg: CountedData): boolean => {
+export const isSelectTypeData = (arg: CountedData): boolean => {
   if ((arg as SelectTypeData)?.total === null) {
     return true
   } else return false
 }
-export const tTypeData = (arg: CountedData): arg is SelectTypeData => {
+export const IsSelectTypeData = (arg: CountedData): arg is SelectTypeData => {
   if ((arg as SelectTypeData)?.total === null) {
     return true
   } else return false
 }
 */
-export const tTypeData = (arg: CountedData): arg is SelectTypeData =>
+export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(arg.type)
 
 export type SelectTypeData = Required<CountedData> & {
@@ -113,7 +113,7 @@ const generateIdTable = (
 ): [choice: string | number, ids: string[]][] => {
   const total = new Map()
   answers.forEach((answer: AnswerData) => {
-    if (tTypeData(question)) {
+    if (isSelectTypeData(question)) {
       ;(<string[]>answer.answer).forEach(value => {
         if (!total.has(value)) total.set(value, [])
         total.get(value).push(answer.traqId)
@@ -192,7 +192,7 @@ export const countData = (
       data[index].push({
         traqId: result.traqID,
         modifiedAt: result.modified_at,
-        answer: tType(answer.question_type)
+        answer: isSelectType(answer.question_type)
           ? answer.option_response
           : isNumberType(answer.question_type)
           ? +answer.response
