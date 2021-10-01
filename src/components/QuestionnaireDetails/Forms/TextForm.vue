@@ -1,7 +1,7 @@
 <template>
   <QuestionForm
     :name="questionData.name"
-    :required="questionData.required"
+    :is-required="questionData.required"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
@@ -28,19 +28,27 @@ export default defineComponent({
     QuestionInput
   },
   props: {
+    index: {
+      type: Number,
+      required: true
+    },
     questionData: {
       type: Object as PropType<TextQuestion>,
       required: true
     }
   },
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:question': (v: TextQuestion) => true
+  },
   setup(props, context) {
     const updateQuestionName = (name: string) => {
       const newData = { ...props.questionData, name }
-      context.emit('update', newData)
+      context.emit('update:question', newData)
     }
     const updateQuestionRequired = (required: boolean) => {
       const newData = { ...props.questionData, required }
-      context.emit('update', newData)
+      context.emit('update:question', newData)
     }
 
     return {

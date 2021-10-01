@@ -23,9 +23,12 @@ export default defineComponent({
   components: {
     Icon
   },
+  emits: {
+    addQuestion: (key: string) => true
+  },
   setup(props, context) {
     const addQuestion = (key: string) => {
-      context.emit('add-question', key)
+      context.emit('addQuestion', key)
     }
     return {
       addQuestion,

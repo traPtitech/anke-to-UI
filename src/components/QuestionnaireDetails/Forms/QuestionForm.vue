@@ -12,8 +12,8 @@
           @update:modelValue="updateQuestionName"
         />
         <QuestionCheckbox
-          :contents="[requiredLabel]"
-          :model-value="required ? [requiredLabel] : []"
+          :contents="questionRequiredContent"
+          :model-value="questionRequired"
           @update:modelValue="updateQuestionRequired"
         />
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 import QuestionCheckbox from '../../UI/QuestionCheckbox.vue'
 import Icon from '../../UI/Icon.vue'
@@ -48,18 +48,28 @@ export default defineComponent({
       type: String,
       required: true
     },
-    required: {
+    isRequired: {
       type: Boolean,
       required: true
     }
+  },
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:name': (v: string) => true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:required': (v: boolean) => true
   },
   setup(props, context) {
     const updateQuestionName = (name: string) => {
       context.emit('update:name', name)
     }
 
+    const questionRequiredContent = computed(() => [requiredLabel])
+    const questionRequired = computed(() =>
+      props.isRequired ? [requiredLabel] : []
+    )
+
     const updateQuestionRequired = (checked: string[]) => {
-      console.log(checked);
       context.emit(
         'update:required',
         checked.length > 0 && checked[0] == requiredLabel
@@ -68,6 +78,8 @@ export default defineComponent({
 
     return {
       requiredLabel,
+      questionRequiredContent,
+      questionRequired,
       updateQuestionName,
       updateQuestionRequired
     }

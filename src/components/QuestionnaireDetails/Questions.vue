@@ -7,23 +7,27 @@
           question.type === QuestionType.Text ||
           question.type === QuestionType.Number
         "
+        :index="i"
         :question-data="question"
-        @update="updateQuestion(i)"
+        @update:question="updateQuestion"
       />
       <TextForm
         v-if="question.type === QuestionType.Checkbox"
+        :index="i"
         :question-data="question"
-        @update="updateQuestion(i)"
+        @update:question="updateQuestion"
       />
       <TextForm
         v-if="question.type === QuestionType.MultipleChoice"
+        :index="i"
         :question-data="question"
-        @update="updateQuestion(i)"
+        @update:question="updateQuestion"
       />
       <TextForm
         v-if="question.type === QuestionType.TextArea"
+        :index="i"
         :question-data="question"
-        @update="updateQuestion(i)"
+        @update:question="updateQuestion"
       />
     </div>
     <AddButtons @add-question="addQuestion" />
@@ -47,13 +51,12 @@ export default defineComponent({
     const questions = ref<QuestionLite[]>([])
 
     const addQuestion = (type: string) => {
-      console.log(`add question : ${type}`)
       const question = createNewQuestion(type)
       if (question) questions.value.push(question)
     }
 
-    const updateQuestion = (index: number) => (newData: QuestionLite) => {
-      questions.value[index] = newData
+    const updateQuestion = (newData: QuestionLite, index: number) => {
+      questions.value[0] = newData
     }
 
     return {
