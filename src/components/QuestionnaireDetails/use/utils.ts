@@ -36,7 +36,9 @@ export const questionTypes = {
 }
 
 export interface QuestionLite {
-  type?: QuestionType
+  type: QuestionType
+  name: string
+  required: boolean
   isNumber?: boolean
   contents?: string[]
   modelValue?: string[] | string
@@ -45,11 +47,13 @@ export interface QuestionLite {
   rightLabel?: string
 }
 
-export const createNewQuestion = (type: string): QuestionLite => {
+export const createNewQuestion = (type: string): QuestionLite | null => {
   switch (type) {
     case 'Text': {
       return {
         type: QuestionType.Text,
+        name: '',
+        required: false,
         isNumber: false,
         modelValue: ''
       }
@@ -57,12 +61,16 @@ export const createNewQuestion = (type: string): QuestionLite => {
     case 'TextArea': {
       return {
         type: QuestionType.TextArea,
+        name: '',
+        required: false,
         modelValue: ''
       }
     }
     case 'Number': {
       return {
         type: QuestionType.Number,
+        name: '',
+        required: false,
         isNumber: true,
         modelValue: '0'
       }
@@ -70,6 +78,8 @@ export const createNewQuestion = (type: string): QuestionLite => {
     case 'Checkbox': {
       return {
         type: QuestionType.Checkbox,
+        name: '',
+        required: false,
         contents: [''],
         modelValue: []
       }
@@ -77,6 +87,8 @@ export const createNewQuestion = (type: string): QuestionLite => {
     case 'MultipleChoice': {
       return {
         type: QuestionType.MultipleChoice,
+        name: '',
+        required: false,
         contents: [''],
         modelValue: ''
       }
@@ -84,6 +96,8 @@ export const createNewQuestion = (type: string): QuestionLite => {
     case 'LinerScale': {
       return {
         type: QuestionType.LinearScale,
+        name: '',
+        required: false,
         range: [1, 5],
         leftLabel: '',
         rightLabel: ''
@@ -91,7 +105,7 @@ export const createNewQuestion = (type: string): QuestionLite => {
     }
     default: {
       console.error(`型${type}は質問文の型にありません`)
-      return {};
+      return null
     }
   }
 }

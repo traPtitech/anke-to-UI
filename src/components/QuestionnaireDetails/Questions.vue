@@ -2,25 +2,28 @@
   <div>
     <div v-if="questions.length === 0">質問がありません</div>
     <div v-for="(question, i) in questions" :key="i">
-      <QuestionCheckbox
-        v-if="question.type === 'Checkbox'"
-        :contents="question.contents"
-        :model-value="question.modelValue"
+      <TextForm
+        v-if="
+          question.type === QuestionType.Text ||
+          question.type === QuestionType.Number
+        "
+        :question-data="question"
+        @update="updateQuestion(i)"
       />
-      <QuestionInput
-        v-if="question.type === 'Text' || question.type === 'Number'"
-        :contents="question.contents"
-        :model-value="question.modelValue"
+      <TextForm
+        v-if="question.type === QuestionType.Checkbox"
+        :question-data="question"
+        @update="updateQuestion(i)"
       />
-      <QuestionRadio
-        v-if="question.type === 'MultipleChoice'"
-        :contents="question.contents"
-        :model-value="question.modelValue"
+      <TextForm
+        v-if="question.type === QuestionType.MultipleChoice"
+        :question-data="question"
+        @update="updateQuestion(i)"
       />
-      <QuestionTextarea
-        v-if="question.type === 'TextArea'"
-        :contents="question.contents"
-        :model-value="question.modelValue"
+      <TextForm
+        v-if="question.type === QuestionType.TextArea"
+        :question-data="question"
+        @update="updateQuestion(i)"
       />
     </div>
     <AddButtons @add-question="addQuestion" />
@@ -30,22 +33,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { QuestionDetails, QuestionType } from '/@/lib/apis'
-import QuestionCheckbox from '../UI/QuestionCheckbox.vue'
-import QuestionInput from '../UI/QuestionInput.vue'
-import QuestionRadio from '../UI/QuestionRadio.vue'
-import QuestionTextarea from '../UI/QuestionTextarea.vue'
 import AddButtons from './AddButtons.vue'
 import { createNewQuestion, QuestionLite } from './use/utils'
-
-
+import TextForm from './Forms/TextForm.vue'
 
 export default defineComponent({
   name: 'Questions',
   components: {
-    QuestionCheckbox,
-    QuestionInput,
-    QuestionRadio,
-    QuestionTextarea,
+    TextForm,
     AddButtons
   },
   setup() {
@@ -53,12 +48,19 @@ export default defineComponent({
 
     const addQuestion = (type: string) => {
       console.log(`add question : ${type}`)
-      questions.value.push(createNewQuestion(type))
+      const question = createNewQuestion(type)
+      if (question) questions.value.push(question)
+    }
+
+    const updateQuestion = (index: number) => (newData: QuestionLite) => {
+      questions.value[index] = newData
     }
 
     return {
+      QuestionType,
       questions,
-      addQuestion
+      addQuestion,
+      updateQuestion
     }
   }
 })
