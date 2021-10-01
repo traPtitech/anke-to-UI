@@ -39,16 +39,16 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:question': (v: TextQuestion) => true
+    update: (v: TextQuestion, index: number) => true
   },
   setup(props, context) {
     const updateQuestionName = (name: string) => {
       const newData = { ...props.questionData, name }
-      context.emit('update:question', newData)
+      context.emit('update', newData, props.index)
     }
     const updateQuestionRequired = (required: boolean) => {
       const newData = { ...props.questionData, required }
-      context.emit('update:question', newData)
+      context.emit('update', newData, props.index)
     }
 
     return {

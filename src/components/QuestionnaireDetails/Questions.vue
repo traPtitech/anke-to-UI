@@ -9,25 +9,25 @@
         "
         :index="i"
         :question-data="question"
-        @update:question="updateQuestion"
+        @update="updateQuestion"
       />
       <TextForm
         v-if="question.type === QuestionType.Checkbox"
         :index="i"
         :question-data="question"
-        @update:question="updateQuestion"
+        @update="updateQuestion"
       />
       <TextForm
         v-if="question.type === QuestionType.MultipleChoice"
         :index="i"
         :question-data="question"
-        @update:question="updateQuestion"
+        @update="updateQuestion"
       />
       <TextForm
         v-if="question.type === QuestionType.TextArea"
         :index="i"
         :question-data="question"
-        @update:question="updateQuestion"
+        @update="updateQuestion"
       />
     </div>
     <AddButtons @add-question="addQuestion" />
