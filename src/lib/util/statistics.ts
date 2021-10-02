@@ -2,8 +2,7 @@ import {
   QuestionnaireByID,
   ResponseResult,
   QuestionDetails,
-  ResponseBody,
-  QuestionType
+  ResponseBody
 } from '/@/lib/apis'
 
 export const adjustQuestions = (
@@ -29,9 +28,15 @@ export const adjustQuestions = (
       results: resultsPerQuestionWithUser
     }
   })
+  const validTypeQuestion: AllTypeQuestionUnion[] = []
+  resQuestions.forEach(function (array) {
+    if (isValidTypeQuestion(array)) {
+      validTypeQuestion.push(array)
+    }
+  })
   return {
     questionnaire: questionnaire,
-    questions: resQuestions
+    questions: validTypeQuestion
   }
 }
 
@@ -49,7 +54,8 @@ export interface TextTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  >
+  > &
+    QuestionDetails
   results: StringResult
 }
 
@@ -67,7 +73,8 @@ export interface TextAreaTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  >
+  > &
+    QuestionDetails
   results: StringResult
 }
 
@@ -83,7 +90,8 @@ export interface NumberTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  >
+  > &
+    QuestionDetails
   results: StringResult
 }
 
@@ -100,7 +108,8 @@ export interface MultipleChoiceTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  >
+  > &
+    QuestionDetails
   results: ArrayResult
 }
 
@@ -117,7 +126,8 @@ export interface CheckboxTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  >
+  > &
+    QuestionDetails
   results: ArrayResult
 }
 
@@ -127,7 +137,8 @@ export interface LinearScaleTypeQuestion {
   question: Omit<
     QuestionDetails,
     'questionnaireID' | 'max_bound' | 'min_bound' | 'options' | 'regex_pattern'
-  >
+  > &
+    QuestionDetails
   results: StringResult
 }
 
@@ -152,25 +163,18 @@ export type AllTypeQuestionUnion =
   | LinearScaleTypeQuestion
 
 export interface BaseTypeQuestion {
-  type: QuestionType
+  type: QuestionTypeUnion
   question: QuestionDetails
   results: ResonsePerQuestionWithUser[]
 }
 
-/*api,tsで変更加えないならBaseTypeQuestionでQuestionType使うとtypeのところが
-互換性ないって言われてエラーになるので、どっちを変更するか（いまはapi.tsを変更している）…（一つ目）
-export interface BaseTypeQuestion {
-  type:
-    | 'Text'
-    | 'TextArea'
-    | 'Number'
-    | 'MultipleChoice'
-    | 'Checkbox'
-    | 'LinearScale'
-  question: QuestionDetails
-  results: ResonsePerQuestionWithUser[]
-}
-*/
+export type QuestionTypeUnion =
+  | 'Text'
+  | 'TextArea'
+  | 'Number'
+  | 'MultipleChoice'
+  | 'Checkbox'
+  | 'LinearScale'
 
 export const isValidTypeQuestion = (
   question: BaseTypeQuestion
@@ -184,17 +188,15 @@ export const isValidTypeQuestion = (
     'LinearScale'
   ].includes(question.type)
 
-export type StringResult = Array<
-  Omit<ResonsePerQuestionWithUser, 'option_response'> & { response: string }
->
-export type ArrayResult = Array<
-  Omit<ResonsePerQuestionWithUser, 'response'> & { option_response: string }
->
+export type StringResult = (Omit<
+  ResonsePerQuestionWithUser,
+  'option_response'
+> & { response: string })[]
 
-/*
-export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
-  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(arg.type)
-*/
+export type ArrayResult = (Omit<ResonsePerQuestionWithUser, 'response'> & {
+  option_response: string
+})[]
+
 /*以下はアンケートからとってきたものとapi.tsで定義されている型とをくらべてる。
 QuestionnaireByID, ResponseResult[], QuestionDetails[]の順で。
 
