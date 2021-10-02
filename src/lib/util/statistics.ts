@@ -2,23 +2,17 @@ import {
   QuestionnaireByID,
   ResponseResult,
   QuestionDetails,
-  ResponseBody
+  ResponseBody,
+  QuestionType
 } from '/@/lib/apis'
 
 export const adjustQuestions = (
   questionnaire: QuestionnaireByID,
-  results: ResponseResult[],
-  questions: QuestionDetails[]
-): QuestionUnion => {
-  const resQuestions: (
-    | TextTypeQuestion
-    | TextAreaTypeQuestion
-    | MultipleChoiceTypeQuestion
-    | NumberTypeQuestion
-    | CheckboxTypeQuestion
-    | LinearScaleTypeQuestion
-  )[] = questions.map(q => {
-    const resultsPerQuestion = results
+  questions: QuestionDetails[],
+  results: ResponseResult[]
+): ResultsPerQuestion => {
+  const resQuestions: BaseTypeQuestion[] = questions.map(q => {
+    const resultsPerQuestionWithUser = results
       .map(r =>
         r.body.map(body => ({
           ...body,
@@ -32,7 +26,7 @@ export const adjustQuestions = (
     return {
       type: q.question_type,
       question: q,
-      results: resultsPerQuestion
+      results: resultsPerQuestionWithUser
     }
   })
   return {
@@ -56,7 +50,7 @@ export interface TextTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: StringResultPerQuestion
+  results: StringResult
 }
 
 //テキスト（長文）
@@ -74,7 +68,7 @@ export interface TextAreaTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: StringResultPerQuestion
+  results: StringResult
 }
 
 //数値
@@ -90,7 +84,7 @@ export interface NumberTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: StringResultPerQuestion
+  results: StringResult
 }
 
 //ラジオボタン
@@ -107,7 +101,7 @@ export interface MultipleChoiceTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: ArrayResultPerQuestion
+  results: ArrayResult
 }
 
 //チェックボックス
@@ -124,7 +118,7 @@ export interface CheckboxTypeQuestion {
     | 'scale_max'
     | 'scale_min'
   >
-  results: ArrayResultPerQuestion
+  results: ArrayResult
 }
 
 //メモリ
@@ -134,40 +128,68 @@ export interface LinearScaleTypeQuestion {
     QuestionDetails,
     'questionnaireID' | 'max_bound' | 'min_bound' | 'options' | 'regex_pattern'
   >
-  results: StringResultPerQuestion
+  results: StringResult
 }
 
 //一つの質問、一人あたりの
-export interface ResonsePerQuestionAndPerson extends ResponseBody {
+export interface ResonsePerQuestionWithUser extends ResponseBody {
   submitted_at: string
   modified_at: string
   traqID: string
 }
 
-export interface QuestionUnion {
+export interface ResultsPerQuestion {
   questionnaire: QuestionnaireByID
-  questions: (
-    | TextTypeQuestion
-    | TextAreaTypeQuestion
-    | MultipleChoiceTypeQuestion
-    | NumberTypeQuestion
-    | CheckboxTypeQuestion
-    | LinearScaleTypeQuestion
-  )[]
+  questions: AllTypeQuestionUnion[]
 }
 
-//少なくともoption_responseがnullのところはresponseがnullじゃなくて、逆もそう
-export type StringResultPerQuestion = Array<
-  Omit<ResonsePerQuestionAndPerson, 'option_response'>
->
-export type ArrayResultPerQuestion = Array<
-  Omit<ResonsePerQuestionAndPerson, 'response'>
->
+export type AllTypeQuestionUnion =
+  | TextTypeQuestion
+  | TextAreaTypeQuestion
+  | MultipleChoiceTypeQuestion
+  | NumberTypeQuestion
+  | CheckboxTypeQuestion
+  | LinearScaleTypeQuestion
 
-export const isArrayResultPerQuestion = (
-  resultPerQuestion: StringResultPerQuestion | ArrayResultPerQuestion
-): resultPerQuestion is ArrayResultPerQuestion =>
-  ['Checkbox', 'MultipleChoice'].includes(resultPerQuestion[0].question_type)
+export interface BaseTypeQuestion {
+  type: QuestionType
+  question: QuestionDetails
+  results: ResonsePerQuestionWithUser[]
+}
+
+/*api,tsで変更加えないならBaseTypeQuestionでQuestionType使うとtypeのところが
+互換性ないって言われてエラーになるので、どっちを変更するか（いまはapi.tsを変更している）…（一つ目）
+export interface BaseTypeQuestion {
+  type:
+    | 'Text'
+    | 'TextArea'
+    | 'Number'
+    | 'MultipleChoice'
+    | 'Checkbox'
+    | 'LinearScale'
+  question: QuestionDetails
+  results: ResonsePerQuestionWithUser[]
+}
+*/
+
+export const isValidTypeQuestion = (
+  question: BaseTypeQuestion
+): question is AllTypeQuestionUnion =>
+  [
+    'Text',
+    'TextArea',
+    'Number',
+    'MultipleChoice',
+    'Checkbox',
+    'LinearScale'
+  ].includes(question.type)
+
+export type StringResult = Array<
+  Omit<ResonsePerQuestionWithUser, 'option_response'> & { response: string }
+>
+export type ArrayResult = Array<
+  Omit<ResonsePerQuestionWithUser, 'response'> & { option_response: string }
+>
 
 /*
 export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
