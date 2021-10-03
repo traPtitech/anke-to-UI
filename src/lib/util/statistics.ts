@@ -54,8 +54,7 @@ export interface TextTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  > &
-    QuestionDetails
+  >
   results: StringResult
 }
 
@@ -73,8 +72,7 @@ export interface TextAreaTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  > &
-    QuestionDetails
+  >
   results: StringResult
 }
 
@@ -90,8 +88,7 @@ export interface NumberTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  > &
-    QuestionDetails
+  >
   results: StringResult
 }
 
@@ -108,8 +105,7 @@ export interface MultipleChoiceTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  > &
-    QuestionDetails
+  >
   results: ArrayResult
 }
 
@@ -126,8 +122,7 @@ export interface CheckboxTypeQuestion {
     | 'scale_label_right'
     | 'scale_max'
     | 'scale_min'
-  > &
-    QuestionDetails
+  >
   results: ArrayResult
 }
 
@@ -137,8 +132,7 @@ export interface LinearScaleTypeQuestion {
   question: Omit<
     QuestionDetails,
     'questionnaireID' | 'max_bound' | 'min_bound' | 'options' | 'regex_pattern'
-  > &
-    QuestionDetails
+  >
   results: StringResult
 }
 
@@ -164,7 +158,7 @@ export type AllTypeQuestionUnion =
 
 export interface BaseTypeQuestion {
   type: QuestionTypeUnion
-  question: QuestionDetails
+  question: Partial<QuestionDetails>
   results: ResonsePerQuestionWithUser[]
 }
 
