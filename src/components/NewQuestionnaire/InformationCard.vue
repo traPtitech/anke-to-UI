@@ -14,12 +14,30 @@
       </div>
       <div :class="$style.target">
         <span>対象者</span>
-        <Icon name="pencil" :class="$style.icon" />
+        <Icon
+          name="pencil"
+          :class="$style.icon"
+          @click="isTargetModalOpen = true"
+        />
       </div>
+      <UserListModal
+        v-if="isTargetModalOpen"
+        title="対象者"
+        @close="isTargetModalOpen = false"
+      />
       <div :class="$style.administrator">
         <span>管理者</span>
-        <Icon name="pencil" :class="$style.icon" />
+        <Icon
+          name="pencil"
+          :class="$style.icon"
+          @click="isAdministratorModalOpen = true"
+        />
       </div>
+      <UserListModal
+        v-if="isAdministratorModalOpen"
+        title="管理者"
+        @close="isAdministratorModalOpen = false"
+      />
     </template>
   </Card>
 </template>
@@ -29,6 +47,7 @@ import { defineComponent, ref } from 'vue'
 import Card from '/@/components/UI/Card.vue'
 import DropdownMenu from '/@/components/UI/DropdownMenu.vue'
 import Icon from '/@/components/UI/Icon.vue'
+import UserListModal from './UserListModal.vue'
 import { disclosureRange } from './use/disclosureRange'
 
 export default defineComponent({
@@ -36,12 +55,21 @@ export default defineComponent({
   components: {
     Card,
     DropdownMenu,
-    Icon
+    Icon,
+    UserListModal
   },
   setup() {
     const range = ref(disclosureRange.all)
 
-    return { disclosureRange, range }
+    const isTargetModalOpen = ref(false)
+    const isAdministratorModalOpen = ref(false)
+
+    return {
+      disclosureRange,
+      range,
+      isTargetModalOpen,
+      isAdministratorModalOpen
+    }
   }
 })
 </script>
@@ -62,6 +90,7 @@ export default defineComponent({
   }
   .icon {
     margin-left: 0.5rem;
+    cursor: pointer;
   }
 }
 </style>
