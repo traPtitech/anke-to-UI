@@ -2,8 +2,10 @@
   <Card :class="$style.card">
     <template #header>{{ questionnaire.title }}</template>
     <template #content>
-      <div>{{ questionnaire.description }}</div>
-      <div>回答期限:{{ questionnaire.res_time_limit }}</div>
+      <div>
+        {{ questionnaire.description }}
+        <span>回答期限:{{ questionnaire.res_time_limit }}</span>
+      </div>
     </template>
   </Card>
 </template>
