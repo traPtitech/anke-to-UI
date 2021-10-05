@@ -9,7 +9,7 @@
       </div>
       <div>
         <input type="url" :value="questionnaireLink" readonly />
-        <span><button>リンクコピー</button></span>
+        <span><button @click="LinkCopy()">リンクコピー</button></span>
       </div>
       <div>
         <router-link :to="'/results/' + questionnaire.questionnaireID"
@@ -40,7 +40,10 @@ export default defineComponent({
     const questionnaireLink =
       'https://anke-to.trap.jp/responses/new/' +
       props.questionnaire.questionnaireID
-    return { questionnaireLink }
+    const LinkCopy = function () {
+      navigator.clipboard.writeText(questionnaireLink)
+    }
+    return { questionnaireLink, LinkCopy }
   }
 })
 </script>
