@@ -1,23 +1,25 @@
 <template>
   <div :class="$style.container">
-    <SingleCheckbox
-      v-model="hasTimeLimit"
-      content="期限なし"
-      :class="$style.checkbox"
-    />
-    <div :class="[$style.timeLimit, hasTimeLimit ? $style.hidden : '']">
-      <span>回答期限</span>
-      <DatePicker v-model="date" mode="dateTime">
-        <template #default="{ inputValue, inputEvents }">
-          <input
-            v-if="!hasTimeLimit"
-            :value="inputValue"
-            :class="$style.input"
-            v-on="inputEvents"
-          />
-          <input v-else :value="inputValue" :class="$style.input" readonly />
-        </template>
-      </DatePicker>
+    <div :class="$style.flexContainer">
+      <SingleCheckbox
+        v-model="hasTimeLimit"
+        content="期限なし"
+        :class="$style.checkbox"
+      />
+      <div :class="[$style.timeLimit, hasTimeLimit ? $style.hidden : '']">
+        <span>回答期限</span>
+        <DatePicker v-model="date" mode="dateTime">
+          <template #default="{ inputValue, inputEvents }">
+            <input
+              v-if="!hasTimeLimit"
+              :value="inputValue"
+              :class="$style.input"
+              v-on="inputEvents"
+            />
+            <input v-else :value="inputValue" :class="$style.input" readonly />
+          </template>
+        </DatePicker>
+      </div>
     </div>
   </div>
 </template>
@@ -64,6 +66,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  .flexContainer {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .checkbox {
   padding-right: 9rem;
