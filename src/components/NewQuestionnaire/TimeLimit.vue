@@ -1,16 +1,16 @@
 <template>
   <div :class="$style.container">
-    <QuestionCheckbox
-      v-model="checked"
-      :contents="checkboxContents"
+    <SingleCheckbox
+      v-model="hasTimeLimit"
+      content="期限なし"
       :class="$style.checkbox"
     />
-    <div :class="[$style.timeLimit, !hasTimeLimit ? $style.hidden : '']">
+    <div :class="[$style.timeLimit, hasTimeLimit ? $style.hidden : '']">
       <span>回答期限</span>
       <DatePicker v-model="date" mode="dateTime">
         <template #default="{ inputValue, inputEvents }">
           <input
-            v-if="hasTimeLimit"
+            v-if="!hasTimeLimit"
             :value="inputValue"
             :class="$style.input"
             v-on="inputEvents"
@@ -25,13 +25,13 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from 'vue'
 import { DatePicker } from 'v-calendar'
-import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
+import SingleCheckbox from './SingleCheckbox.vue'
 
 export default defineComponent({
   name: 'TimeLimit',
   components: {
     DatePicker,
-    QuestionCheckbox
+    SingleCheckbox
   },
   props: {
     modelValue: {
@@ -44,11 +44,7 @@ export default defineComponent({
     'update:modelValue': (v: Date) => true
   },
   setup(props, context) {
-    const checked = ref<string[]>([])
-    const checkboxContents = ['期限なし']
-    const hasTimeLimit = computed(() => {
-      return !checked.value.includes('期限なし')
-    })
+    const hasTimeLimit = ref(false)
 
     const date = computed({
       get: () => props.modelValue,
@@ -56,8 +52,6 @@ export default defineComponent({
     })
 
     return {
-      checked,
-      checkboxContents,
       hasTimeLimit,
       date
     }
