@@ -22,10 +22,13 @@ export default defineComponent({
     onMounted(async () => {
       const questionnaireId = Number(route.params.id)
       if (isNaN(questionnaireId)) return
-      const { data } = await apis.getQuestionnaire(questionnaireId, '')
-      const deta = await apis.getMyResponses(questionnaireId, '')
-      questionnaire.value = data
-      myresponses.value = deta.data
+      const [qdata, myrdata] = await Promise.all([
+        apis.getQuestionnaire(questionnaireId, ''),
+        apis.getMyResponses(questionnaireId, '')
+      ])
+
+      questionnaire.value = qdata.data
+      myresponses.value = myrdata.data
     })
 
     return { questionnaire }
