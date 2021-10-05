@@ -7,7 +7,7 @@
         <DropdownMenu
           v-model="range"
           title="結果の公開範囲"
-          :contents="Object.values(disclosureRange)"
+          :contents="dropdownContents"
           :show-option="true"
           :class="$style.dropdown"
         />
@@ -59,14 +59,15 @@ export default defineComponent({
     UserListModal
   },
   setup() {
-    const range = ref(disclosureRange.all)
+    const range = ref(disclosureRange.public.label)
+    const dropdownContents = Object.values(disclosureRange).map(v => v.label)
 
     const isTargetModalOpen = ref(false)
     const isAdministratorModalOpen = ref(false)
 
     return {
-      disclosureRange,
       range,
+      dropdownContents,
       isTargetModalOpen,
       isAdministratorModalOpen
     }
