@@ -1,9 +1,9 @@
 <template>
-  <QuestionCheckbox v-model="checked" :contents="[content]" />
+  <QuestionCheckbox v-model="checkedContents" :contents="[content]" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent } from 'vue'
 import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
 
 export default defineComponent({
@@ -26,12 +26,20 @@ export default defineComponent({
     'update:modelValue': (value: boolean) => true
   },
   setup(props, context) {
-    const checked = ref<string[]>([])
-    watch(checked.value, () => {
-      context.emit('update:modelValue', checked.value.length > 0)
+    const checkedContents = computed({
+      get: () => {
+        if (props.modelValue) {
+          return [props.content]
+        } else {
+          return []
+        }
+      },
+      set: value => {
+        context.emit('update:modelValue', value.length > 0)
+      }
     })
 
-    return { checked }
+    return { checkedContents }
   }
 })
 </script>

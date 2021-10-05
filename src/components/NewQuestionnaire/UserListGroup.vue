@@ -1,6 +1,6 @@
 <template>
   <SingleCheckbox
-    v-model="isGroupChecked"
+    v-model="checkedAll"
     :content="group.name"
     :class="$style.group"
   />
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
 import SingleCheckbox from './SingleCheckbox.vue'
 import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
 import { Group } from '/@/lib/apis'
@@ -30,18 +30,16 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const isGroupChecked = ref(false)
-    const checkedMembers = ref<string[]>([])
-
-    watch(isGroupChecked, value => {
-      if (value) {
-        checkedMembers.value = props.group.members[0]
-      } else {
-        checkedMembers.value = []
+    const checkedAll = computed({
+      get: () => props.group.members[0].length === checkedMembers.value.length,
+      set: value => {
+        const temp = props.group.members[0].map(value => value)
+        checkedMembers.value = value ? temp : []
       }
     })
+    const checkedMembers = ref<string[]>([])
 
-    return { isGroupChecked, checkedMembers }
+    return { checkedAll, checkedMembers }
   }
 })
 </script>
