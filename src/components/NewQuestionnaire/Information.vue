@@ -1,9 +1,5 @@
 <template>
-  <QuestionnaireCard
-    v-model:title="title"
-    v-model:description="description"
-    v-model:date="date"
-  />
+  <QuestionnaireCard />
   <div :class="$style.row">
     <InformationCard :class="$style.information" />
     <OperationCard :class="$style.operation" />
@@ -12,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import QuestionnaireCard from './QuestionnaireCard.vue'
 import InformationCard from './InformationCard.vue'
 import OperationCard from './OperationCard.vue'
@@ -27,11 +23,7 @@ export default defineComponent({
     SubmitButton
   },
   setup() {
-    const title = ref('')
-    const description = ref('')
-    const date = ref(new Date())
-
-    return { title, description, date }
+    return {}
   }
 })
 </script>

@@ -2,16 +2,21 @@
   <div :class="$style.container">
     <div :class="$style.flexContainer">
       <SingleCheckbox
-        v-model="hasTimeLimit"
+        v-model="isTimeLimitNoneComputed"
         content="期限なし"
         :class="$style.checkbox"
       />
-      <div :class="[$style.timeLimit, hasTimeLimit ? $style.hidden : '']">
+      <div
+        :class="[
+          $style.timeLimit,
+          isTimeLimitNoneComputed ? $style.hidden : ''
+        ]"
+      >
         <span>回答期限</span>
-        <DatePicker v-model="date" mode="dateTime">
+        <DatePicker v-model="dateComputed" mode="dateTime">
           <template #default="{ inputValue, inputEvents }">
             <input
-              v-if="!hasTimeLimit"
+              v-if="!isTimeLimitNoneComputed"
               :value="inputValue"
               :class="$style.input"
               v-on="inputEvents"
@@ -25,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import { DatePicker } from 'v-calendar'
 import SingleCheckbox from './SingleCheckbox.vue'
 
@@ -36,27 +41,32 @@ export default defineComponent({
     SingleCheckbox
   },
   props: {
-    modelValue: {
+    date: {
       type: Object as PropType<Date>,
+      required: true
+    },
+    isTimeLimitNone: {
+      type: Boolean,
       required: true
     }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:modelValue': (v: Date) => true
+    'update:date': (v: Date) => true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:isTimeLimitNone': (v: boolean) => true
   },
   setup(props, context) {
-    const hasTimeLimit = ref(false)
-
-    const date = computed({
-      get: () => props.modelValue,
-      set: (v: Date) => context.emit('update:modelValue', v)
+    const isTimeLimitNoneComputed = computed({
+      get: () => props.isTimeLimitNone,
+      set: value => context.emit('update:isTimeLimitNone', value)
+    })
+    const dateComputed = computed({
+      get: () => props.date,
+      set: (v: Date) => context.emit('update:date', v)
     })
 
-    return {
-      hasTimeLimit,
-      date
-    }
+    return { isTimeLimitNoneComputed, dateComputed }
   }
 })
 </script>
