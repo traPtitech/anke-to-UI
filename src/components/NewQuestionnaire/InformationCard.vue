@@ -49,8 +49,7 @@ import Card from '/@/components/UI/Card.vue'
 import DropdownMenu from '/@/components/UI/DropdownMenu.vue'
 import Icon from '/@/components/UI/Icon.vue'
 import UserListModal from './UserListModal.vue'
-import { disclosureRange } from './use/disclosureRange'
-import { NewQuestionnaireResSharedToEnum } from '/@/lib/apis'
+import { disclosureRange, labelToValue } from './use/disclosureRange'
 
 export default defineComponent({
   name: 'InformationCard',
@@ -65,10 +64,8 @@ export default defineComponent({
     const dropdownContents = Object.values(disclosureRange).map(v => v.label)
 
     const store = useStore()
-    watch(range, value => {
-      const newRange = Object.values(disclosureRange).find(
-        obj => obj.label === value
-      )?.value as NewQuestionnaireResSharedToEnum
+    watch(range, label => {
+      const newRange = labelToValue(label)
       store.commit.setNewQuestionnaireResSharedTo(newRange)
     })
 

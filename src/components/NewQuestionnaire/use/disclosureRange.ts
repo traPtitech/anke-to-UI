@@ -14,3 +14,10 @@ export const disclosureRange = {
     label: '管理者のみ'
   }
 }
+
+export const labelToValue = (
+  label: string
+): NewQuestionnaireResSharedToEnum => {
+  return Object.values(disclosureRange).find(item => item.label === label)
+    ?.value as NewQuestionnaireResSharedToEnum
+}
