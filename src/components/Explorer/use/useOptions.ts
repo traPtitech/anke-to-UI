@@ -39,8 +39,8 @@ export interface Option {
   nontargeted: TargetedOption
 }
 
-export const getTimeLimit = (limit: string | null): string => {
-  if (limit === null) {
+export const getTimeLimit = (limit: string | null | undefined): string => {
+  if (!limit) {
     return 'なし'
   }
   const limitDate = new Date(limit)
@@ -51,7 +51,10 @@ export const getTimeLimit = (limit: string | null): string => {
   )}:${adjustDigits(limitDate.getMinutes())}`
 }
 
-export const getRelativeTime = (previous: string): string => {
+export const getRelativeTime = (previous: string | undefined): string => {
+  if (!previous) {
+    return '未提出'
+  }
   const now = new Date()
   const prv = new Date(previous)
 
