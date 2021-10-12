@@ -3,7 +3,7 @@
     <div :class="$style.header">{{ title }}</div>
     <div :class="$style.body">
       <div v-for="(group, groupIndex) in groups" :key="groupIndex">
-        <UserListGroup :group="group" />
+        <UserListGroup :title="title" :group="group" />
       </div>
     </div>
     <div :class="$style.footer">

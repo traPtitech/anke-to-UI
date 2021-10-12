@@ -43,12 +43,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
+import { useStore } from '/@/store'
 import Card from '/@/components/UI/Card.vue'
 import DropdownMenu from '/@/components/UI/DropdownMenu.vue'
 import Icon from '/@/components/UI/Icon.vue'
 import UserListModal from './UserListModal.vue'
 import { disclosureRange } from './use/disclosureRange'
+import { NewQuestionnaireResSharedToEnum } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'InformationCard',
@@ -61,6 +63,14 @@ export default defineComponent({
   setup() {
     const range = ref(disclosureRange.public.label)
     const dropdownContents = Object.values(disclosureRange).map(v => v.label)
+
+    const store = useStore()
+    watch(range, value => {
+      const newRange = Object.values(disclosureRange).find(
+        obj => obj.label === value
+      )?.value as NewQuestionnaireResSharedToEnum
+      store.commit.setNewQuestionnaireResSharedTo(newRange)
+    })
 
     const isTargetModalOpen = ref(false)
     const isAdministratorModalOpen = ref(false)
