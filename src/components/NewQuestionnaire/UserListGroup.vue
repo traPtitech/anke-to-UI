@@ -37,6 +37,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const store = useStore()
+
     const checkedAll = computed({
       get: () => props.group.members[0].length === checkedMembers.value.length,
       set: value => {
@@ -46,15 +48,21 @@ export default defineComponent({
         updateMembers(checkedMembers.value)
       }
     })
-    const checkedMembers = ref<string[]>([])
 
-    const store = useStore()
     let pastTargets = store.state.newQuestionnaire.targets.filter(target =>
       props.group.members[0].includes(target)
     )
     let pastAdministrators = store.state.newQuestionnaire.administrators.filter(
       administrator => props.group.members[0].includes(administrator)
     )
+
+    const checkedMembers = ref<string[]>([])
+    if (props.title === '対象者') {
+      checkedMembers.value = pastTargets
+    } else if (props.title === '管理者') {
+      checkedMembers.value = pastAdministrators
+    }
+
     const updateMembers = (newMembers: string[]) => {
       if (props.title === '対象者') {
         updateTargets(pastTargets, newMembers)
