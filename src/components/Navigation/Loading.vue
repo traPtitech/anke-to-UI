@@ -28,19 +28,6 @@ export default defineComponent({
   height: 100%;
   box-sizing: border-box;
 }
-.loading {
-  width: 160px;
-  height: 160px;
-  border-radius: 150px;
-  border: 15px solid #fff;
-  border-top-color: rgba(0, 0, 0, 0.3);
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -80px;
-  margin-left: -80px;
-}
 .icon {
   animation-name: loading;
   animation-duration: 1.2s;
