@@ -2,17 +2,21 @@ import { createDirectStore } from 'direct-vuex'
 import apis, { Me } from '/@/lib/apis'
 import { NewQuestionnaire, NewQuestionnaireResSharedToEnum } from '/@/lib/apis'
 
+const getDefaultNewQuestionnaire = (): NewQuestionnaire => {
+  return {
+    title: '',
+    description: '',
+    res_time_limit: '',
+    res_shared_to: NewQuestionnaireResSharedToEnum.Public,
+    targets: [],
+    administrators: [],
+  }
+}
+
 const { store, rootActionContext } = createDirectStore({
   state: {
     me: null as Me | null,
-    newQuestionnaire: {
-      title: '',
-      description: '',
-      res_time_limit: '',
-      res_shared_to: NewQuestionnaireResSharedToEnum.Public,
-      targets: [],
-      administrators: []
-    } as NewQuestionnaire
+    newQuestionnaire: getDefaultNewQuestionnaire()
   },
   getters: {},
   mutations: {
@@ -48,6 +52,9 @@ const { store, rootActionContext } = createDirectStore({
         state.newQuestionnaire.administrators.filter(
           t => !administrators.includes(t)
         )
+    },
+    clearNewQuestionnaire(state) {
+      state.newQuestionnaire = getDefaultNewQuestionnaire()
     }
   },
   actions: {

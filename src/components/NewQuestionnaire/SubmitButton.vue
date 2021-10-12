@@ -1,23 +1,26 @@
 <template>
-  <button :class="$style.submit" @click="onClick">
+  <button :class="$style.submit" @click="postQuestionnaire">
     <div>送信</div>
   </button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useStore } from '/@/store'
+import apis from '/@/lib/apis'
 
 export default defineComponent({
   name: 'SubmitButton',
-  emits: {
-    click: () => true
-  },
-  setup(props, context) {
-    const onClick = () => {
-      context.emit('click')
+  setup() {
+    const store = useStore()
+    const postQuestionnaire = () => {
+      const newQuestionnaire = store.state.newQuestionnaire
+      apis.postQuestionnaire(newQuestionnaire).then(() => {
+        store.commit.clearNewQuestionnaire()
+      })
     }
 
-    return { onClick }
+    return { postQuestionnaire }
   }
 })
 </script>
