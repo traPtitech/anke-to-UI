@@ -61,7 +61,7 @@ export default defineComponent({
         name: '20B',
         description: '20B',
         adminUser: '',
-        members: [['aaaaaaaaaa', 'bbbbbbbbbb', 'cccccccccc']],
+        members: [['gggggggggg', 'hhhhhhhhhh', 'iiiiiiiiii']],
         createdAt: '',
         updatedAt: ''
       }
