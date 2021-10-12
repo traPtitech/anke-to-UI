@@ -30,12 +30,16 @@ export default defineComponent({
     TimeLimit
   },
   setup() {
-    const title = ref('')
-    const description = ref('')
+    const store = useStore()
+
+    const title = ref(store.state.newQuestionnaire.title)
+    const description = ref(store.state.newQuestionnaire.description)
     const date = ref(new Date())
+    if (store.state.newQuestionnaire.res_time_limit !== '') {
+      date.value = new Date(store.state.newQuestionnaire.res_time_limit)
+    }
     const isTimeLimitNone = ref(false)
 
-    const store = useStore()
     watchEffect(() => {
       const newQuestionnaire = store.state.newQuestionnaire
       newQuestionnaire.title = title.value
