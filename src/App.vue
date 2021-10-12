@@ -55,11 +55,8 @@ export default defineComponent({
     SideBarWrapper
   },
   setup() {
-    const {
-      isSideBarShown,
-      canSideBarShown,
-      toggleSideBarShown
-    } = useNavigationShown()
+    const { isSideBarShown, canSideBarShown, toggleSideBarShown } =
+      useNavigationShown()
 
     const isFetched = ref(false)
     onMounted(async () => {
