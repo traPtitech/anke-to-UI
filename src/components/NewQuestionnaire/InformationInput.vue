@@ -3,6 +3,7 @@
     type="text"
     placeholder="タイトル"
     :class="$style.input"
+    :value="modelValue"
     @input="update"
   />
 </template>

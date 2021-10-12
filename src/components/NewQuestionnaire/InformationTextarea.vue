@@ -3,6 +3,7 @@
     type="text"
     placeholder="説明"
     :class="$style.textarea"
+    :value="modelValue"
     @keydown="resize"
     @input="update"
   />
