@@ -11,7 +11,8 @@ import {
   mdiClipboard,
   mdiDownload,
   mdiArrowLeft,
-  mdiCheck
+  mdiCheck,
+  mdiLoading
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -28,7 +29,8 @@ const mdi = new Map<string, string>([
   ['clipboard', mdiClipboard],
   ['download', mdiDownload],
   ['arrow-left', mdiArrowLeft],
-  ['check', mdiCheck]
+  ['check', mdiCheck],
+  ['loading', mdiLoading]
 ])
 
 export default mdi

@@ -17,13 +17,16 @@
       </main>
     </div>
   </div>
-  <div v-else>読み込み中…</div>
+  <div v-else>
+    <Loading />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, watch, readonly, ref, onMounted } from 'vue'
 import HeaderComponent from '/@/components/Navigation/Header.vue'
 import SideBarWrapper from '/@/components/Navigation/SideBarWrapper.vue'
+import Loading from '/@/components/Navigation/Loading.vue'
 import useOpener from '/@/use/opener'
 import useIsMobile from '/@/use/isMobile'
 import router from './router'
@@ -52,7 +55,8 @@ export default defineComponent({
   name: 'App',
   components: {
     HeaderComponent,
-    SideBarWrapper
+    SideBarWrapper,
+    Loading
   },
   setup() {
     const store = useStore()
