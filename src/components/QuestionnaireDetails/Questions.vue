@@ -22,6 +22,12 @@
         :is-radio="question.type === QuestionType.MultipleChoice"
         @update="updateQuestion"
       />
+      <LinearScaleForm
+        v-if="question.type === QuestionType.LinearScale"
+        :index="i"
+        :question-data="question"
+        @update="updateQuestion"
+      />
     </div>
     <AddButtons @add-question="addQuestion" />
   </div>
@@ -34,12 +40,14 @@ import AddButtons from './AddButtons.vue'
 import { createNewQuestion, QuestionLite } from './use/utils'
 import TextForm from './Forms/TextForm.vue'
 import ChoiceForm from './Forms/ChoiceForm.vue'
+import LinearScaleForm from './Forms/LinearScaleForm.vue'
 
 export default defineComponent({
   name: 'Questions',
   components: {
     TextForm,
     ChoiceForm,
+    LinearScaleForm,
     AddButtons
   },
   setup() {

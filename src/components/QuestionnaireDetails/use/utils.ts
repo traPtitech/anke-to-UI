@@ -87,7 +87,7 @@ export const createNewQuestion = (type: string): QuestionLite | null => {
         contents: ['']
       }
     }
-    case 'LinerScale': {
+    case 'LinearScale': {
       return {
         type: QuestionType.LinearScale,
         name: '',
