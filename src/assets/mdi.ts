@@ -13,7 +13,8 @@ import {
   mdiArrowLeft,
   mdiCheck,
   mdiLoading,
-  mdiDelete
+  mdiDelete,
+  mdiPlusCircleOutline
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -30,9 +31,10 @@ const mdi = new Map<string, string>([
   ['clipboard', mdiClipboard],
   ['download', mdiDownload],
   ['arrow-left', mdiArrowLeft],
-  ['check', mdiCheck],
   ['loading', mdiLoading],
-  ['delete', mdiDelete]
+  ['delete', mdiDelete],
+  ['plus-circle-outline', mdiPlusCircleOutline],
+  ['check', mdiCheck]
 ])
 
 export default mdi

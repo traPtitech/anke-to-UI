@@ -41,7 +41,6 @@ export interface QuestionLite {
   required: boolean
   isNumber?: boolean
   contents?: string[]
-  modelValue?: string[] | string
   range?: number[]
   leftLabel?: string
   rightLabel?: string
@@ -54,16 +53,14 @@ export const createNewQuestion = (type: string): QuestionLite | null => {
         type: QuestionType.Text,
         name: '',
         required: false,
-        isNumber: false,
-        modelValue: ''
+        isNumber: false
       }
     }
     case 'TextArea': {
       return {
         type: QuestionType.TextArea,
         name: '',
-        required: false,
-        modelValue: ''
+        required: false
       }
     }
     case 'Number': {
@@ -71,8 +68,7 @@ export const createNewQuestion = (type: string): QuestionLite | null => {
         type: QuestionType.Number,
         name: '',
         required: false,
-        isNumber: true,
-        modelValue: '0'
+        isNumber: true
       }
     }
     case 'Checkbox': {
@@ -80,8 +76,7 @@ export const createNewQuestion = (type: string): QuestionLite | null => {
         type: QuestionType.Checkbox,
         name: '',
         required: false,
-        contents: [''],
-        modelValue: []
+        contents: ['']
       }
     }
     case 'MultipleChoice': {
@@ -89,8 +84,7 @@ export const createNewQuestion = (type: string): QuestionLite | null => {
         type: QuestionType.MultipleChoice,
         name: '',
         required: false,
-        contents: [''],
-        modelValue: ''
+        contents: ['']
       }
     }
     case 'LinerScale': {

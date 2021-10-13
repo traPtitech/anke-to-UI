@@ -39,7 +39,7 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (v: TextQuestion, index: number) => true
+    update: (question: TextQuestion, index: number) => true
   },
   setup(props, context) {
     const updateQuestionName = (name: string) => {

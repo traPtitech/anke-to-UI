@@ -5,16 +5,21 @@
       <TextForm
         v-if="
           question.type === QuestionType.Text ||
-          question.type === QuestionType.Number
+          question.type === QuestionType.Number ||
+          question.type === QuestionType.TextArea
         "
         :index="i"
         :question-data="question"
         @update="updateQuestion"
       />
-      <TextForm
-        v-if="question.type === QuestionType.Checkbox"
+      <ChoiceForm
+        v-if="
+          question.type === QuestionType.Checkbox ||
+          question.type === QuestionType.MultipleChoice
+        "
         :index="i"
         :question-data="question"
+        :is-radio="question.type === QuestionType.MultipleChoice"
         @update="updateQuestion"
       />
       <TextForm
@@ -40,11 +45,13 @@ import { QuestionDetails, QuestionType } from '/@/lib/apis'
 import AddButtons from './AddButtons.vue'
 import { createNewQuestion, QuestionLite } from './use/utils'
 import TextForm from './Forms/TextForm.vue'
+import ChoiceForm from './Forms/ChoiceForm.vue'
 
 export default defineComponent({
   name: 'Questions',
   components: {
     TextForm,
+    ChoiceForm,
     AddButtons
   },
   setup() {
@@ -56,7 +63,7 @@ export default defineComponent({
     }
 
     const updateQuestion = (newData: QuestionLite, index: number) => {
-      questions.value[0] = newData
+      questions.value[index] = newData
     }
 
     return {
