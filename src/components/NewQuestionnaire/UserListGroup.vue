@@ -49,28 +49,27 @@ export default defineComponent({
       }
     })
 
-    let pastTargets = store.state.newQuestionnaire.targets.filter(target =>
-      props.group.members[0].includes(target)
-    )
-    let pastAdministrators = store.state.newQuestionnaire.administrators.filter(
-      administrator => props.group.members[0].includes(administrator)
-    )
+    let pastMembers: string[] = []
+    if (props.title === '対象者') {
+      pastMembers = store.state.newQuestionnaire.targets.filter(target =>
+        props.group.members[0].includes(target)
+      )
+    } else if (props.title === '管理者') {
+      pastMembers = store.state.newQuestionnaire.administrators.filter(
+        administrator => props.group.members[0].includes(administrator)
+      )
+    }
 
     const checkedMembers = ref<string[]>([])
-    if (props.title === '対象者') {
-      checkedMembers.value = pastTargets
-    } else if (props.title === '管理者') {
-      checkedMembers.value = pastAdministrators
-    }
+    checkedMembers.value = [...pastMembers]
 
     const updateMembers = (newMembers: string[]) => {
       if (props.title === '対象者') {
-        updateTargets(pastTargets, newMembers)
-        pastTargets = [...newMembers]
+        updateTargets(pastMembers, newMembers)
       } else if (props.title === '管理者') {
-        updateAdministrators(pastAdministrators, newMembers)
-        pastAdministrators = [...newMembers]
+        updateAdministrators(pastMembers, newMembers)
       }
+      pastMembers = [...newMembers]
     }
 
     return { checkedAll, checkedMembers, updateMembers }
