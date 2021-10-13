@@ -1,4 +1,5 @@
 <template>
+  <QuestionTitle :title="'タイトル'" />
   <div>
     <div v-if="questions.length === 0">質問がありません</div>
     <div v-for="(question, i) in questions" :key="i">
@@ -36,6 +37,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { QuestionDetails, QuestionType } from '/@/lib/apis'
+import QuestionTitle from './QuestionTitle.vue'
 import AddButtons from './AddButtons.vue'
 import { createNewQuestion, QuestionLite } from './use/utils'
 import TextForm from './Forms/TextForm.vue'
@@ -45,6 +47,7 @@ import LinearScaleForm from './Forms/LinearScaleForm.vue'
 export default defineComponent({
   name: 'Questions',
   components: {
+    QuestionTitle,
     TextForm,
     ChoiceForm,
     LinearScaleForm,

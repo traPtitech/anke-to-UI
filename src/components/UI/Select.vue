@@ -1,11 +1,6 @@
 <template>
   <select :value="modelValue" @change="update($event.target.value)">
-    <option
-      v-for="(content, index) in contents"
-      :key="index"
-      :class="$style.label"
-      :value="content"
-    >
+    <option v-for="(content, index) in contents" :key="index" :value="content">
       {{ content }}
     </option>
   </select>
@@ -42,7 +37,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" module>
-
-</style>
