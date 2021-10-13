@@ -18,20 +18,6 @@ export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 export const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
-
-//した二つの関数は前回質問時のもので、確認のため残しました（いらなくなったら消します）
-/*
-export const isSelectTypeData = (arg: CountedData): boolean => {
-  if ((arg as SelectTypeData)?.total === null) {
-    return true
-  } else return false
-}
-export const IsSelectTypeData = (arg: CountedData): arg is SelectTypeData => {
-  if ((arg as SelectTypeData)?.total === null) {
-    return true
-  } else return false
-}
-*/
 export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(arg.type)
 
@@ -108,12 +94,12 @@ type AnswerData = {
 }
 
 const generateIdTable = (
-  question: CountedData,
+  questionType: string,
   answers: AnswerData[]
 ): [choice: string | number, ids: string[]][] => {
   const total = new Map()
   answers.forEach((answer: AnswerData) => {
-    if (isSelectTypeData(question)) {
+    if (isSelectType(questionType)) {
       ;(<string[]>answer.answer).forEach(value => {
         if (!total.has(value)) total.set(value, [])
         total.get(value).push(answer.traqId)
@@ -124,7 +110,7 @@ const generateIdTable = (
     }
   })
   let arr = [...total]
-  if (isNumberType(question.type)) arr = arr.sort((a, b) => b[0] - a[0])
+  if (isNumberType(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
   return arr
 }
 

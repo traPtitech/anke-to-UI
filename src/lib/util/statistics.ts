@@ -4,6 +4,16 @@ import {
   QuestionDetails,
   ResponseBody
 } from '/@/lib/apis'
+import {
+  TableFormTypes,
+  tableFormTabs,
+  isSelectType,
+  isNumberType,
+  isSelectTypeData,
+  countData,
+  CountedData,
+  TEXTAREA_ADDITIONAL_LINE_NUM
+} from '/@/components/Results/use/utils'
 
 export const adjustQuestions = (
   questionnaire: QuestionnaireByID,
@@ -37,6 +47,90 @@ export const adjustQuestions = (
   return {
     questionnaire: questionnaire,
     questions: validTypeQuestion
+  }
+}
+
+export const modifiedCountData = (
+  resultsPerQuestion: ResultsPerQuestion
+): null | CountedData[] => {
+  const allTypeQuestions: AllTypeQuestionUnion[] = resultsPerQuestion.questions
+  if (allTypeQuestions.length <= 0) return null
+  return allTypeQuestions.map(
+    (allTypeQuestion: AllTypeQuestionUnion): CountedData => ({
+      title: allTypeQuestion.question.body,
+      type: allTypeQuestion.type,
+      data: generateIdTable(allTypeQuestion.type, allTypeQuestion.results),
+      total: generateStats(allTypeQuestion.type, allTypeQuestion.results),
+      length: allTypeQuestion.results.length
+    })
+  )
+}
+
+//うまく変えられそうで変えられない…質問ひとつあるのでコメントに書きます
+const generateIdTable = (
+  questionType: string,
+  answers: StringResult | ArrayResult
+): [choice: string | number, ids: string[]][] => {
+  const total = new Map()
+  answers.forEach((answer: aStringResult | anArrayResult) => {
+    if (isSelectType(questionType)) {
+      ;(<string[]>answer).forEach(value => {
+        if (!total.has(value)) total.set(value, [])
+        total.get(value).push(answer.traqId)
+      })
+    } else {
+      if (!total.has(answer.answer)) total.set(answer.answer, [])
+      total.get(answer.answer).push(answer.traqId)
+    }
+  })
+  let arr = [...total]
+  if (isNumberType(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
+  return arr
+}
+
+const generateStats = (
+  questionType: string,
+  answers: StringResult | ArrayResult
+): {
+  average: string
+  standardDeviation: string
+  median: string
+  mode: string
+} | null => {
+  if (!isNumberType(questionType)) return null
+  const average =
+    answers.reduce((acc, answer) => acc + <number>answer.answer, 0) /
+    answers.length
+  const variance =
+    answers
+      .map(answer => (<number>answer.answer - average) ** 2)
+      .reduce((acc, value) => acc + value) / answers.length
+
+  const center = Math.floor(answers.length / 2)
+  const sorted = answers.sort((a, b) => <number>a.answer - <number>b.answer)
+  const median =
+    answers.length % 2 == 0
+      ? (<number>sorted[center - 1].answer + <number>sorted[center].answer) *
+        0.5
+      : <number>sorted[center].answer
+
+  const table = new Map()
+  answers.forEach(answer => {
+    if (!table.has(answer.answer)) table.set(answer.answer, [])
+    table.get(answer.answer).push()
+  })
+
+  const arr = [...table].sort((a, b) => b[1] - a[1])
+  const mode = arr
+    .filter(v => arr[0][1] === v[1])
+    .map(v => v[0])
+    .join(', ')
+
+  return {
+    average: average + '',
+    standardDeviation: Math.sqrt(variance).toFixed(2),
+    median: median + '',
+    mode
   }
 }
 
@@ -175,11 +269,15 @@ export const isValidTypeQuestion = (
     'LinearScale'
   ].includes(question.type)
 
-export type StringResult = (Omit<
+export type StringResult = aStringResult[]
+
+export type ArrayResult = anArrayResult[]
+
+export type aStringResult = Omit<
   ResonsePerQuestionWithUser,
   'option_response'
-> & { response: string })[]
+> & { response: string }
 
-export type ArrayResult = (Omit<ResonsePerQuestionWithUser, 'response'> & {
+export type anArrayResult = Omit<ResonsePerQuestionWithUser, 'response'> & {
   option_response: string
-})[]
+}

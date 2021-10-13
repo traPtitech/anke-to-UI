@@ -9,7 +9,7 @@ export * from '/@/lib/apis/generated'
 
 export const traP_ID = 1
 
-export const getQuestionnaireDetail = async (
+export const getResultsPerQuestion = async (
   questionnaireId: number
 ): Promise<ResultsPerQuestion> => {
   const [qres, qsres, rres] = await Promise.all([

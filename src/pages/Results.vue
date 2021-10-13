@@ -4,6 +4,7 @@
       :questionnaire="questionnaire"
       :results="results"
       :questions="questions"
+      :results-per-question="resultsPerQuestion"
     />
   </div>
   <div v-if="/* information.administrators && !canViewResults */ false">
@@ -21,6 +22,8 @@ import apis, {
   QuestionDetails
 } from '/@/lib/apis'
 
+import { adjustQuestions, ResultsPerQuestion } from '/@/lib/util/statistics'
+
 export default defineComponent({
   name: 'Results',
   components: {
@@ -32,26 +35,32 @@ export default defineComponent({
     const results = ref<ResponseResult[]>([])
     const questions = ref<QuestionDetails[]>([])
     const hasResponded = ref<boolean>(false)
+    const resultsPerQuestion = ref<ResultsPerQuestion>()
 
     onMounted(async () => {
       const questionnaireId = Number(route.params.id)
       if (isNaN(questionnaireId)) return
       const [qres, rres, qsres] = await Promise.all([
         apis.getQuestionnaire(questionnaireId, ''),
-        apis.getResults(questionnaireId, ''),
+        apis.getResults(questionnaireId),
         apis.getQuestions(questionnaireId, '')
       ])
-
       questionnaire.value = qres.data
       results.value = rres.data
       questions.value = qsres.data
+      resultsPerQuestion.value = adjustQuestions(
+        qres.data,
+        qsres.data,
+        rres.data
+      )
     })
 
     return {
       questionnaire,
       results,
       questions,
-      hasResponded
+      hasResponded,
+      resultsPerQuestion
     }
   }
 })

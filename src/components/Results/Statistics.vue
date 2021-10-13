@@ -28,7 +28,7 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from '/@/components/UI/Tab.vue'
 import ViewTab from './Statistics/ViewTab.vue'
 import MarkdownTab from './Statistics/MarkdownTab.vue'
-
+import { ResultsPerQuestion } from '/@/lib/util/statistics'
 import {
   TableFormTypes,
   tableFormTabs,
@@ -59,6 +59,10 @@ export default defineComponent({
     questions: {
       type: Object as PropType<QuestionDetails[]>,
       default: []
+    },
+    resultsPerQuestion: {
+      type: Object as PropType<ResultsPerQuestion>,
+      required: true
     }
   },
 
