@@ -3,8 +3,8 @@
     <Icon name="chevron-up" />
     <Icon name="chevron-down" />
   </div>
-  <input type="checkbox" value="true" v-if="!isRadio" />
-  <input type="radio" value="true" v-if="isRadio" />
+  <input v-if="!isRadio" type="checkbox" value="true" />
+  <input v-if="isRadio" type="radio" value="true" />
   <QuestionInput :model-value="label" @update:modelValue="updateLabel" />
   <Icon name="delete" @click="deleteChoice" />
 </template>

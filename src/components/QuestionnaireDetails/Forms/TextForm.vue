@@ -15,11 +15,7 @@
 import { defineComponent, PropType } from 'vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 import QuestionForm from './QuestionForm.vue'
-
-interface TextQuestion {
-  name: string
-  required: boolean
-}
+import { TextQuestion } from '../use/utils'
 
 export default defineComponent({
   name: 'TextForm',

@@ -44,15 +44,7 @@ import { defineComponent, PropType } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import Select from '../../UI/Select.vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
-
-interface CheckboxQuestion {
-  name: string
-  required: boolean
-  range: [min: number, max: number]
-  leftLabel: string
-  rightLabel: string
-  contents: string[]
-}
+import { LinearScaleQuestion } from '../use/utils'
 
 export default defineComponent({
   name: 'ChoiceForm',
@@ -67,7 +59,7 @@ export default defineComponent({
       required: true
     },
     questionData: {
-      type: Object as PropType<CheckboxQuestion>,
+      type: Object as PropType<LinearScaleQuestion>,
       required: true
     },
     isRadio: {
@@ -77,7 +69,7 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: CheckboxQuestion, index: number) => true
+    update: (question: LinearScaleQuestion, index: number) => true
   },
   setup(props, context) {
     const updateQuestionName = (name: string) => {
@@ -90,7 +82,7 @@ export default defineComponent({
     }
 
     const updateRangeMin = (value: string) => {
-      const newData: CheckboxQuestion = {
+      const newData: LinearScaleQuestion = {
         ...props.questionData,
         range: [Number(value), props.questionData.range[1]]
       }
@@ -98,7 +90,7 @@ export default defineComponent({
     }
 
     const updateRangeMax = (value: string) => {
-      const newData: CheckboxQuestion = {
+      const newData: LinearScaleQuestion = {
         ...props.questionData,
         range: [props.questionData.range[0], Number(value)]
       }
@@ -106,7 +98,7 @@ export default defineComponent({
     }
 
     const updateLabelMin = (leftLabel: string) => {
-      const newData: CheckboxQuestion = {
+      const newData: LinearScaleQuestion = {
         ...props.questionData,
         leftLabel
       }
@@ -114,7 +106,7 @@ export default defineComponent({
     }
 
     const updateLabelMax = (rightLabel: string) => {
-      const newData: CheckboxQuestion = {
+      const newData: LinearScaleQuestion = {
         ...props.questionData,
         rightLabel
       }

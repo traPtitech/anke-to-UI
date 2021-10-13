@@ -1,7 +1,7 @@
 <template>
   <Tab
     :tabs="detailTabs"
-    :modelValue="currentTabComponent"
+    :model-value="currentTabComponent"
     @update:modelValue="changeTab"
   />
   <Questions v-if="currentTabComponent === 'questions'" />
@@ -26,7 +26,7 @@ export default defineComponent({
   props: {},
   setup() {
     const route = useRoute()
-    const router = useRouter();
+    const router = useRouter()
     const selectedTab = ref<DetailTabTypes>('information')
 
     const getTabLink = (tab: string) => ({

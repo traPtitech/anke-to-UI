@@ -24,6 +24,7 @@ export default defineComponent({
     Icon
   },
   emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addQuestion: (key: string) => true
   },
   setup(props, context) {

@@ -28,12 +28,6 @@ import QuestionInput from '../../UI/QuestionInput.vue'
 import QuestionCheckbox from '../../UI/QuestionCheckbox.vue'
 import Icon from '../../UI/Icon.vue'
 
-export interface QuestionDataBase {
-  name: string
-  required: boolean
-  detail: any
-}
-
 const requiredLabel = '必須'
 
 export default defineComponent({

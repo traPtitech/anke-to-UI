@@ -46,7 +46,33 @@ export interface QuestionLite {
   rightLabel?: string
 }
 
-export const createNewQuestion = (type: string): QuestionLite | null => {
+// question types
+export interface TextQuestion {
+  type: QuestionType
+  name: string
+  required: boolean
+  isNumber: boolean
+}
+
+export interface LinearScaleQuestion {
+  type: QuestionType
+  name: string
+  required: boolean
+  range: [min: number, max: number]
+  leftLabel: string
+  rightLabel: string
+}
+
+export interface CheckboxQuestion {
+  type: QuestionType
+  name: string
+  required: boolean
+  contents: string[]
+}
+
+export type QuestionData = TextQuestion | CheckboxQuestion | LinearScaleQuestion
+
+export const createNewQuestion = (type: string): QuestionData | null => {
   switch (type) {
     case 'Text': {
       return {
@@ -60,7 +86,8 @@ export const createNewQuestion = (type: string): QuestionLite | null => {
       return {
         type: QuestionType.TextArea,
         name: '',
-        required: false
+        required: false,
+        isNumber: false
       }
     }
     case 'Number': {
@@ -98,8 +125,7 @@ export const createNewQuestion = (type: string): QuestionLite | null => {
       }
     }
     default: {
-      console.error(`型${type}は質問文の型にありません`)
-      return null
+      throw new Error(`型${type}は質問文の型にありません`)
     }
   }
 }

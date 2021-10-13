@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { QuestionDetails, QuestionType } from '/@/lib/apis'
+import { QuestionType } from '/@/lib/apis'
 import QuestionTitle from './QuestionTitle.vue'
 import AddButtons from './AddButtons.vue'
 import { createNewQuestion, QuestionLite } from './use/utils'

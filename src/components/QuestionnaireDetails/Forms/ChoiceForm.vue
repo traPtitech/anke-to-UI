@@ -29,12 +29,7 @@ import { defineComponent, PropType } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import Icon from '../../UI/Icon.vue'
-
-interface CheckboxQuestion {
-  name: string
-  required: boolean
-  contents: string[]
-}
+import { CheckboxQuestion } from '../use/utils'
 
 export default defineComponent({
   name: 'ChoiceForm',
