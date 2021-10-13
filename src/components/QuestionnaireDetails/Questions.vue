@@ -22,18 +22,6 @@
         :is-radio="question.type === QuestionType.MultipleChoice"
         @update="updateQuestion"
       />
-      <TextForm
-        v-if="question.type === QuestionType.MultipleChoice"
-        :index="i"
-        :question-data="question"
-        @update="updateQuestion"
-      />
-      <TextForm
-        v-if="question.type === QuestionType.TextArea"
-        :index="i"
-        :question-data="question"
-        @update="updateQuestion"
-      />
     </div>
     <AddButtons @add-question="addQuestion" />
   </div>
