@@ -4,16 +4,7 @@ import {
   QuestionDetails,
   ResponseBody
 } from '/@/lib/apis'
-import {
-  TableFormTypes,
-  tableFormTabs,
-  isSelectType,
-  isNumberType,
-  isSelectTypeData,
-  countData,
-  CountedData,
-  TEXTAREA_ADDITIONAL_LINE_NUM
-} from '/@/components/Results/use/utils'
+import { CountedData } from '/@/components/Results/use/utils'
 
 export const adjustQuestions = (
   questionnaire: QuestionnaireByID,
@@ -66,25 +57,26 @@ export const modifiedCountData = (
   )
 }
 
-//うまく変えられそうで変えられない…質問ひとつあるのでコメントに書きます
 const generateIdTable = (
   questionType: string,
   answers: StringResult | ArrayResult
 ): [choice: string | number, ids: string[]][] => {
   const total = new Map()
-  answers.forEach((answer: aStringResult | anArrayResult) => {
-    if (isSelectType(questionType)) {
-      ;(<string[]>answer).forEach(value => {
+  if (isArrayResult(questionType, answers)) {
+    answers.forEach(answer => {
+      answer.option_response.forEach(value => {
         if (!total.has(value)) total.set(value, [])
-        total.get(value).push(answer.traqId)
+        total.get(value).push(answer.traqID)
       })
-    } else {
-      if (!total.has(answer.answer)) total.set(answer.answer, [])
-      total.get(answer.answer).push(answer.traqId)
-    }
-  })
+    })
+  } else {
+    answers.forEach(answer => {
+      if (!total.has(answer.response)) total.set(answer.response, [])
+      total.get(answer.response).push(answer.traqID)
+    })
+  }
   let arr = [...total]
-  if (isNumberType(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
+  if (isNumberResult(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
   return arr
 }
 
@@ -97,27 +89,26 @@ const generateStats = (
   median: string
   mode: string
 } | null => {
-  if (!isNumberType(questionType)) return null
+  if (!isNumberResult(questionType, answers)) return null
   const average =
-    answers.reduce((acc, answer) => acc + <number>answer.answer, 0) /
+    answers.reduce((acc: number, answer) => acc + answer.response, 0) /
     answers.length
   const variance =
     answers
-      .map(answer => (<number>answer.answer - average) ** 2)
+      .map(answer => (answer.response - average) ** 2)
       .reduce((acc, value) => acc + value) / answers.length
 
   const center = Math.floor(answers.length / 2)
-  const sorted = answers.sort((a, b) => <number>a.answer - <number>b.answer)
+  const sorted = answers.sort((a, b) => a.response - b.response)
   const median =
     answers.length % 2 == 0
-      ? (<number>sorted[center - 1].answer + <number>sorted[center].answer) *
-        0.5
-      : <number>sorted[center].answer
+      ? (sorted[center - 1].response + sorted[center].response) * 0.5
+      : sorted[center].response
 
   const table = new Map()
   answers.forEach(answer => {
-    if (!table.has(answer.answer)) table.set(answer.answer, [])
-    table.get(answer.answer).push()
+    if (!table.has(answer.response)) table.set(answer.response, [])
+    table.get(answer.response).push()
   })
 
   const arr = [...table].sort((a, b) => b[1] - a[1])
@@ -269,15 +260,93 @@ export const isValidTypeQuestion = (
     'LinearScale'
   ].includes(question.type)
 
-export type StringResult = aStringResult[]
+//isSelectTypeの型ガード版
+export const isArrayResult = (
+  type: string,
+  result?: StringResult | ArrayResult
+): result is ArrayResult =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 
+//isNumberTypeの型ガード版
+export const isNumberResult = (
+  type: string,
+  result?: StringResult | ArrayResult
+): result is NumberResult => ['LinearScale', 'Number'].includes(type)
+
+//['MultipleChoice', 'Checkbox', 'Dropdown'
+export type ArrayResult = (Omit<ResonsePerQuestionWithUser, 'response'> & {
+  option_response: string
+})[]
+
+//'LinearScale', 'Number'
+export type NumberResult = (Omit<
+  ResonsePerQuestionWithUser,
+  'option_response'
+> & { response: number })[]
+
+//'text'とか
+/**
+ * たぶんresponseにはもともとstringしかはいらないっぽい
+ * StringResultのresponseをstringとnumberのユニオンにしとかないと
+ * generateStats関数で計算するときに数としてresponseを扱えなかったような。。
+ */
+export type StringResult = (Omit<
+  ResonsePerQuestionWithUser,
+  'option_response'
+> & { response: string | number })[]
+
+//以下は気にしないでください。最後に消します。----------------------------------------
+//わんちゃんあとで再利用するかもぐらいのもの
+/*
+const generateIdTable = (
+  questionType: string,
+  answers: StringResult | ArrayResult
+): [choice: string | number, ids: string[]][] => {
+  const total = new Map()
+  answers.forEach((answer: aStringResult | anArrayResult) => {
+    if (isAnArrayResult(questionType, answer)) {
+      answer.option_response.forEach(value => {
+        if (!total.has(value)) total.set(value, [])
+        total.get(value).push(answer.traqID)
+      })
+    } else {
+      if (!total.has(answer.response)) total.set(answer.response, [])
+      total.get(answer.response).push(answer.traqID)
+    }
+  })
+  let arr = [...total]
+  if (isNumberType(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
+  return arr
+}
+*/
+
+/*
+//isSelectTypeの型ガード版
+export const isAnArrayResult = (
+  type: string,
+  result?: aStringResult | anArrayResult
+): result is anArrayResult =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
+
+//isNumberTypeの型ガード版
+export const isAStringResult = (
+  type: string,
+  result?: aStringResult | anArrayResult
+): result is aNumberResult => ['LinearScale', 'Number'].includes(type)
+
+//なんかこうしないと型ガードしたときにうまくいかなかった
+export type StringResult = aStringResult[]
 export type ArrayResult = anArrayResult[]
 
+//無駄かもだけど型判定のために必要な気がした
 export type aStringResult = Omit<
   ResonsePerQuestionWithUser,
   'option_response'
-> & { response: string }
+> & { response: string | number }
 
 export type anArrayResult = Omit<ResonsePerQuestionWithUser, 'response'> & {
   option_response: string
 }
+//
+export type aNumberResult = aStringResult & { response: number }
+*/

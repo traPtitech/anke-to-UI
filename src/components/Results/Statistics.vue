@@ -28,16 +28,20 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from '/@/components/UI/Tab.vue'
 import ViewTab from './Statistics/ViewTab.vue'
 import MarkdownTab from './Statistics/MarkdownTab.vue'
-import { ResultsPerQuestion } from '/@/lib/util/statistics'
+import { ResultsPerQuestion, modifiedCountData } from '/@/lib/util/statistics'
 import {
   TableFormTypes,
   tableFormTabs,
   isNumberType,
   isSelectTypeData,
-  countData,
+  //countData,
   CountedData,
   TEXTAREA_ADDITIONAL_LINE_NUM
 } from './use/utils'
+
+/**めんどかったのでisNumberTypeは従来版のままです
+ * '/@/lib/util/statistics'にあわせるならisNumberResultを使う
+ */
 
 //export default class Data implements CountedData {}
 export default defineComponent({
@@ -71,7 +75,8 @@ export default defineComponent({
       if (props.questions.length <= 0 || props.results.length <= 0) {
         return null
       }
-      return countData(props.questions, props.results)
+      //return countData(props.questions, props.results)
+      return modifiedCountData(props.resultsPerQuestion)
     })
     const markdownTable = computed(() => {
       // マークダウン生成
@@ -121,13 +126,6 @@ export default defineComponent({
               '| - | - | - | - |'
             ])
           }
-          //f12
-          //console.log(question.length)=>1
-          //console.log(question.type)  =>Text
-          //console.log(question.title) =>test
-          //console.log(question.total) =>null
-          //console.log(question.data)  =>["hoge",["bantyo"]] ,lengthがついてる
-
           res.concat([''])
           return res.join('\n')
           //↓元々あったけどコメントアウトしないとエラーになっちゃったやつです
