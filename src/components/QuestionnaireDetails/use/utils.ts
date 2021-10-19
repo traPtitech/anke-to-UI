@@ -35,39 +35,28 @@ export const questionTypes = {
   }
 }
 
-export interface QuestionLite {
-  type: QuestionType
-  name: string
-  required: boolean
-  isNumber?: boolean
-  contents?: string[]
-  range?: number[]
-  leftLabel?: string
-  rightLabel?: string
-}
-
 // question types
 export interface TextQuestion {
-  type: QuestionType
-  name: string
-  required: boolean
-  isNumber: boolean
+  question_type: QuestionType
+  body: string
+  is_required: boolean
 }
 
 export interface LinearScaleQuestion {
-  type: QuestionType
-  name: string
-  required: boolean
-  range: [min: number, max: number]
-  leftLabel: string
-  rightLabel: string
+  question_type: QuestionType
+  body: string
+  is_required: boolean
+  scale_min: number
+  scale_max: number
+  scale_label_left: string
+  scale_label_right: string
 }
 
 export interface CheckboxQuestion {
-  type: QuestionType
-  name: string
-  required: boolean
-  contents: string[]
+  question_type: QuestionType
+  body: string
+  is_required: boolean
+  options: string[]
 }
 
 export type QuestionData = TextQuestion | CheckboxQuestion | LinearScaleQuestion
@@ -76,52 +65,50 @@ export const createNewQuestion = (type: string): QuestionData | null => {
   switch (type) {
     case 'Text': {
       return {
-        type: QuestionType.Text,
-        name: '',
-        required: false,
-        isNumber: false
+        question_type: QuestionType.Text,
+        body: '',
+        is_required: false
       }
     }
     case 'TextArea': {
       return {
-        type: QuestionType.TextArea,
-        name: '',
-        required: false,
-        isNumber: false
+        question_type: QuestionType.TextArea,
+        body: '',
+        is_required: false
       }
     }
     case 'Number': {
       return {
-        type: QuestionType.Number,
-        name: '',
-        required: false,
-        isNumber: true
+        question_type: QuestionType.Number,
+        body: '',
+        is_required: false
       }
     }
     case 'Checkbox': {
       return {
-        type: QuestionType.Checkbox,
-        name: '',
-        required: false,
-        contents: ['']
+        question_type: QuestionType.Checkbox,
+        body: '',
+        is_required: false,
+        options: ['']
       }
     }
     case 'MultipleChoice': {
       return {
-        type: QuestionType.MultipleChoice,
-        name: '',
-        required: false,
-        contents: ['']
+        question_type: QuestionType.MultipleChoice,
+        body: '',
+        is_required: false,
+        options: ['']
       }
     }
     case 'LinearScale': {
       return {
-        type: QuestionType.LinearScale,
-        name: '',
-        required: false,
-        range: [1, 5],
-        leftLabel: '',
-        rightLabel: ''
+        question_type: QuestionType.LinearScale,
+        body: '',
+        is_required: false,
+        scale_min: 0,
+        scale_max: 5,
+        scale_label_left: '',
+        scale_label_right: ''
       }
     }
     default: {

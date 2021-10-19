@@ -1,7 +1,7 @@
 <template>
   <QuestionForm
-    :name="questionData.name"
-    :is-required="questionData.required"
+    :name="questionData.body"
+    :is-required="questionData.is_required"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
@@ -16,6 +16,7 @@ import { defineComponent, PropType } from 'vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 import QuestionForm from './QuestionForm.vue'
 import { TextQuestion } from '../use/utils'
+import { updateQuestionData } from '../use/computeData'
 
 export default defineComponent({
   name: 'TextForm',
@@ -38,13 +39,15 @@ export default defineComponent({
     update: (question: TextQuestion, index: number) => true
   },
   setup(props, context) {
+    const updateTextQuestionData = updateQuestionData<TextQuestion>(
+      props,
+      context
+    )
     const updateQuestionName = (name: string) => {
-      const newData = { ...props.questionData, name }
-      context.emit('update', newData, props.index)
+      updateTextQuestionData('body', name)
     }
     const updateQuestionRequired = (required: boolean) => {
-      const newData = { ...props.questionData, required }
-      context.emit('update', newData, props.index)
+      updateTextQuestionData('is_required', required)
     }
 
     return {

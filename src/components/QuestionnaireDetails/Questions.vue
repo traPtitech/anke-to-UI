@@ -5,9 +5,9 @@
     <div v-for="(question, i) in questions" :key="i">
       <TextForm
         v-if="
-          question.type === QuestionType.Text ||
-          question.type === QuestionType.Number ||
-          question.type === QuestionType.TextArea
+          question.question_type === QuestionType.Text ||
+          question.question_type === QuestionType.Number ||
+          question.question_type === QuestionType.TextArea
         "
         :index="i"
         :question-data="question"
@@ -15,16 +15,16 @@
       />
       <ChoiceForm
         v-if="
-          question.type === QuestionType.Checkbox ||
-          question.type === QuestionType.MultipleChoice
+          question.question_type === QuestionType.Checkbox ||
+          question.question_type === QuestionType.MultipleChoice
         "
         :index="i"
         :question-data="question"
-        :is-radio="question.type === QuestionType.MultipleChoice"
+        :is-radio="question.question_type === QuestionType.MultipleChoice"
         @update="updateQuestion"
       />
       <LinearScaleForm
-        v-if="question.type === QuestionType.LinearScale"
+        v-if="question.question_type === QuestionType.LinearScale"
         :index="i"
         :question-data="question"
         @update="updateQuestion"
@@ -39,7 +39,7 @@ import { defineComponent, ref } from 'vue'
 import { QuestionType } from '/@/lib/apis'
 import QuestionTitle from './QuestionTitle.vue'
 import AddButtons from './AddButtons.vue'
-import { createNewQuestion, QuestionLite } from './use/utils'
+import { createNewQuestion, QuestionData } from './use/utils'
 import TextForm from './Forms/TextForm.vue'
 import ChoiceForm from './Forms/ChoiceForm.vue'
 import LinearScaleForm from './Forms/LinearScaleForm.vue'
@@ -54,14 +54,14 @@ export default defineComponent({
     AddButtons
   },
   setup() {
-    const questions = ref<QuestionLite[]>([])
+    const questions = ref<QuestionData[]>([])
 
     const addQuestion = (type: string) => {
       const question = createNewQuestion(type)
       if (question) questions.value.push(question)
     }
 
-    const updateQuestion = (newData: QuestionLite, index: number) => {
+    const updateQuestion = (newData: QuestionData, index: number) => {
       questions.value[index] = newData
     }
 

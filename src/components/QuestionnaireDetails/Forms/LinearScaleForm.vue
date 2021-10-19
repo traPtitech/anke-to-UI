@@ -1,26 +1,26 @@
 <template>
   <QuestionForm
-    :name="questionData.name"
-    :is-required="questionData.required"
-    @update:name="updateQuestionName"
+    :name="questionData.body"
+    :is-required="questionData.is_required"
+    @update:name="updateQuestionBody"
     @update:required="updateQuestionRequired"
   >
     <div>
       <Select
         :contents="['0', '1']"
-        :model-value="questionData.range[0] + ''"
+        :model-value="rangeMin"
         @update:modelValue="updateRangeMin"
       />
       to
       <Select
         :contents="['2', '3', '4', '5', '6', '7', '8', '9', '10']"
-        :model-value="questionData.range[1] + ''"
+        :model-value="rangeMax"
         @update:modelValue="updateRangeMax"
       />
     </div>
     <div>
       <div>
-        {{ questionData.range[0] }}
+        {{ questionData.scale_min }}
         <QuestionInput
           :is-number="false"
           :model-value="''"
@@ -28,7 +28,7 @@
         />
       </div>
       <div>
-        {{ questionData.range[1] }}
+        {{ questionData.scale_max }}
         <QuestionInput
           :is-number="false"
           :model-value="''"
@@ -40,11 +40,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import Select from '../../UI/Select.vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 import { LinearScaleQuestion } from '../use/utils'
+import { updateQuestionData } from '../use/computeData'
 
 export default defineComponent({
   name: 'ChoiceForm',
@@ -72,49 +73,33 @@ export default defineComponent({
     update: (question: LinearScaleQuestion, index: number) => true
   },
   setup(props, context) {
-    const updateQuestionName = (name: string) => {
-      const newData = { ...props.questionData, name }
-      context.emit('update', newData, props.index)
+    const rangeMin = computed(() => props.questionData.scale_min + '')
+    const rangeMax = computed(() => props.questionData.scale_max + '')
+    const updateLinearScaleQuestionData =
+      updateQuestionData<LinearScaleQuestion>(props, context)
+    const updateQuestionBody = (body: string) => {
+      updateLinearScaleQuestionData('body', body)
     }
     const updateQuestionRequired = (required: boolean) => {
-      const newData = { ...props.questionData, required }
-      context.emit('update', newData, props.index)
+      updateLinearScaleQuestionData('is_required', required)
     }
-
-    const updateRangeMin = (value: string) => {
-      const newData: LinearScaleQuestion = {
-        ...props.questionData,
-        range: [Number(value), props.questionData.range[1]]
-      }
-      context.emit('update', newData, props.index)
+    const updateRangeMin = (scale_min: string) => {
+      updateLinearScaleQuestionData('scale_min', Number(scale_min))
     }
-
-    const updateRangeMax = (value: string) => {
-      const newData: LinearScaleQuestion = {
-        ...props.questionData,
-        range: [props.questionData.range[0], Number(value)]
-      }
-      context.emit('update', newData, props.index)
+    const updateRangeMax = (scale_max: string) => {
+      updateLinearScaleQuestionData('scale_max', Number(scale_max))
     }
-
-    const updateLabelMin = (leftLabel: string) => {
-      const newData: LinearScaleQuestion = {
-        ...props.questionData,
-        leftLabel
-      }
-      context.emit('update', newData, props.index)
+    const updateLabelMin = (label_min: string) => {
+      updateLinearScaleQuestionData('scale_label_left', label_min)
     }
-
-    const updateLabelMax = (rightLabel: string) => {
-      const newData: LinearScaleQuestion = {
-        ...props.questionData,
-        rightLabel
-      }
-      context.emit('update', newData, props.index)
+    const updateLabelMax = (label_max: string) => {
+      updateLinearScaleQuestionData('scale_label_right', label_max)
     }
 
     return {
-      updateQuestionName,
+      rangeMin,
+      rangeMax,
+      updateQuestionBody,
       updateQuestionRequired,
       updateRangeMin,
       updateRangeMax,

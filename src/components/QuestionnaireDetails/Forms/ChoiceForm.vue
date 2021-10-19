@@ -1,12 +1,12 @@
 <template>
   <QuestionForm
-    :name="questionData.name"
-    :is-required="questionData.required"
+    :name="questionData.body"
+    :is-required="questionData.is_required"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
     <div>
-      <div v-for="(label, i) in questionData.contents" :key="i">
+      <div v-for="(label, i) in questionData.options" :key="i">
         <ChoiceElement
           :label="label"
           :index="i"
@@ -30,6 +30,7 @@ import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import Icon from '../../UI/Icon.vue'
 import { CheckboxQuestion } from '../use/utils'
+import { updateQuestionData } from '../use/computeData'
 
 export default defineComponent({
   name: 'ChoiceForm',
@@ -57,34 +58,33 @@ export default defineComponent({
     update: (question: CheckboxQuestion, index: number) => true
   },
   setup(props, context) {
+    const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
+      props,
+      context
+    )
     const updateQuestionName = (name: string) => {
-      const newData = { ...props.questionData, name }
-      context.emit('update', newData, props.index)
+      updateChoiceQuestionData('body', name)
     }
     const updateQuestionRequired = (required: boolean) => {
-      const newData = { ...props.questionData, required }
-      context.emit('update', newData, props.index)
+      updateChoiceQuestionData('is_required', required)
     }
 
     const updateChoice = (label: string, index: number) => {
-      const newData = { ...props.questionData }
-      newData.contents = [...props.questionData.contents]
-      newData.contents[index] = label
-      context.emit('update', newData, props.index)
+      const newOptions = [...props.questionData.options]
+      newOptions[index] = label
+      updateChoiceQuestionData('options', newOptions)
     }
 
     const deleteChoice = (label: string, index: number) => {
-      const newData = { ...props.questionData }
-      newData.contents = [...props.questionData.contents]
-      newData.contents.splice(index, 1)
-      context.emit('update', newData, props.index)
+      const newOptions = [...props.questionData.options]
+      newOptions.splice(index, 1)
+      updateChoiceQuestionData('options', newOptions)
     }
 
     const addChoice = () => {
-      const newData = { ...props.questionData }
-      newData.contents = [...props.questionData.contents]
-      newData.contents.push('')
-      context.emit('update', newData, props.index)
+      const newOptions = [...props.questionData.options]
+      newOptions.push('')
+      updateChoiceQuestionData('options', newOptions)
     }
 
     return {
