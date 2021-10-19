@@ -52,9 +52,9 @@ const responseToString = (body: ResponseBody): string => {
       // return tableForm === 'markdown'
       //   ? body.response.replace(/\n/g, '<br>')
       //   : body.response
-      return <string>body.response
+      return body.response!
     default:
-      return <string>body.response
+      return body.response!
   }
 }
 
@@ -165,10 +165,10 @@ export const countData = (
         traqId: result.traqID,
         modifiedAt: result.modified_at,
         answer: isSelectType(answer.question_type)
-          ? <string[]>answer.option_response
+          ? answer.option_response!
           : isNumberType(answer.question_type)
           ? +!answer.response
-          : <string>answer.response
+          : answer.response!
       })
     })
   })

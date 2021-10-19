@@ -16,7 +16,7 @@ const config: UserConfig = {
       }
     }
   },
-  plugins: [VuePlugin()]
+  plugins: [VuePlugin(), PluginTrapAuth()]
 }
 
 export default config
