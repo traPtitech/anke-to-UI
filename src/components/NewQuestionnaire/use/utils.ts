@@ -1,6 +1,6 @@
 import { QuestionType } from '/@/lib/apis'
 
-export type DetailTabTypes = 'information' | 'questions'
+export type NewQuestionnaireTabTypes = 'information' | 'questions'
 export const detailTabs = ['information', 'questions']
 export const questionTypes = {
   Text: {

@@ -1,21 +1,21 @@
 <template>
   <Tab
     :tabs="detailTabs"
-    :model-value="currentTabComponent"
+    :model-value="selectedTab"
     @update:modelValue="changeTab"
   />
-  <Questions v-if="currentTabComponent === 'questions'" />
+  <Questions v-if="selectedTab === 'questions'" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, watch } from 'vue'
+import { defineComponent, ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  DetailTabTypes,
+  NewQuestionnaireTabTypes,
   detailTabs
-} from '/@/components/QuestionnaireDetails/use/utils'
+} from '/@/components/NewQuestionnaire/use/utils'
 import Tab from '/@/components/UI/Tab.vue'
-import Questions from '/@/components/QuestionnaireDetails/Questions.vue'
+import Questions from '/@/components/NewQuestionnaire/Questions.vue'
 
 export default defineComponent({
   name: 'ResultTab',
@@ -27,7 +27,7 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const selectedTab = ref<DetailTabTypes>('information')
+    const selectedTab = ref<NewQuestionnaireTabTypes>('information')
 
     const getTabLink = (tab: string) => ({
       path: route.path,
@@ -37,14 +37,15 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      selectedTab.value = <DetailTabTypes>route.query.tab || 'information'
+      selectedTab.value =
+        <NewQuestionnaireTabTypes>route.query.tab || 'information'
     })
 
-    const currentTabComponent = computed(() => {
-      return detailTabs.includes(<DetailTabTypes>route.query.tab)
-        ? route.query.tab
-        : 'information'
-    })
+    // const currentTabComponent = computed(() => {
+    //   return detailTabs.includes(<DetailTabTypes>route.query.tab)
+    //     ? route.query.tab
+    //     : 'information'
+    // })
 
     const changeTab = (tab: string) => {
       router.push({
@@ -58,14 +59,18 @@ export default defineComponent({
     watch(
       () => route.query,
       newQuery => {
-        selectedTab.value = <DetailTabTypes>newQuery.tab
+        selectedTab.value = detailTabs.includes(
+          <NewQuestionnaireTabTypes>newQuery.tab
+        )
+          ? <NewQuestionnaireTabTypes>newQuery.tab
+          : 'information'
       }
     )
 
     return {
       detailTabs,
       getTabLink,
-      currentTabComponent,
+      selectedTab,
       changeTab
     }
   }
