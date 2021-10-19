@@ -10,13 +10,18 @@
       v-if="currentTabComponent === 'questions'"
       :questionnaire="questionnaire"
       :myresponses="myresponses"
+      :questioncontents="questioncontents"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType, onMounted } from 'vue'
-import { QuestionnaireByID, ResponseSummary } from '/@/lib/apis'
+import {
+  QuestionDetails,
+  QuestionnaireByID,
+  ResponseSummary
+} from '/@/lib/apis'
 import { useRoute } from 'vue-router'
 import PageTemplateQuestionnaire from './QuestionnaireHeader.vue'
 import Informations from './Informations.vue'
@@ -40,6 +45,10 @@ export default defineComponent({
     },
     myresponses: {
       type: Array as PropType<ResponseSummary[]>,
+      required: true
+    },
+    questioncontents: {
+      type: Array as PropType<QuestionDetails[]>,
       required: true
     }
   },
