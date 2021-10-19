@@ -6,18 +6,22 @@
     <template #header>
       <div>{{ questioncontents }}</div>
       <div v-for="(questioncontent, index) in questioncontents" :key="index">
+        <p>{{ questioncontent.body }}</p>
         <div v-if="questioncontent.question_type == 'MultipleChoice'">
-          <p>{{ questioncontent.body }}</p>
           <ReadonlyRadio :contents="questioncontent.options"></ReadonlyRadio>
         </div>
-        <div v-if="questioncontent.question_type == 'TextArea'"></div>
+        <div v-if="questioncontent.question_type == 'TextArea'">
+          <ReadonlyTextarea></ReadonlyTextarea>
+        </div>
+        <div v-if="questioncontent.question_type == 'Text'">
+          <ReadonlyTextarea></ReadonlyTextarea>
+        </div>
         <div v-if="questioncontent.question_type == 'Checkbox'">
-          <p>{{ questioncontent.body }}</p>
           <ReadonlyCheckbox
             :contents="questioncontent.options"
           ></ReadonlyCheckbox>
         </div>
-        <div>---------------------------------------------</div>
+        <hr />
       </div>
     </template>
   </Card>
@@ -26,7 +30,7 @@ contentsには１つずつの質問が配列で入る
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Card from '/@/components/UI/Card.vue'
-import QuestionInput from '/@/components/UI/QuestionCheckbox.vue'
+import ReadonlyTextarea from './ReadonlyTextarea.vue'
 import ReadonlyCheckbox from './ReadonlyCheckbox.vue'
 import ReadonlyRadio from './ReadonlyRadio.vue'
 import { QuestionnaireMyTargeted, QuestionDetails } from '/@/lib/apis'
@@ -35,7 +39,7 @@ export default defineComponent({
   name: 'Questions',
   components: {
     Card,
-    QuestionInput,
+    ReadonlyTextarea,
     ReadonlyCheckbox,
     ReadonlyRadio
   },
