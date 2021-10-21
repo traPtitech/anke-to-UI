@@ -1,23 +1,21 @@
-import { NewQuestionnaireResSharedToEnum } from '/@/lib/apis'
+import { ResShareType } from '/@/lib/apis'
 
 export const disclosureRange = {
   public: {
-    value: NewQuestionnaireResSharedToEnum.Public,
+    value: ResShareType.Public,
     label: '全体'
   },
   respondents: {
-    value: NewQuestionnaireResSharedToEnum.Respondents,
+    value: ResShareType.Respondents,
     label: '回答済みの人'
   },
   administrators: {
-    value: NewQuestionnaireResSharedToEnum.Administrators,
+    value: ResShareType.Administrators,
     label: '管理者のみ'
   }
 }
 
-export const labelToValue = (
-  label: string
-): NewQuestionnaireResSharedToEnum => {
+export const labelToValue = (label: string): ResShareType => {
   return Object.values(disclosureRange).find(item => item.label === label)
-    ?.value as NewQuestionnaireResSharedToEnum
+    ?.value as ResShareType
 }
