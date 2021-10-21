@@ -9,7 +9,7 @@ const getDefaultNewQuestionnaire = (): NewQuestionnaire => {
     res_time_limit: '',
     res_shared_to: NewQuestionnaireResSharedToEnum.Public,
     targets: [],
-    administrators: [],
+    administrators: []
   }
 }
 
