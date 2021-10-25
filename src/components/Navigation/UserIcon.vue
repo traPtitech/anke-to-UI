@@ -1,22 +1,23 @@
 <template>
-  <img
-    :class="$style.icon"
-    :src="`https://q.trap.jp/api/v3/public/icon/${userID}`"
-  />
+  <img :class="$style.icon" :src="iconUri" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 export default defineComponent({
   name: 'UserIcon',
   props: {
-    userID: {
+    userName: {
       type: String,
-      default: 'traP'
+      required: true
     }
   },
-  setup() {
-    return {}
+
+  setup(props) {
+    const iconUri = computed(
+      () => `https://q.trap.jp/api/v3/public/icon/${props.userName}`
+    )
+    return { iconUri }
   }
 })
 </script>

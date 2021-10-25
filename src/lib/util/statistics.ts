@@ -42,25 +42,39 @@ export const adjustQuestions = (
 }
 
 export const modifiedCountData = (
-  resultsPerQuestion: ResultsPerQuestion
+  rpq: ResultsPerQuestion
 ): null | CountedData[] => {
-  const allTypeQuestions: AllTypeQuestionUnion[] = resultsPerQuestion.questions
+  const allTypeQuestions: AllTypeQuestionUnion[] = rpq.questions
   if (allTypeQuestions.length <= 0) return null
-  return allTypeQuestions.map(
-    (allTypeQuestion: AllTypeQuestionUnion): CountedData => ({
-      title: allTypeQuestion.question.body,
-      type: allTypeQuestion.type,
-      data: generateIdTable(allTypeQuestion.type, allTypeQuestion.results),
-      total: generateStats(allTypeQuestion.type, allTypeQuestion.results),
-      length: allTypeQuestion.results.length
-    })
-  )
+  return allTypeQuestions.map((atq: AllTypeQuestionUnion): CountedData => {
+    if (isNumberResult(atq.type, atq.results))
+      return {
+        title: atq.question.body,
+        type: atq.type,
+        data: generateIdTable(atq.type, atq.results),
+        total: generateStats(atq),
+        length: atq.results.length
+      }
+    else
+      return {
+        title: atq.question.body,
+        type: atq.type,
+        data: generateIdTable(atq.type, atq.results),
+        total: null,
+        length: atq.results.length
+      }
+  })
 }
 
+//この関数はTextTypeQuestionとかを受け取ってほしいです
+//(一段目の分岐が分かりやすくなる)
+//ユニオン型じゃなくてどっちかにしてほしいです
+//ちゃんと使ってるところのコード読んでないけど多分string型で困らない
 const generateIdTable = (
   questionType: string,
   answers: StringResult | ArrayResult
 ): [choice: string | number, ids: string[]][] => {
+  //なんの型かわかんないのでMap<string, string[]>みたいにしてほしいです
   const total = new Map()
   if (isArrayResult(questionType, answers)) {
     answers.forEach(answer => {
@@ -75,48 +89,59 @@ const generateIdTable = (
       total.get(answer.response).push(answer.traqID)
     })
   }
+  //ここはconstがいいです
   let arr = [...total]
   if (isNumberResult(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
   return arr
 }
-
+//この関数も同様にTextTypeQuestionとかのなかでisNumberResultがtrue
+//のものを受け取って、nullは返さないようにしてほしいです
 const generateStats = (
-  questionType: string,
-  answers: StringResult | ArrayResult
+  //isNumberResult(atq.type)がtrue野みう受け取る
+  answers: NumberTypeQuestion | LinearScaleTypeQuestion
 ): {
   average: string
   standardDeviation: string
   median: string
   mode: string
-} | null => {
-  if (!isNumberResult(questionType, answers)) return null
-  const average =
-    answers.reduce((acc: number, answer) => acc + answer.response, 0) /
-    answers.length
-  const variance =
-    answers
-      .map(answer => (answer.response - average) ** 2)
-      .reduce((acc, value) => acc + value) / answers.length
+} => {
+  //rewponseがnumber型であると保証するためのガード
+  //というかこれifで書いちゃうとこの関数の返り値をうまく出せなくて困ってます
+  //前はそうじゃないときはnullを返せてたから良かったけど…
+  //「かっこ」の位置がまちがっているのでしょうか
+  if (isNumberResult(answers.type, answers.results)) {
+    const average =
+      answers.results.reduce(
+        (acc: number, answer) => acc + answer.response,
+        0
+      ) / answers.results.length
+    const variance =
+      answers
+        .map(answer => (answer.response - average) ** 2)
+        .reduce((acc, value) => acc + value) / answers.length
 
-  const center = Math.floor(answers.length / 2)
-  const sorted = answers.sort((a, b) => a.response - b.response)
-  const median =
-    answers.length % 2 == 0
-      ? (sorted[center - 1].response + sorted[center].response) * 0.5
-      : sorted[center].response
+    const center = Math.floor(answers.length / 2)
+    const sorted = answers.sort((a, b) => a.response - b.response)
+    const median =
+      // ここは三項演算子じゃなくてifで分岐してほしいです
+      answers.length % 2 == 0
+        ? (sorted[center - 1].response + sorted[center].response) * 0.5
+        : sorted[center].response
+    //この関数なんのためにこれ以降の処理をしてるのかわかんなかったんですがわかりますか？
+    //わかんないならちょっと元のコードを真剣に読みます
+    //なんの型かわかんないのでMap<string, string[]>みたいにしてほしいです
+    const table = new Map()
+    answers.forEach(answer => {
+      if (!table.has(answer.response)) table.set(answer.response, [])
+      table.get(answer.response).push()
+    })
 
-  const table = new Map()
-  answers.forEach(answer => {
-    if (!table.has(answer.response)) table.set(answer.response, [])
-    table.get(answer.response).push()
-  })
-
-  const arr = [...table].sort((a, b) => b[1] - a[1])
-  const mode = arr
-    .filter(v => arr[0][1] === v[1])
-    .map(v => v[0])
-    .join(', ')
-
+    const arr = [...table].sort((a, b) => b[1] - a[1])
+    const mode = arr
+      .filter(v => arr[0][1] === v[1])
+      .map(v => v[0])
+      .join(', ')
+  }
   return {
     average: average + '',
     standardDeviation: Math.sqrt(variance).toFixed(2),
@@ -289,11 +314,12 @@ export type NumberResult = (Omit<
  * たぶんresponseにはもともとstringしかはいらないっぽい
  * StringResultのresponseをstringとnumberのユニオンにしとかないと
  * generateStats関数で計算するときに数としてresponseを扱えなかったような。。
+ * →generateStats関数を変更する！
  */
 export type StringResult = (Omit<
   ResonsePerQuestionWithUser,
   'option_response'
-> & { response: string | number })[]
+> & { response: string })[]
 
 //以下は気にしないでください。最後に消します。----------------------------------------
 //わんちゃんあとで再利用するかもぐらいのもの

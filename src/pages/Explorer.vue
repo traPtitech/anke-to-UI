@@ -7,25 +7,54 @@
       @search="search"
     />
   </div>
-  <questionnaires-table :questionnaires="questionnaires" />
+  <div :class="$style.container">
+    <ATable>
+      <template #tableheader>
+        <th
+          v-for="(header, index) in HEADERS"
+          :key="index"
+          :class="$style.header"
+        >
+          {{ header }}
+        </th>
+      </template>
+      <template #tablecontent>
+        <table-row
+          v-for="questionnaire in questionnaires"
+          :key="questionnaire.questionnaireID"
+        >
+          <questionnaires-table-row :questionnaire="questionnaire" />
+        </table-row>
+      </template>
+    </ATable>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
+import { useTitle } from './use/title'
 import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
-import QuestionnairesTable from '/@/components/Explorer/QuestionnairesTable.vue'
+import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
 import apis, { QuestionnaireForList } from '/@/lib/apis'
 import { Option } from '../components/Explorer/use/useOptions'
+import ATable from '/@/components/UI/ATable.vue'
+import TableRow from '/@/components/UI/TableRow.vue'
+
+const HEADERS = ['', '回答期限', '更新日時', '作成日時', '結果']
 
 export default defineComponent({
   name: 'Explorer',
   components: {
+    ATable,
     Menus,
-    QuestionnairesTable,
-    SearchInput
+    QuestionnairesTableRow,
+    SearchInput,
+    TableRow
   },
   setup() {
+    useTitle(ref('アンケート一覧'))
+
     const questionnaires = ref<QuestionnaireForList[]>([])
 
     const option = ref<Option>({
@@ -64,14 +93,25 @@ export default defineComponent({
       getQuestionnaires()
     })
 
-    return { questionnaires, searchQuery, changeOption, search }
+    return { HEADERS, questionnaires, searchQuery, changeOption, search }
   }
 })
 </script>
 
 <style lang="scss" module>
 .tool_wrapper {
+  padding: 1rem 0rem;
   display: flex;
   flex-wrap: wrap;
+}
+.container {
+  max-width: 1280px;
+  padding: 1rem;
+  border: solid 1.5px #d9d9d9;
+  overflow: auto;
+}
+.header {
+  text-align: center;
+  padding: 0.8rem;
 }
 </style>

@@ -15,6 +15,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useTitle } from './use/title'
 import ResultTab from '/@/components/Results/ResultTab.vue'
 import apis, {
   QuestionnaireByID,
@@ -53,6 +54,8 @@ export default defineComponent({
         qsres.data,
         rres.data
       )
+
+      useTitle(ref(`${questionnaire.value?.title}`))
     })
 
     return {

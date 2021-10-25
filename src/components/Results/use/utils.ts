@@ -50,26 +50,17 @@ export const getTableRow = (
   return ret
 }
 const responseToString = (body: ResponseBody): string => {
-  let ret = ''
   switch (body.question_type) {
     case 'MultipleChoice':
     case 'Checkbox':
-    case 'Dropdown':
-      body.option_response.forEach((response: string) => {
-        if (ret !== '') {
-          ret += ', '
-        }
-        ret += response
-      })
-      return ret
     case 'TextArea':
       // type check対策
       // return tableForm === 'markdown'
       //   ? body.response.replace(/\n/g, '<br>')
       //   : body.response
-      return body.response
+      return body.response!
     default:
-      return body.response
+      return body.response!
   }
 }
 
@@ -179,10 +170,10 @@ export const countData = (
         traqId: result.traqID,
         modifiedAt: result.modified_at,
         answer: isSelectType(answer.question_type)
-          ? answer.option_response
+          ? answer.option_response!
           : isNumberType(answer.question_type)
-          ? +answer.response
-          : answer.response
+          ? +!answer.response
+          : answer.response!
       })
     })
   })
