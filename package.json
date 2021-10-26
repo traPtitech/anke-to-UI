@@ -10,7 +10,8 @@
     "clean": "rimraf ./src/lib/apis/generated"
   },
   "dependencies": {
-    "@mdi/js": "^6.4.95",
+    "@mdi/js": "^6.3.95",
+    "@popperjs/core": "^2.10.2",
     "@traptitech/vite-plugin-trap-auth": "^0.2.1",
     "axios": "^0.24.0",
     "direct-vuex": "^0.12.1",
