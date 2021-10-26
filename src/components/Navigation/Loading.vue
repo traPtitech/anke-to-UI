@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <img :class="$style.logo" src="/@/assets/anke-to_logo.png" />
-    <p>Now Loading...</p>
-    <icon :class="$style.icon" name="loading" />
+  <div :class="$style.container">
+    <div :class="$style.contents">
+      <img :class="$style.logo" src="/@/assets/anke-to_logo.png" />
+      <p>Now Loading...</p>
+      <icon :class="$style.icon" name="loading" />
+    </div>
   </div>
 </template>
 
@@ -18,15 +20,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contents {
+  max-height: 600px;
+}
 .logo {
   max-height: 3rem;
-  margin: 12rem auto;
-  z-index: 10;
-  position: relative;
-  display: flex;
-  flex: 1;
-  height: 100%;
-  box-sizing: border-box;
+  margin-bottom: 8rem;
 }
 .icon {
   animation-name: loading;
