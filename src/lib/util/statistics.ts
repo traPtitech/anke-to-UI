@@ -4,7 +4,6 @@ import {
   QuestionDetails,
   ResponseBody
 } from '/@/lib/apis'
-import { CountedData } from '/@/components/Results/use/utils'
 
 export const adjustQuestions = (
   questionnaire: QuestionnaireByID,
@@ -43,61 +42,59 @@ export const adjustQuestions = (
 
 export const modifiedCountData = (
   rpq: ResultsPerQuestion
-): null | CountedData[] => {
+): null | (CountedDataNumber | CountedDataNotNumber)[] => {
   const allTypeQuestions: AllTypeQuestionUnion[] = rpq.questions
   if (allTypeQuestions.length <= 0) return null
-  return allTypeQuestions.map((atq: AllTypeQuestionUnion): CountedData => {
-    if (isNumberResult(atq.type, atq.results))
-      return {
-        title: atq.question.body,
-        type: atq.type,
-        data: generateIdTable(atq.type, atq.results),
-        total: generateStats(atq),
-        length: atq.results.length
-      }
-    else
-      return {
-        title: atq.question.body,
-        type: atq.type,
-        data: generateIdTable(atq.type, atq.results),
-        total: null,
-        length: atq.results.length
-      }
-  })
+  return allTypeQuestions.map(
+    (atq: AllTypeQuestionUnion): CountedDataNumber | CountedDataNotNumber => {
+      if (isNumberQuestion(atq.type, atq))
+        return {
+          title: atq.question.body,
+          type: atq.type,
+          data: generateIdTable(atq),
+          total: generateStats(atq),
+          length: atq.results.length
+        }
+      else
+        return {
+          title: atq.question.body,
+          type: atq.type,
+          data: generateIdTable(atq),
+          total: null,
+          length: atq.results.length
+        }
+    }
+  )
 }
 
-//この関数はTextTypeQuestionとかを受け取ってほしいです
-//(一段目の分岐が分かりやすくなる)
-//ユニオン型じゃなくてどっちかにしてほしいです
-//ちゃんと使ってるところのコード読んでないけど多分string型で困らない
 const generateIdTable = (
-  questionType: string,
-  answers: StringResult | ArrayResult
-): [choice: string | number, ids: string[]][] => {
+  answers: AllTypeQuestionUnion
+): [choice: string, ids: string[]][] => {
   //なんの型かわかんないのでMap<string, string[]>みたいにしてほしいです
-  const total = new Map()
-  if (isArrayResult(questionType, answers)) {
-    answers.forEach(answer => {
+  //80行目などでundifinedが取り除けませんでした…
+  const total = new Map<string, string[]>()
+  if (isArrayQuestion(answers.type, answers)) {
+    answers.results.forEach(answer => {
       answer.option_response.forEach(value => {
         if (!total.has(value)) total.set(value, [])
         total.get(value).push(answer.traqID)
       })
     })
   } else {
-    answers.forEach(answer => {
+    answers.results.forEach(answer => {
       if (!total.has(answer.response)) total.set(answer.response, [])
       total.get(answer.response).push(answer.traqID)
     })
   }
   //ここはconstがいいです
-  let arr = [...total]
-  if (isNumberResult(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
+  const arr = [...total]
+  if (isNumberQuestion(answers.type)) {
+    arr.sort((a, b) => b[0] - a[0])
+  }
   return arr
 }
-//この関数も同様にTextTypeQuestionとかのなかでisNumberResultがtrue
-//のものを受け取って、nullは返さないようにしてほしいです
+
 const generateStats = (
-  //isNumberResult(atq.type)がtrue野みう受け取る
   answers: NumberTypeQuestion | LinearScaleTypeQuestion
 ): {
   average: string
@@ -105,43 +102,40 @@ const generateStats = (
   median: string
   mode: string
 } => {
-  //rewponseがnumber型であると保証するためのガード
-  //というかこれifで書いちゃうとこの関数の返り値をうまく出せなくて困ってます
-  //前はそうじゃないときはnullを返せてたから良かったけど…
-  //「かっこ」の位置がまちがっているのでしょうか
-  if (isNumberResult(answers.type, answers.results)) {
-    const average =
-      answers.results.reduce(
-        (acc: number, answer) => acc + answer.response,
-        0
-      ) / answers.results.length
-    const variance =
-      answers
-        .map(answer => (answer.response - average) ** 2)
-        .reduce((acc, value) => acc + value) / answers.length
+  const average =
+    answers.results.reduce((acc, answer) => acc + Number(answer.response), 0) /
+    answers.results.length
+  const variance =
+    answers.results
+      .map(answer => (Number(answer.response) - average) ** 2)
+      .reduce((acc, value) => acc + value) / answers.results.length
 
-    const center = Math.floor(answers.length / 2)
-    const sorted = answers.sort((a, b) => a.response - b.response)
-    const median =
-      // ここは三項演算子じゃなくてifで分岐してほしいです
-      answers.length % 2 == 0
-        ? (sorted[center - 1].response + sorted[center].response) * 0.5
-        : sorted[center].response
-    //この関数なんのためにこれ以降の処理をしてるのかわかんなかったんですがわかりますか？
-    //わかんないならちょっと元のコードを真剣に読みます
-    //なんの型かわかんないのでMap<string, string[]>みたいにしてほしいです
-    const table = new Map()
-    answers.forEach(answer => {
-      if (!table.has(answer.response)) table.set(answer.response, [])
-      table.get(answer.response).push()
-    })
+  const center = Math.floor(answers.results.length / 2)
+  const sorted = answers.results.sort(
+    (a, b) => Number(a.response) - Number(b.response)
+  )
+  const median =
+    // ここは三項演算子じゃなくてifで分岐してほしいです
+    // ↑ できてないです
+    answers.results.length % 2 == 0
+      ? Number(sorted[center - 1].response) +
+        Number(sorted[center].response) * 0.5
+      : Number(sorted[center].response)
 
-    const arr = [...table].sort((a, b) => b[1] - a[1])
-    const mode = arr
-      .filter(v => arr[0][1] === v[1])
-      .map(v => v[0])
-      .join(', ')
-  }
+  //この関数のここから下は未変更
+  //この関数なんのためにこれ以降の処理をしてるのかわかんなかったんですがわかりますか？
+  //わかんないならちょっと元のコードを真剣に読みます
+  const table = new Map()
+  answers.results.forEach(answer => {
+    if (!table.has(answer.response)) table.set(answer.response, [])
+    table.get(answer.response).push()
+  })
+
+  const arr = [...table].sort((a, b) => b[1] - a[1])
+  const mode = arr
+    .filter(v => arr[0][1] === v[1])
+    .map(v => v[0])
+    .join(', ')
   return {
     average: average + '',
     standardDeviation: Math.sqrt(variance).toFixed(2),
@@ -286,43 +280,62 @@ export const isValidTypeQuestion = (
   ].includes(question.type)
 
 //isSelectTypeの型ガード版
-export const isArrayResult = (
+export const isArrayQuestion = (
   type: string,
-  result?: StringResult | ArrayResult
-): result is ArrayResult =>
+  question?: AllTypeQuestionUnion
+): question is CheckboxTypeQuestion | MultipleChoiceTypeQuestion =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 
 //isNumberTypeの型ガード版
-export const isNumberResult = (
+export const isNumberQuestion = (
   type: string,
-  result?: StringResult | ArrayResult
-): result is NumberResult => ['LinearScale', 'Number'].includes(type)
+  question?: AllTypeQuestionUnion
+): question is NumberTypeQuestion | LinearScaleTypeQuestion =>
+  ['LinearScale', 'Number'].includes(type)
 
 //['MultipleChoice', 'Checkbox', 'Dropdown'
 export type ArrayResult = (Omit<ResonsePerQuestionWithUser, 'response'> & {
   option_response: string
 })[]
 
-//'LinearScale', 'Number'
-export type NumberResult = (Omit<
-  ResonsePerQuestionWithUser,
-  'option_response'
-> & { response: number })[]
-
-//'text'とか
-/**
- * たぶんresponseにはもともとstringしかはいらないっぽい
- * StringResultのresponseをstringとnumberのユニオンにしとかないと
- * generateStats関数で計算するときに数としてresponseを扱えなかったような。。
- * →generateStats関数を変更する！
- */
+//'text'とか,'LinearScale', 'Number'は数値にしてOK
 export type StringResult = (Omit<
   ResonsePerQuestionWithUser,
   'option_response'
 > & { response: string })[]
 
+export type CountedDataNumber = {
+  title: string
+  type: string
+  length: number
+  total: {
+    average: string
+    standardDeviation: string
+    median: string
+    mode: string
+  }
+  data: [choice: string, ids: string[]][]
+}
+
+export type CountedDataNotNumber = {
+  title: string
+  type: string
+  length: number
+  total: null
+  data: [choice: string, ids: string[]][]
+}
+
 //以下は気にしないでください。最後に消します。----------------------------------------
 //わんちゃんあとで再利用するかもぐらいのもの
+
+/*
+//これいらんかも
+//'LinearScale', 'Number'
+export type NumberResult = (Omit<
+  ResonsePerQuestionWithUser,
+  'option_response'
+> & { response: number })[]
+*/
 /*
 const generateIdTable = (
   questionType: string,

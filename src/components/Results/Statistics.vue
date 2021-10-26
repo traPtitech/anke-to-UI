@@ -28,14 +28,19 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from '/@/components/UI/Tab.vue'
 import ViewTab from './Statistics/ViewTab.vue'
 import MarkdownTab from './Statistics/MarkdownTab.vue'
-import { ResultsPerQuestion, modifiedCountData } from '/@/lib/util/statistics'
+import {
+  ResultsPerQuestion,
+  modifiedCountData,
+  CountedDataNumber,
+  CountedDataNotNumber
+} from '/@/lib/util/statistics'
 import {
   TableFormTypes,
   tableFormTabs,
   isNumberType,
   isSelectTypeData,
   //countData,
-  CountedData,
+  //CountedData,
   TEXTAREA_ADDITIONAL_LINE_NUM
 } from './use/utils'
 
@@ -82,7 +87,7 @@ export default defineComponent({
       // マークダウン生成
       if (!countedData.value) return ''
       return countedData.value
-        ?.map((question: CountedData) => {
+        ?.map((question: CountedDataNumber | CountedDataNotNumber) => {
           const { total, data } = question
           let res = [`# ${question.title}`]
           if (isNumberType(question.type)) {
