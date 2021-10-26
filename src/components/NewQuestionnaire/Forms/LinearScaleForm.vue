@@ -6,41 +6,28 @@
     @update:required="updateQuestionRequired"
   >
     <div>
-      <Select
-        :contents="['0', '1']"
-        :model-value="rangeMin"
-        @update:modelValue="updateRangeMin"
-      />
+      <Select v-model="rangeMin" :contents="['0', '1']" />
       to
       <Select
+        v-model="rangeMax"
         :contents="['2', '3', '4', '5', '6', '7', '8', '9', '10']"
-        :model-value="rangeMax"
-        @update:modelValue="updateRangeMax"
       />
     </div>
     <div>
       <div>
         {{ questionData.scale_min }}
-        <QuestionInput
-          :is-number="false"
-          :model-value="''"
-          @update:modelValue="updateLabelMin"
-        />
+        <QuestionInput v-model="labelMin" :is-number="false" />
       </div>
       <div>
         {{ questionData.scale_max }}
-        <QuestionInput
-          :is-number="false"
-          :model-value="''"
-          @update:modelValue="updateLabelMax"
-        />
+        <QuestionInput v-model="labelMax" :is-number="false" />
       </div>
     </div>
   </QuestionForm>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import Select from '../../UI/Select.vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
@@ -62,10 +49,6 @@ export default defineComponent({
     questionData: {
       type: Object as PropType<LinearScaleQuestion>,
       required: true
-    },
-    isRadio: {
-      type: Boolean,
-      default: false
     }
   },
   emits: {
@@ -73,8 +56,6 @@ export default defineComponent({
     update: (question: LinearScaleQuestion, index: number) => true
   },
   setup(props, context) {
-    const rangeMin = computed(() => props.questionData.scale_min + '')
-    const rangeMax = computed(() => props.questionData.scale_max + '')
     const updateLinearScaleQuestionData =
       updateQuestionData<LinearScaleQuestion>(props, context)
     const updateQuestionBody = (body: string) => {
@@ -83,28 +64,33 @@ export default defineComponent({
     const updateQuestionRequired = (required: boolean) => {
       updateLinearScaleQuestionData('is_required', required)
     }
-    const updateRangeMin = (scale_min: string) => {
-      updateLinearScaleQuestionData('scale_min', Number(scale_min))
-    }
-    const updateRangeMax = (scale_max: string) => {
-      updateLinearScaleQuestionData('scale_max', Number(scale_max))
-    }
-    const updateLabelMin = (label_min: string) => {
-      updateLinearScaleQuestionData('scale_label_left', label_min)
-    }
-    const updateLabelMax = (label_max: string) => {
-      updateLinearScaleQuestionData('scale_label_right', label_max)
-    }
+
+    const rangeMin = ref(props.questionData.scale_min + '')
+    const rangeMax = ref(props.questionData.scale_max + '')
+    const labelMin = ref(props.questionData.scale_label_left)
+    const labelMax = ref(props.questionData.scale_label_right)
+
+    watch(rangeMin, rangeMinValue =>
+      updateLinearScaleQuestionData('scale_min', Number(rangeMinValue))
+    )
+
+    watch(rangeMax, rangeMaxValue =>
+      updateLinearScaleQuestionData('scale_max', Number(rangeMaxValue))
+    )
+
+    watch(labelMin, labelMinValue =>
+      updateLinearScaleQuestionData('scale_label_left', labelMinValue)
+    )
+
+    watch(labelMax, labelMaxValue =>
+      updateLinearScaleQuestionData('scale_label_right', labelMaxValue)
+    )
 
     return {
       rangeMin,
       rangeMax,
       updateQuestionBody,
-      updateQuestionRequired,
-      updateRangeMin,
-      updateRangeMax,
-      updateLabelMin,
-      updateLabelMax
+      updateQuestionRequired
     }
   }
 })

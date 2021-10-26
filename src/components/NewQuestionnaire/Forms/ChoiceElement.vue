@@ -5,12 +5,12 @@
   </div>
   <input v-if="!isRadio" type="checkbox" value="true" />
   <input v-if="isRadio" type="radio" value="true" />
-  <QuestionInput :model-value="label" @update:modelValue="updateLabel" />
+  <QuestionInput v-model="labelRef" />
   <Icon name="delete" @click="deleteChoice" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import Icon from '../../UI/Icon.vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 
@@ -41,14 +41,15 @@ export default defineComponent({
     delete: (index: number) => true
   },
   setup(props, context) {
-    const updateLabel = (text: string) => {
-      context.emit('update:label', text, props.index)
-    }
+    const labelRef = ref(props.label)
+    watch(labelRef, newLabel => {
+      context.emit('update:label', newLabel, props.index)
+    })
     const deleteChoice = () => {
       context.emit('delete', props.index)
     }
     return {
-      updateLabel,
+      labelRef,
       deleteChoice
     }
   }

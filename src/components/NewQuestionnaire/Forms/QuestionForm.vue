@@ -7,14 +7,10 @@
     </div>
     <div>
       <div>
-        <QuestionInput
-          :model-value="name"
-          @update:modelValue="updateQuestionName"
-        />
+        <QuestionInput v-model="questionName" />
         <QuestionCheckbox
+          v-model="questionIsRequired"
           :contents="questionRequiredContent"
-          :model-value="questionRequired"
-          @update:modelValue="updateQuestionRequired"
         />
       </div>
       <slot></slot>
@@ -23,12 +19,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 import QuestionCheckbox from '../../UI/QuestionCheckbox.vue'
 import Icon from '../../UI/Icon.vue'
 
-const requiredLabel = '必須'
+const REQUIRED_LABEL = '必須'
 
 export default defineComponent({
   name: 'QuestionForm',
@@ -54,28 +50,20 @@ export default defineComponent({
     'update:required': (v: boolean) => true
   },
   setup(props, context) {
-    const updateQuestionName = (name: string) => {
-      context.emit('update:name', name)
-    }
+    const questionName = ref(props.name)
+    const questionIsRequired = ref(props.isRequired ? [REQUIRED_LABEL] : [])
 
-    const questionRequiredContent = computed(() => [requiredLabel])
-    const questionRequired = computed(() =>
-      props.isRequired ? [requiredLabel] : []
-    )
-
-    const updateQuestionRequired = (checked: string[]) => {
+    watch(questionName, newName => context.emit('update:name', newName))
+    watch(questionIsRequired, newIsRequired =>
       context.emit(
         'update:required',
-        checked.length > 0 && checked[0] == requiredLabel
+        newIsRequired.length > 0 && newIsRequired[0] == REQUIRED_LABEL
       )
-    }
+    )
 
     return {
-      requiredLabel,
-      questionRequiredContent,
-      questionRequired,
-      updateQuestionName,
-      updateQuestionRequired
+      questionName,
+      questionIsRequired
     }
   }
 })

@@ -1,9 +1,5 @@
 <template>
-  <Tab
-    :tabs="detailTabs"
-    :model-value="selectedTab"
-    @update:modelValue="changeTab"
-  />
+  <Tab v-model="selectedTab" :tabs="detailTabs" />
   <Questions v-if="selectedTab === 'questions'" />
 </template>
 
@@ -40,12 +36,6 @@ export default defineComponent({
       selectedTab.value =
         <NewQuestionnaireTabTypes>route.query.tab || 'information'
     })
-
-    // const currentTabComponent = computed(() => {
-    //   return detailTabs.includes(<DetailTabTypes>route.query.tab)
-    //     ? route.query.tab
-    //     : 'information'
-    // })
 
     const changeTab = (tab: string) => {
       router.push({
