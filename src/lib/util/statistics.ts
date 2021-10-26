@@ -47,7 +47,7 @@ export const modifiedCountData = (
   if (allTypeQuestions.length <= 0) return null
   return allTypeQuestions.map(
     (atq: AllTypeQuestionUnion): CountedDataNumber | CountedDataNotNumber => {
-      if (isNumberQuestion(atq.type, atq))
+      if (isNumberQuestion(atq.type, atq)) {
         return {
           title: atq.question.body,
           type: atq.type,
@@ -55,7 +55,7 @@ export const modifiedCountData = (
           total: generateStats(atq),
           length: atq.results.length
         }
-      else
+      } else {
         return {
           title: atq.question.body,
           type: atq.type,
@@ -63,6 +63,7 @@ export const modifiedCountData = (
           total: null,
           length: atq.results.length
         }
+      }
     }
   )
 }
@@ -76,13 +77,19 @@ const generateIdTable = (
   if (isArrayQuestion(answers.type, answers)) {
     answers.results.forEach(answer => {
       answer.option_response.forEach(value => {
-        if (!total.has(value)) total.set(value, [])
-        total.get(value).push(answer.traqID)
+        if (!total.has(value)) {
+          total.set(value, [])
+        }
+        if (typeof total.get(value) !== 'undefined') {
+          total.get(value).push(answer.traqID)
+        }
       })
     })
   } else {
     answers.results.forEach(answer => {
-      if (!total.has(answer.response)) total.set(answer.response, [])
+      if (!total.has(answer.response)) {
+        total.set(answer.response, [])
+      }
       total.get(answer.response).push(answer.traqID)
     })
   }
