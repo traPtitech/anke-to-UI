@@ -23,7 +23,14 @@
           v-for="questionnaire in questionnaires"
           :key="questionnaire.questionnaireID"
         >
-          <questionnaires-table-row :questionnaire="questionnaire" />
+          <questionnaires-table-row
+            v-if="isFetched"
+            :questionnaire="questionnaire"
+          />
+          <questionnaires-table-row-mock
+            v-else
+            :questionnaire="questionnaire"
+          />
         </table-row>
       </template>
     </ATable>
@@ -36,6 +43,7 @@ import { useTitle } from './use/title'
 import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
+import QuestionnairesTableRowMock from '/@/components/Explorer/QuestionnairesTableRowMock.vue'
 import apis, { QuestionnaireForList } from '/@/lib/apis'
 import { Option } from '../components/Explorer/use/useOptions'
 import ATable from '/@/components/UI/ATable.vue'
@@ -49,6 +57,7 @@ export default defineComponent({
     ATable,
     Menus,
     QuestionnairesTableRow,
+    QuestionnairesTableRowMock,
     SearchInput,
     TableRow
   },
@@ -63,7 +72,7 @@ export default defineComponent({
       nontargeted: 'true'
     })
     const searchQuery = ref('')
-
+    const isFetched = ref(true)
     const getQuestionnaires = async () => {
       try {
         const { data } = await apis.getQuestionnaires(
@@ -73,6 +82,7 @@ export default defineComponent({
           searchQuery.value
         )
         questionnaires.value = data.questionnaires
+        isFetched.value = true
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
         // TODO: 後で消す
@@ -93,7 +103,14 @@ export default defineComponent({
       getQuestionnaires()
     })
 
-    return { HEADERS, questionnaires, searchQuery, changeOption, search }
+    return {
+      HEADERS,
+      questionnaires,
+      searchQuery,
+      changeOption,
+      search,
+      isFetched
+    }
   }
 })
 </script>
