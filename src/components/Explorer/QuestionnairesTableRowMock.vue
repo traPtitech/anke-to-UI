@@ -55,13 +55,12 @@ export default defineComponent({
 }
 .boxTitle {
   border-radius: 4px;
-  margin: auto;
   width: 320px;
   height: 16px;
-  background: #e0e0e0;
+  background: linear-gradient(45deg, #ececec, #d6d6d6);
 }
 .boxResult {
-  margin: auto;
+  margin: 4px auto;
   width: 64px;
   height: 32px;
   background: #e0e0e0;

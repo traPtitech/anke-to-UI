@@ -18,19 +18,17 @@
           {{ header }}
         </th>
       </template>
-      <template #tablecontent>
+      <template v-if="isFetched" #tablecontent>
         <table-row
           v-for="questionnaire in questionnaires"
           :key="questionnaire.questionnaireID"
         >
-          <questionnaires-table-row
-            v-if="isFetched"
-            :questionnaire="questionnaire"
-          />
-          <questionnaires-table-row-mock
-            v-else
-            :questionnaire="questionnaire"
-          />
+          <questionnaires-table-row :questionnaire="questionnaire" />
+        </table-row>
+      </template>
+      <template v-else #tablecontent>
+        <table-row v-for="questionnaire of 20" :key="questionnaire">
+          <questionnaires-table-row-mock :questionnaire="questionnaire" />
         </table-row>
       </template>
     </ATable>
@@ -72,7 +70,7 @@ export default defineComponent({
       nontargeted: 'true'
     })
     const searchQuery = ref('')
-    const isFetched = ref(true)
+    const isFetched = ref(false)
     const getQuestionnaires = async () => {
       try {
         const { data } = await apis.getQuestionnaires(
