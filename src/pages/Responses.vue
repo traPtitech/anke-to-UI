@@ -66,7 +66,6 @@ export default defineComponent({
   max-width: 1280px;
 }
 .container {
-  padding: 1rem;
   overflow: auto;
 }
 .header {

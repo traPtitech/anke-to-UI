@@ -38,6 +38,6 @@ export default defineComponent({
 <style lang="scss" module>
 .frame {
   margin-top: -1px;
-  padding: 1rem 1.5rem;
+  padding: 0 0.5rem;
 }
 </style>

@@ -3,7 +3,9 @@
     <div :class="$style.header">
       <slot name="header"></slot>
     </div>
-    <slot name="content"></slot>
+    <div :class="$style.content">
+      <slot name="content"></slot>
+    </div>
   </div>
 </template>
 
@@ -25,6 +27,9 @@ export default defineComponent({
   border-collapse: collapse;
   text-align: left;
   font-size: 1.25rem;
+  padding: 1rem;
+}
+.content {
   padding: 1rem;
 }
 </style>
