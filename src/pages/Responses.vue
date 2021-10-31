@@ -67,7 +67,6 @@ export default defineComponent({
 }
 .container {
   padding: 1rem;
-  border: solid 1.5px #d9d9d9;
   overflow: auto;
 }
 .header {
