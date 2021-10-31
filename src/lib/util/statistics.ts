@@ -71,8 +71,6 @@ export const modifiedCountData = (
 const generateIdTable = (
   answers: AllTypeQuestionUnion
 ): [choice: string, ids: string[]][] => {
-  //なんの型かわかんないのでMap<string, string[]>みたいにしてほしいです
-  //80行目などでundifinedが取り除けませんでした…
   const total = new Map<string, string[]>()
   if (isArrayQuestion(answers.type, answers)) {
     answers.results.forEach(answer => {
@@ -80,8 +78,9 @@ const generateIdTable = (
         if (!total.has(value)) {
           total.set(value, [])
         }
-        if (typeof total.get(value) !== 'undefined') {
-          total.get(value).push(answer.traqID)
+        const strings = total.get(value)
+        if (typeof strings !== 'undefined') {
+          strings.push(answer.traqID)
         }
       })
     })
@@ -90,13 +89,16 @@ const generateIdTable = (
       if (!total.has(answer.response)) {
         total.set(answer.response, [])
       }
-      total.get(answer.response).push(answer.traqID)
+      const strings = total.get(answer.response)
+      if (typeof strings !== 'undefined') {
+        strings.push(answer.traqID)
+      }
     })
   }
-  //ここはconstがいいです
   const arr = [...total]
   if (isNumberQuestion(answers.type)) {
-    arr.sort((a, b) => b[0] - a[0])
+    //ここなんですが、a-bではないのでしょうか
+    arr.sort((a, b) => Number(b[0]) - Number(a[0]))
   }
   return arr
 }
