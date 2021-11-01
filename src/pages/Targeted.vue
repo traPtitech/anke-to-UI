@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>回答対象になっているアンケート</template>
     <template #content>
       <div :class="$style.frame">
