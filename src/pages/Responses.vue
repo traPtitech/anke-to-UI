@@ -66,8 +66,6 @@ export default defineComponent({
   max-width: 1280px;
 }
 .container {
-  padding: 1rem;
-  border: solid 1.5px #d9d9d9;
   overflow: auto;
 }
 .header {
