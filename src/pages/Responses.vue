@@ -14,13 +14,18 @@
                 {{ header }}
               </th>
             </template>
-            <template #tablecontent>
+            <template v-if="isFetched" #tablecontent>
               <table-row
                 v-for="(responseSummary, index) in responseSummaries"
                 :key="index"
                 :class="$style.table"
               >
                 <responses-table-row :response-summary="responseSummary" />
+              </table-row>
+            </template>
+            <template v-else #tablecontent>
+              <table-row v-for="questionnaire of 20" :key="questionnaire">
+                <questionnaires-table-row-mock :questionnaire="questionnaire" />
               </table-row>
             </template>
           </ATable>
@@ -37,6 +42,7 @@ import ATable from '/@/components/UI/ATable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 import TableRow from '/@/components/UI/TableRow.vue'
 import ResponsesTableRow from '/@/components/Responses/ResponsesTableRow.vue'
+import QuestionnairesTableRowMock from '/@/components/Explorer/QuestionnairesTableRowMock.vue'
 
 export default defineComponent({
   name: 'Responses',
@@ -44,18 +50,22 @@ export default defineComponent({
     Card,
     ATable,
     TableRow,
-    ResponsesTableRow
+    ResponsesTableRow,
+    QuestionnairesTableRowMock
   },
   setup() {
     const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
     const responseSummaries = ref<ResponseSummary[]>([])
+    const isFetched = ref(false)
     onMounted(async () => {
       const { data } = await apis.getMyResponses()
       responseSummaries.value = data
+      isFetched.value = true
     })
     return {
       headers,
-      responseSummaries
+      responseSummaries,
+      isFetched
     }
   }
 })
