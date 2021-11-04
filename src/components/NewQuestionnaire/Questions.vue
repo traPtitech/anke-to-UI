@@ -4,27 +4,20 @@
     <div v-if="questions.length === 0">質問がありません</div>
     <div v-for="(question, i) in questions" :key="i">
       <TextForm
-        v-if="
-          question.question_type === QuestionType.Text ||
-          question.question_type === QuestionType.Number ||
-          question.question_type === QuestionType.TextArea
-        "
+        v-if="isTextForm(question)"
         :index="i"
         :question-data="question"
         @update="updateQuestion"
       />
       <ChoiceForm
-        v-if="
-          question.question_type === QuestionType.Checkbox ||
-          question.question_type === QuestionType.MultipleChoice
-        "
+        v-if="isChoiceForm(question)"
         :index="i"
         :question-data="question"
         :is-radio="question.question_type === QuestionType.MultipleChoice"
         @update="updateQuestion"
       />
       <LinearScaleForm
-        v-if="question.question_type === QuestionType.LinearScale"
+        v-if="isLinearScaleForm(question)"
         :index="i"
         :question-data="question"
         @update="updateQuestion"
@@ -65,11 +58,24 @@ export default defineComponent({
       questions.value[index] = newData
     }
 
+    const isTextForm = (question: QuestionData) =>
+      question.question_type === QuestionType.Text ||
+      question.question_type === QuestionType.Number ||
+      question.question_type === QuestionType.TextArea
+    const isChoiceForm = (question: QuestionData) =>
+      question.question_type === QuestionType.Checkbox ||
+      question.question_type === QuestionType.MultipleChoice
+    const isLinearScaleForm = (question: QuestionData) =>
+      question.question_type === QuestionType.LinearScale
+
     return {
       QuestionType,
       questions,
       addQuestion,
-      updateQuestion
+      updateQuestion,
+      isTextForm,
+      isChoiceForm,
+      isLinearScaleForm
     }
   }
 })
