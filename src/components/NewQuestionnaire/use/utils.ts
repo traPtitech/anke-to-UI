@@ -61,30 +61,30 @@ export interface CheckboxQuestion {
 
 export type QuestionData = TextQuestion | CheckboxQuestion | LinearScaleQuestion
 
-export const createNewQuestion = (type: string): QuestionData | null => {
+export const createNewQuestion = (type: QuestionType): QuestionData | null => {
   switch (type) {
-    case 'Text': {
+    case QuestionType.Text: {
       return {
         question_type: QuestionType.Text,
         body: '',
         is_required: false
       }
     }
-    case 'TextArea': {
+    case QuestionType.TextArea: {
       return {
         question_type: QuestionType.TextArea,
         body: '',
         is_required: false
       }
     }
-    case 'Number': {
+    case QuestionType.Number: {
       return {
         question_type: QuestionType.Number,
         body: '',
         is_required: false
       }
     }
-    case 'Checkbox': {
+    case QuestionType.Checkbox: {
       return {
         question_type: QuestionType.Checkbox,
         body: '',
@@ -92,7 +92,7 @@ export const createNewQuestion = (type: string): QuestionData | null => {
         options: ['']
       }
     }
-    case 'MultipleChoice': {
+    case QuestionType.MultipleChoice: {
       return {
         question_type: QuestionType.MultipleChoice,
         body: '',
@@ -100,7 +100,7 @@ export const createNewQuestion = (type: string): QuestionData | null => {
         options: ['']
       }
     }
-    case 'LinearScale': {
+    case QuestionType.LinearScale: {
       return {
         question_type: QuestionType.LinearScale,
         body: '',
@@ -112,7 +112,8 @@ export const createNewQuestion = (type: string): QuestionData | null => {
       }
     }
     default: {
-      throw new Error(`型${type}は質問文の型にありません`)
+      const throughType: never = type
+      throw new Error(`型${throughType}は質問文の型にありません`)
     }
   }
 }

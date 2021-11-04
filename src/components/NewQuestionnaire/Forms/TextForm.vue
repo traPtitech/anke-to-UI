@@ -16,7 +16,7 @@ import { defineComponent, PropType } from 'vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 import QuestionForm from './QuestionForm.vue'
 import { TextQuestion } from '../use/utils'
-import { updateQuestionData } from '../use/computeData'
+import { updateQuestionData } from '../use/updateQuestionData'
 
 export default defineComponent({
   name: 'TextForm',

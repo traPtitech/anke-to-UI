@@ -30,7 +30,7 @@ import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import Icon from '../../UI/Icon.vue'
 import { CheckboxQuestion } from '../use/utils'
-import { updateQuestionData } from '../use/computeData'
+import { updateQuestionData } from '../use/updateQuestionData'
 
 export default defineComponent({
   name: 'ChoiceForm',
