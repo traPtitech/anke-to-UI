@@ -7,7 +7,7 @@
     <button
       v-for="(questionType, key) in questionTypes"
       :key="key"
-      @click="addQuestion(key)"
+      @click="add(key)"
     >
       {{ questionType.label }}
     </button>
@@ -19,20 +19,20 @@ import Icon from '/@/components/UI/Icon.vue'
 import { questionTypes } from './use/utils'
 
 export default defineComponent({
-  name: 'AddButtons',
+  name: 'AddQuestionButtons',
   components: {
     Icon
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    addQuestion: (key: string) => true
+    add: (key: string) => true
   },
   setup(props, context) {
-    const addQuestion = (key: string) => {
-      context.emit('addQuestion', key)
+    const add = (key: string) => {
+      context.emit('add', key)
     }
     return {
-      addQuestion,
+      add,
       questionTypes
     }
   }

@@ -30,7 +30,7 @@
         @update="updateQuestion"
       />
     </div>
-    <AddButtons @add-question="addQuestion" />
+    <AddQuestionButtons @add="addQuestion" />
   </div>
 </template>
 
@@ -38,7 +38,7 @@
 import { defineComponent, ref } from 'vue'
 import { QuestionType } from '/@/lib/apis'
 import QuestionTitle from './QuestionTitle.vue'
-import AddButtons from './AddButtons.vue'
+import AddQuestionButtons from './AddQuestionButtons.vue'
 import { createNewQuestion, QuestionData } from './use/utils'
 import TextForm from './Forms/TextForm.vue'
 import ChoiceForm from './Forms/ChoiceForm.vue'
@@ -51,7 +51,7 @@ export default defineComponent({
     TextForm,
     ChoiceForm,
     LinearScaleForm,
-    AddButtons
+    AddQuestionButtons
   },
   setup() {
     const questions = ref<QuestionData[]>([])
