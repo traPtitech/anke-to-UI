@@ -32,21 +32,20 @@ import {
   ResultsPerQuestion,
   modifiedCountData,
   CountedDataNumber,
-  CountedDataNotNumber
+  CountedDataNotNumber,
+  //isNumberQuestion,
+  isSelectTypeData_m,
+  isCountedNumber
 } from '/@/lib/util/statistics'
 import {
   TableFormTypes,
   tableFormTabs,
   isNumberType,
-  isSelectTypeData,
+  //isSelectTypeData,
   //countData,
   //CountedData,
   TEXTAREA_ADDITIONAL_LINE_NUM
 } from './use/utils'
-
-/**めんどかったのでisNumberTypeは従来版のままです
- * '/@/lib/util/statistics'にあわせるならisNumberResultを使う
- */
 
 //export default class Data implements CountedData {}
 export default defineComponent({
@@ -88,19 +87,20 @@ export default defineComponent({
       if (!countedData.value) return ''
       return countedData.value
         ?.map((question: CountedDataNumber | CountedDataNotNumber) => {
-          const { total, data } = question
           let res = [`# ${question.title}`]
-          if (isNumberType(question.type)) {
+          if (isCountedNumber(question)) {
+            const { total } = question
             res = res.concat([
-              `**平均値**: ${total?.average}`,
-              `**標準偏差**: ${total?.standardDeviation}`,
-              `**中央値**: ${total?.median}`,
-              `**最頻値**: ${total?.mode}`,
+              `**平均値**: ${total.average}`,
+              `**標準偏差**: ${total.standardDeviation}`,
+              `**中央値**: ${total.median}`,
+              `**最頻値**: ${total.mode}`,
               ''
             ])
           }
+          const { data } = question
           if (typeof data !== 'undefined') {
-            if (isSelectTypeData(question)) {
+            if (isSelectTypeData_m(question)) {
               res = res.concat(
                 [
                   '| 回答 | 回答数 | 選択率 | その回答をした人 |',

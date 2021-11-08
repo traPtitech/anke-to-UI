@@ -333,68 +333,13 @@ export type CountedDataNotNumber = {
   total: null
   data: [choice: string, ids: string[]][]
 }
+//CountedData用の型ガード
+export const isCountedNumber = (
+  question: CountedDataNumber | CountedDataNotNumber
+): question is CountedDataNumber =>
+  ['LinearScale', 'Number'].includes(question.type)
 
-//以下は気にしないでください。最後に消します。----------------------------------------
-//わんちゃんあとで再利用するかもぐらいのもの
-
-/*
-//これいらんかも
-//'LinearScale', 'Number'
-export type NumberResult = (Omit<
-  ResonsePerQuestionWithUser,
-  'option_response'
-> & { response: number })[]
-*/
-/*
-const generateIdTable = (
-  questionType: string,
-  answers: StringResult | ArrayResult
-): [choice: string | number, ids: string[]][] => {
-  const total = new Map()
-  answers.forEach((answer: aStringResult | anArrayResult) => {
-    if (isAnArrayResult(questionType, answer)) {
-      answer.option_response.forEach(value => {
-        if (!total.has(value)) total.set(value, [])
-        total.get(value).push(answer.traqID)
-      })
-    } else {
-      if (!total.has(answer.response)) total.set(answer.response, [])
-      total.get(answer.response).push(answer.traqID)
-    }
-  })
-  let arr = [...total]
-  if (isNumberType(questionType)) arr = arr.sort((a, b) => b[0] - a[0])
-  return arr
-}
-*/
-
-/*
-//isSelectTypeの型ガード版
-export const isAnArrayResult = (
-  type: string,
-  result?: aStringResult | anArrayResult
-): result is anArrayResult =>
-  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
-
-//isNumberTypeの型ガード版
-export const isAStringResult = (
-  type: string,
-  result?: aStringResult | anArrayResult
-): result is aNumberResult => ['LinearScale', 'Number'].includes(type)
-
-//なんかこうしないと型ガードしたときにうまくいかなかった
-export type StringResult = aStringResult[]
-export type ArrayResult = anArrayResult[]
-
-//無駄かもだけど型判定のために必要な気がした
-export type aStringResult = Omit<
-  ResonsePerQuestionWithUser,
-  'option_response'
-> & { response: string | number }
-
-export type anArrayResult = Omit<ResonsePerQuestionWithUser, 'response'> & {
-  option_response: string
-}
-//
-export type aNumberResult = aStringResult & { response: number }
-*/
+//ただの判定isSelectTypeDataの代わり
+export const isSelectTypeData_m = (
+  question: CountedDataNumber | CountedDataNotNumber
+): boolean => ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(question.type)
