@@ -2,8 +2,11 @@
   <Card :class="$style.card">
     <template #header>回答対象になっているアンケート</template>
     <template #content>
-      <div :class="$style.frame">
+      <div v-if="isFetched" :class="$style.frame">
         <CardContentDetail :questionnaires="questionnaires" />
+      </div>
+      <div v-else :class="$style.frame">
+        <CardContentDetailMock />
       </div>
     </template>
   </Card>
@@ -14,21 +17,25 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useTitle } from './use/title'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
+import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
 import apis, { QuestionnaireMyTargeted } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'Targeted',
   components: {
     Card,
-    CardContentDetail
+    CardContentDetail,
+    CardContentDetailMock
   },
   setup() {
     useTitle(ref('回答対象のアンケート一覧'))
 
     const questionnaires = ref<QuestionnaireMyTargeted[]>([])
+    const isFetched = ref(false)
     onMounted(async () => {
       const { data } = await apis.getMyTargeted()
       questionnaires.value = data
+      isFetched.value = true
     })
     return { questionnaires }
   }

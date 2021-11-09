@@ -1,6 +1,6 @@
 <template>
   <td :class="$style.table_item_title">
-    <div :class="$style.boxTitle" name="loading"></div>
+    <div :class="$style.boxTitle"></div>
   </td>
   <td :class="$style.table_item_date">
     <div :class="$style.box"></div>
@@ -37,21 +37,6 @@ export default defineComponent({
 .result {
   text-align: left;
   padding: 0.2rem 0.8rem;
-  .open {
-    margin: 0;
-  }
-  .icon {
-    height: 1rem;
-    width: 1rem;
-  }
-}
-.link {
-  cursor: pointer;
-  color: #92413b;
-  text-decoration: none;
-  &:hover {
-    color: #cfb998;
-  }
 }
 .boxTitle {
   border-radius: 4px;
