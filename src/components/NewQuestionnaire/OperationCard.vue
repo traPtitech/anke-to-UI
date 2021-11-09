@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>操作</template>
     <template #content>
       <button :class="$style.button">
@@ -27,10 +27,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.card {
-  border: solid 1px #e0d1c5;
-  box-shadow: 0 0.25rem 0.5rem #00000030;
-}
 .button {
   display: flex;
   align-items: center;

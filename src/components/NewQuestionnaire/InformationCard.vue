@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>情報</template>
     <template #content>
       <div :class="$style.disclosureRange">
@@ -83,10 +83,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.card {
-  border: solid 1px #e0d1c5;
-  box-shadow: 0 0.25rem 0.5rem #00000030;
-}
 .disclosureRange,
 .target,
 .administrator {
