@@ -95,6 +95,8 @@ export default defineComponent({
   .icon {
     margin-left: 0.5rem;
     cursor: pointer;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 </style>
