@@ -14,7 +14,7 @@ import {
   mdiCheck,
   mdiLoading,
   mdiPencil,
-  mdiDelete
+  mdiFilePlus
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -34,7 +34,7 @@ const mdi = new Map<string, string>([
   ['check', mdiCheck],
   ['loading', mdiLoading],
   ['pencil', mdiPencil],
-  ['delete', mdiDelete]
+  ['file-plus', mdiFilePlus]
 ])
 
 export default mdi

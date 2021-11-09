@@ -4,7 +4,6 @@
     <InformationCard :class="$style.information" />
     <OperationCard :class="$style.operation" />
   </div>
-  <SubmitButton />
 </template>
 
 <script lang="ts">
@@ -12,15 +11,13 @@ import { defineComponent } from 'vue'
 import QuestionnaireCard from './QuestionnaireCard.vue'
 import InformationCard from './InformationCard.vue'
 import OperationCard from './OperationCard.vue'
-import SubmitButton from './SubmitButton.vue'
 
 export default defineComponent({
   name: 'Information',
   components: {
     QuestionnaireCard,
     InformationCard,
-    OperationCard,
-    SubmitButton
+    OperationCard
   },
   setup() {
     return {}
