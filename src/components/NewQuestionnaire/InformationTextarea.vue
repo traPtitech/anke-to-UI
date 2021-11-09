@@ -36,22 +36,24 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+@import '/@/index.scss';
+
 $textarea-margin: 2rem;
 
 .textarea {
   box-sizing: border-box;
   width: calc(100% - #{$textarea-margin} * 2);
   font-size: 1rem;
-  border: 0.1rem solid #aaaaaa;
+  border: 0.1rem solid $color-input-border;
   border-radius: 0.25rem;
-  box-shadow: 0 0 0.1rem 0.1rem #00000010;
+  box-shadow: 0 0 0.1rem 0.1rem $color-input-box-shadow;
   outline: none;
   resize: none;
   padding: 0.5rem;
   margin: 1rem $textarea-margin;
   transition: 0.2s;
   &:focus {
-    box-shadow: 0 0 0.1rem 0.1rem #7c6c4d;
+    box-shadow: 0 0 0.1rem 0.1rem $color-input-focus;
   }
 }
 </style>

@@ -34,6 +34,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+@import '/@/index.scss';
+
 $input-margin: 0.1rem;
 
 .input {
@@ -41,14 +43,14 @@ $input-margin: 0.1rem;
   width: calc(100% - 2 * #{$input-margin});
   font-size: 2rem;
   outline: none;
-  border: 0.1rem solid #aaaaaa;
+  border: 0.1rem solid $color-input-border;
   border-radius: 0.25rem;
-  box-shadow: 0 0 0.1rem 0.1rem #00000010;
+  box-shadow: 0 0 0.1rem 0.1rem $color-input-box-shadow;
   padding: 1rem;
   margin: $input-margin;
   transition: 0.2s;
   &:focus {
-    box-shadow: 0 0 0.1rem 0.1rem #7c6c4d;
+    box-shadow: 0 0 0.1rem 0.1rem $color-input-focus;
   }
 }
 </style>
