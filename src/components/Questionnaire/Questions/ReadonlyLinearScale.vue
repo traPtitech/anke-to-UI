@@ -1,8 +1,16 @@
 <template>
   <div>
     {{ contentsleft }}
-    <span v-for="n in contentsmax" :key="n"><div>{{ n }}<input type="radio" disabled /></div
-    ></span>
+    <span v-for="n in contentsmax" :key="n">
+      <tr>
+        {{
+          n + contentsmin - 1
+        }}
+      </tr>
+      <tr>
+        <input type="radio" disabled />
+      </tr>
+    </span>
     {{ contentsright }}
   </div>
 </template>
