@@ -1,6 +1,6 @@
 <template>
-  <div v-if="required === true">
-    <div :class="$style.required">必須</div>
+  <div>
+    <p :class="$style.box"></p>
   </div>
 </template>
 
@@ -8,22 +8,21 @@
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
-  name: 'IsRequired',
+  name: 'ReadonlyNumber',
   props: {
-    required: {
-      type: Object as PropType<boolean>,
+    contents: {
+      type: Array as PropType<string[]>,
       required: true
     }
   },
-
   setup() {
     return {}
   }
 })
 </script>
+
 <style lang="scss" module>
-.required {
-  font-size: 12.8px;
-  color: red;
+.box {
+  border-bottom: 1px dotted black;
 }
 </style>

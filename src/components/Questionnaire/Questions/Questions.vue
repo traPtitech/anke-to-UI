@@ -4,9 +4,16 @@
   </Card>
   <Card :class="$style.cardquestion">
     <template #header>
-      <div>{{ questioncontents }}</div>
       <div v-for="(questioncontent, index) in questioncontents" :key="index">
-        <p>{{ questioncontent.body }}</p>
+        <div>
+          <p>{{ questioncontent.body }}</p>
+          <span
+            ><IsRequired :required="questioncontent.is_required"></IsRequired
+          ></span>
+        </div>
+        <div v-if="questioncontent.question_type == 'Number'">
+          <ReadonlyNumber></ReadonlyNumber>
+        </div>
         <div v-if="questioncontent.question_type == 'MultipleChoice'">
           <ReadonlyRadio :contents="questioncontent.options"></ReadonlyRadio>
         </div>
@@ -21,18 +28,28 @@
             :contents="questioncontent.options"
           ></ReadonlyCheckbox>
         </div>
+        <div v-if="questioncontent.question_type == 'LinearScale'">
+          <ReadonlyLinearScale
+            :contentsleft="questioncontent.scale_label_left"
+            :contentsright="questioncontent.scale_label_right"
+            :contentsmax="questioncontent.scale_max"
+            :contentsmin="questioncontent.scale_min"></ReadonlyLinearScale>
+        </div>
         <hr />
       </div>
     </template>
   </Card>
 </template>
-contentsには１つずつの質問が配列で入る
+
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Card from '/@/components/UI/Card.vue'
 import ReadonlyTextarea from './ReadonlyTextarea.vue'
 import ReadonlyCheckbox from './ReadonlyCheckbox.vue'
 import ReadonlyRadio from './ReadonlyRadio.vue'
+import ReadonlyNumber from './ReadonlyNumber.vue'
+import IsRequired from './Is_required.vue'
+import ReadonlyLinearScale from './ReadonlyLinearScale.vue'
 import { QuestionnaireMyTargeted, QuestionDetails } from '/@/lib/apis'
 
 export default defineComponent({
@@ -41,7 +58,10 @@ export default defineComponent({
     Card,
     ReadonlyTextarea,
     ReadonlyCheckbox,
-    ReadonlyRadio
+    ReadonlyRadio,
+    ReadonlyNumber,
+    ReadonlyLinearScale,
+    IsRequired
   },
   props: {
     questionnaire: {

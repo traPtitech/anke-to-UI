@@ -10,6 +10,7 @@
       <div>
         <input type="url" :value="questionnaireLink" readonly />
         <span><button @click="LinkCopy()">リンクコピー</button></span>
+        <p v-if="linkcopy == true">リンクコピーされました</p>
       </div>
       <div>
         <router-link :to="'/results/' + questionnaire.questionnaireID"
@@ -40,10 +41,17 @@ export default defineComponent({
     const questionnaireLink =
       'https://anke-to.trap.jp/responses/new/' +
       props.questionnaire.questionnaireID
+    let linkcopy = false
     const LinkCopy = function () {
       navigator.clipboard.writeText(questionnaireLink)
     }
-    return { questionnaireLink, LinkCopy }
+    const message = function () {
+      setTimeout(mmm, 3000)
+    }
+    const mmm = function () {
+      linkcopy = true
+    }
+    return { questionnaireLink, LinkCopy, message, linkcopy }
   }
 })
 </script>
