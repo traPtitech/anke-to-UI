@@ -52,7 +52,7 @@ export default defineComponent({
   border-radius: 4px;
   margin: auto;
   width: 96px;
-  height: 16px;
+  height: 14px;
 }
 
 .boxTitle,
