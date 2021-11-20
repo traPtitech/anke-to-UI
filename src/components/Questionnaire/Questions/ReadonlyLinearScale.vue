@@ -1,7 +1,7 @@
 <template>
   <div>
     {{ contentsleft }}
-    <span v-for="n in contentsmax" :key="n">
+    <span v-for="n in linerscale" :key="n">
       <tr>
         {{
           n + contentsmin - 1
@@ -39,8 +39,9 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    const linerscale = props.contentsmax - props.contentsmin + 1
+    return { linerscale }
   }
 })
 </script>

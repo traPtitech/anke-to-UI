@@ -1,7 +1,7 @@
 <template>
-  <div v-if="required === true">
-    <div :class="$style.required">必須</div>
-  </div>
+  <span v-if="required === true">
+    <span :class="$style.required">必須</span>
+  </span>
 </template>
 
 <script lang="ts">
