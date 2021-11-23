@@ -3,32 +3,53 @@
     <Card>
       <template #header>自分の回答</template>
       <template #content>
-        <div :class="$style.container">
-          <ATable>
-            <template #tableheader>
-              <th
-                v-for="(header, index) in headers"
-                :key="index"
-                :class="$style.header"
-              >
-                {{ header }}
-              </th>
-            </template>
-            <template v-if="isFetched" #tablecontent>
-              <table-row
-                v-for="(responseSummary, index) in responseSummaries"
-                :key="index"
-                :class="$style.table"
-              >
-                <responses-table-row :response-summary="responseSummary" />
-              </table-row>
-            </template>
-            <template v-else #tablecontent>
-              <table-row v-for="questionnaire of 20" :key="questionnaire">
-                <questionnaires-table-row-mock :questionnaire="questionnaire" />
-              </table-row>
-            </template>
-          </ATable>
+        <div :class="$style.fadeResponse">
+          <transition name="fadeResponse">
+            <div v-if="isFetched" :class="$style.container">
+              <ATable>
+                <template #tableheader>
+                  <th
+                    v-for="(header, index) in headers"
+                    :key="index"
+                    :class="$style.header"
+                  >
+                    {{ header }}
+                  </th>
+                </template>
+                <template #tablecontent>
+                  <table-row
+                    v-for="(responseSummary, index) in responseSummaries"
+                    :key="index"
+                    :class="$style.table"
+                  >
+                    <responses-table-row :response-summary="responseSummary" />
+                  </table-row>
+                </template>
+              </ATable>
+            </div>
+            <div v-else :class="$style.container">
+              <ATable>
+                <template #tableheader>
+                  <th
+                    v-for="(header, index) in headers"
+                    :key="index"
+                    :class="$style.header"
+                  >
+                    {{ header }}
+                  </th>
+                </template>
+                <template #tablecontent>
+                  <table-row
+                    v-for="questionnaire of 20"
+                    :key="questionnaire"
+                    :class="$style.table"
+                  >
+                    <questionnaires-table-row-mock />
+                  </table-row>
+                </template>
+              </ATable>
+            </div>
+          </transition>
         </div>
       </template>
     </Card>
@@ -76,12 +97,31 @@ export default defineComponent({
   max-width: 1280px;
 }
 .container {
+  box-sizing: border-box;
   padding: 1rem;
   border: solid 1.5px #d9d9d9;
   overflow: auto;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  max-width: 1280px;
 }
 .header {
   text-align: center;
   padding: 0.8rem;
+}
+.fadeResponse {
+  position: relative;
+  width: 100%;
+}
+:global {
+  .fadeResponse-enter-active,
+  .fadeResponse-leave-active {
+    transition: opacity 0.1s;
+  }
+  .fadeResponse-enter-from,
+  .fadeResponse-leave-to {
+    opacity: 0;
+  }
 }
 </style>

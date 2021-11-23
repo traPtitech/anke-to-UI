@@ -7,31 +7,48 @@
       @search="search"
     />
   </div>
-  <div :class="$style.container">
-    <ATable>
-      <template #tableheader>
-        <th
-          v-for="(header, index) in HEADERS"
-          :key="index"
-          :class="$style.header"
-        >
-          {{ header }}
-        </th>
-      </template>
-      <template v-if="isFetched" #tablecontent>
-        <table-row
-          v-for="questionnaire in questionnaires"
-          :key="questionnaire.questionnaireID"
-        >
-          <questionnaires-table-row :questionnaire="questionnaire" />
-        </table-row>
-      </template>
-      <template v-else #tablecontent>
-        <table-row v-for="questionnaire of 20" :key="questionnaire">
-          <questionnaires-table-row-mock :questionnaire="questionnaire" />
-        </table-row>
-      </template>
-    </ATable>
+  <div :class="$style.fadeExplorer">
+    <transition name="fadeExplorer">
+      <div v-if="isFetched" :class="$style.container">
+        <ATable>
+          <template #tableheader>
+            <th
+              v-for="(header, index) in HEADERS"
+              :key="index"
+              :class="$style.header"
+            >
+              {{ header }}
+            </th>
+          </template>
+          <template #tablecontent>
+            <table-row
+              v-for="questionnaire in questionnaires"
+              :key="questionnaire.questionnaireID"
+            >
+              <questionnaires-table-row :questionnaire="questionnaire" />
+            </table-row>
+          </template>
+        </ATable>
+      </div>
+      <div v-else :class="$style.container">
+        <ATable>
+          <template #tableheader>
+            <th
+              v-for="(header, index) in HEADERS"
+              :key="index"
+              :class="$style.header"
+            >
+              {{ header }}
+            </th>
+          </template>
+          <template #tablecontent>
+            <table-row v-for="questionnaire of 20" :key="questionnaire">
+              <questionnaires-table-row-mock :questionnaire="questionnaire" />
+            </table-row>
+          </template>
+        </ATable>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -42,7 +59,7 @@ import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
 import QuestionnairesTableRowMock from '/@/components/Explorer/QuestionnairesTableRowMock.vue'
-import apis, { QuestionnaireForList } from '/@/lib/apis'
+import apis, { SortType, QuestionnaireForList } from '/@/lib/apis'
 import { Option } from '../components/Explorer/use/useOptions'
 import ATable from '/@/components/UI/ATable.vue'
 import TableRow from '/@/components/UI/TableRow.vue'
@@ -65,7 +82,7 @@ export default defineComponent({
     const questionnaires = ref<QuestionnaireForList[]>([])
 
     const option = ref<Option>({
-      sort: '-modified_at',
+      sort: SortType.ModifiedAtDESC,
       page: 1,
       nontargeted: 'true'
     })
@@ -75,9 +92,9 @@ export default defineComponent({
       try {
         const { data } = await apis.getQuestionnaires(
           option.value.sort,
+          searchQuery.value,
           option.value.page,
-          option.value.nontargeted === 'true',
-          searchQuery.value
+          option.value.nontargeted === 'true'
         )
         questionnaires.value = data.questionnaires
         isFetched.value = true
@@ -120,13 +137,31 @@ export default defineComponent({
   flex-wrap: wrap;
 }
 .container {
+  box-sizing: border-box;
   max-width: 1280px;
   padding: 1rem;
   border: solid 1.5px #d9d9d9;
   overflow: auto;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  max-width: 1280px;
+}
+.fadeExplorer {
+  position: relative;
 }
 .header {
   text-align: center;
   padding: 0.8rem;
+}
+:global {
+  .fadeExplorer-enter-active,
+  .fadeExplorer-leave-active {
+    transition: opacity 2s;
+  }
+  .fadeExplorer-enter-from,
+  .fadeExplorer-leave-to {
+    opacity: 0;
+  }
 }
 </style>

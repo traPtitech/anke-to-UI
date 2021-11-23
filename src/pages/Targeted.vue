@@ -2,12 +2,14 @@
   <Card :class="$style.card">
     <template #header>回答対象になっているアンケート</template>
     <template #content>
-      <div v-if="isFetched" :class="$style.frame">
-        <CardContentDetail :questionnaires="questionnaires" />
-      </div>
-      <div v-else :class="$style.frame">
-        <CardContentDetailMock />
-      </div>
+      <transition name="fadeTargeted">
+        <div v-if="isFetched" :class="$style.frame">
+          <CardContentDetail :questionnaires="questionnaires" />
+        </div>
+        <div v-else :class="$style.frame">
+          <CardContentDetailMock />
+        </div>
+      </transition>
     </template>
   </Card>
 </template>
@@ -33,11 +35,11 @@ export default defineComponent({
     const questionnaires = ref<QuestionnaireMyTargeted[]>([])
     const isFetched = ref(false)
     onMounted(async () => {
-      const { data } = await apis.getMyTargeted()
+      const { data } = await apis.getTargetedQuestionnaire()
       questionnaires.value = data
       isFetched.value = true
     })
-    return { questionnaires }
+    return { questionnaires, isFetched }
   }
 })
 </script>
@@ -45,11 +47,22 @@ export default defineComponent({
 <style lang="scss" module>
 .card {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  max-width: 1280px;
 }
 .frame {
   border: solid 1.5px #d9d9d9;
   border-collapse: collapse;
   margin-top: -1px;
   padding: 1rem 1.5rem;
+}
+:global {
+  .fadeTargeted-enter-active,
+  .fadeTargeted-leave-active {
+    transition: opacity 0.2s;
+  }
+  .fadeTargeted-enter-from,
+  .fadeTargeted-leave-to {
+    opacity: 0;
+  }
 }
 </style>
