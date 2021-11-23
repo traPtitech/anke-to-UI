@@ -89,6 +89,8 @@ export default defineComponent({
     return {
       rangeMin,
       rangeMax,
+      labelMin,
+      labelMax,
       updateQuestionBody,
       updateQuestionRequired
     }

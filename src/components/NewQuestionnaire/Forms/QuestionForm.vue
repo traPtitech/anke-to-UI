@@ -63,7 +63,8 @@ export default defineComponent({
 
     return {
       questionName,
-      questionIsRequired
+      questionIsRequired,
+      questionRequiredContent: [REQUIRED_LABEL]
     }
   }
 })
