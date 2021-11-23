@@ -9,6 +9,7 @@
       :title="questionnaire.title"
       :iconsize="24"
       :textsize="20"
+      :status="questionnaire.has_response || questionnaire.all_responded"
     ></LinkIconQuestion>
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
@@ -25,7 +26,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
-import { QuestionnaireMyTargeted } from '/@/lib/apis'
+import { Questionnaire } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'CardContentDetail',
@@ -34,7 +35,12 @@ export default defineComponent({
   },
   props: {
     questionnaires: {
-      type: Array as PropType<QuestionnaireMyTargeted[]>,
+      type: Array as PropType<
+        (Questionnaire & {
+          has_response?: boolean
+          all_responded?: boolean
+        })[]
+      >,
       required: true
     }
   },
