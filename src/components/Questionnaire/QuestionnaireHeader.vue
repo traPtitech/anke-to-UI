@@ -16,7 +16,6 @@ export default defineComponent({
   name: 'PageTemplateQuestionnaire',
   setup() {
     const route = useRoute()
-    // link用のoption
     const getTabLink = (tab: string) => ({
       name: 'questionnaires',
       params: { id: route.params.id },
