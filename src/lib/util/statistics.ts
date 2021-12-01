@@ -40,119 +40,6 @@ export const adjustQuestions = (
   }
 }
 
-export const modifiedCountData = (
-  rpq: ResultsPerQuestion
-): null | (CountedDataNumber | CountedDataNotNumber)[] => {
-  const allTypeQuestions: AllTypeQuestionUnion[] = rpq.questions
-  if (allTypeQuestions.length <= 0) return null
-  return allTypeQuestions.map(
-    (atq: AllTypeQuestionUnion): CountedDataNumber | CountedDataNotNumber => {
-      if (isNumberQuestion(atq.type, atq)) {
-        return {
-          title: atq.question.body,
-          type: atq.type,
-          data: generateIdTable(atq),
-          total: generateStats(atq),
-          length: atq.results.length
-        }
-      } else {
-        return {
-          title: atq.question.body,
-          type: atq.type,
-          data: generateIdTable(atq),
-          total: null,
-          length: atq.results.length
-        }
-      }
-    }
-  )
-}
-
-const generateIdTable = (
-  answers: AllTypeQuestionUnion
-): [choice: string, ids: string[]][] => {
-  const total = new Map<string, string[]>()
-  if (isArrayQuestion(answers.type, answers)) {
-    answers.results.forEach(answer => {
-      answer.option_response.forEach(value => {
-        if (!total.has(value)) {
-          total.set(value, [])
-        }
-        const strings = total.get(value)
-        if (typeof strings !== 'undefined') {
-          strings.push(answer.traqID)
-        }
-      })
-    })
-  } else {
-    answers.results.forEach(answer => {
-      if (!total.has(answer.response)) {
-        total.set(answer.response, [])
-      }
-      const strings = total.get(answer.response)
-      if (typeof strings !== 'undefined') {
-        strings.push(answer.traqID)
-      }
-    })
-  }
-  const arr = [...total]
-  if (isNumberQuestion(answers.type)) {
-    //ここなんですが、a-bではないのでしょうか
-    arr.sort((a, b) => Number(b[0]) - Number(a[0]))
-  }
-  return arr
-}
-
-const generateStats = (
-  answers: NumberTypeQuestion | LinearScaleTypeQuestion
-): {
-  average: string
-  standardDeviation: string
-  median: string
-  mode: string
-} => {
-  const average =
-    answers.results.reduce((acc, answer) => acc + Number(answer.response), 0) /
-    answers.results.length
-  const variance =
-    answers.results
-      .map(answer => (Number(answer.response) - average) ** 2)
-      .reduce((acc, value) => acc + value) / answers.results.length
-
-  const center = Math.floor(answers.results.length / 2)
-  const sorted = answers.results.sort(
-    (a, b) => Number(a.response) - Number(b.response)
-  )
-  const median =
-    // ここは三項演算子じゃなくてifで分岐してほしいです
-    // ↑ できてないです
-    answers.results.length % 2 == 0
-      ? Number(sorted[center - 1].response) +
-        Number(sorted[center].response) * 0.5
-      : Number(sorted[center].response)
-
-  //この関数のここから下は未変更
-  //この関数なんのためにこれ以降の処理をしてるのかわかんなかったんですがわかりますか？
-  //わかんないならちょっと元のコードを真剣に読みます
-  const table = new Map()
-  answers.results.forEach(answer => {
-    if (!table.has(answer.response)) table.set(answer.response, [])
-    table.get(answer.response).push()
-  })
-
-  const arr = [...table].sort((a, b) => b[1] - a[1])
-  const mode = arr
-    .filter(v => arr[0][1] === v[1])
-    .map(v => v[0])
-    .join(', ')
-  return {
-    average: average + '',
-    standardDeviation: Math.sqrt(variance).toFixed(2),
-    median: median + '',
-    mode
-  }
-}
-
 export interface TextTypeQuestion {
   type: 'Text'
   question: Omit<
@@ -313,33 +200,86 @@ export type StringResult = (Omit<
   'option_response'
 > & { response: string })[]
 
-export type CountedDataNumber = {
-  title: string
-  type: string
-  length: number
-  total: {
-    average: string
-    standardDeviation: string
-    median: string
-    mode: string
+export const generateIdTable = (
+  answers: AllTypeQuestionUnion
+): [choice: string, ids: string[]][] => {
+  const total = new Map<string, string[]>()
+  if (isArrayQuestion(answers.type, answers)) {
+    answers.results.forEach(answer => {
+      answer.option_response.forEach(value => {
+        if (!total.has(value)) {
+          total.set(value, [])
+        }
+        const strings = total.get(value)
+        if (typeof strings !== 'undefined') {
+          strings.push(answer.traqID)
+        }
+      })
+    })
+  } else {
+    answers.results.forEach(answer => {
+      if (!total.has(answer.response)) {
+        total.set(answer.response, [])
+      }
+      const strings = total.get(answer.response)
+      if (typeof strings !== 'undefined') {
+        strings.push(answer.traqID)
+      }
+    })
   }
-  data: [choice: string, ids: string[]][]
+  const arr = [...total]
+  if (isNumberQuestion(answers.type)) {
+    arr.sort((a, b) => Number(b[0]) - Number(a[0]))
+  }
+  return arr
 }
 
-export type CountedDataNotNumber = {
-  title: string
-  type: string
-  length: number
-  total: null
-  data: [choice: string, ids: string[]][]
-}
-//CountedData用の型ガード
-export const isCountedNumber = (
-  question: CountedDataNumber | CountedDataNotNumber
-): question is CountedDataNumber =>
-  ['LinearScale', 'Number'].includes(question.type)
+export const generateStats = (
+  answers: NumberTypeQuestion | LinearScaleTypeQuestion
+): {
+  average: string
+  standardDeviation: string
+  median: string
+  mode: string
+} => {
+  const average =
+    answers.results.reduce((acc, answer) => acc + Number(answer.response), 0) /
+    answers.results.length
+  const variance =
+    answers.results
+      .map(answer => (Number(answer.response) - average) ** 2)
+      .reduce((acc, value) => acc + value) / answers.results.length
 
-//ただの判定isSelectTypeDataの代わり
-export const isSelectTypeData_m = (
-  question: CountedDataNumber | CountedDataNotNumber
-): boolean => ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(question.type)
+  const center = Math.floor(answers.results.length / 2)
+  const sorted = answers.results.sort(
+    (a, b) => Number(a.response) - Number(b.response)
+  )
+  const median =
+    // ここは三項演算子じゃなくてifで分岐してほしいです
+    // ↑ できてないです
+    answers.results.length % 2 == 0
+      ? Number(sorted[center - 1].response) +
+        Number(sorted[center].response) * 0.5
+      : Number(sorted[center].response)
+
+  //この関数のここから下は未変更
+  //この関数なんのためにこれ以降の処理をしてるのかわかんなかったんですがわかりますか？
+  //わかんないならちょっと元のコードを真剣に読みます
+  const table = new Map()
+  answers.results.forEach(answer => {
+    if (!table.has(answer.response)) table.set(answer.response, [])
+    table.get(answer.response).push()
+  })
+
+  const arr = [...table].sort((a, b) => b[1] - a[1])
+  const mode = arr
+    .filter(v => arr[0][1] === v[1])
+    .map(v => v[0])
+    .join(', ')
+  return {
+    average: average + '',
+    standardDeviation: Math.sqrt(variance).toFixed(2),
+    median: median + '',
+    mode
+  }
+}
