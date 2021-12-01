@@ -254,13 +254,14 @@ export const generateStats = (
   const sorted = answers.results.sort(
     (a, b) => Number(a.response) - Number(b.response)
   )
-  const median =
-    // ここは三項演算子じゃなくてifで分岐してほしいです
-    // ↑ できてないです
-    answers.results.length % 2 == 0
-      ? Number(sorted[center - 1].response) +
-        Number(sorted[center].response) * 0.5
-      : Number(sorted[center].response)
+  let median = 0
+  if (answers.results.length % 2 === 0) {
+    median =
+      (Number(sorted[center - 1].response) + Number(sorted[center].response)) *
+      0.5
+  } else {
+    median = Number(sorted[center].response)
+  }
 
   //この関数のここから下は未変更
   //この関数なんのためにこれ以降の処理をしてるのかわかんなかったんですがわかりますか？

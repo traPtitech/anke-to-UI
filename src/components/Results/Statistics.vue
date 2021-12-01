@@ -71,13 +71,6 @@ export default defineComponent({
   },
 
   setup(props) {
-    //ここのなかで統計データをつくって返すんだけど。
-    //リザルトパークエスチョンを受け取ってそれぞれの質問ごとにconcatするんよね
-    //まずはnumberとscaleのリザルトパークエスっていうタイプガードをして…f (isCountedNumber(question))の部分で。
-    //ちなみにこのquestionはresultperquestionね
-    //で、const { total } = questionのぶぶんでこれは消して、statistics.tsの平均値とかを出している式とカニ適用して平均値とか出して、
-    //最後にそれらをconcatする。res = res.concat([はりょはさんいわくres = はいらないっぽい
-    //でそのほうりこんだら平均値を出すような関数っていうのがのちのち鬱かうからそれ作っといた方がいい
     const markdownTable = computed(() => {
       // マークダウン生成
       if (!props.resultsPerQuestion) return ''
@@ -135,8 +128,6 @@ export default defineComponent({
           }
           res.concat([''])
           return res.join('\n')
-          //↓元々あったけどコメントアウトしないとエラーになっちゃったやつです
-          //return res.concat([''])
         })
         .join('\n')
     })
@@ -151,79 +142,4 @@ export default defineComponent({
     }
   }
 })
-
-/*まえのやつ
-  setup(props) {
-    //そもそもこれがいらない
-    const countedData = computed(() => {
-      if (props.questions.length <= 0 || props.results.length <= 0) {
-        return null
-      }
-      //return countData(props.questions, props.results)
-      return modifiedCountData(props.resultsPerQuestion)
-    })
-    //ここのなかで統計データをつくって返すんだけど。
-    //リザルトパークエスチョンを受け取ってそれぞれの質問ごとにconcatするんよね
-    //まずはnumberとscaleのリザルトパークエスっていうタイプガードをして…f (isCountedNumber(question))の部分で。
-    //ちなみにこのquestionはresultperquestionね
-    //で、const { total } = questionのぶぶんでこれは消して、statistics.tsの平均値とかを出している式とカニ適用して平均値とか出して、
-    //最後にそれらをconcatする。res = res.concat([はりょはさんいわくres = はいらないっぽい
-    //でそのほうりこんだら平均値を出すような関数っていうのがのちのち鬱かうからそれ作っといた方がいい
-    const markdownTable = computed(() => {
-      // マークダウン生成
-      if (!countedData.value) return ''
-      return countedData.value
-        ?.map((question: CountedDataNumber | CountedDataNotNumber) => {
-          let res = [`# ${question.title}`]
-          if (isCountedNumber(question)) {
-            const { total } = question
-            res = res.concat([
-              `**平均値**: ${total.average}`,
-              `**標準偏差**: ${total.standardDeviation}`,
-              `**中央値**: ${total.median}`,
-              `**最頻値**: ${total.mode}`,
-              ''
-            ])
-          }
-          const { data } = question
-          if (typeof data !== 'undefined') {
-            if (isSelectTypeData_m(question)) {
-              res = res.concat(
-                [
-                  '| 回答 | 回答数 | 選択率 | その回答をした人 |',
-                  '| - | - | - | - |'
-                ],
-                data.map(
-                  ([choice, ids]) =>
-                    `| ${choice ? choice : ''} | ${ids.length} | ${(
-                      (ids.length / question.length) *
-                      100
-                    ).toFixed(2)}% | ${ids.join(', ')} |`
-                )
-              )
-            } else {
-              res = res.concat(
-                ['| 回答 | 回答数 | その回答をした人 |', '| - | - | - |'],
-                data.map(([choice, ids]) => {
-                  const c = choice ? choice : ''
-                  return `| ${
-                    isNumberType(question.type) ? c : c.replace(/\n/g, '<br>')
-                  } | ${ids.length} | ${ids.join(', ')} |`
-                })
-              )
-            }
-          } else {
-            res = res.concat([
-              '| 回答 | 回答数 | 選択率 | その回答をした人 |',
-              '| - | - | - | - |'
-            ])
-          }
-          res.concat([''])
-          return res.join('\n')
-          //↓元々あったけどコメントアウトしないとエラーになっちゃったやつです
-          //return res.concat([''])
-        })
-        .join('\n')
-    })
-*/
 </script>
