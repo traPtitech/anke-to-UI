@@ -1,12 +1,12 @@
 <template>
-  <Card :class="$style.card">
-    <template #header>自分が管理者になっているアンケート</template>
-    <template #content>
-      <div :class="$style.frame">
+  <div :class="$style.card">
+    <Card>
+      <template #header>自分が管理者になっているアンケート</template>
+      <template #content>
         <CardContentDetail :questionnaires="questionnaires" />
-      </div>
-    </template>
-  </Card>
+      </template>
+    </Card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -37,12 +37,6 @@ export default defineComponent({
 
 <style lang="scss" module>
 .card {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
-}
-.frame {
-  border: solid 1.5px #d9d9d9;
-  border-collapse: collapse;
-  margin-top: -1px;
-  padding: 1rem 1.5rem;
+  max-width: 1280px;
 }
 </style>
