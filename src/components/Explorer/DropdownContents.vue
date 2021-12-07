@@ -1,6 +1,6 @@
 <template>
   <transition name="drop-down-content-fade" mode="out-in">
-    <div v-if="isOpen" :class="$style.dropdown_menu">
+    <div v-if="isOpen" :class="$style.dropdownMenu">
       <p
         v-for="(content, index) in contents"
         :key="index"
@@ -62,7 +62,7 @@ export default defineComponent({
     opacity: 0;
   }
 }
-.dropdown_menu {
+.dropdownMenu {
   position: absolute;
   margin-top: 0.5rem;
   .contents {
