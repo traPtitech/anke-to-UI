@@ -1,32 +1,30 @@
 <template>
-  <tr :class="$style.row">
-    <td :class="$style.table_item_title">
-      <router-link
-        :to="'/questionnaires/' + questionnaire.questionnaireID"
-        :class="$style.link"
-        >{{ questionnaire.title }}</router-link
-      >
-    </td>
-    <td :class="$style.table_item_date">
-      {{ getTimeLimit(questionnaire.res_time_limit) }}
-    </td>
-    <td :class="$style.table_item_date">
-      {{ getRelativeTime(questionnaire.modified_at) }}
-    </td>
-    <td :class="$style.table_item_date">
-      {{ getRelativeTime(questionnaire.created_at) }}
-    </td>
-    <td :class="$style.result">
-      <router-link
-        :to="'/results/' + questionnaire.questionnaireID"
-        target="_blank"
-        :class="$style.link"
-      >
-        <icon name="open-in-new" :class="$style.icon" />
-        <p :class="$style.open">Open</p>
-      </router-link>
-    </td>
-  </tr>
+  <td :class="$style.table_item_title">
+    <router-link
+      :to="'/questionnaires/' + questionnaire.questionnaireID"
+      :class="$style.link"
+      >{{ questionnaire.title }}</router-link
+    >
+  </td>
+  <td :class="$style.table_item_date">
+    {{ getTimeLimit(questionnaire.res_time_limit) }}
+  </td>
+  <td :class="$style.table_item_date">
+    {{ getRelativeTime(questionnaire.modified_at) }}
+  </td>
+  <td :class="$style.table_item_date">
+    {{ getRelativeTime(questionnaire.created_at) }}
+  </td>
+  <td :class="$style.result">
+    <router-link
+      :to="'/results/' + questionnaire.questionnaireID"
+      target="_blank"
+      :class="$style.link"
+    >
+      <icon name="open-in-new" :class="$style.icon" />
+      <p :class="$style.open">Open</p>
+    </router-link>
+  </td>
 </template>
 
 <script lang="ts">
@@ -56,12 +54,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.row {
-  border: solid 1.5px #d9d9d9;
-  &:nth-child(odd) {
-    background-color: #fafafa;
-  }
-}
 .table_item_title {
   min-width: 10rem;
   text-align: left;
