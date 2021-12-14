@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>{{ questionnaire.title }}</template>
     <template #content>
       <div>
@@ -16,7 +16,7 @@ import Card from '/@/components/UI/Card.vue'
 import { QuestionnaireMyTargeted } from '/@/lib/apis'
 
 export default defineComponent({
-  name: 'Header',
+  name: 'Summary',
   components: { Card },
   props: {
     questionnaire: {
@@ -29,13 +29,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" module>
-.card {
-  border: solid 1.5px #d9d9d9;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 1.25rem;
-  padding: 1rem;
-}
-</style>

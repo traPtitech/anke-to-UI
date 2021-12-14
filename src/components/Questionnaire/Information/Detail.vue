@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>情報</template>
     <template #content>
       <div>結果:{{ information.res_shared_to }}</div>
@@ -33,7 +33,7 @@ import Card from '/@/components/UI/Card.vue'
 import { QuestionnaireByID } from '/@/lib/apis'
 
 export default defineComponent({
-  name: 'Information',
+  name: 'Summary',
   components: { Card },
   props: {
     information: {
@@ -46,13 +46,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" module>
-.card {
-  border: solid 1.5px #d9d9d9;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 1.25rem;
-  padding: 1rem;
-}
-</style>

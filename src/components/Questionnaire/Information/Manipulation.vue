@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>操作</template>
     <template #content>
       <div>
@@ -9,8 +9,17 @@
       </div>
       <div>
         <input type="url" :value="questionnaireLink" readonly />
-        <span><button @click="LinkCopy()">リンクコピー</button></span>
-        <p v-if="linkcopy == true">リンクコピーされました</p>
+        <span
+          ><button
+            @click="
+              linkcopy = true;
+              LinkCopy()
+            "
+          >
+            リンクコピー
+          </button></span
+        >
+        <p v-if="linkcopy === true">リンクコピーされました</p>
       </div>
       <div>
         <router-link :to="'/results/' + questionnaire.questionnaireID"
@@ -24,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import Card from '/@/components/UI/Card.vue'
 import { QuestionnaireByID } from '/@/lib/apis'
 
@@ -38,30 +47,12 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const questionnaireLink =
-      'https://anke-to.trap.jp/responses/new/' +
-      props.questionnaire.questionnaireID
-    let linkcopy = false
-    const LinkCopy = function () {
+    const questionnaireLink = `https://anke-to.trap.jp/responses/new/${props.questionnaire.questionnaireID}`
+    const linkcopy = ref(false)
+    const LinkCopy = () => {
       navigator.clipboard.writeText(questionnaireLink)
     }
-    const message = function () {
-      setTimeout(mmm, 3000)
-    }
-    const mmm = function () {
-      linkcopy = true
-    }
-    return { questionnaireLink, LinkCopy, message, linkcopy }
+    return { questionnaireLink, LinkCopy, linkcopy }
   }
 })
 </script>
-
-<style lang="scss" module>
-.card {
-  border: solid 1.5px #d9d9d9;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 1.25rem;
-  padding: 1rem;
-}
-</style>

@@ -27,7 +27,7 @@ export default defineComponent({
 
     const questionnaires = ref<QuestionnaireMyTargeted[]>([])
     onMounted(async () => {
-      const { data } = await apis.getTargetedQuestionnaire("")
+      const { data } = await apis.getTargetedQuestionnaire('')
       questionnaires.value = data
     })
     return { questionnaires }

@@ -1,8 +1,8 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>{{ questionnaire.title }}</template>
   </Card>
-  <Card :class="$style.cardquestion">
+  <Card>
     <template #header>
       <div v-for="(questioncontent, index) in questioncontents" :key="index">
         <div>
@@ -11,29 +11,31 @@
             ><IsRequired :required="questioncontent.is_required"></IsRequired
           ></span>
         </div>
-        <div v-if="questioncontent.question_type == 'Number'">
+        <div v-if="questioncontent.question_type === 'Number'">
           <ReadonlyNumber></ReadonlyNumber>
         </div>
-        <div v-if="questioncontent.question_type == 'MultipleChoice'">
+        <div v-if="questioncontent.question_type === 'MultipleChoice'">
           <ReadonlyRadio :contents="questioncontent.options"></ReadonlyRadio>
         </div>
-        <div v-if="questioncontent.question_type == 'TextArea'">
+        <div v-if="questioncontent.question_type === 'TextArea'">
           <ReadonlyTextarea></ReadonlyTextarea>
         </div>
-        <div v-if="questioncontent.question_type == 'Text'">
+        <div v-if="questioncontent.question_type === 'Text'">
           <ReadonlyTextarea></ReadonlyTextarea>
         </div>
-        <div v-if="questioncontent.question_type == 'Checkbox'">
+        <div v-if="questioncontent.question_type === 'Checkbox'">
           <ReadonlyCheckbox
             :contents="questioncontent.options"
           ></ReadonlyCheckbox>
         </div>
-        <div v-if="questioncontent.question_type == 'LinearScale'">
+        <div v-if="questioncontent.question_type === 'LinearScale'">
           <ReadonlyLinearScale
             :contentsleft="questioncontent.scale_label_left"
             :contentsright="questioncontent.scale_label_right"
             :contentsmax="questioncontent.scale_max"
-            :contentsmin="questioncontent.scale_min"></ReadonlyLinearScale>
+            :contentsmin="questioncontent.scale_min"
+          >
+          </ReadonlyLinearScale>
         </div>
         <hr />
       </div>
@@ -78,18 +80,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" module>
-.card {
-  border: solid 1.5px #d9d9d9;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 1.25rem;
-  padding: 1rem;
-}
-.cardquestion {
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 1.25rem;
-}
-</style>

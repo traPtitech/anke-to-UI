@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Header :questionnaire="questionnaire"></Header>
+    <Summary :questionnaire="questionnaire"></Summary>
   </div>
   <div>
-    <Information :information="questionnaire"></Information>
+    <Detail :information="questionnaire"></Detail>
   </div>
   <div><Manipulation :questionnaire="questionnaire"></Manipulation></div>
   <div><Myanswer :myresponses="myresponses"></Myanswer></div>
@@ -12,14 +12,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { QuestionnaireByID, ResponseSummary } from 'src/lib/apis'
-import Header from '/@/components/Questionnaire/Information/Header.vue'
-import Information from '/@/components/Questionnaire/Information/Information.vue'
+import Summary from './Information/Summary.vue'
+import Detail from './Information/Detail.vue'
 import Manipulation from '/@/components/Questionnaire/Information/Manipulation.vue'
 import Myanswer from './Information/Myanswer.vue'
 
 export default defineComponent({
   name: 'Informations',
-  components: { Header, Information, Manipulation, Myanswer },
+  components: { Summary, Detail, Manipulation, Myanswer },
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,

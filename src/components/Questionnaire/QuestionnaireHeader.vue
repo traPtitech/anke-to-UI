@@ -4,16 +4,17 @@
       <router-link :to="getTabLink(tab)">{{ tab }}</router-link>
     </div>
   </div>
-  <!-- <information-summary :information="summaryProps"></information-summary> -->
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { detailTabsQuestionnaire } from './usequestonnaire'
+// import Tab from 'src/components/UI/Tab.vue'
 
 export default defineComponent({
   name: 'PageTemplateQuestionnaire',
+  components: {},
   setup() {
     const route = useRoute()
     const getTabLink = (tab: string) => ({

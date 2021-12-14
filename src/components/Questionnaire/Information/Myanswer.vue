@@ -1,10 +1,10 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>自分の回答</template>
     <template #content>
       <ul>
         <li v-for="data in myresponses" :key="data.modified_at">
-          <router-link :to="'/responses/' + data.responseID">{{
+          <router-link :to="`'/responses/'${data.responseID}`">{{
             data.submitted_at
           }}</router-link
           ><span>ゴミ箱</span>
@@ -33,13 +33,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" module>
-.card {
-  border: solid 1.5px #d9d9d9;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 1.25rem;
-  padding: 1rem;
-}
-</style>
