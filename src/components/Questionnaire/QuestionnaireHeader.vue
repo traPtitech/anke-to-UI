@@ -1,32 +1,36 @@
 <template>
-  <div>
-    <div v-for="(tab, index) in detailTabsQuestionnaire" :key="index">
-      <router-link :to="getTabLink(tab)">{{ tab }}</router-link>
-    </div>
-  </div>
+  <Tab
+    :tabs="detailTabsQuestionnaire"
+    @update:modelValue="updateQuestionnaire"
+    @click="$router.push(getTabLink(newmodelValue))"
+  ></Tab>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { detailTabsQuestionnaire } from './usequestonnaire'
-// import Tab from 'src/components/UI/Tab.vue'
+import Tab from '../UI/Tab.vue'
 
 export default defineComponent({
   name: 'PageTemplateQuestionnaire',
-  components: {},
+  components: { Tab },
   setup() {
     const route = useRoute()
-    const getTabLink = (tab: string) => ({
+    const newmodelValue = ref('information')
+    const updateQuestionnaire = (data: string) => (newmodelValue.value = data)
+    const getTabLink = (newmodelValue: string) => ({
       name: 'questionnaires',
       params: { id: route.params.id },
       query: {
-        tab: tab
+        tab: newmodelValue
       }
     })
 
     return {
       detailTabsQuestionnaire,
+      newmodelValue,
+      updateQuestionnaire,
       getTabLink
     }
   }

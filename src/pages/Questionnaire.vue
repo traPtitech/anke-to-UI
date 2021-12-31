@@ -12,6 +12,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useTitle } from '../pages/use/title'
 import apis, {
   QuestionDetails,
   QuestionnaireByID,
@@ -33,13 +34,14 @@ export default defineComponent({
       if (isNaN(questionnaireId)) return
       const [qdata, myrdata, qdatas] = await Promise.all([
         apis.getQuestionnaire(questionnaireId, ''),
-        apis.getMyResponses(questionnaireId, ''),
+        apis.getMyResponses(questionnaireId, {}),
         apis.getQuestions(questionnaireId, '')
       ])
 
       questionnaire.value = qdata.data
       myresponses.value = myrdata.data
       questioncontents.value = qdatas.data
+      useTitle(ref(`${questionnaire.value?.title}`))
     })
 
     return { questionnaire, myresponses, questioncontents }

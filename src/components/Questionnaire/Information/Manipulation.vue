@@ -10,16 +10,11 @@
       <div>
         <input type="url" :value="questionnaireLink" readonly />
         <span
-          ><button
-            @click="
-              linkcopy = true;
-              LinkCopy()
-            "
-          >
+          ><button @click="linkcopyboolean = LinkCopy(linkcopyboolean)">
             リンクコピー
           </button></span
         >
-        <p v-if="linkcopy === true">リンクコピーされました</p>
+        <p v-if="linkcopyboolean === true">リンクコピーされました</p>
       </div>
       <div>
         <router-link :to="'/results/' + questionnaire.questionnaireID"
@@ -47,12 +42,20 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const questionnaireLink = `https://anke-to.trap.jp/responses/new/${props.questionnaire.questionnaireID}`
-    const linkcopy = ref(false)
-    const LinkCopy = () => {
-      navigator.clipboard.writeText(questionnaireLink)
+    const questionnaireLink = ref(
+      `https://anke-to.trap.jp/responses/new/${props.questionnaire.questionnaireID}`
+    )
+    const linkcopyboolean = ref(false)
+    const LinkCopy = (data: boolean) => {
+      navigator.clipboard.writeText(questionnaireLink.value)
+      data = true
+      return data
     }
-    return { questionnaireLink, LinkCopy, linkcopy }
+    return {
+      questionnaireLink,
+      LinkCopy,
+      linkcopyboolean
+    }
   }
 })
 </script>
