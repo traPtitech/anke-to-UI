@@ -34,7 +34,7 @@ export default defineComponent({
       if (isNaN(questionnaireId)) return
       const [qdata, myrdata, qdatas] = await Promise.all([
         apis.getQuestionnaire(questionnaireId, ''),
-        apis.getMyResponses(questionnaireId, {}),
+        apis.getMyResponses(questionnaireId),
         apis.getQuestions(questionnaireId, '')
       ])
 

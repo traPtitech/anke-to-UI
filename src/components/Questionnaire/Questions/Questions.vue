@@ -11,32 +11,36 @@
             ><IsRequired :required="questioncontent.is_required"></IsRequired
           ></span>
         </div>
-        <div v-if="questioncontent.question_type === 'Number'">
-          <ReadonlyNumber></ReadonlyNumber>
-        </div>
-        <div v-if="questioncontent.question_type === 'MultipleChoice'">
-          <ReadonlyRadio :contents="questioncontent.options"></ReadonlyRadio>
-        </div>
-        <div v-if="questioncontent.question_type === 'TextArea'">
-          <ReadonlyTextarea></ReadonlyTextarea>
-        </div>
-        <div v-if="questioncontent.question_type === 'Text'">
-          <ReadonlyTextarea></ReadonlyTextarea>
-        </div>
-        <div v-if="questioncontent.question_type === 'Checkbox'">
-          <ReadonlyCheckbox
-            :contents="questioncontent.options"
-          ></ReadonlyCheckbox>
-        </div>
-        <div v-if="questioncontent.question_type === 'LinearScale'">
-          <ReadonlyLinearScale
-            :contentsleft="questioncontent.scale_label_left"
-            :contentsright="questioncontent.scale_label_right"
-            :contentsmax="questioncontent.scale_max"
-            :contentsmin="questioncontent.scale_min"
-          >
-          </ReadonlyLinearScale>
-        </div>
+        <ReadonlyNumber
+          v-if="questioncontent.question_type === 'Number'"
+        ></ReadonlyNumber>
+
+        <ReadonlyRadio
+          v-if="questioncontent.question_type === 'MultipleChoice'"
+          :contents="questioncontent.options"
+        ></ReadonlyRadio>
+
+        <ReadonlyTextarea
+          v-if="questioncontent.question_type === 'TextArea'"
+        ></ReadonlyTextarea>
+
+        <ReadonlyTextarea
+          v-if="questioncontent.question_type === 'Text'"
+        ></ReadonlyTextarea>
+
+        <ReadonlyCheckbox
+          v-if="questioncontent.question_type === 'Checkbox'"
+          :contents="questioncontent.options"
+        ></ReadonlyCheckbox>
+
+        <ReadonlyLinearScale
+          v-if="questioncontent.question_type === 'LinearScale'"
+          :contentsleft="questioncontent.scale_label_left"
+          :contentsright="questioncontent.scale_label_right"
+          :contentsmax="questioncontent.scale_max"
+          :contentsmin="questioncontent.scale_min"
+        >
+        </ReadonlyLinearScale>
         <hr />
       </div>
     </template>

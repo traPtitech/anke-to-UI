@@ -9,7 +9,6 @@
     <Questions
       v-if="currentTabComponent === 'questions'"
       :questionnaire="questionnaire"
-      :myresponses="myresponses"
       :questioncontents="questioncontents"
     />
   </div>
