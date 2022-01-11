@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@mdi/js": "^6.4.95",
-    "@traptitech/vite-plugin-trap-auth": "^0.2.1",
+    "@traptitech/vite-plugin-trap-auth": "^0.2.2",
     "axios": "^0.24.0",
     "direct-vuex": "^0.12.1",
     "vue": "^3.1.5",
@@ -19,25 +19,25 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.4.13",
-    "@types/node": "^16.11.9",
+    "@openapitools/openapi-generator-cli": "^2.4.21",
+    "@types/node": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "@vitejs/plugin-vue": "^1.10.0",
+    "@vitejs/plugin-vue": "^1.10.2",
     "@vue/compiler-sfc": "^3.1.5",
     "autoprefixer": "^10.4.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.19.1",
-    "postcss": "^8.3.11",
+    "postcss": "^8.4.5",
     "postcss-normalize": "^10.0.1",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.43.4",
+    "sass": "^1.45.1",
     "ts-morph": "^13.0.2",
-    "typescript": "^4.4.4",
-    "vite": "^2.6.13"
+    "typescript": "^4.5.4",
+    "vite": "^2.7.6"
   },
   "private": true
 }

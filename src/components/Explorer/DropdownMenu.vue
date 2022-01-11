@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.dropdown">
     <button :class="$style.button" @click="open">
-      <div :class="$style.dropdown_trigger">
+      <div :class="$style.dropdownTrigger">
         <p :class="$style.title">{{ title }}</p>
         <icon
           name="chevron-down"
@@ -70,7 +70,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.dropdown_trigger {
+.dropdownTrigger {
   display: flex;
   padding: 0.3rem 1rem 0.3rem 1.4rem;
   align-items: center;
