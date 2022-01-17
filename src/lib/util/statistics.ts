@@ -1,3 +1,4 @@
+import { isDataView } from 'util/types'
 import {
   QuestionnaireByID,
   ResponseResult,
@@ -177,17 +178,15 @@ export const isValidTypeQuestion = (
 
 //isSelectTypeの型ガード版
 export const isArrayQuestion = (
-  type: string,
-  question?: AllTypeQuestionUnion
+  question: AllTypeQuestionUnion
 ): question is CheckboxTypeQuestion | MultipleChoiceTypeQuestion =>
-  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(question.type)
 
 //isNumberTypeの型ガード版
 export const isNumberQuestion = (
-  type: string,
-  question?: AllTypeQuestionUnion
+  question: AllTypeQuestionUnion
 ): question is NumberTypeQuestion | LinearScaleTypeQuestion =>
-  ['LinearScale', 'Number'].includes(type)
+  ['LinearScale', 'Number'].includes(question.type)
 
 //['MultipleChoice', 'Checkbox', 'Dropdown'
 export type ArrayResult = (Omit<ResonsePerQuestionWithUser, 'response'> & {
@@ -204,7 +203,7 @@ export const generateIdTable = (
   answers: AllTypeQuestionUnion
 ): [choice: string, ids: string[]][] => {
   const total = new Map<string, string[]>()
-  if (isArrayQuestion(answers.type, answers)) {
+  if (isArrayQuestion(answers)) {
     answers.results.forEach(answer => {
       answer.option_response.forEach(value => {
         if (!total.has(value)) {
@@ -228,7 +227,7 @@ export const generateIdTable = (
     })
   }
   const arr = [...total]
-  if (isNumberQuestion(answers.type)) {
+  if (isNumberQuestion(answers)) {
     arr.sort((a, b) => Number(b[0]) - Number(a[0]))
   }
   return arr
@@ -284,3 +283,58 @@ export const generateStats = (
     mode
   }
 }
+
+/*
+export type toMarkdownArrayQuestion = {
+  body: string
+  count: string
+  percentage: string
+  respondent: string
+}
+
+export type toMarkdownNotArrayQuestion = {
+  body: string
+  count: string
+  respondent: string
+}
+
+export type toMarkdownAnswer =
+  | toMarkdownArrayQuestion
+  | toMarkdownNotArrayQuestion
+
+
+export const questionToMarkdown = (
+  question: AllTypeQuestionUnion
+): toMarkdownAnswer[]=> {
+  const data: [choice: string, ids: string[]][] =
+            generateIdTable(question)
+            if (typeof data !== 'undefined') {
+              if (isArrayQuestion(question)) {
+                let ans:toMarkdownArrayQuestion[] = {body:'',count:'',percentage:'',respondent:''}
+                //for(let i =0;i<data.length;i++){
+                for(const value of data){
+                  const body1 = value[0]
+
+                }
+                return ans
+              }
+}
+
+const getnerateMarkdownTable = <Key extends string>(
+  header: ReadonlyArray<[Key, string]>,
+  rows: ReadonlyArray<Record<Key, string>>
+) => {
+  let head = "| ";
+  let partition = "| ";
+  for (let i = 0; i < header.length; i++) {
+    head = head.concat(header[i][1], " | ");
+    partition = partition.concat(" - | ");
+  }
+  let res = [
+    head,
+    partition,
+    `| ${rows.body} | ${rows.count} | ${rows.percentage} | ${rows.respondent} |`,
+  ];
+  return res.join("\n");
+}
+*/

@@ -73,17 +73,11 @@ export default defineComponent({
   setup(props) {
     const markdownTable = computed(() => {
       // マークダウン生成
-      if (!props.resultsPerQuestion) return ''
       return props.resultsPerQuestion.questions
-        ?.map((question: AllTypeQuestionUnion) => {
+        .map((question: AllTypeQuestionUnion) => {
           let res = [`# ${question.question.body}`]
-          if (isNumberQuestion(question.type, question)) {
-            const total: {
-              average: string
-              standardDeviation: string
-              median: string
-              mode: string
-            } = generateStats(question)
+          if (isNumberQuestion(question)) {
+            const total = generateStats(question)
             res = res.concat([
               `**平均値**: ${total.average}`,
               `**標準偏差**: ${total.standardDeviation}`,
@@ -95,7 +89,7 @@ export default defineComponent({
           const data: [choice: string, ids: string[]][] =
             generateIdTable(question)
           if (typeof data !== 'undefined') {
-            if (isArrayQuestion(question.type)) {
+            if (isArrayQuestion(question)) {
               res = res.concat(
                 [
                   '| 回答 | 回答数 | 選択率 | その回答をした人 |',
