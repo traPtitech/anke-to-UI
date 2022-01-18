@@ -34,7 +34,9 @@ import {
   isArrayQuestion,
   AllTypeQuestionUnion,
   generateStats,
-  generateIdTable
+  generateIdTable,
+  generateMarkdownTable,
+  questionToMarkdown
 } from '/@/lib/util/statistics'
 import {
   TableFormTypes,
@@ -86,6 +88,8 @@ export default defineComponent({
               ''
             ])
           }
+          //このコメントアウトがいままでのやつ
+          /*
           const data: [choice: string, ids: string[]][] =
             generateIdTable(question)
           if (typeof data !== 'undefined') {
@@ -120,6 +124,9 @@ export default defineComponent({
               '| - | - | - | - |'
             ])
           }
+          */
+          //次の一行がマークダウン表示の関数使ったやつ
+          res = res.concat(generateMarkdownTable(questionToMarkdown(question)))
           res.concat([''])
           return res.join('\n')
         })

@@ -284,57 +284,88 @@ export const generateStats = (
   }
 }
 
-/*
-export type toMarkdownArrayQuestion = {
-  body: string
-  count: string
-  percentage: string
-  respondent: string
+export type MarkdownInfo<Key extends string> = {
+  header: ReadonlyArray<[Key, string]>
+  rows: ReadonlyArray<Record<Key, string>>
 }
-
-export type toMarkdownNotArrayQuestion = {
-  body: string
-  count: string
-  respondent: string
-}
-
-export type toMarkdownAnswer =
-  | toMarkdownArrayQuestion
-  | toMarkdownNotArrayQuestion
-
 
 export const questionToMarkdown = (
   question: AllTypeQuestionUnion
-): toMarkdownAnswer[]=> {
-  const data: [choice: string, ids: string[]][] =
-            generateIdTable(question)
-            if (typeof data !== 'undefined') {
-              if (isArrayQuestion(question)) {
-                let ans:toMarkdownArrayQuestion[] = {body:'',count:'',percentage:'',respondent:''}
-                //for(let i =0;i<data.length;i++){
-                for(const value of data){
-                  const body1 = value[0]
-
-                }
-                return ans
-              }
-}
-
-const getnerateMarkdownTable = <Key extends string>(
-  header: ReadonlyArray<[Key, string]>,
-  rows: ReadonlyArray<Record<Key, string>>
-) => {
-  let head = "| ";
-  let partition = "| ";
-  for (let i = 0; i < header.length; i++) {
-    head = head.concat(header[i][1], " | ");
-    partition = partition.concat(" - | ");
+):
+  | MarkdownInfo<'body' | 'count' | 'percentage' | 'respondent'>
+  | MarkdownInfo<'body' | 'count' | 'respondent'> => {
+  const data: [choice: string, ids: string[]][] = generateIdTable(question)
+  // if (typeof data !== 'undefined') {
+  if (isArrayQuestion(question)) {
+    const header: ReadonlyArray<
+      ['body' | 'count' | 'percentage' | 'respondent', string]
+    > = [
+      ['body', '回答'],
+      ['count', '回答数'],
+      ['percentage', '選択率'],
+      ['respondent', 'その回答をした人']
+    ]
+    const rows: ReadonlyArray<
+      Record<'body' | 'count' | 'percentage' | 'respondent', string>
+    > = data.map(([choice, ids]) => ({
+      body: choice ? choice : '',
+      count: String(ids.length),
+      percentage: ((ids.length / question.results.length) * 100).toFixed(2),
+      respondent: ids.join(', ')
+    }))
+    const res = { header, rows }
+    return res
+  } else {
+    const header: ReadonlyArray<['body' | 'count' | 'respondent', string]> = [
+      ['body', '回答'],
+      ['count', '回答数'],
+      ['respondent', 'その回答をした人']
+    ]
+    const rows: ReadonlyArray<Record<'body' | 'count' | 'respondent', string>> =
+      data.map(([choice, ids]) => ({
+        body: choice ? choice : '',
+        count: String(ids.length),
+        respondent: ids.join(', ')
+      }))
+    const res = { header, rows }
+    return res
   }
-  let res = [
-    head,
-    partition,
-    `| ${rows.body} | ${rows.count} | ${rows.percentage} | ${rows.respondent} |`,
-  ];
-  return res.join("\n");
 }
-*/
+
+type arrayMarkdownInfo = MarkdownInfo<
+  'body' | 'count' | 'percentage' | 'respondent'
+>
+
+type notArrayMarkdownInfo = MarkdownInfo<'body' | 'count' | 'respondent'>
+
+export const isarrayMarkdownInfo = (
+  question: arrayMarkdownInfo | notArrayMarkdownInfo
+): question is arrayMarkdownInfo => 'percentage' in question
+
+export const generateMarkdownTable = (
+  answer: arrayMarkdownInfo | notArrayMarkdownInfo
+): string[] => {
+  let head = '| '
+  let partition = '| '
+  for (let i = 0; i < answer.header.length; i++) {
+    head = head.concat(answer.header[i][1], ' | ')
+    partition = partition.concat(' - | ')
+  }
+  let res = [head, partition]
+  if (isarrayMarkdownInfo(answer)) {
+    res = res.concat(
+      answer.rows.map(
+        ananswer =>
+          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.percentage} | ${ananswer.respondent} |`
+      )
+    )
+  } else {
+    res = res.concat(
+      answer.rows.map(
+        ananswer =>
+          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.respondent} |`
+      )
+    )
+  }
+  return res
+}
