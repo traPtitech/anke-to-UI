@@ -16,10 +16,10 @@
     </div>
     <div :class="$style.tableItemDate">
       <div :class="$style.column">
-        <div :class="$style.res_time_limit">
+        <div :class="$style.resTimeLimit">
           回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
         </div>
-        <div :class="$style.modified_at">
+        <div :class="$style.modifiedAt">
           更新日: {{ getRelativeTime(questionnaire.modified_at) }}
         </div>
       </div>
@@ -89,10 +89,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
 }
-.res_time_limit {
+.resTimeLimit {
   width: 15rem;
 }
-.modified_at {
+.modifiedAt {
   width: 10rem;
 }
 </style>
