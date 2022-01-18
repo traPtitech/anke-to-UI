@@ -89,4 +89,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
 }
+.res_time_limit {
+  width: 15rem;
+}
+.modified_at {
+  width: 10rem;
+}
 </style>
