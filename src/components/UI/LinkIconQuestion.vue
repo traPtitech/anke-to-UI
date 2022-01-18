@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.tableItemTitle">
-    <switch-icon :status="status" :size="iconsize" />
+    <switch-icon :is-responded="isResponded" :size="iconsize" />
     <router-link
       :to="'/questionnaires/' + id"
       :class="$style.link"
@@ -38,7 +38,7 @@ export default defineComponent({
       required: false,
       default: 24
     },
-    status: {
+    isResponded: {
       type: Boolean,
       required: true
     }

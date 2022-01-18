@@ -9,7 +9,7 @@
       :title="questionnaire.title"
       :iconsize="24"
       :textsize="20"
-      :status="questionnaire.has_response || questionnaire.all_responded"
+      :is-responded="questionnaire.has_response || questionnaire.all_responded"
     ></LinkIconQuestion>
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
