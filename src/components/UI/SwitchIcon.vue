@@ -1,5 +1,5 @@
 <template>
-  <icon v-if="status" name="check" :class="$style.icon" />
+  <icon v-if="isResponded" name="check" :class="$style.icon" />
   <icon v-else name="alert" :class="$style.icon" />
 </template>
 
@@ -13,7 +13,7 @@ export default defineComponent({
     Icon
   },
   props: {
-    status: {
+    isResponded: {
       type: Boolean,
       required: true
     },
