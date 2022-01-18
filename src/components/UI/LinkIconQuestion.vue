@@ -1,6 +1,10 @@
 <template>
   <div :class="$style.tableItemTitle">
-    <switch-icon :is-responded="isResponded" :size="iconsize" />
+    <switch-icon
+      :is-responded="isResponded"
+      :size="iconsize"
+      :class="$style.icon"
+    />
     <router-link
       :to="'/questionnaires/' + id"
       :class="$style.link"
@@ -66,5 +70,8 @@ export default defineComponent({
     color: #cfb998;
   }
   margin-left: 8px;
+}
+.icon {
+  flex-shrink: 0;
 }
 </style>

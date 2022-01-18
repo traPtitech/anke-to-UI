@@ -1,6 +1,6 @@
 <template>
-  <icon v-if="isResponded" name="check" :class="$style.icon" />
-  <icon v-else name="alert" :class="$style.icon" />
+  <icon v-if="isResponded" name="check" :class="$style.icon" :size="size" />
+  <icon v-else name="alert" :class="$style.icon" :size="size" />
 </template>
 
 <script lang="ts">
