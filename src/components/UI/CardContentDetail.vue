@@ -16,8 +16,12 @@
     </div>
     <div :class="$style.tableItemDate">
       <div :class="$style.column">
-        <div>回答期限: {{ questionnaire.res_time_limit }}</div>
-        <div>更新日: {{ questionnaire.modified_at }}</div>
+        <div :class="$style.res_time_limit">
+          回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+        </div>
+        <div :class="$style.modified_at">
+          更新日: {{ getRelativeTime(questionnaire.modified_at) }}
+        </div>
       </div>
     </div>
   </div>
@@ -27,6 +31,10 @@
 import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
 import { Questionnaire } from '/@/lib/apis'
+import {
+  getTimeLimit,
+  getRelativeTime
+} from '/@/components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'CardContentDetail',
@@ -45,7 +53,7 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    return { getTimeLimit, getRelativeTime }
   }
 })
 </script>
