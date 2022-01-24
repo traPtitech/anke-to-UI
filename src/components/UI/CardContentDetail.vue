@@ -86,13 +86,18 @@ export default defineComponent({
   }
   margin-bottom: 0;
   font-weight: 550;
-  display: flex;
   align-items: center;
+  display: grid;
+  grid-template-columns: 50%;
 }
 .resTimeLimit {
-  width: 15rem;
+  grid-row: 1/2;
+  grid-column: 1/2;
+  text-align: left;
 }
 .modifiedAt {
-  width: 10rem;
+  grid-row: 1/2;
+  grid-column: 2/3;
+  text-align: left;
 }
 </style>
