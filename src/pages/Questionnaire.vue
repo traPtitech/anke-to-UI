@@ -41,10 +41,14 @@ export default defineComponent({
       questionnaire.value = qdata.data
       myresponses.value = myrdata.data
       questioncontents.value = qdatas.data
-      useTitle(ref(`${questionnaire.value?.title}`))
+      useTitle(ref(`${qdata.data.title}`))
     })
 
-    return { questionnaire, myresponses, questioncontents }
+    return {
+      questionnaire,
+      myresponses,
+      questioncontents
+    }
   }
 })
 </script>

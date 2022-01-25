@@ -11,36 +11,37 @@
             ><IsRequired :required="questioncontent.is_required"></IsRequired
           ></span>
         </div>
-        <ReadonlyNumber
+        <QuestionTextarea
           v-if="questioncontent.question_type === 'Number'"
-        ></ReadonlyNumber>
+        ></QuestionTextarea>
 
-        <ReadonlyRadio
+        <QuestionRadio
           v-if="questioncontent.question_type === 'MultipleChoice'"
           :contents="questioncontent.options"
-        ></ReadonlyRadio>
+        ></QuestionRadio>
 
-        <ReadonlyTextarea
+        <QuestionTextarea
           v-if="questioncontent.question_type === 'TextArea'"
-        ></ReadonlyTextarea>
+        ></QuestionTextarea>
 
-        <ReadonlyTextarea
+        <QuestionTextarea
           v-if="questioncontent.question_type === 'Text'"
-        ></ReadonlyTextarea>
+        ></QuestionTextarea>
 
-        <ReadonlyCheckbox
+        <QuestionCheckbox
           v-if="questioncontent.question_type === 'Checkbox'"
           :contents="questioncontent.options"
-        ></ReadonlyCheckbox>
+        ></QuestionCheckbox>
 
-        <ReadonlyLinearScale
+        <LinearScale
           v-if="questioncontent.question_type === 'LinearScale'"
-          :contentsleft="questioncontent.scale_label_left"
-          :contentsright="questioncontent.scale_label_right"
-          :contentsmax="questioncontent.scale_max"
-          :contentsmin="questioncontent.scale_min"
+          :left-label="questioncontent.scale_label_left"
+          :right-label="questioncontent.scale_label_right"
+          :range="
+            linearrange(questioncontent.scale_min, questioncontent.scale_max)
+          "
         >
-        </ReadonlyLinearScale>
+        </LinearScale>
         <hr />
       </div>
     </template>
@@ -50,23 +51,21 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Card from '/@/components/UI/Card.vue'
-import ReadonlyTextarea from './ReadonlyTextarea.vue'
-import ReadonlyCheckbox from './ReadonlyCheckbox.vue'
-import ReadonlyRadio from './ReadonlyRadio.vue'
-import ReadonlyNumber from './ReadonlyNumber.vue'
 import IsRequired from './Is_required.vue'
-import ReadonlyLinearScale from './ReadonlyLinearScale.vue'
+import LinearScale from '/@/components/UI/LinearScale.vue'
+import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
+import QuestionRadio from '/@/components/UI/QuestionRadio.vue'
+import QuestionTextarea from '/@/components/UI/QuestionTextarea.vue'
 import { QuestionnaireMyTargeted, QuestionDetails } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'Questions',
   components: {
     Card,
-    ReadonlyTextarea,
-    ReadonlyCheckbox,
-    ReadonlyRadio,
-    ReadonlyNumber,
-    ReadonlyLinearScale,
+    LinearScale,
+    QuestionCheckbox,
+    QuestionRadio,
+    QuestionTextarea,
     IsRequired
   },
   props: {
@@ -80,7 +79,10 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    const linearrange = (data1: number, data2: number) => {
+      return [data1, data2]
+    }
+    return { linearrange }
   }
 })
 </script>

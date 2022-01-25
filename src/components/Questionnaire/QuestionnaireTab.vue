@@ -1,5 +1,5 @@
 <template>
-  <div><PageTemplateQuestionnaire /></div>
+  <div><Tab v-model="selectedTab" :tabs="detailTabsQuestionnaire"></Tab></div>
   <div>
     <Informations
       v-if="currentTabComponent === 'information'"
@@ -15,16 +15,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, PropType, onMounted } from 'vue'
+import { defineComponent, ref, computed, PropType } from 'vue'
 import {
   QuestionDetails,
   QuestionnaireByID,
   ResponseSummary
 } from '/@/lib/apis'
-import { useRoute } from 'vue-router'
-import PageTemplateQuestionnaire from './QuestionnaireHeader.vue'
 import Informations from './Informations.vue'
 import Questions from './Questions/Questions.vue'
+import Tab from '../UI/Tab.vue'
 import {
   detailTabsQuestionnaire,
   DetailTabTypesQuestionnaire
@@ -33,9 +32,9 @@ import {
 export default defineComponent({
   name: 'QuestionnaireTab',
   components: {
-    PageTemplateQuestionnaire,
     Informations,
-    Questions
+    Questions,
+    Tab
   },
   props: {
     questionnaire: {
@@ -53,12 +52,6 @@ export default defineComponent({
   },
   setup() {
     const selectedTab = ref<DetailTabTypesQuestionnaire>('information')
-    const route = useRoute()
-
-    onMounted(() => {
-      selectedTab.value =
-        <DetailTabTypesQuestionnaire>route.query.tab || 'information'
-    })
 
     const currentTabComponent = computed(() => {
       if (detailTabsQuestionnaire.includes(selectedTab.value))
@@ -67,16 +60,10 @@ export default defineComponent({
       console.error('unespected selectedTab')
       return ''
     })
-
-    watch(
-      () => route.query,
-      newQuery => {
-        selectedTab.value = <DetailTabTypesQuestionnaire>newQuery.tab
-      }
-    )
     return {
       selectedTab,
-      currentTabComponent
+      currentTabComponent,
+      detailTabsQuestionnaire
     }
   }
 })
