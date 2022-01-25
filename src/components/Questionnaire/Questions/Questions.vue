@@ -37,9 +37,7 @@
           v-if="questioncontent.question_type === 'LinearScale'"
           :left-label="questioncontent.scale_label_left"
           :right-label="questioncontent.scale_label_right"
-          :range="
-            linearrange(questioncontent.scale_min, questioncontent.scale_max)
-          "
+          :range="[questioncontent.scale_min, questioncontent.scale_max]"
         >
         </LinearScale>
         <hr />
@@ -79,10 +77,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const linearrange = (data1: number, data2: number) => {
-      return [data1, data2]
-    }
-    return { linearrange }
+    return {}
   }
 })
 </script>
