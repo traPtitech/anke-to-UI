@@ -31,22 +31,7 @@
         </ATable>
       </div>
       <div v-else :class="$style.container">
-        <ATable>
-          <template #tableheader>
-            <th
-              v-for="(header, index) in HEADERS"
-              :key="index"
-              :class="$style.header"
-            >
-              {{ header }}
-            </th>
-          </template>
-          <template #tablecontent>
-            <table-row v-for="questionnaire of 20" :key="questionnaire">
-              <questionnaires-table-row-mock :questionnaire="questionnaire" />
-            </table-row>
-          </template>
-        </ATable>
+        <LoadingForExplorerAndResponses />
       </div>
     </transition>
   </div>
@@ -58,7 +43,7 @@ import { useTitle } from './use/title'
 import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
 import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
-import QuestionnairesTableRowMock from '/@/components/Explorer/QuestionnairesTableRowMock.vue'
+import LoadingForExplorerAndResponses from '../components/UI/QuestionnairesTableMock.vue'
 import apis, { SortType, QuestionnaireForList } from '/@/lib/apis'
 import { Option } from '../components/Explorer/use/useOptions'
 import ATable from '/@/components/UI/ATable.vue'
@@ -72,9 +57,9 @@ export default defineComponent({
     ATable,
     Menus,
     QuestionnairesTableRow,
-    QuestionnairesTableRowMock,
     SearchInput,
-    TableRow
+    TableRow,
+    LoadingForExplorerAndResponses
   },
   setup() {
     useTitle(ref('アンケート一覧'))
@@ -157,7 +142,7 @@ export default defineComponent({
 :global {
   .fadeExplorer-enter-active,
   .fadeExplorer-leave-active {
-    transition: opacity 2s;
+    transition: opacity 1s;
   }
   .fadeExplorer-enter-from,
   .fadeExplorer-leave-to {

@@ -61,7 +61,7 @@ export default defineComponent({
   background: linear-gradient(45deg, #8b8b8b, #b6b6b6, #8b8b8b);
   background-size: 300% 300%;
   opacity: 0.5;
-  animation: loading 2s ease infinite;
+  animation: loading 1s ease infinite;
 }
 
 @keyframes loading {

@@ -28,26 +28,7 @@
               </ATable>
             </div>
             <div v-else :class="$style.container">
-              <ATable>
-                <template #tableheader>
-                  <th
-                    v-for="(header, index) in headers"
-                    :key="index"
-                    :class="$style.header"
-                  >
-                    {{ header }}
-                  </th>
-                </template>
-                <template #tablecontent>
-                  <table-row
-                    v-for="questionnaire of 20"
-                    :key="questionnaire"
-                    :class="$style.table"
-                  >
-                    <questionnaires-table-row-mock />
-                  </table-row>
-                </template>
-              </ATable>
+              <LoadingForExplorerAndResponses />
             </div>
           </transition>
         </div>
@@ -63,7 +44,7 @@ import ATable from '/@/components/UI/ATable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 import TableRow from '/@/components/UI/TableRow.vue'
 import ResponsesTableRow from '/@/components/Responses/ResponsesTableRow.vue'
-import QuestionnairesTableRowMock from '/@/components/Explorer/QuestionnairesTableRowMock.vue'
+import LoadingForExplorerAndResponses from '../components/UI/QuestionnairesTableMock.vue'
 
 export default defineComponent({
   name: 'Responses',
@@ -72,7 +53,7 @@ export default defineComponent({
     ATable,
     TableRow,
     ResponsesTableRow,
-    QuestionnairesTableRowMock
+    LoadingForExplorerAndResponses
   },
   setup() {
     const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
@@ -117,7 +98,7 @@ export default defineComponent({
 :global {
   .fadeResponse-enter-active,
   .fadeResponse-leave-active {
-    transition: opacity 0.1s;
+    transition: opacity 1s;
   }
   .fadeResponse-enter-from,
   .fadeResponse-leave-to {
