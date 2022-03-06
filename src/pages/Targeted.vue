@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <Card>
     <template #header>回答対象になっているアンケート</template>
     <template #content>
       <transition name="fadeTargeted">
@@ -50,10 +50,8 @@ export default defineComponent({
   max-width: 1280px;
 }
 .frame {
-  border: solid 1.5px #d9d9d9;
-  border-collapse: collapse;
   margin-top: -1px;
-  padding: 1rem 1.5rem;
+  padding: 0 0.5rem;
 }
 :global {
   .fadeTargeted-enter-active,

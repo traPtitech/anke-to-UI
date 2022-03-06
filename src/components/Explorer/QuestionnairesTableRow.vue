@@ -1,18 +1,18 @@
 <template>
-  <td :class="$style.table_item_title">
+  <td :class="$style.tableItemTitle">
     <router-link
       :to="'/questionnaires/' + questionnaire.questionnaireID"
       :class="$style.link"
       >{{ questionnaire.title }}</router-link
     >
   </td>
-  <td :class="$style.table_item_date">
+  <td :class="$style.tableItemDate">
     {{ getTimeLimit(questionnaire.res_time_limit) }}
   </td>
-  <td :class="$style.table_item_date">
+  <td :class="$style.tableItemDate">
     {{ getRelativeTime(questionnaire.modified_at) }}
   </td>
-  <td :class="$style.table_item_date">
+  <td :class="$style.tableItemDate">
     {{ getRelativeTime(questionnaire.created_at) }}
   </td>
   <td :class="$style.result">
@@ -54,12 +54,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.table_item_title {
+.tableItemTitle {
   min-width: 10rem;
   text-align: left;
   padding-left: 0.8rem;
 }
-.table_item_date {
+.tableItemDate {
   min-width: 8rem;
   padding-left: 0.8rem;
 }

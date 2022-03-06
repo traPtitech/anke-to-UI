@@ -5,6 +5,7 @@ import Hello from '/@/pages/Hello.vue'
 import Explorer from '/@/pages/Explorer.vue'
 import Targeted from '/@/pages/Targeted.vue'
 import Results from '/@/pages/Results.vue'
+import NewQuestionnaire from '../pages/NewQuestionnaire.vue'
 import Responses from '/@/pages/Responses.vue'
 export const routerHistory = createWebHistory()
 
@@ -35,6 +36,11 @@ export default createRouter({
       path: '/results/:id',
       name: 'results',
       component: Results
+    },
+    {
+      path: '/questionnaires/new',
+      name: 'questionnaire-details-new',
+      component: NewQuestionnaire
     },
     {
       path: '/responses',

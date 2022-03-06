@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.tool_wrapper">
+  <div :class="$style.toolWrapper">
     <menus @change="changeOption" />
     <search-input
       v-model="searchQuery"
@@ -116,7 +116,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.tool_wrapper {
+.toolWrapper {
   padding: 1rem 0rem;
   display: flex;
   flex-wrap: wrap;
