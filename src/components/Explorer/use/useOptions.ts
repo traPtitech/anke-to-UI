@@ -7,7 +7,7 @@ export const sortOrderMap: [string, SortType][] = [
   ['タイトル順', SortType.TitleASC],
   ['タイトル逆順', SortType.TitleDESC],
   ['最新', SortType.CreatedAtDESC],
-  ['最も古い', SortType.CreatedAtASC]
+  ['最も古い', SortType.ModifiedAtDESC]
 ]
 export const targetedOptionMap: [string, TargetedOption][] = [
   ['全て', 'true'],

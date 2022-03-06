@@ -44,7 +44,7 @@ import ATable from '/@/components/UI/ATable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 import TableRow from '/@/components/UI/TableRow.vue'
 import ResponsesTableRow from '/@/components/Responses/ResponsesTableRow.vue'
-import LoadingForExplorerAndResponses from '../components/UI/QuestionnairesTableMock.vue'
+import LoadingForExplorerAndResponses from '/@/components/UI/QuestionnairesTableMock.vue'
 
 export default defineComponent({
   name: 'Responses',
