@@ -1,12 +1,13 @@
 import { adjustDigits } from '/@/lib/util/number'
+import { SortType } from '/@/lib/apis'
 
-export const sortOrderMap: [string, SortOrder][] = [
-  ['最近更新された', '-modified_at'],
-  ['最近更新されていない', 'modified_at'],
-  ['タイトル順', 'title'],
-  ['タイトル逆順', '-title'],
-  ['最新', '-created_at'],
-  ['最も古い', 'created_at']
+export const sortOrderMap: [string, SortType][] = [
+  ['最近更新された', SortType.CreatedAtDESC],
+  ['最近更新されていない', SortType.ModifiedAtASC],
+  ['タイトル順', SortType.TitleASC],
+  ['タイトル逆順', SortType.TitleDESC],
+  ['最新', SortType.CreatedAtDESC],
+  ['最も古い', SortType.ModifiedAtDESC]
 ]
 export const targetedOptionMap: [string, TargetedOption][] = [
   ['全て', 'true'],
@@ -21,20 +22,10 @@ export const stringToOption = <T>(str: string, map: Map<string, T>): T => {
   return option
 }
 
-const SortOrders = {
-  ModifiedLatest: '-modified_at',
-  ModifiedOldest: 'modified_at',
-  TitleOrder: 'title',
-  TitleReverseOrder: '-title',
-  CreatedLatest: '-created_at',
-  CreatedOldest: 'created_at'
-} as const
-type SortOrder = typeof SortOrders[keyof typeof SortOrders]
-
 type TargetedOption = `${boolean}`
 
 export interface Option {
-  sort: SortOrder
+  sort: SortType
   page: number
   nontargeted: TargetedOption
 }
