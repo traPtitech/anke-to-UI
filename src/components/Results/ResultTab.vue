@@ -18,6 +18,7 @@
         :questionnaire="questionnaire"
         :results="results"
         :questions="questions"
+        :results-per-question="resultsPerQuestion"
       />
       <Spreadsheet
         v-if="currentTabComponent === 'spreadsheet'"
@@ -39,6 +40,7 @@ import Individual from './Individual.vue'
 import Statistics from './Statistics.vue'
 import Spreadsheet from './Spreadsheet.vue'
 import { detailTabs, DetailTabTypes } from './use/utils'
+import { ResultsPerQuestion } from '/@/lib/util/statistics'
 
 export default defineComponent({
   name: 'ResultTab',
@@ -60,6 +62,10 @@ export default defineComponent({
     },
     questions: {
       type: Object as PropType<QuestionDetails[]>,
+      required: true
+    },
+    resultsPerQuestion: {
+      type: Object as PropType<ResultsPerQuestion>,
       required: true
     }
   },

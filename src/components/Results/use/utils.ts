@@ -1,5 +1,4 @@
 import { ResponseBody, QuestionDetails, ResponseResult } from '/@/lib/apis'
-
 export const defaultColumns = [
   { name: 'traqID', label: 'traQID' },
   { name: 'submitted_at', label: '回答日時' }
@@ -12,17 +11,24 @@ export const detailTabs: DetailTabTypes[] = [
   'spreadsheet',
   'individual'
 ]
+
 export const getIsTextTable = (tableForm: TableFormTypes): boolean =>
   ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
 export const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
+export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
+  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(arg.type)
+
+export type SelectTypeData = Required<CountedData> & {
+  total: null
+}
+
 export const textTables = {
   markdown: '',
   csv: ''
 }
-
 export const TEXTAREA_ADDITIONAL_LINE_NUM = 3
 
 export const getTableRow = (
@@ -59,7 +65,6 @@ const responseToString = (body: ResponseBody): string => {
 }
 
 // statistic系
-
 export type CountedData = {
   title: string
   type: string
