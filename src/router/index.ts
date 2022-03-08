@@ -5,6 +5,8 @@ import Hello from '/@/pages/Hello.vue'
 import Explorer from '/@/pages/Explorer.vue'
 import Targeted from '/@/pages/Targeted.vue'
 import Results from '/@/pages/Results.vue'
+import Questionnaires from '/@/pages/Questionnaire.vue'
+
 import NewQuestionnaire from '../pages/NewQuestionnaire.vue'
 import Responses from '/@/pages/Responses.vue'
 import Administrates from '/@/pages/Administrates.vue'
@@ -37,6 +39,11 @@ export default createRouter({
       path: '/results/:id',
       name: 'results',
       component: Results
+    },
+    {
+      path: '/questionnaires/:id',
+      name: 'questionnaires',
+      component: Questionnaires
     },
     {
       path: '/questionnaires/new',

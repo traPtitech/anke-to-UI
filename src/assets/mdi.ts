@@ -13,6 +13,7 @@ import {
   mdiArrowLeft,
   mdiCheck,
   mdiLoading,
+  mdiTrashCanOutline,
   mdiAlertOutline
 } from '@mdi/js'
 
@@ -32,6 +33,7 @@ const mdi = new Map<string, string>([
   ['arrow-left', mdiArrowLeft],
   ['check', mdiCheck],
   ['loading', mdiLoading],
+  ['trash-can-outline', mdiTrashCanOutline],
   ['alert', mdiAlertOutline]
 ])
 
