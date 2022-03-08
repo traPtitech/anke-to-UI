@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Summary :questionnaire="questionnaire"></Summary>
+    <Summary :questionnaire="questionnaire" />
   </div>
   <div>
-    <Detail :information="questionnaire"></Detail>
+    <Detail :information="questionnaire" />
   </div>
-  <div><Manipulation :questionnaire="questionnaire"></Manipulation></div>
-  <div><Myanswer :myresponses="myresponses"></Myanswer></div>
+  <div><Manipulation :questionnaire="questionnaire" /></div>
+  <div><MyAnswer :my-responses="myResponses" /></div>
 </template>
 
 <script lang="ts">
@@ -15,17 +15,17 @@ import { QuestionnaireByID, ResponseSummary } from 'src/lib/apis'
 import Summary from './Information/Summary.vue'
 import Detail from './Information/Detail.vue'
 import Manipulation from '/@/components/Questionnaire/Information/Manipulation.vue'
-import Myanswer from './Information/Myanswer.vue'
+import MyAnswer from './Information/MyAnswer.vue'
 
 export default defineComponent({
   name: 'Informations',
-  components: { Summary, Detail, Manipulation, Myanswer },
+  components: { Summary, Detail, Manipulation, MyAnswer },
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
       required: true
     },
-    myresponses: {
+    myResponses: {
       type: Array as PropType<ResponseSummary[]>,
       required: true
     }
