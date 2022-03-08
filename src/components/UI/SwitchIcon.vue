@@ -1,6 +1,6 @@
 <template>
-  <icon v-if="isResponded" name="check" :class="$style.icon" :size="size" />
-  <icon v-else name="alert" :class="$style.icon" :size="size" />
+  <icon v-if="isResponded" name="check" :size="size" />
+  <icon v-else name="alert" :size="size" />
 </template>
 
 <script lang="ts">
@@ -29,9 +29,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" module>
-.icon {
-  min-height: 1rem;
-  min-width: 1rem;
-}
-</style>
+<style lang="scss" module></style>

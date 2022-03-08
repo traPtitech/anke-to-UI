@@ -81,9 +81,6 @@ export default defineComponent({
 }
 .column {
   padding: 0;
-  div:first-of-type {
-    margin-right: 100px;
-  }
   margin-bottom: 0;
   font-weight: 550;
   align-items: center;
