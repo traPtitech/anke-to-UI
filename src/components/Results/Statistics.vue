@@ -31,17 +31,14 @@ import MarkdownTab from './Statistics/MarkdownTab.vue'
 import {
   ResultsPerQuestion,
   isNumberQuestion,
-  isArrayQuestion,
   AllTypeQuestionUnion,
   generateStats,
-  generateIdTable,
   generateMarkdownTable,
   questionToMarkdown
 } from '/@/lib/util/statistics'
 import {
   TableFormTypes,
   tableFormTabs,
-  isNumberType,
   TEXTAREA_ADDITIONAL_LINE_NUM
 } from './use/utils'
 
@@ -74,7 +71,7 @@ export default defineComponent({
 
   setup(props) {
     const markdownTable = computed(() => {
-      // マークダウン生成
+      // generate Markdown
       return props.resultsPerQuestion.questions
         .map((question: AllTypeQuestionUnion) => {
           let res = [`# ${question.question.body}`]
@@ -88,44 +85,6 @@ export default defineComponent({
               ''
             ])
           }
-          //このコメントアウトがいままでのやつ
-          /*
-          const data: [choice: string, ids: string[]][] =
-            generateIdTable(question)
-          if (typeof data !== 'undefined') {
-            if (isArrayQuestion(question)) {
-              res = res.concat(
-                [
-                  '| 回答 | 回答数 | 選択率 | その回答をした人 |',
-                  '| - | - | - | - |'
-                ],
-                data.map(
-                  ([choice, ids]) =>
-                    `| ${choice ? choice : ''} | ${ids.length} | ${(
-                      (ids.length / question.results.length) *
-                      100
-                    ).toFixed(2)}% | ${ids.join(', ')} |`
-                )
-              )
-            } else {
-              res = res.concat(
-                ['| 回答 | 回答数 | その回答をした人 |', '| - | - | - |'],
-                data.map(([choice, ids]) => {
-                  const c = choice ? choice : ''
-                  return `| ${
-                    isNumberType(question.type) ? c : c.replace(/\n/g, '<br>')
-                  } | ${ids.length} | ${ids.join(', ')} |`
-                })
-              )
-            }
-          } else {
-            res = res.concat([
-              '| 回答 | 回答数 | 選択率 | その回答をした人 |',
-              '| - | - | - | - |'
-            ])
-          }
-          */
-          //次の一行がマークダウン表示の関数使ったやつ
           res = res.concat(generateMarkdownTable(questionToMarkdown(question)))
           res.concat([''])
           return res.join('\n')

@@ -1,4 +1,3 @@
-import { isDataView } from 'util/types'
 import {
   QuestionnaireByID,
   ResponseResult,
@@ -176,40 +175,40 @@ export const isValidTypeQuestion = (
     'LinearScale'
   ].includes(question.type)
 
-//isSelectTypeの型ガード版
+//isSelectType
 export const isArrayQuestion = (
   question: AllTypeQuestionUnion
 ): question is CheckboxTypeQuestion | MultipleChoiceTypeQuestion =>
   ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(question.type)
 
-//isNumberTypeの型ガード版
+//isNumberType
 export const isNumberQuestion = (
   question: AllTypeQuestionUnion
 ): question is NumberTypeQuestion | LinearScaleTypeQuestion =>
   ['LinearScale', 'Number'].includes(question.type)
 
-//['MultipleChoice', 'Checkbox', 'Dropdown'
+//'MultipleChoice', 'Checkbox', 'Dropdown'
 export type ArrayResult = (Omit<ResonsePerQuestionWithUser, 'response'> & {
   option_response: string
 })[]
 
-//'text'とか,'LinearScale', 'Number'は数値にしてOK
+//'text','LinearScale', 'Number'
 export type StringResult = (Omit<
   ResonsePerQuestionWithUser,
   'option_response'
 > & { response: string })[]
 
-export const generateIdTable = (
+export const generateChoiceIdsArray = (
   answers: AllTypeQuestionUnion
 ): [choice: string, ids: string[]][] => {
-  const total = new Map<string, string[]>()
+  const choiceIdsMap = new Map<string, string[]>()
   if (isArrayQuestion(answers)) {
     answers.results.forEach(answer => {
-      answer.option_response.forEach(value => {
-        if (!total.has(value)) {
-          total.set(value, [])
+      answer.option_response.forEach(option_response => {
+        if (!choiceIdsMap.has(option_response)) {
+          choiceIdsMap.set(option_response, [])
         }
-        const strings = total.get(value)
+        const strings = choiceIdsMap.get(option_response)
         if (typeof strings !== 'undefined') {
           strings.push(answer.traqID)
         }
@@ -217,16 +216,16 @@ export const generateIdTable = (
     })
   } else {
     answers.results.forEach(answer => {
-      if (!total.has(answer.response)) {
-        total.set(answer.response, [])
+      if (!choiceIdsMap.has(answer.response)) {
+        choiceIdsMap.set(answer.response, [])
       }
-      const strings = total.get(answer.response)
+      const strings = choiceIdsMap.get(answer.response)
       if (typeof strings !== 'undefined') {
         strings.push(answer.traqID)
       }
     })
   }
-  const arr = [...total]
+  const arr = [...choiceIdsMap]
   if (isNumberQuestion(answers)) {
     arr.sort((a, b) => Number(b[0]) - Number(a[0]))
   }
@@ -261,10 +260,6 @@ export const generateStats = (
   } else {
     median = Number(sorted[center].response)
   }
-
-  //この関数のここから下は未変更
-  //この関数なんのためにこれ以降の処理をしてるのかわかんなかったんですがわかりますか？
-  //わかんないならちょっと元のコードを真剣に読みます
   const table = new Map()
   answers.results.forEach(answer => {
     if (!table.has(answer.response)) table.set(answer.response, [])
@@ -294,8 +289,8 @@ export const questionToMarkdown = (
 ):
   | MarkdownInfo<'body' | 'count' | 'percentage' | 'respondent'>
   | MarkdownInfo<'body' | 'count' | 'respondent'> => {
-  const data: [choice: string, ids: string[]][] = generateIdTable(question)
-  // if (typeof data !== 'undefined') {
+  const data: [choice: string, ids: string[]][] =
+    generateChoiceIdsArray(question)
   if (isArrayQuestion(question)) {
     const header: ReadonlyArray<
       ['body' | 'count' | 'percentage' | 'respondent', string]
@@ -313,8 +308,7 @@ export const questionToMarkdown = (
       percentage: ((ids.length / question.results.length) * 100).toFixed(2),
       respondent: ids.join(', ')
     }))
-    const res = { header, rows }
-    return res
+    return { header, rows }
   } else {
     const header: ReadonlyArray<['body' | 'count' | 'respondent', string]> = [
       ['body', '回答'],
@@ -327,8 +321,7 @@ export const questionToMarkdown = (
         count: String(ids.length),
         respondent: ids.join(', ')
       }))
-    const res = { header, rows }
-    return res
+    return { header, rows }
   }
 }
 
