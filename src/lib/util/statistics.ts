@@ -5,7 +5,7 @@ import {
   ResponseBody
 } from '/@/lib/apis'
 
-export const adjustQuestions = (
+export const associateQuestionToResultFromRawData = (
   questionnaire: QuestionnaireByID,
   questions: QuestionDetails[],
   results: ResponseResult[]
@@ -325,18 +325,18 @@ export const questionToMarkdown = (
   }
 }
 
-type arrayMarkdownInfo = MarkdownInfo<
+type ArrayMarkdownInfo = MarkdownInfo<
   'body' | 'count' | 'percentage' | 'respondent'
 >
 
-type notArrayMarkdownInfo = MarkdownInfo<'body' | 'count' | 'respondent'>
+type NotArrayMarkdownInfo = MarkdownInfo<'body' | 'count' | 'respondent'>
 
-export const isarrayMarkdownInfo = (
-  question: arrayMarkdownInfo | notArrayMarkdownInfo
-): question is arrayMarkdownInfo => 'percentage' in question
+export const isArrayMarkdownInfo = (
+  question: ArrayMarkdownInfo | NotArrayMarkdownInfo
+): question is ArrayMarkdownInfo => 'percentage' in question
 
 export const generateMarkdownTable = (
-  answer: arrayMarkdownInfo | notArrayMarkdownInfo
+  answer: ArrayMarkdownInfo | NotArrayMarkdownInfo
 ): string[] => {
   let head = '| '
   let partition = '| '
@@ -345,7 +345,7 @@ export const generateMarkdownTable = (
     partition = partition.concat(' - | ')
   }
   let res = [head, partition]
-  if (isarrayMarkdownInfo(answer)) {
+  if (isArrayMarkdownInfo(answer)) {
     res = res.concat(
       answer.rows.map(
         ananswer =>

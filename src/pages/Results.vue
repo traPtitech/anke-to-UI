@@ -20,10 +20,11 @@ import ResultTab from '/@/components/Results/ResultTab.vue'
 import apis, {
   QuestionnaireByID,
   ResponseResult,
-  QuestionDetails
+  QuestionDetails,
+  getResultsPerQuestion
 } from '/@/lib/apis'
 
-import { adjustQuestions, ResultsPerQuestion } from '/@/lib/util/statistics'
+import { ResultsPerQuestion } from '/@/lib/util/statistics'
 
 export default defineComponent({
   name: 'Results',
@@ -36,7 +37,7 @@ export default defineComponent({
     const results = ref<ResponseResult[]>([])
     const questions = ref<QuestionDetails[]>([])
     const hasResponded = ref<boolean>(false)
-    const resultsPerQuestion = ref<ResultsPerQuestion>()
+    const resultsPerQuestion = ref<ResultsPerQuestion | null>(null)
 
     onMounted(async () => {
       const questionnaireId = Number(route.params.id)
@@ -49,11 +50,7 @@ export default defineComponent({
       questionnaire.value = qres.data
       results.value = rres.data
       questions.value = qsres.data
-      resultsPerQuestion.value = adjustQuestions(
-        qres.data,
-        qsres.data,
-        rres.data
-      )
+      resultsPerQuestion.value = await getResultsPerQuestion(questionnaireId)
 
       useTitle(ref(`${questionnaire.value?.title}`))
     })

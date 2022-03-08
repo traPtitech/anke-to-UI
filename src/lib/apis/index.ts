@@ -1,6 +1,9 @@
 // eslint-disable-next-line no-restricted-imports
 import { Apis } from '/@/lib/apis/generated'
-import { adjustQuestions, ResultsPerQuestion } from '../util/statistics'
+import {
+  associateQuestionToResultFromRawData,
+  ResultsPerQuestion
+} from '../util/statistics'
 const apis = new Apis({ basePath: '/api' })
 
 export default apis
@@ -17,5 +20,5 @@ export const getResultsPerQuestion = async (
     apis.getQuestions(questionnaireId),
     apis.getResults(questionnaireId)
   ])
-  return adjustQuestions(qres.data, qsres.data, rres.data)
+  return associateQuestionToResultFromRawData(qres.data, qsres.data, rres.data)
 }
