@@ -9,14 +9,19 @@
       :title="questionnaire.title"
       :iconsize="24"
       :textsize="20"
+      :is-responded="questionnaire.has_response || questionnaire.all_responded"
     ></LinkIconQuestion>
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
     <div :class="$style.tableItemDate">
       <div :class="$style.column">
-        <div>回答期限: {{ questionnaire.res_time_limit }}</div>
-        <div>更新日: {{ questionnaire.modified_at }}</div>
+        <div :class="$style.resTimeLimit">
+          回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+        </div>
+        <div :class="$style.modifiedAt">
+          更新日: {{ getRelativeTime(questionnaire.modified_at) }}
+        </div>
       </div>
     </div>
   </div>
@@ -25,7 +30,11 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
-import { QuestionnaireMyTargeted } from '/@/lib/apis'
+import { Questionnaire } from '/@/lib/apis'
+import {
+  getTimeLimit,
+  getRelativeTime
+} from '/@/components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'CardContentDetail',
@@ -34,12 +43,17 @@ export default defineComponent({
   },
   props: {
     questionnaires: {
-      type: Array as PropType<QuestionnaireMyTargeted[]>,
+      type: Array as PropType<
+        (Questionnaire & {
+          has_response?: boolean
+          all_responded?: boolean
+        })[]
+      >,
       required: true
     }
   },
   setup() {
-    return {}
+    return { getTimeLimit, getRelativeTime }
   }
 })
 </script>
@@ -67,12 +81,20 @@ export default defineComponent({
 }
 .column {
   padding: 0;
-  div:first-of-type {
-    margin-right: 100px;
-  }
   margin-bottom: 0;
   font-weight: 550;
-  display: flex;
   align-items: center;
+  display: grid;
+  grid-template-columns: 50%;
+}
+.resTimeLimit {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  text-align: left;
+}
+.modifiedAt {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  text-align: left;
 }
 </style>

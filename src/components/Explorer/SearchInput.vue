@@ -7,7 +7,7 @@
     @input="update"
     @keypress.enter="search"
   />
-  <button :class="[$style.button, $style.search_icon]" @click="search">
+  <button :class="[$style.button, $style.searchIcon]" @click="search">
     <icon name="magnify" :class="$style.icon" />
   </button>
 </template>
@@ -54,7 +54,7 @@ export default defineComponent({
     color: #dbdbdb;
   }
 }
-.search_icon {
+.searchIcon {
   display: flex;
   align-items: center;
   border-radius: 0 0.3rem 0.3rem 0;

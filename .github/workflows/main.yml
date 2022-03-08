@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
       - uses: actions/checkout@v2
       - run: npm ci
   genApi:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm run gen-api
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
       - uses: actions/checkout@v2
       - run: npm ci
       - uses: actions/download-artifact@v1
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
       - uses: actions/checkout@v2
       - run: npm ci
       - uses: actions/download-artifact@v1
@@ -65,7 +65,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
       - uses: actions/checkout@v2
       - run: npm ci
       - uses: actions/download-artifact@v1
