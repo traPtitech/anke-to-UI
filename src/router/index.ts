@@ -7,7 +7,9 @@ import Targeted from '/@/pages/Targeted.vue'
 import Results from '/@/pages/Results.vue'
 import Questionnaires from '/@/pages/Questionnaire.vue'
 
+import NewQuestionnaire from '../pages/NewQuestionnaire.vue'
 import Responses from '/@/pages/Responses.vue'
+import Administrates from '/@/pages/Administrates.vue'
 export const routerHistory = createWebHistory()
 
 export default createRouter({
@@ -44,9 +46,19 @@ export default createRouter({
       component: Questionnaires
     },
     {
+      path: '/questionnaires/new',
+      name: 'questionnaire-details-new',
+      component: NewQuestionnaire
+    },
+    {
       path: '/responses',
       name: 'responses',
       component: Responses
+    },
+    {
+      path: '/administrates',
+      name: 'administrates',
+      component: Administrates
     }
   ]
 })

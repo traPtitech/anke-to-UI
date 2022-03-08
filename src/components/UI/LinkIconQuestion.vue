@@ -1,6 +1,10 @@
 <template>
   <div :class="$style.tableItemTitle">
-    <icon name="open-in-new" :size="iconsize" />
+    <switch-icon
+      :is-responded="isResponded"
+      :size="iconsize"
+      :class="$style.icon"
+    />
     <router-link
       :to="'/questionnaires/' + id"
       :class="$style.link"
@@ -13,12 +17,12 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import Icon from '/@/components/UI/Icon.vue'
+import SwitchIcon from '/@/components/UI/SwitchIcon.vue'
 
 export default defineComponent({
   name: 'CardTitle',
   components: {
-    Icon
+    SwitchIcon
   },
   props: {
     id: {
@@ -37,6 +41,10 @@ export default defineComponent({
       type: Number,
       required: false,
       default: 24
+    },
+    isResponded: {
+      type: Boolean,
+      required: true
     }
   },
   setup(props) {
@@ -62,5 +70,8 @@ export default defineComponent({
     color: #cfb998;
   }
   margin-left: 8px;
+}
+.icon {
+  flex-shrink: 0;
 }
 </style>

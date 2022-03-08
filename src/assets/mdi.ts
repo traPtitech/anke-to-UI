@@ -13,7 +13,8 @@ import {
   mdiArrowLeft,
   mdiCheck,
   mdiLoading,
-  mdiTrashCanOutline
+  mdiTrashCanOutline,
+  mdiAlertOutline
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -32,7 +33,8 @@ const mdi = new Map<string, string>([
   ['arrow-left', mdiArrowLeft],
   ['check', mdiCheck],
   ['loading', mdiLoading],
-  ['trash-can-outline', mdiTrashCanOutline]
+  ['trash-can-outline', mdiTrashCanOutline],
+  ['alert', mdiAlertOutline]
 ])
 
 export default mdi
