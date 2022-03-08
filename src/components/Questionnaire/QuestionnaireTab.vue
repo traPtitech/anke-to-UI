@@ -1,5 +1,5 @@
 <template>
-  <div><Tab v-model="selectedTab" :tabs="detailTabsQuestionnaire"></Tab></div>
+  <div><Tab v-model="selectedTab" :tabs="detailTabsQuestionnaire" /></div>
   <div>
     <Informations
       v-if="currentTabComponent === 'information'"

@@ -7,39 +7,30 @@
       <div v-for="(questioncontent, index) in questioncontents" :key="index">
         <div>
           <p>{{ questioncontent.body }}</p>
-          <span
-            ><IsRequired :required="questioncontent.is_required"></IsRequired
-          ></span>
+          <span><IsRequired :required="questioncontent.is_required" /></span>
         </div>
-        <QuestionTextarea
-          v-if="questioncontent.question_type === 'Number'"
-        ></QuestionTextarea>
+        <QuestionTextarea v-if="questioncontent.question_type === 'Number'" />
 
         <QuestionRadio
           v-if="questioncontent.question_type === 'MultipleChoice'"
           :contents="questioncontent.options"
-        ></QuestionRadio>
+        />
 
-        <QuestionTextarea
-          v-if="questioncontent.question_type === 'TextArea'"
-        ></QuestionTextarea>
+        <QuestionTextarea v-if="questioncontent.question_type === 'TextArea'" />
 
-        <QuestionTextarea
-          v-if="questioncontent.question_type === 'Text'"
-        ></QuestionTextarea>
+        <QuestionTextarea v-if="questioncontent.question_type === 'Text'" />
 
         <QuestionCheckbox
           v-if="questioncontent.question_type === 'Checkbox'"
           :contents="questioncontent.options"
-        ></QuestionCheckbox>
+        />
 
         <LinearScale
           v-if="questioncontent.question_type === 'LinearScale'"
           :left-label="questioncontent.scale_label_left"
           :right-label="questioncontent.scale_label_right"
           :range="[questioncontent.scale_min, questioncontent.scale_max]"
-        >
-        </LinearScale>
+        />
         <hr />
       </div>
     </template>
@@ -49,7 +40,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Card from '/@/components/UI/Card.vue'
-import IsRequired from './Is_required.vue'
+import IsRequired from './IsRequired.vue'
 import LinearScale from '/@/components/UI/LinearScale.vue'
 import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
 import QuestionRadio from '/@/components/UI/QuestionRadio.vue'

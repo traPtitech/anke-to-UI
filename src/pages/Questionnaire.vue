@@ -4,7 +4,7 @@
       :questionnaire="questionnaire"
       :myresponses="myresponses"
       :questioncontents="questioncontents"
-    ></QuestionnaireTab>
+    />
   </template>
   <template v-else> 読み込み中</template>
 </template>
