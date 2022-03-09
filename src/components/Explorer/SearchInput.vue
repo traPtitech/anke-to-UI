@@ -76,7 +76,6 @@ export default defineComponent({
 }
 .button {
   background-color: #92413b;
-  
   border: solid 0.1rem #92413b;
   padding: 0;
   cursor: pointer;
