@@ -1,11 +1,11 @@
 <template>
   <div :class="$style.toolWrapper">
-    <menus @change="changeOption" />
     <search-input
       v-model="searchQuery"
       :class="$style.search"
       @search="search"
     />
+    <menus @change="changeOption" />
   </div>
   <div :class="$style.fadeExplorer">
     <transition name="fadeExplorer">
@@ -120,6 +120,7 @@ export default defineComponent({
   padding: 1rem 0rem;
   display: flex;
   flex-wrap: wrap;
+  row-gap: 1rem;
 }
 .container {
   box-sizing: border-box;
