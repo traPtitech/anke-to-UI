@@ -21,6 +21,7 @@
       v-for="(table, name) in textTables"
       v-show="tableForm === name"
       :key="name"
+      :class="$style.textarea"
       :value="table"
       :rows="table.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
       readonly
@@ -39,6 +40,7 @@ import {
   getIsTextTable,
   textTables,
   defaultColumns,
+  resultsToMarkdown,
   TEXTAREA_ADDITIONAL_LINE_NUM
 } from '../use/utils'
 
@@ -90,6 +92,8 @@ export default defineComponent({
       showColumns.value[index] = !showColumns.value[index]
     }
 
+    textTables.markdown = resultsToMarkdown(tableHeaders.value, props.results)
+
     return {
       tableHeaders,
       showColumns,
@@ -101,3 +105,15 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss" module>
+.textarea {
+  color: black;
+  border: solid 1.5px #d9d9d9;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 1rem;
+  padding: 1rem;
+  width: 98%;
+  line-height: 1.5rem;
+}
+</style>
