@@ -80,7 +80,8 @@ export default defineComponent({
   padding: 0;
   cursor: pointer;
   &:hover {
-    background-color: #f4ecec;
+    background-color: #811818;
+    border: solid 0.1rem #811818;
   }
 }
 </style>

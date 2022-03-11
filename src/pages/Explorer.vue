@@ -1,39 +1,41 @@
 <template>
-  <div :class="$style.toolWrapper">
-    <search-input
-      v-model="searchQuery"
-      :class="$style.search"
-      @search="search"
-    />
-    <menus @change="changeOption" />
-  </div>
-  <div :class="$style.fadeExplorer">
-    <transition name="fadeExplorer">
-      <div v-if="isFetched" :class="$style.container">
-        <ATable>
-          <template #tableheader>
-            <th
-              v-for="(header, index) in HEADERS"
-              :key="index"
-              :class="$style.header"
-            >
-              {{ header }}
-            </th>
-          </template>
-          <template #tablecontent>
-            <table-row
-              v-for="questionnaire in questionnaires"
-              :key="questionnaire.questionnaireID"
-            >
-              <questionnaires-table-row :questionnaire="questionnaire" />
-            </table-row>
-          </template>
-        </ATable>
-      </div>
-      <div v-else :class="$style.container">
-        <LoadingForExplorerAndResponses />
-      </div>
-    </transition>
+  <div :class="$style.pageWrapper">
+    <div :class="$style.toolWrapper">
+      <search-input
+        v-model="searchQuery"
+        :class="$style.search"
+        @search="search"
+      />
+      <menus @change="changeOption" />
+    </div>
+    <div :class="$style.fadeExplorer">
+      <transition name="fadeExplorer">
+        <div v-if="isFetched" :class="$style.container">
+          <ATable>
+            <template #tableheader>
+              <th
+                v-for="(header, index) in HEADERS"
+                :key="index"
+                :class="$style.header"
+              >
+                {{ header }}
+              </th>
+            </template>
+            <template #tablecontent>
+              <table-row
+                v-for="questionnaire in questionnaires"
+                :key="questionnaire.questionnaireID"
+              >
+                <questionnaires-table-row :questionnaire="questionnaire" />
+              </table-row>
+            </template>
+          </ATable>
+        </div>
+        <div v-else :class="$style.container">
+          <LoadingForExplorerAndResponses />
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -116,6 +118,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.pageWrapper {
+  max-width: 1280px;
+}
 .toolWrapper {
   padding: 1rem 0rem;
   display: flex;
@@ -124,7 +129,6 @@ export default defineComponent({
 }
 .container {
   box-sizing: border-box;
-  max-width: 1280px;
   padding: 1rem;
   border: solid 1.5px #d9d9d9;
   overflow: auto;
