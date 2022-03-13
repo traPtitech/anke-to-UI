@@ -28,6 +28,7 @@ module.exports = {
         message: 'Please use /@/lib/apis instead.'
       }
     ],
-    'vue/require-valid-default-prop': 'off'
+    'vue/require-valid-default-prop': 'off',
+    'vue/multi-word-component-names': 'off'
   }
 }
