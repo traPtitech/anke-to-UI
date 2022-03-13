@@ -9,27 +9,43 @@
           <p>{{ questioncontent.body }}</p>
           <span><IsRequired :required="questioncontent.is_required" /></span>
         </div>
-        <QuestionTextarea v-if="questioncontent.question_type === 'Number'" />
+        <QuestionInput
+          v-if="questioncontent.question_type === 'Number'"
+          :is-number="true"
+          :disable="true"
+        />
 
         <QuestionRadio
           v-if="questioncontent.question_type === 'MultipleChoice'"
           :contents="questioncontent.options"
+          :disable="true"
         />
 
-        <QuestionTextarea v-if="questioncontent.question_type === 'TextArea'" />
+        <QuestionTextarea
+          v-if="questioncontent.question_type === 'TextArea'"
+          :disable="true"
+        />
 
-        <QuestionTextarea v-if="questioncontent.question_type === 'Text'" />
+        <QuestionInput
+          v-if="questioncontent.question_type === 'Text'"
+          :is-number="false"
+          :disable="true"
+        />
 
         <QuestionCheckbox
           v-if="questioncontent.question_type === 'Checkbox'"
           :contents="questioncontent.options"
+          :disable="true"
         />
 
         <LinearScale
           v-if="questioncontent.question_type === 'LinearScale'"
           :left-label="questioncontent.scale_label_left"
           :right-label="questioncontent.scale_label_right"
-          :range="[questioncontent.scale_min, questioncontent.scale_max]"
+          :range="
+            createRange(questioncontent.scale_max, questioncontent.scale_min)
+          "
+          :disable="true"
         />
         <hr />
       </div>
@@ -43,6 +59,7 @@ import Card from '/@/components/UI/Card.vue'
 import IsRequired from './IsRequired.vue'
 import LinearScale from '/@/components/UI/LinearScale.vue'
 import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
+import QuestionInput from '/@/components/UI/QuestionInput.vue'
 import QuestionRadio from '/@/components/UI/QuestionRadio.vue'
 import QuestionTextarea from '/@/components/UI/QuestionTextarea.vue'
 import { QuestionnaireMyTargeted, QuestionDetails } from '/@/lib/apis'
@@ -53,6 +70,7 @@ export default defineComponent({
     Card,
     LinearScale,
     QuestionCheckbox,
+    QuestionInput,
     QuestionRadio,
     QuestionTextarea,
     IsRequired
@@ -68,7 +86,14 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    const createRange = (max: number, min: number) => {
+      const range = []
+      for (let i = min; i <= max; i++) {
+        range.push(i)
+      }
+      return range
+    }
+    return { createRange }
   }
 })
 </script>

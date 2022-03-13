@@ -2,7 +2,9 @@
   <div :class="$style.container">
     <div :class="$style.leftLabel">{{ leftLabel }}</div>
     <label v-for="(num, index) in range" :key="index">
+      <radio-button v-if="disable === true" :disable="disable" />
       <radio-button
+        v-else
         :is-selected="index === selectedIndex"
         @input="update(index)"
       />
@@ -31,6 +33,10 @@ export default defineComponent({
     },
     rightLabel: {
       type: String,
+      required: true
+    },
+    disable: {
+      type: Boolean,
       required: true
     },
     modelValue: {

@@ -1,5 +1,13 @@
 <template>
   <textarea
+    v-if="disable === true"
+    type="text"
+    :class="$style.textarea"
+    placeholder="回答"
+    disabled
+  />
+  <textarea
+    v-else
     type="text"
     :class="$style.textarea"
     :value="modelValue"
@@ -19,6 +27,10 @@ export default defineComponent({
   name: 'QuestionTextarea',
   components: { InputUnderline },
   props: {
+    disable: {
+      type: Boolean,
+      required: true
+    },
     modelValue: {
       type: String,
       required: true

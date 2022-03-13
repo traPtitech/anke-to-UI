@@ -1,5 +1,13 @@
 <template>
   <input
+    v-if="disable === true"
+    :type="isNumber ? 'number' : 'text'"
+    :class="$style.input"
+    :placeholder="isNumber ? '数値を入力' : '回答'"
+    disabled
+  />
+  <input
+    v-else
     :type="isNumber ? 'number' : 'text'"
     :class="$style.input"
     :value="modelValue"
@@ -22,6 +30,10 @@ export default defineComponent({
     isNumber: {
       type: Boolean,
       default: false
+    },
+    disable: {
+      type: Boolean,
+      required: true
     },
     modelValue: {
       type: String,

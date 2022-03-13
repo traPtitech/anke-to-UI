@@ -1,5 +1,16 @@
 <template>
-  <div :class="$style.container">
+  <div v-if="disable == true" :class="$style.container">
+    <label
+      v-for="(content, index) in contents"
+      :key="index"
+      :class="$style.disablelabel"
+    >
+      <span :class="$style.disablecheck" />
+      <p :class="$style.disablecontent">{{ content }}</p>
+    </label>
+  </div>
+
+  <div v-else :class="$style.container">
     <label
       v-for="(content, index) in contents"
       :key="index"
@@ -29,6 +40,10 @@ export default defineComponent({
   props: {
     contents: {
       type: Array as PropType<string[]>,
+      required: true
+    },
+    disable: {
+      type: Boolean,
       required: true
     },
     modelValue: {
@@ -99,6 +114,25 @@ export default defineComponent({
   .checked {
     opacity: 1;
   }
+}
+.disablelabel {
+  display: flex;
+  flex-direction: row;
+  margin: 0.2rem 0;
+  .disablecontent {
+    margin: 0;
+    margin-left: 0.4rem;
+    cursor: text;
+  }
+}
+.disablecheck {
+  display: inline-block;
+  content: '';
+  height: 1rem;
+  width: 1rem;
+  border: 1px solid #7c6c4d;
+  border-radius: 0.2rem;
+  background-color: rgb(239, 239, 239, 0.5);
 }
 .checkbox {
   appearance: none;

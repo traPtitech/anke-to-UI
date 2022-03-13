@@ -1,5 +1,6 @@
 <template>
-  <div :class="$style.button">
+  <div v-if="disable === true" :class="$style.disablebutton" />
+  <div v-else :class="$style.button">
     <div :class="[isSelected ? $style.selected : '', $style.innerButton]" />
   </div>
   <input type="radio" name="radio" :class="$style.input" @input="onInput" />
@@ -12,6 +13,10 @@ export default defineComponent({
   name: 'RadioButton',
   props: {
     isSelected: {
+      type: Boolean,
+      required: true
+    },
+    disable: {
       type: Boolean,
       required: true
     }
@@ -56,6 +61,18 @@ export default defineComponent({
   &:hover {
     opacity: 0.6;
   }
+}
+.disablebutton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: '';
+  width: 1rem;
+  height: 1rem;
+  border: solid 1px #7c6c4d;
+  border-radius: 50%;
+  background-color: rgb(239, 239, 239, 0.5);
+  pointer-events: none;
 }
 .input {
   appearance: none;

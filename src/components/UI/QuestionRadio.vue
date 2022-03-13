@@ -1,5 +1,15 @@
 <template>
-  <div :class="$style.container">
+  <div v-if="disable === true" :class="$style.container">
+    <label
+      v-for="(content, index) in contents"
+      :key="index"
+      :class="$style.disablelabel"
+    >
+      <radio-button :disable="disable" />
+      <p :class="$style.disablecontent">{{ content }}</p>
+    </label>
+  </div>
+  <div v-else :class="$style.container">
     <label
       v-for="(content, index) in contents"
       :key="index"
@@ -26,6 +36,10 @@ export default defineComponent({
   props: {
     contents: {
       type: Array as PropType<string[]>,
+      required: true
+    },
+    disable: {
+      type: Boolean,
       required: true
     },
     modelValue: {
@@ -65,6 +79,16 @@ export default defineComponent({
   :hover {
     cursor: pointer;
     opacity: 0.6;
+  }
+}
+.disablelabel {
+  display: flex;
+  align-items: center;
+  margin: 0.4rem 0;
+  .disablecontent {
+    margin: 0;
+    margin-left: 0.4rem;
+    cursor: text;
   }
 }
 </style>
