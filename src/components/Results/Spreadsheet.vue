@@ -2,6 +2,10 @@
   <div>
     <Tab v-model="tableForm" :tabs="tableFormTabs" />
     <div>
+      {{ questionnaire.title }}
+      これをheader.vueみたいなの作って渡して、それっぽく表示する
+    </div>
+    <div>
       <!-- table view -->
       <table v-if="tableForm === 'view'">
         <TableHeader
@@ -19,23 +23,23 @@
       <button v-if="isTextTable">
         <Icon name="download" />
       </button>
-      <textarea
-        v-for="(table, name) in textTables"
-        v-show="tableForm === name"
-        :key="name"
-        :class="$style.textarea"
-        :value="table"
-        :rows="table.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
-        readonly
-      ></textarea>
+      <!-- markdown view -->
+      <markdown-tab
+        v-if="tableForm === 'markdown'"
+        :value="markdownText"
+        :rows="markdownText.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
+        class="textarea"
+      />
+
+      <!-- csv view -->
+      <csv-tab
+        v-if="tableForm === 'csv'"
+        :value="csvText"
+        :rows="csvText.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
+        class="textarea"
+      />
     </div>
   </div>
-  <!-- <ScrollView
-    :questionnaire="questionnaire"
-    :results="results"
-    :questions="questions"
-    :table-form="tableForm"
-  /> -->
 </template>
 
 <script lang="ts">
@@ -45,16 +49,16 @@ import Tab from '/@/components/UI/Tab.vue'
 import Icon from '/@/components/UI/Icon.vue'
 import TableHeader from '/@/components/Results/Spreadsheet/TableHeader.vue'
 import TableBody from '/@/components/Results/Spreadsheet/TableBody.vue'
-// import ScrollView from './Spreadsheet/ScrollView.vue'
 import {
   TableFormTypes,
   getIsTextTable,
-  textTables,
   defaultColumns,
   resultsToMarkdown,
   TEXTAREA_ADDITIONAL_LINE_NUM,
   tableFormTabs
 } from '/@/components/Results/use/utils'
+import MarkdownTab from './Spreadsheet/MarkdownTab.vue'
+import CsvTab from './Spreadsheet/CsvTab.vue'
 
 export default defineComponent({
   name: 'Spreadsheet',
@@ -62,8 +66,9 @@ export default defineComponent({
     Tab,
     Icon,
     TableHeader,
-    TableBody
-    // ScrollView
+    TableBody,
+    MarkdownTab,
+    CsvTab
   },
   props: {
     questionnaire: {
@@ -103,7 +108,8 @@ export default defineComponent({
       showColumns.value[index] = !showColumns.value[index]
     }
 
-    textTables.markdown = resultsToMarkdown(tableHeaders.value, props.results)
+    const markdownText = resultsToMarkdown(tableHeaders.value, props.results)
+    const csvText = 'csvをべた書き'
 
     return {
       tableForm,
@@ -111,7 +117,8 @@ export default defineComponent({
       tableHeaders,
       showColumns,
       isTextTable,
-      textTables,
+      markdownText,
+      csvText,
       toggleShowColumn,
       TEXTAREA_ADDITIONAL_LINE_NUM
     }
