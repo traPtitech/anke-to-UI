@@ -2,12 +2,12 @@
   <div><Tab v-model="selectedTab" :tabs="detailTabsQuestionnaire" /></div>
   <div>
     <Informations
-      v-if="currentTabComponent === 'information'"
+      v-if="currentTabComponent === 'Information'"
       :questionnaire="questionnaire"
       :myresponses="myresponses"
     />
     <Questions
-      v-if="currentTabComponent === 'questions'"
+      v-if="currentTabComponent === 'Questions'"
       :questionnaire="questionnaire"
       :questioncontents="questioncontents"
     />
@@ -51,7 +51,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const selectedTab = ref<DetailTabTypesQuestionnaire>('information')
+    const selectedTab = ref<DetailTabTypesQuestionnaire>('Information')
 
     const currentTabComponent = computed(() => {
       if (detailTabsQuestionnaire.includes(selectedTab.value))
