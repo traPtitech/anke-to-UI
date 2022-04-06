@@ -79,11 +79,11 @@ export default defineComponent({
 }
 .container {
   box-sizing: border-box;
-  padding: 1rem;
-  border: solid 1.5px #d9d9d9;
+  // padding: 1rem;
+  // border: solid 1.5px #d9d9d9;
   overflow: auto;
   top: 0;
-  position: absolute;
+  // position: absolute;
   width: 100%;
   max-width: 1280px;
 }
