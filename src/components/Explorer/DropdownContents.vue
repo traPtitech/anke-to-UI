@@ -65,13 +65,19 @@ export default defineComponent({
 .dropdownMenu {
   position: absolute;
   margin-top: 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(33, 63, 99, 0.3);
+  z-index: 1;
+  background-color: #ffffff;
   .contents {
-    background-color: #ffffff;
-    box-shadow: 0.5rem 0rem 1rem -0.3rem rgba(10, 10, 10, 0.1);
-    border: solid 0.01rem #e7e7e7;
-    border-radius: 0.3;
     margin: 0;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
+    &:first-child {
+      padding: 1rem 1rem 0.5rem;
+    }
+    &:last-child {
+      padding: 0.5rem 1rem 1rem;
+    }
     text-align: left;
     cursor: pointer;
     &:hover {
