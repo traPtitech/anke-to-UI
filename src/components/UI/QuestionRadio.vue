@@ -1,25 +1,18 @@
 <template>
-  <div v-if="disable === true" :class="$style.container">
+  <div :class="$style.container">
     <label
       v-for="(content, index) in contents"
       :key="index"
-      :class="$style.disablelabel"
-    >
-      <radio-button :disable="disable" />
-      <p :class="$style.disablecontent">{{ content }}</p>
-    </label>
-  </div>
-  <div v-else :class="$style.container">
-    <label
-      v-for="(content, index) in contents"
-      :key="index"
-      :class="$style.label"
+      :class="[disable ? $style.disablelabel : $style.label]"
     >
       <radio-button
         :is-selected="index === selectedIndex"
+        :disable="disable"
         @input="update(index)"
       />
-      <p :class="$style.content">{{ content }}</p>
+      <p :class="[disable ? $style.disablecontent : $style.content]">
+        {{ content }}
+      </p>
     </label>
   </div>
 </template>
@@ -65,18 +58,31 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+// .container {
+//   padding: 0.5rem;
+// }
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 0.5rem;
 }
 .label {
   display: flex;
   align-items: center;
-  margin: 0.4rem 0;
+  margin: 0.2rem 0;
+  .disablecontent {
+    margin: 0;
+    margin-left: 0.4rem;
+    &:hover {
+      cursor: auto;
+    }
+  }
   .content {
     margin: 0;
     margin-left: 0.4rem;
   }
-  :hover {
+  &:hover {
     cursor: pointer;
     opacity: 0.6;
   }
@@ -84,11 +90,13 @@ export default defineComponent({
 .disablelabel {
   display: flex;
   align-items: center;
-  margin: 0.4rem 0;
+  margin: 0.2rem 0;
   .disablecontent {
     margin: 0;
     margin-left: 0.4rem;
-    cursor: text;
+  }
+  &:hover {
+    cursor: auto;
   }
 }
 </style>

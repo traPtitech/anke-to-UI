@@ -1,29 +1,21 @@
 <template>
-  <div v-if="disable == true" :class="$style.container">
+  <div :class="$style.container">
     <label
       v-for="(content, index) in contents"
       :key="index"
-      :class="$style.disablelabel"
+      :class="[disable ? $style.disablelabel : $style.label]"
     >
-      <span :class="$style.disablecheck" />
-      <p :class="$style.disablecontent">{{ content }}</p>
-    </label>
-  </div>
-
-  <div v-else :class="$style.container">
-    <label
-      v-for="(content, index) in contents"
-      :key="index"
-      :class="$style.label"
-    >
-      <span :class="$style.check">
+      <span :class="[disable ? $style.disablecheck : $style.check]">
         <icon
+          v-if="disable === false"
           name="check"
           :class="[isChecked(index) ? $style.checked : '', $style.icon]"
         />
       </span>
       <input type="checkbox" :class="$style.checkbox" @input="check(index)" />
-      <p :class="$style.content">{{ content }}</p>
+      <p :class="[disable ? $style.disablecontent : $style.content]">
+        {{ content }}
+      </p>
     </label>
   </div>
 </template>
@@ -96,6 +88,18 @@ export default defineComponent({
     opacity: 0.6;
   }
 }
+.disablelabel {
+  display: flex;
+  flex-direction: row;
+  margin: 0.2rem 0;
+  .disablecontent {
+    margin: 0;
+    margin-left: 0.4rem;
+  }
+  &:hover {
+    cursor: auto;
+  }
+}
 .check {
   display: inline-block;
   cursor: pointer;
@@ -113,16 +117,6 @@ export default defineComponent({
   }
   .checked {
     opacity: 1;
-  }
-}
-.disablelabel {
-  display: flex;
-  flex-direction: row;
-  margin: 0.2rem 0;
-  .disablecontent {
-    margin: 0;
-    margin-left: 0.4rem;
-    cursor: text;
   }
 }
 .disablecheck {

@@ -1,5 +1,7 @@
-export type DetailTabTypesQuestionnaire = 'Information' | 'Questions'
+export const ConstantInformation = 'Information'
+export const ConstantQuestions = 'Questions'
+export type DetailTabTypesQuestionnaire = string | string
 export const detailTabsQuestionnaire: DetailTabTypesQuestionnaire[] = [
-  'Information',
-  'Questions'
+  ConstantInformation,
+  ConstantQuestions
 ]

@@ -2,10 +2,9 @@
   <div :class="$style.container">
     <div :class="$style.leftLabel">{{ leftLabel }}</div>
     <label v-for="(num, index) in range" :key="index">
-      <radio-button v-if="disable === true" :disable="disable" />
       <radio-button
-        v-else
         :is-selected="index === selectedIndex"
+        :disable="disable"
         @input="update(index)"
       />
     </label>

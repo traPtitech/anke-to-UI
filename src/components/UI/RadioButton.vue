@@ -1,6 +1,5 @@
 <template>
-  <div v-if="disable === true" :class="$style.disablebutton" />
-  <div v-else :class="$style.button">
+  <div :class="[disable ? $style.disablebutton : $style.button]">
     <div :class="[isSelected ? $style.selected : '', $style.innerButton]" />
   </div>
   <input type="radio" name="radio" :class="$style.input" @input="onInput" />
