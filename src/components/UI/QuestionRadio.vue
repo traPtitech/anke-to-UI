@@ -58,9 +58,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-// .container {
-//   padding: 0.5rem;
-// }
 .container {
   display: flex;
   flex-direction: column;
@@ -71,13 +68,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   margin: 0.2rem 0;
-  .disablecontent {
-    margin: 0;
-    margin-left: 0.4rem;
-    &:hover {
-      cursor: auto;
-    }
-  }
   .content {
     margin: 0;
     margin-left: 0.4rem;
