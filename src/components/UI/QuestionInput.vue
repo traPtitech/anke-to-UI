@@ -1,17 +1,9 @@
 <template>
   <input
-    v-if="disable === true"
     :type="isNumber ? 'number' : 'text'"
     :class="$style.input"
     :placeholder="isNumber ? '数値を入力' : '回答'"
-    disabled
-  />
-  <input
-    v-else
-    :type="isNumber ? 'number' : 'text'"
-    :class="$style.input"
-    :value="modelValue"
-    :placeholder="isNumber ? '数値を入力' : '回答'"
+    :disabled="disable"
     @input="update"
   />
   <input-underline :class="$style.underline" />

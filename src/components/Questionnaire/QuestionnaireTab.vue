@@ -2,12 +2,12 @@
   <div><Tab v-model="selectedTab" :tabs="detailTabsQuestionnaire" /></div>
   <div>
     <Informations
-      v-if="currentTabComponent === ConstantInformation"
+      v-if="currentTabComponent === InformationTabName"
       :questionnaire="questionnaire"
       :myresponses="myresponses"
     />
     <Questions
-      v-if="currentTabComponent === ConstantQuestions"
+      v-if="currentTabComponent === QuestionsTabName"
       :questionnaire="questionnaire"
       :questioncontents="questioncontents"
     />
@@ -25,8 +25,8 @@ import Informations from './Informations.vue'
 import Questions from './Questions/Questions.vue'
 import Tab from '../UI/Tab.vue'
 import {
-  ConstantInformation,
-  ConstantQuestions,
+  InformationTabName,
+  QuestionsTabName,
   DetailTabTypesQuestionnaire,
   detailTabsQuestionnaire
 } from './usequestonnaire'
@@ -53,7 +53,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const selectedTab = ref<DetailTabTypesQuestionnaire>(ConstantInformation)
+    const selectedTab = ref<DetailTabTypesQuestionnaire>(InformationTabName)
 
     const currentTabComponent = computed(() => {
       if (detailTabsQuestionnaire.includes(selectedTab.value))
@@ -63,8 +63,8 @@ export default defineComponent({
       return ''
     })
     return {
-      ConstantInformation,
-      ConstantQuestions,
+      InformationTabName,
+      QuestionsTabName,
       selectedTab,
       currentTabComponent,
       detailTabsQuestionnaire

@@ -3,9 +3,9 @@
     <label
       v-for="(content, index) in contents"
       :key="index"
-      :class="[disable ? $style.disablelabel : $style.label]"
+      :class="[disable ? $style.disablelabel : '', $style.label]"
     >
-      <span :class="[disable ? $style.disablecheck : $style.check]">
+      <span :class="[disable ? $style.disablecheck : '', $style.check]">
         <icon
           v-if="disable === false"
           name="check"
@@ -13,7 +13,7 @@
         />
       </span>
       <input type="checkbox" :class="$style.checkbox" @input="check(index)" />
-      <p :class="[disable ? $style.disablecontent : $style.content]">
+      <p :class="$style.content">
         {{ content }}
       </p>
     </label>
@@ -89,15 +89,9 @@ export default defineComponent({
   }
 }
 .disablelabel {
-  display: flex;
-  flex-direction: row;
-  margin: 0.2rem 0;
-  .disablecontent {
-    margin: 0;
-    margin-left: 0.4rem;
-  }
   &:hover {
     cursor: auto;
+    opacity: 1;
   }
 }
 .check {
@@ -120,12 +114,7 @@ export default defineComponent({
   }
 }
 .disablecheck {
-  display: inline-block;
-  content: '';
-  height: 1rem;
-  width: 1rem;
-  border: 1px solid #7c6c4d;
-  border-radius: 0.2rem;
+  cursor: auto;
   background-color: rgb(239, 239, 239, 0.5);
 }
 .checkbox {
