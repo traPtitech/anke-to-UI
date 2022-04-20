@@ -1,6 +1,5 @@
 <template>
   <div>Index Page</div>
-  <img alt="Vue logo" src="/@/assets/logo.png" />
 </template>
 
 <script lang="ts">

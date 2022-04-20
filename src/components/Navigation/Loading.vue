@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.contents">
-      <img :class="$style.logo" src="/@/assets/anke-to_logo.png" />
+      <img :class="$style.logo" :src="Logo" />
       <p>Now Loading...</p>
       <icon :class="$style.icon" name="loading" />
     </div>
@@ -11,10 +11,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
+import Logo from '/@/assets/anke-to_logo.png'
 
 export default defineComponent({
   components: {
     Icon
+  },
+  setup() {
+    return {
+      Logo
+    }
   }
 })
 </script>

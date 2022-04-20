@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { QuestionnaireByID, ResponseSummary } from 'src/lib/apis'
+import { QuestionnaireByID, ResponseSummary } from '/@/lib/apis'
 import Summary from './Information/Summary.vue'
 import Detail from './Information/Detail.vue'
 import Manipulation from '/@/components/Questionnaire/Information/Manipulation.vue'

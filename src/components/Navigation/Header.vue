@@ -5,7 +5,7 @@
       <icon v-else name="close" />
     </div>
     <router-link to="/targeted">
-      <img :class="$style.logo" src="/@/assets/anke-to_logo.png" />
+      <img :class="$style.logo" :src="Logo" />
     </router-link>
     <a :class="$style.help" href="https://wiki.trap.jp/SysAd/docs/anke-to">
       <icon name="help-circle-outline" />
@@ -19,6 +19,7 @@ import { defineComponent } from 'vue'
 import UserIcon from '/@/components/Navigation/UserIcon.vue'
 import Icon from '/@/components/UI/Icon.vue'
 import useMe from '/@/use/me'
+import Logo from '/@/assets/anke-to_logo.png'
 
 export default defineComponent({
   name: 'Header',
@@ -43,7 +44,8 @@ export default defineComponent({
     const { traqID: myName } = useMe()
     return {
       toggle,
-      myName
+      myName,
+      Logo
     }
   }
 })
