@@ -1,15 +1,17 @@
 <template>
-  <input
-    type="text"
-    placeholder="検索"
-    :class="$style.input"
-    :value="modelValue"
-    @input="update"
-    @keypress.enter="search"
-  />
-  <button :class="[$style.button, $style.searchIcon]" @click="search">
-    <icon name="magnify" :class="$style.icon" />
-  </button>
+  <div :class="$style.container">
+    <input
+      type="text"
+      placeholder="検索"
+      :class="$style.input"
+      :value="modelValue"
+      @input="update"
+      @keypress.enter="search"
+    />
+    <button :class="[$style.button, $style.searchIcon]" @click="search">
+      <icon name="magnify" :class="$style.icon" />
+    </button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -46,31 +48,40 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.container {
+  display: flex;
+  margin-right: auto;
+}
 .input {
-  border: solid 0.1rem #dbdbdb;
-  border-radius: 0.3rem 0 0 0.3rem;
-  padding-left: 0.8rem;
+  border: solid 0.1rem #cfb998;
+  border-right: none;
+  border-radius: 0.25rem 0 0 0.25rem;
+  width: 14rem;
+  padding-left: 1rem;
   &::placeholder {
-    color: #dbdbdb;
+    font-size: 1rem;
+    color: #a0a0a0;
   }
 }
 .searchIcon {
   display: flex;
   align-items: center;
-  border-radius: 0 0.3rem 0.3rem 0;
+  border-radius: 0 0.25rem 0.25rem 0;
   .icon {
     height: 1.25rem;
-    width: 1.25rem;
+    width: 1.5rem;
     padding: 0.3rem;
+    color: #ffffff;
   }
 }
 .button {
-  background-color: #ffffff;
-  border: solid 0.1rem #cfb998;
+  background-color: #92413b;
+  border: solid 0.1rem #92413b;
   padding: 0;
   cursor: pointer;
   &:hover {
-    background-color: #f4ecec;
+    background-color: #811818;
+    border: solid 0.1rem #811818;
   }
 }
 </style>
