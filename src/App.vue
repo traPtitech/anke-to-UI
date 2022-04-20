@@ -91,6 +91,7 @@ export default defineComponent({
   padding: 1.5rem;
   overflow-y: auto;
   width: 100%;
+  background: $bg-primary;
 }
 .main {
   display: flex;
