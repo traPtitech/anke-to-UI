@@ -16,6 +16,16 @@ const config: UserConfig = {
       }
     }
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @use "sass:math";
+          @import "/@/style/_main.scss";
+        `
+      }
+    }
+  },
   plugins: [VuePlugin(), PluginTrapAuth()]
 }
 
