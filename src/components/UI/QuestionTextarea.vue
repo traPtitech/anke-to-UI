@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     disable: {
       type: Boolean,
-      required: true
+      default: false
     },
     modelValue: {
       type: String,

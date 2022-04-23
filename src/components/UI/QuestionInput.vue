@@ -25,7 +25,7 @@ export default defineComponent({
     },
     disable: {
       type: Boolean,
-      required: true
+      default: false
     },
     modelValue: {
       type: String,
