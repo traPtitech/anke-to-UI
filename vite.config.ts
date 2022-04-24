@@ -4,9 +4,6 @@ import VuePlugin from '@vitejs/plugin-vue'
 import { PluginTrapAuth } from '@traptitech/vite-plugin-trap-auth'
 
 const config: UserConfig = {
-  alias: {
-    '/@': path.resolve(__dirname, 'src').replace(/\\/g, '/')
-  },
   server: {
     proxy: {
       '/api': {
@@ -24,6 +21,11 @@ const config: UserConfig = {
           @import "/@/style/_main.scss";
         `
       }
+    }
+  },
+  resolve: {
+    alias: {
+      '/@': path.join(__dirname, 'src/')
     }
   },
   plugins: [VuePlugin(), PluginTrapAuth()]
