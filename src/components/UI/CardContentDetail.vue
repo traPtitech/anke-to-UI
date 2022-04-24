@@ -3,6 +3,7 @@
     v-for="(questionnaire, index) in questionnaires"
     :key="index"
     :class="$style.container"
+    :href="'/questionnaires/' + questionnaire.questionnaireID"
   >
     <LinkIconQuestion
       :id="questionnaire.questionnaireID"
@@ -14,14 +15,15 @@
     <div :class="$style.tableItemDescription">
       <p>{{ questionnaire.description }}</p>
     </div>
-    <div :class="$style.tableItemDate">
-      <div :class="$style.column">
-        <div :class="$style.resTimeLimit">
-          回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
-        </div>
-        <div :class="$style.modifiedAt">
-          更新日: {{ getRelativeTime(questionnaire.modified_at) }}
-        </div>
+    <div :class="$style.column">
+      <div :class="$style.resTimeLimit">
+        回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+      </div>
+      <div :class="$style.modifiedAt">
+        更新日: {{ getRelativeTime(questionnaire.modified_at) }}
+      </div>
+      <div :class="$style.tableItemDescription">
+        {{ questionnaire.description }}
       </div>
     </div>
   </div>
@@ -60,29 +62,28 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  border-bottom: solid 1.5px #d9d9d9;
   text-align: left;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-.container:first-of-type {
-  padding-top: 0;
-}
-.container:last-of-type {
-  padding-bottom: 0;
-  border: none;
+  padding: 1rem 1rem 0;
+  &:hover {
+    background-color: #f8f4f4;
+    padding: -1rem;
+    &:first-child {
+      border-radius: 1rem 1rem 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 1rem 1rem;
+    }
+  }
 }
 .tableItemDescription {
-  margin-bottom: 0.8rem;
   word-break: break-all;
 }
-.tableItemDate {
-  padding-left: 24px;
+.cardRow {
+  border-bottom: solid 1px #b65e5e;
+  padding-bottom: 1rem;
 }
 .column {
-  padding: 0;
-  margin-bottom: 0;
-  font-weight: 550;
+  margin: 0.5rem 0;
   align-items: center;
   display: grid;
   grid-template-columns: 50%;
