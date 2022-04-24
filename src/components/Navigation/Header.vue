@@ -53,7 +53,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  background-color: #dfe0d7;
+  background-color: $bg-secondary;
   grid-area: header;
   display: flex;
   align-items: center;
@@ -66,11 +66,11 @@ export default defineComponent({
   margin: 0 16px;
 }
 .help {
-  color: #92413b;
+  color: $accent-primary;
   height: 24px;
   margin-left: 1rem;
   &:hover {
-    color: #cfb998;
+    color: $accent-primary-highlight;
   }
 }
 .icon {

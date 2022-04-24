@@ -34,7 +34,7 @@ export default defineComponent({
 .container {
   display: flex;
   flex-direction: column;
-  background-color: #e0d1c5;
+  background-color: $bg-tertiary;
   grid-area: sidebar;
   text-align: left;
   min-width: fit-content;
@@ -45,7 +45,7 @@ export default defineComponent({
   padding: 0.5rem 0;
 }
 .border {
-  background-color: #7c6c4d;
+  background-color: $border;
   height: 4px;
   margin: 0.3rem 0;
 }

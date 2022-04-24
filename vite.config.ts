@@ -13,6 +13,16 @@ const config: UserConfig = {
       }
     }
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @use "sass:math";
+          @import "/@/style/_main.scss";
+        `
+      }
+    }
+  },
   resolve: {
     alias: {
       '/@': path.join(__dirname, 'src/')
