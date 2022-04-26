@@ -4,7 +4,7 @@
     <label v-for="(num, index) in range" :key="index">
       <radio-button
         :is-selected="index === selectedIndex"
-        :disable="disable"
+        :disabled="disabled"
         @input="update(index)"
       />
     </label>
@@ -34,7 +34,7 @@ export default defineComponent({
       type: String,
       required: true
     },
-    disable: {
+    disabled: {
       type: Boolean,
       default: false
     },

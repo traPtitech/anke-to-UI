@@ -12,30 +12,30 @@
         <QuestionInput
           v-if="questioncontent.question_type === 'Number'"
           :is-number="true"
-          :disable="true"
+          :disabled="true"
         />
 
         <QuestionRadio
           v-if="questioncontent.question_type === 'MultipleChoice'"
           :contents="questioncontent.options"
-          :disable="true"
+          :disabled="true"
         />
 
         <QuestionTextarea
           v-if="questioncontent.question_type === 'TextArea'"
-          :disable="true"
+          :disabled="true"
         />
 
         <QuestionInput
           v-if="questioncontent.question_type === 'Text'"
           :is-number="false"
-          :disable="true"
+          :disabled="true"
         />
 
         <QuestionCheckbox
           v-if="questioncontent.question_type === 'Checkbox'"
           :contents="questioncontent.options"
-          :disable="true"
+          :disabled="true"
         />
 
         <LinearScale
@@ -45,7 +45,7 @@
           :range="
             createRange(questioncontent.scale_max, questioncontent.scale_min)
           "
-          :disable="true"
+          :disabled="true"
         />
         <hr />
       </div>

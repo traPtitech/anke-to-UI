@@ -1,5 +1,5 @@
 <template>
-  <div :class="[disable ? $style.disablebutton : '', $style.button]">
+  <div :class="[disabled ? $style.disabledbutton : '', $style.button]">
     <div :class="[isSelected ? $style.selected : '', $style.innerButton]" />
   </div>
   <input type="radio" name="radio" :class="$style.input" @input="onInput" />
@@ -15,7 +15,7 @@ export default defineComponent({
       type: Boolean,
       required: true
     },
-    disable: {
+    disabled: {
       type: Boolean,
       default: false
     }
@@ -61,7 +61,7 @@ export default defineComponent({
     opacity: 0.6;
   }
 }
-.disablebutton {
+.disabledbutton {
   background-color: rgb(239, 239, 239, 0.5);
   pointer-events: none;
 }

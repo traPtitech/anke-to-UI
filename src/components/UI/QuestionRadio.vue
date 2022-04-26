@@ -3,11 +3,11 @@
     <label
       v-for="(content, index) in contents"
       :key="index"
-      :class="[disable ? $style.disablelabel : '', $style.label]"
+      :class="[disabled ? $style.disabledlabel : '', $style.label]"
     >
       <radio-button
         :is-selected="index === selectedIndex"
-        :disable="disable"
+        :disabled="disabled"
         @input="update(index)"
       />
       <p :class="$style.content">
@@ -31,7 +31,7 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true
     },
-    disable: {
+    disabled: {
       type: Boolean,
       default: false
     },
@@ -77,7 +77,7 @@ export default defineComponent({
     opacity: 0.6;
   }
 }
-.disablelabel {
+.disabledlabel {
   &:hover {
     cursor: auto;
     opacity: 1;

@@ -4,7 +4,7 @@
     :class="$style.textarea"
     :value="modelValue"
     placeholder="回答"
-    :disabled="disable"
+    :disabled="disabled"
     @input="update"
     @keydown="resize"
   />
@@ -20,7 +20,7 @@ export default defineComponent({
   name: 'QuestionTextarea',
   components: { InputUnderline },
   props: {
-    disable: {
+    disabled: {
       type: Boolean,
       default: false
     },

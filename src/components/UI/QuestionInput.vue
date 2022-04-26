@@ -3,7 +3,7 @@
     :type="isNumber ? 'number' : 'text'"
     :class="$style.input"
     :placeholder="isNumber ? '数値を入力' : '回答'"
-    :disabled="disable"
+    :disabled="disabled"
     @input="update"
   />
   <input-underline :class="$style.underline" />
@@ -23,7 +23,7 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    disable: {
+    disabled: {
       type: Boolean,
       default: false
     },

@@ -3,11 +3,11 @@
     <label
       v-for="(content, index) in contents"
       :key="index"
-      :class="[disable ? $style.disablelabel : '', $style.label]"
+      :class="[disabled ? $style.disabledlabel : '', $style.label]"
     >
-      <span :class="[disable ? $style.disablecheck : '', $style.check]">
+      <span :class="[disabled ? $style.disabledcheck : '', $style.check]">
         <icon
-          v-if="disable === false"
+          v-if="disabled === false"
           name="check"
           :class="[isChecked(index) ? $style.checked : '', $style.icon]"
         />
@@ -34,7 +34,7 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true
     },
-    disable: {
+    disabled: {
       type: Boolean,
       default: false
     },
@@ -88,7 +88,7 @@ export default defineComponent({
     opacity: 0.6;
   }
 }
-.disablelabel {
+.disabledlabel {
   &:hover {
     cursor: auto;
     opacity: 1;
@@ -113,7 +113,7 @@ export default defineComponent({
     opacity: 1;
   }
 }
-.disablecheck {
+.disabledcheck {
   cursor: auto;
   background-color: rgb(239, 239, 239, 0.5);
 }
