@@ -3,8 +3,12 @@
     v-for="(questionnaire, index) in questionnaires"
     :key="index"
     :class="$style.container"
-    :href="'/questionnaires/' + questionnaire.questionnaireID"
   >
+    <a
+      :class="$style.link"
+      :href="'/questionnaires/' + questionnaire.questionnaireID"
+    >
+    </a>
     <LinkIconQuestion
       :id="questionnaire.questionnaireID"
       :title="questionnaire.title"
@@ -12,9 +16,6 @@
       :textsize="20"
       :is-responded="questionnaire.has_response || questionnaire.all_responded"
     ></LinkIconQuestion>
-    <div :class="$style.tableItemDescription">
-      <p>{{ questionnaire.description }}</p>
-    </div>
     <div :class="$style.column">
       <div :class="$style.resTimeLimit">
         回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
@@ -22,9 +23,9 @@
       <div :class="$style.modifiedAt">
         更新日: {{ getRelativeTime(questionnaire.modified_at) }}
       </div>
-      <div :class="$style.tableItemDescription">
-        {{ questionnaire.description }}
-      </div>
+    </div>
+    <div :class="$style.tableItemDescription">
+      {{ questionnaire.description }}
     </div>
   </div>
 </template>
@@ -63,10 +64,11 @@ export default defineComponent({
 <style lang="scss" module>
 .container {
   text-align: left;
-  padding: 1rem 1rem 0;
+  padding: 1rem;
+  border-bottom: solid 1px $border;
+  position: relative;
   &:hover {
-    background-color: #f8f4f4;
-    padding: -1rem;
+    background-color: $bg-secondary-highlight;
     &:first-child {
       border-radius: 1rem 1rem 0 0;
     }
@@ -74,13 +76,21 @@ export default defineComponent({
       border-radius: 0 0 1rem 1rem;
     }
   }
+  &:last-child {
+    border: none;
+  }
 }
+.link {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
 .tableItemDescription {
   word-break: break-all;
-}
-.cardRow {
-  border-bottom: solid 1px #b65e5e;
-  padding-bottom: 1rem;
 }
 .column {
   margin: 0.5rem 0;

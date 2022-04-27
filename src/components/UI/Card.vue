@@ -28,7 +28,7 @@ export default defineComponent({
   padding: 1rem;
 }
 .content {
-  background-color: rgb(255, 255, 255);
+  background-color: $bg-secondary;
   border-radius: 1rem;
 }
 </style>
