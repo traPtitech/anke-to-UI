@@ -7,18 +7,16 @@
     <td :class="$style.tableItemTitle">
       <div :class="$style.boxTitle"></div>
     </td>
+    <div :class="$style.column">
+      <td :class="$style.resTimeLimit">
+        <div :class="$style.box"></div>
+      </td>
+      <td :class="$style.modifiedAt">
+        <div :class="$style.box"></div>
+      </td>
+    </div>
     <div :class="$style.tableItemDescription">
       <div :class="$style.boxDescription"></div>
-    </div>
-    <div :class="$style.tableItemDate">
-      <div :class="$style.column">
-        <td :class="$style.tableItemDate">
-          <div :class="$style.box"></div>
-        </td>
-        <td :class="$style.tableItemDate">
-          <div :class="$style.box"></div>
-        </td>
-      </div>
     </div>
   </div>
 </template>
@@ -33,42 +31,46 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  border-bottom: solid 1.5px #d9d9d9;
   text-align: left;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-.container:first-of-type {
-  padding-top: 0;
-}
-.container:last-of-type {
-  padding-bottom: 0;
-  border: none;
+  padding: 1rem;
+  border-bottom: solid 1px $border;
+  &:last-child {
+    border: none;
+  }
 }
 .tableItemTitle {
   min-width: 10rem;
   text-align: left;
 }
-.tableItemDate {
-  min-width: 8rem;
-  padding-left: 0.8rem;
+.column {
+  margin: 0.5rem 0;
+  display: grid;
+  grid-template-columns: 50%;
+}
+
+.resTimeLimit {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  text-align: left;
+}
+.modifiedAt {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  text-align: left;
 }
 .boxTitle {
-  border-radius: 4px;
-  margin-bottom: 0.8rem;
-  min-width: 320px;
-  height: 20px;
+  border-radius: 1rem;
+  min-width: 20rem;
+  height: 1.25rem;
 }
 .boxDescription {
-  border-radius: 4px;
-  margin-bottom: 0.8rem;
-  height: 16px;
+  border-radius: 1rem;
+  height: 1rem;
 }
 .box {
-  border-radius: 4px;
-  margin: auto;
-  width: 96px;
-  height: 16px;
+  border-radius: 1rem;
+  width: 6rem;
+  height: 1rem;
 }
 
 .boxTitle,
@@ -78,16 +80,6 @@ export default defineComponent({
   background-size: 300% 300%;
   opacity: 0.5;
   animation: loading 2s ease infinite;
-}
-.tableItemDate {
-  padding-left: 24px;
-}
-.column {
-  div:first-of-type {
-    margin-right: 100px;
-  }
-  display: flex;
-  align-items: center;
 }
 
 @keyframes loading {
