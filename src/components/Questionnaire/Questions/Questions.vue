@@ -42,9 +42,7 @@
           v-if="questioncontent.question_type === 'LinearScale'"
           :left-label="questioncontent.scale_label_left"
           :right-label="questioncontent.scale_label_right"
-          :range="
-            createRange(questioncontent.scale_max, questioncontent.scale_min)
-          "
+          :range="questionrange[questioncontent.questionID]"
           :disabled="true"
         />
         <hr />
@@ -57,6 +55,7 @@
 import { defineComponent, PropType } from 'vue'
 import Card from '/@/components/UI/Card.vue'
 import IsRequired from './IsRequired.vue'
+import { questionrangedetail } from '/@/components/Questionnaire/usequestonnaire'
 import LinearScale from '/@/components/UI/LinearScale.vue'
 import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
 import QuestionInput from '/@/components/UI/QuestionInput.vue'
@@ -85,7 +84,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
+  setup(props) {
     const createRange = (max: number, min: number) => {
       const range = []
       for (let i = min; i <= max; i++) {
@@ -93,7 +92,12 @@ export default defineComponent({
       }
       return range
     }
-    return { createRange }
+    const questionrange = props.questioncontents.reduce((a, q) => {
+      if (q.question_type === 'LinearScale')
+        a[q.questionID] = createRange(q.scale_max, q.scale_min)
+      return a
+    }, {} as questionrangedetail)
+    return { questionrange }
   }
 })
 </script>

@@ -5,3 +5,4 @@ export const detailTabsQuestionnaire: DetailTabTypesQuestionnaire[] = [
   InformationTabName,
   QuestionsTabName
 ]
+export type questionrangedetail = { [key: number]: number[] }
