@@ -92,10 +92,10 @@ export default defineComponent({
       }
       return range
     }
-    const questionrange = props.questioncontents.reduce((a, q) => {
+    const questionrange = props.questioncontents.reduce((acc, q) => {
       if (q.question_type === 'LinearScale')
-        a[q.questionID] = createRange(q.scale_max, q.scale_min)
-      return a
+        acc[q.questionID] = createRange(q.scale_max, q.scale_min)
+      return acc
     }, {} as questionrangedetail)
     return { questionrange }
   }

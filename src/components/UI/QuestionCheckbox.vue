@@ -7,7 +7,7 @@
     >
       <span :class="[disabled ? $style.disabledcheck : '', $style.check]">
         <icon
-          v-if="disabled === false"
+          v-if="!disabled"
           name="check"
           :class="[isChecked(index) ? $style.checked : '', $style.icon]"
         />
@@ -90,7 +90,7 @@ export default defineComponent({
 }
 .disabledlabel {
   &:hover {
-    cursor: auto;
+    cursor: not-allowed;
     opacity: 1;
   }
 }
@@ -114,7 +114,7 @@ export default defineComponent({
   }
 }
 .disabledcheck {
-  cursor: auto;
+  cursor: not-allowed;
   background-color: rgb(239, 239, 239, 0.5);
 }
 .checkbox {

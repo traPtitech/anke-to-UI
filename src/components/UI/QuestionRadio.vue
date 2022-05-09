@@ -79,7 +79,7 @@ export default defineComponent({
 }
 .disabledlabel {
   &:hover {
-    cursor: auto;
+    cursor: not-allowed;
     opacity: 1;
   }
 }

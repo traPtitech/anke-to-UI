@@ -1,7 +1,11 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.leftLabel">{{ leftLabel }}</div>
-    <label v-for="(num, index) in range" :key="index">
+    <label
+      v-for="(num, index) in range"
+      :key="index"
+      :class="[disabled ? $style.disablecursor : '']"
+    >
       <radio-button
         :is-selected="index === selectedIndex"
         :disabled="disabled"
@@ -71,5 +75,8 @@ export default defineComponent({
 }
 .rightLabel {
   margin-left: 0.5rem;
+}
+.disablecursor {
+  cursor: not-allowed;
 }
 </style>
