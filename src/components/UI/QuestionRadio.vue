@@ -3,13 +3,16 @@
     <label
       v-for="(content, index) in contents"
       :key="index"
-      :class="$style.label"
+      :class="[disabled ? $style.disabledlabel : '', $style.label]"
     >
       <radio-button
         :is-selected="index === selectedIndex"
+        :disabled="disabled"
         @input="update(index)"
       />
-      <p :class="$style.content">{{ content }}</p>
+      <p :class="$style.content">
+        {{ content }}
+      </p>
     </label>
   </div>
 </template>
@@ -27,6 +30,10 @@ export default defineComponent({
     contents: {
       type: Array as PropType<string[]>,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     modelValue: {
       type: String,
@@ -52,19 +59,28 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 0.5rem;
 }
 .label {
   display: flex;
   align-items: center;
-  margin: 0.4rem 0;
+  margin: 0.2rem 0;
   .content {
     margin: 0;
     margin-left: 0.4rem;
   }
-  :hover {
+  &:hover {
     cursor: pointer;
     opacity: 0.6;
+  }
+}
+.disabledlabel {
+  &:hover {
+    cursor: not-allowed;
+    opacity: 1;
   }
 }
 </style>

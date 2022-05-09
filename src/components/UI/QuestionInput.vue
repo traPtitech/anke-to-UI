@@ -2,8 +2,8 @@
   <input
     :type="isNumber ? 'number' : 'text'"
     :class="$style.input"
-    :value="modelValue"
     :placeholder="isNumber ? '数値を入力' : '回答'"
+    :disabled="disabled"
     @input="update"
   />
   <input-underline :class="$style.underline" />
@@ -20,6 +20,10 @@ export default defineComponent({
   },
   props: {
     isNumber: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     },
