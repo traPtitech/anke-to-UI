@@ -4,7 +4,7 @@
     <label
       v-for="(num, index) in range"
       :key="index"
-      :class="[disabled ? $style.disablecursor : '']"
+      :class="[disabled ? $style.disabledlabel : '']"
     >
       <radio-button
         :is-selected="index === selectedIndex"
@@ -76,7 +76,7 @@ export default defineComponent({
 .rightLabel {
   margin-left: 0.5rem;
 }
-.disablecursor {
+.disabledlabel {
   cursor: not-allowed;
 }
 </style>
