@@ -5,28 +5,30 @@
     :class="$style.container"
   >
     <router-link
-      :class="$style.link"
+      :class="$style.table_item"
       :to="`/questionnaires/${questionnaire.questionnaireID}`"
     >
+      <LinkIconQuestion
+        :id="questionnaire.questionnaireID"
+        :title="questionnaire.title"
+        :iconsize="24"
+        :textsize="20"
+        :is-responded="
+          questionnaire.has_response || questionnaire.all_responded
+        "
+      ></LinkIconQuestion>
+      <div :class="$style.column">
+        <div :class="$style.res_time_limit">
+          回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+        </div>
+        <div :class="$style.modified_at">
+          更新日: {{ getRelativeTime(questionnaire.modified_at) }}
+        </div>
+      </div>
+      <div :class="$style.description">
+        {{ questionnaire.description }}
+      </div>
     </router-link>
-    <LinkIconQuestion
-      :id="questionnaire.questionnaireID"
-      :title="questionnaire.title"
-      :iconsize="24"
-      :textsize="20"
-      :is-responded="questionnaire.has_response || questionnaire.all_responded"
-    ></LinkIconQuestion>
-    <div :class="$style.column">
-      <div :class="$style.res_time_limit">
-        回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
-      </div>
-      <div :class="$style.modified_at">
-        更新日: {{ getRelativeTime(questionnaire.modified_at) }}
-      </div>
-    </div>
-    <div :class="$style.description">
-      {{ questionnaire.description }}
-    </div>
   </div>
 </template>
 
@@ -81,15 +83,10 @@ export default defineComponent({
     border: none;
   }
 }
-.link {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+.table_item {
+  text-decoration: none;
+  color: inherit;
 }
-
 .description {
   word-break: break-all;
 }
