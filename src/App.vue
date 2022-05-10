@@ -59,11 +59,8 @@ export default defineComponent({
   setup() {
     const store = useStore()
 
-    const {
-      isSideBarShown,
-      canSideBarShown,
-      toggleSideBarShown
-    } = useNavigationShown()
+    const { isSideBarShown, canSideBarShown, toggleSideBarShown } =
+      useNavigationShown()
 
     const isFetched = ref(false)
     onMounted(async () => {

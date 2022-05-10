@@ -289,9 +289,8 @@ export const questionToMarkdown = (
 ):
   | MarkdownInfo<'body' | 'count' | 'percentage' | 'respondent'>
   | MarkdownInfo<'body' | 'count' | 'respondent'> => {
-  const data: [choice: string, ids: string[]][] = generateChoiceIdsArray(
-    question
-  )
+  const data: [choice: string, ids: string[]][] =
+    generateChoiceIdsArray(question)
   if (isArrayQuestion(question)) {
     const header: ReadonlyArray<
       ['body' | 'count' | 'percentage' | 'respondent', string]
@@ -316,13 +315,12 @@ export const questionToMarkdown = (
       ['count', '回答数'],
       ['respondent', 'その回答をした人']
     ]
-    const rows: ReadonlyArray<
-      Record<'body' | 'count' | 'respondent', string>
-    > = data.map(([choice, ids]) => ({
-      body: choice ? choice : '',
-      count: String(ids.length),
-      respondent: ids.join(', ')
-    }))
+    const rows: ReadonlyArray<Record<'body' | 'count' | 'respondent', string>> =
+      data.map(([choice, ids]) => ({
+        body: choice ? choice : '',
+        count: String(ids.length),
+        respondent: ids.join(', ')
+      }))
     return { header, rows }
   }
 }
