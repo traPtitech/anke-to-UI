@@ -28,6 +28,8 @@ module.exports = {
         message: 'Please use /@/lib/apis instead.'
       }
     ],
+    '@typescript-eslint/no-extra-semi': 'off',
+    'vue/max-attributes-per-line': 'off',
     'vue/require-valid-default-prop': 'off',
     'vue/multi-word-component-names': 'off'
   }

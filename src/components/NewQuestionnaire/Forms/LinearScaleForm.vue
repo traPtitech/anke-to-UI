@@ -56,8 +56,10 @@ export default defineComponent({
     update: (question: LinearScaleQuestion, index: number) => true
   },
   setup(props, context) {
-    const updateLinearScaleQuestionData =
-      updateQuestionData<LinearScaleQuestion>(props, context)
+    const updateLinearScaleQuestionData = updateQuestionData<LinearScaleQuestion>(
+      props,
+      context
+    )
     const updateQuestionBody = (body: string) => {
       updateLinearScaleQuestionData('body', body)
     }
