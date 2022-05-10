@@ -18,7 +18,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  padding: 1rem 0 1rem;
+  padding: 1rem 0;
 }
 .header {
   border-collapse: collapse;

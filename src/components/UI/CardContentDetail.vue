@@ -4,11 +4,11 @@
     :key="index"
     :class="$style.container"
   >
-    <a
+    <router-link
       :class="$style.link"
-      :href="'/questionnaires/' + questionnaire.questionnaireID"
+      :to="`/questionnaires/${questionnaire.questionnaireID}`"
     >
-    </a>
+    </router-link>
     <LinkIconQuestion
       :id="questionnaire.questionnaireID"
       :title="questionnaire.title"
@@ -17,14 +17,14 @@
       :is-responded="questionnaire.has_response || questionnaire.all_responded"
     ></LinkIconQuestion>
     <div :class="$style.column">
-      <div :class="$style.resTimeLimit">
+      <div :class="$style.res_time_limit">
         回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
       </div>
-      <div :class="$style.modifiedAt">
+      <div :class="$style.modified_at">
         更新日: {{ getRelativeTime(questionnaire.modified_at) }}
       </div>
     </div>
-    <div :class="$style.tableItemDescription">
+    <div :class="$style.description">
       {{ questionnaire.description }}
     </div>
   </div>
@@ -67,6 +67,7 @@ export default defineComponent({
   padding: 1rem;
   border-bottom: solid 1px $border;
   position: relative;
+  transition: 0.2s;
   &:hover {
     background-color: $bg-secondary-highlight;
     &:first-child {
@@ -89,7 +90,7 @@ export default defineComponent({
   width: 100%;
 }
 
-.tableItemDescription {
+.description {
   word-break: break-all;
 }
 .column {
@@ -98,12 +99,12 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 50%;
 }
-.resTimeLimit {
+.res_time_limit {
   grid-row: 1/2;
   grid-column: 1/2;
   text-align: left;
 }
-.modifiedAt {
+.modified_at {
   grid-row: 1/2;
   grid-column: 2/3;
   text-align: left;
