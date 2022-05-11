@@ -4,20 +4,18 @@
     :key="index"
     :class="$style.container"
   >
-    <td :class="$style.tableItemTitle">
-      <div :class="$style.boxTitle"></div>
+    <td :class="$style.title_container">
+      <div :class="$style.box_title"></div>
     </td>
-    <div :class="$style.column">
-      <td :class="$style.resTimeLimit">
+    <div :class="$style.column_container">
+      <td :class="$style.res_time_container">
         <div :class="$style.box"></div>
       </td>
-      <td :class="$style.modifiedAt">
+      <td :class="$style.modified_at_container">
         <div :class="$style.box"></div>
       </td>
     </div>
-    <div :class="$style.tableItemDescription">
-      <div :class="$style.boxDescription"></div>
-    </div>
+    <div :class="$style.box_description"></div>
   </div>
 </template>
 
@@ -38,43 +36,44 @@ export default defineComponent({
     border: none;
   }
 }
-.tableItemTitle {
-  min-width: 10rem;
+.title_container {
+  display: block;
   text-align: left;
 }
-.column {
+.column_container {
   margin: 0.5rem 0;
   display: grid;
   grid-template-columns: 50%;
 }
 
-.resTimeLimit {
-  grid-row: 1/2;
+.res_time_container {
   grid-column: 1/2;
-  text-align: left;
 }
-.modifiedAt {
-  grid-row: 1/2;
+.modified_at_container {
   grid-column: 2/3;
+}
+.res_time_container,
+.modified_at_container {
+  grid-row: 1/2;
   text-align: left;
 }
-.boxTitle {
+.box_title {
   border-radius: 1rem;
-  min-width: 20rem;
+  width: min(20rem, 100%);
   height: 1.25rem;
 }
-.boxDescription {
+.box_description {
   border-radius: 1rem;
   height: 1rem;
 }
 .box {
   border-radius: 1rem;
-  width: 6rem;
+  width: min(6rem, 100%);
   height: 1rem;
 }
 
-.boxTitle,
-.boxDescription,
+.box_title,
+.box_description,
 .box {
   background: linear-gradient(45deg, #8b8b8b, #b6b6b6, #8b8b8b);
   background-size: 300% 300%;
