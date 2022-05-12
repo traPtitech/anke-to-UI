@@ -1,6 +1,6 @@
 <template>
-  <div :class="$style.pageWrapper">
-    <div :class="$style.toolWrapper">
+  <div :class="$style.page_wrapper">
+    <div :class="$style.tool_wrapper">
       <search-input
         v-model="searchQuery"
         :class="$style.search"
@@ -10,7 +10,7 @@
     </div>
     <Card :header-visible="false">
       <template #content>
-        <transition name="fadeTargeted">
+        <transition name="fadeExplore">
           <div v-if="isFetched">
             <CardContentDetail :questionnaires="questionnaires" />
           </div>
@@ -97,23 +97,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.pageWrapper {
+.page_wrapper {
   max-width: 1280px;
 }
-.toolWrapper {
+.tool_wrapper {
   padding: 1rem 0rem;
   display: flex;
   flex-wrap: wrap;
   row-gap: 1rem;
 }
-.container {
-  box-sizing: border-box;
-  padding: 1rem;
-  border: solid 1.5px #d9d9d9;
-  overflow: auto;
-  top: 0;
-  position: absolute;
-  width: 100%;
-  max-width: 1280px;
+:global {
+  .fadeExplore-enter-active,
+  .fadeExplore-leave-active {
+    transition: opacity 0.2s;
+  }
+  .fadeExplore-enter-from,
+  .fadeExplore-leave-to {
+    opacity: 0;
+  }
 }
 </style>
