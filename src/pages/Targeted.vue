@@ -1,12 +1,12 @@
 <template>
-  <Card>
+  <Card :class="$style.card">
     <template #header>回答対象になっているアンケート</template>
     <template #content>
       <transition name="fadeTargeted">
-        <div v-if="isFetched" :class="$style.frame">
+        <div v-if="isFetched">
           <CardContentDetail :questionnaires="questionnaires" />
         </div>
-        <div v-else :class="$style.frame">
+        <div v-else>
           <CardContentDetailMock />
         </div>
       </transition>
@@ -46,12 +46,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .card {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
   max-width: 1280px;
-}
-.frame {
-  margin-top: -1px;
-  padding: 0 0.5rem;
 }
 :global {
   .fadeTargeted-enter-active,

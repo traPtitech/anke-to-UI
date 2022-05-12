@@ -18,18 +18,17 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  border: solid 1.5px #d9d9d9;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  padding: 1rem 0;
 }
 .header {
-  border-bottom: solid 1px #d9d9d9;
   border-collapse: collapse;
   text-align: left;
   font-size: 1.25rem;
+  font-weight: bold;
   padding: 1rem;
 }
 .content {
-  padding: 1rem;
+  background-color: $bg-secondary;
+  border-radius: 1rem;
 }
 </style>

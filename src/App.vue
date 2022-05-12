@@ -83,6 +83,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   height: 100%;
+  color: $ui-primary;
 }
 .header {
   flex-shrink: 0;
