@@ -8,34 +8,18 @@
       />
       <menus @change="changeOption" />
     </div>
-    <div :class="$style.fadeExplorer">
-      <transition name="fadeExplorer">
-        <div v-if="isFetched" :class="$style.container">
-          <ATable>
-            <template #tableheader>
-              <th
-                v-for="(header, index) in HEADERS"
-                :key="index"
-                :class="$style.header"
-              >
-                {{ header }}
-              </th>
-            </template>
-            <template #tablecontent>
-              <table-row
-                v-for="questionnaire in questionnaires"
-                :key="questionnaire.questionnaireID"
-              >
-                <questionnaires-table-row :questionnaire="questionnaire" />
-              </table-row>
-            </template>
-          </ATable>
-        </div>
-        <div v-else :class="$style.container">
-          <LoadingForExplorerAndResponses />
-        </div>
-      </transition>
-    </div>
+    <Card :header-visible="false">
+      <template #content>
+        <transition name="fadeTargeted">
+          <div v-if="isFetched">
+            <CardContentDetail :questionnaires="questionnaires" />
+          </div>
+          <div v-else>
+            <CardContentDetailMock />
+          </div>
+        </transition>
+      </template>
+    </Card>
   </div>
 </template>
 
@@ -44,24 +28,20 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useTitle } from './use/title'
 import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
-import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
-import LoadingForExplorerAndResponses from '/@/components/UI/QuestionnairesTableMock.vue'
 import apis, { SortType, QuestionnaireForList } from '/@/lib/apis'
 import { Option } from '/@/components/Explorer/use/useOptions'
-import ATable from '/@/components/UI/ATable.vue'
-import TableRow from '/@/components/UI/TableRow.vue'
-
-const HEADERS = ['', '回答期限', '更新日時', '作成日時', '結果']
+import Card from '/@/components/UI/Card.vue'
+import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
+import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
 
 export default defineComponent({
   name: 'Explorer',
   components: {
-    ATable,
     Menus,
-    QuestionnairesTableRow,
     SearchInput,
-    TableRow,
-    LoadingForExplorerAndResponses
+    Card,
+    CardContentDetail,
+    CardContentDetailMock
   },
   setup() {
     useTitle(ref('アンケート一覧'))
@@ -106,7 +86,6 @@ export default defineComponent({
     })
 
     return {
-      HEADERS,
       questionnaires,
       searchQuery,
       changeOption,
@@ -136,22 +115,5 @@ export default defineComponent({
   position: absolute;
   width: 100%;
   max-width: 1280px;
-}
-.fadeExplorer {
-  position: relative;
-}
-.header {
-  text-align: center;
-  padding: 0.8rem;
-}
-:global {
-  .fadeExplorer-enter-active,
-  .fadeExplorer-leave-active {
-    transition: opacity 1s;
-  }
-  .fadeExplorer-enter-from,
-  .fadeExplorer-leave-to {
-    opacity: 0;
-  }
 }
 </style>
