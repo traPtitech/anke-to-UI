@@ -9,7 +9,7 @@ import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
-  name: 'Questionupdown',
+  name: 'QuestionDispose',
   components: {
     Icon
   },

@@ -7,7 +7,7 @@
   >
     <div>
       <div v-for="(label, i) in ChoiceQuestions" :key="i">
-        <Questionupdown
+        <QuestionUpdown
           :index="i"
           :max="ChoiceQuestions.length"
           @up="upChoice"
@@ -36,7 +36,7 @@ import { defineComponent, PropType, ref } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import Icon from '../../UI/Icon.vue'
-import Questionupdown from './Questionupdown.vue'
+import QuestionUpdown from './QuestionUpdown.vue'
 import { CheckboxQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 
@@ -45,7 +45,7 @@ export default defineComponent({
   components: {
     QuestionForm,
     ChoiceElement,
-    Questionupdown,
+    QuestionUpdown,
     Icon
   },
   props: {

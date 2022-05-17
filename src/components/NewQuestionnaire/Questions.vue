@@ -9,13 +9,13 @@
     <div v-for="(question, i) in questions" :key="question.key">
       <Card :header-visible="false">
         <template #content>
-          <Questionupdown
+          <QuestionUpdown
             :index="i"
             :max="questions.length"
             @up="upQuestion"
             @down="downQuestion"
           />
-          <Questiondispose :index="i" @delete="deleteQuestion" />
+          <QuestionDispose :index="i" @delete="deleteQuestion" />
           <TextForm
             v-if="isTextForm(question)"
             :index="i"
@@ -52,8 +52,8 @@ import Card from '/@/components/UI/Card.vue'
 import TextForm from './Forms/TextForm.vue'
 import ChoiceForm from './Forms/ChoiceForm.vue'
 import LinearScaleForm from './Forms/LinearScaleForm.vue'
-import Questiondispose from './Forms/Questiondispose.vue'
-import Questionupdown from './Forms/Questionupdown.vue'
+import QuestionDispose from './Forms/QuestionDispose.vue'
+import QuestionUpdown from './Forms/QuestionUpdown.vue'
 
 export default defineComponent({
   name: 'Questions',
@@ -64,8 +64,8 @@ export default defineComponent({
     ChoiceForm,
     LinearScaleForm,
     AddQuestionButtons,
-    Questiondispose,
-    Questionupdown
+    QuestionDispose,
+    QuestionUpdown
   },
   setup() {
     const questions = ref<QuestionData[]>([])
