@@ -1,7 +1,12 @@
 import { QuestionType } from '/@/lib/apis'
 
-export type NewQuestionnaireTabTypes = 'information' | 'questions'
-export const detailTabs = ['information', 'questions']
+export const NewInformationTabName = 'Information'
+export const NewQuestionsTabName = 'Questions'
+export type NewQuestionnaireTabTypes = 'Information' | 'Questions'
+export const detailTabs: NewQuestionnaireTabTypes[] = [
+  NewInformationTabName,
+  NewQuestionsTabName
+]
 export const questionTypes = {
   Text: {
     type: 'Text',
@@ -24,7 +29,7 @@ export const questionTypes = {
     component: 'multiple-choice'
   },
   MultipleChoice: {
-    type: 'MultipleChoSice',
+    type: 'MultipleChoice',
     label: 'ラジオボタン',
     component: 'multiple-choice'
   },
@@ -36,13 +41,13 @@ export const questionTypes = {
 }
 
 // question types
-export interface TextQuestion {
+export type TextQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
-}
+} & { key: number } // 並び替えがあるためソート用のkeyを追加
 
-export interface LinearScaleQuestion {
+export type LinearScaleQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
@@ -50,38 +55,42 @@ export interface LinearScaleQuestion {
   scale_max: number
   scale_label_left: string
   scale_label_right: string
-}
+} & { key: number } // 並び替えがあるためソート用のkeyを追加
 
-export interface CheckboxQuestion {
+export type CheckboxQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
   options: string[]
-}
+} & { key: number } // 並び替えがあるためソート用のkeyを追加
 
 export type QuestionData = TextQuestion | CheckboxQuestion | LinearScaleQuestion
 
-export const createNewQuestion = (type: QuestionType): QuestionData | null => {
+const randomNumber = () => Math.floor(Math.random() * 25000)
+export const createNewQuestion = (type: QuestionType): QuestionData => {
   switch (type) {
     case QuestionType.Text: {
       return {
         question_type: QuestionType.Text,
         body: '',
-        is_required: false
+        is_required: false,
+        key: randomNumber()
       }
     }
     case QuestionType.TextArea: {
       return {
         question_type: QuestionType.TextArea,
         body: '',
-        is_required: false
+        is_required: false,
+        key: randomNumber()
       }
     }
     case QuestionType.Number: {
       return {
         question_type: QuestionType.Number,
         body: '',
-        is_required: false
+        is_required: false,
+        key: randomNumber()
       }
     }
     case QuestionType.Checkbox: {
@@ -89,7 +98,8 @@ export const createNewQuestion = (type: QuestionType): QuestionData | null => {
         question_type: QuestionType.Checkbox,
         body: '',
         is_required: false,
-        options: ['']
+        options: [''],
+        key: randomNumber()
       }
     }
     case QuestionType.MultipleChoice: {
@@ -97,7 +107,8 @@ export const createNewQuestion = (type: QuestionType): QuestionData | null => {
         question_type: QuestionType.MultipleChoice,
         body: '',
         is_required: false,
-        options: ['']
+        options: [''],
+        key: randomNumber()
       }
     }
     case QuestionType.LinearScale: {
@@ -108,7 +119,8 @@ export const createNewQuestion = (type: QuestionType): QuestionData | null => {
         scale_min: 0,
         scale_max: 5,
         scale_label_left: '',
-        scale_label_right: ''
+        scale_label_right: '',
+        key: randomNumber()
       }
     }
     default: {

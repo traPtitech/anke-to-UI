@@ -1,7 +1,7 @@
 <template>
   <textarea
     type="text"
-    :class="$style.textarea"
+    :class="[pointerevents ? '' : $style.pointerevents, $style.textarea]"
     :value="modelValue"
     placeholder="回答"
     :disabled="disabled"
@@ -23,6 +23,10 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    pointerevents: {
+      type: Boolean,
+      defaulet: false
     },
     modelValue: {
       type: String,
@@ -58,6 +62,9 @@ $underline-margin: -1 * ($textarea-border + $textarea-padding);
   outline: 0;
   padding: $textarea-padding;
   border-bottom: $textarea-border dotted #7c6c4d;
+}
+.pointerevents {
+  pointer-events: none;
 }
 .underline {
   margin-top: $underline-margin;

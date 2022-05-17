@@ -1,16 +1,11 @@
 <template>
-  <div>
-    <Icon name="chevron-up" />
-    <Icon name="chevron-down" />
-  </div>
-  <input v-if="!isRadio" type="checkbox" value="true" />
-  <input v-if="isRadio" type="radio" value="true" />
-  <QuestionInput v-model="labelRef" />
-  <Icon name="delete" @click="deleteChoice" />
+  <input :type="[isRadio ? 'radio' : 'checkbox']" value="true" />
+  <QuestionInput v-model="labelRef" :model-value="label" />
+  <Icon name="trash-can-outline" @click="deleteChoice" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import Icon from '../../UI/Icon.vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 
@@ -32,6 +27,10 @@ export default defineComponent({
     isRadio: {
       type: Boolean,
       default: false
+    },
+    modelValue: {
+      type: Array as PropType<string[]>,
+      required: true
     }
   },
   emits: {

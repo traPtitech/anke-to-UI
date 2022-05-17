@@ -38,8 +38,8 @@ export default defineComponent({
   name: 'ChoiceForm',
   components: {
     QuestionForm,
-    QuestionInput,
-    Select
+    Select,
+    QuestionInput
   },
   props: {
     index: {

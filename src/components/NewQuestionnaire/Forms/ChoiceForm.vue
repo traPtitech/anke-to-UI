@@ -6,18 +6,25 @@
     @update:required="updateQuestionRequired"
   >
     <div>
-      <div v-for="(label, i) in questionData.options" :key="i">
+      <div v-for="(label, i) in ChoiceQuestions" :key="i">
+        <Questionupdown
+          :index="i"
+          :max="ChoiceQuestions.length"
+          @up="upChoice"
+          @down="downChoice"
+        />
         <ChoiceElement
           :label="label"
           :index="i"
           :is-radio="isRadio"
+          :model-value="questionData.options"
           @update:label="updateChoice"
           @delete="deleteChoice"
         />
       </div>
     </div>
     <div>
-      <span @click="addChoice">
+      <span :class="$style.newchoice" @click="addChoice">
         <Icon name="plus-circle-outline" />新しい選択肢を追加
       </span>
     </div>
@@ -25,10 +32,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import Icon from '../../UI/Icon.vue'
+import Questionupdown from './Questionupdown.vue'
 import { CheckboxQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 
@@ -37,6 +45,7 @@ export default defineComponent({
   components: {
     QuestionForm,
     ChoiceElement,
+    Questionupdown,
     Icon
   },
   props: {
@@ -58,6 +67,7 @@ export default defineComponent({
     update: (question: CheckboxQuestion, index: number) => true
   },
   setup(props, context) {
+    const ChoiceQuestions = ref(props.questionData.options)
     const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
       props,
       context
@@ -70,30 +80,51 @@ export default defineComponent({
     }
 
     const updateChoice = (label: string, index: number) => {
-      const newOptions = [...props.questionData.options]
-      newOptions[index] = label
-      updateChoiceQuestionData('options', newOptions)
+      ChoiceQuestions.value[index] = label
+      updateChoiceQuestionData('options', ChoiceQuestions.value)
     }
 
-    const deleteChoice = (label: string, index: number) => {
-      const newOptions = [...props.questionData.options]
-      newOptions.splice(index, 1)
-      updateChoiceQuestionData('options', newOptions)
+    const deleteChoice = (index: number) => {
+      ChoiceQuestions.value.splice(index, 1)
+      updateChoiceQuestionData('options', ChoiceQuestions.value)
     }
 
     const addChoice = () => {
-      const newOptions = [...props.questionData.options]
-      newOptions.push('')
-      updateChoiceQuestionData('options', newOptions)
+      ChoiceQuestions.value.push('')
+      updateChoiceQuestionData('options', ChoiceQuestions.value)
+    }
+
+    const upChoice = (index: number) => {
+      ;[ChoiceQuestions.value[index], ChoiceQuestions.value[index - 1]] = [
+        ChoiceQuestions.value[index - 1],
+        ChoiceQuestions.value[index]
+      ]
+      updateChoiceQuestionData('options', ChoiceQuestions.value)
+    }
+    const downChoice = (index: number) => {
+      ;[ChoiceQuestions.value[index], ChoiceQuestions.value[index + 1]] = [
+        ChoiceQuestions.value[index + 1],
+        ChoiceQuestions.value[index]
+      ]
+      updateChoiceQuestionData('options', ChoiceQuestions.value)
     }
 
     return {
+      ChoiceQuestions,
       updateQuestionName,
       updateQuestionRequired,
       updateChoice,
       deleteChoice,
-      addChoice
+      addChoice,
+      upChoice,
+      downChoice
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.newchoice {
+  cursor: pointer;
+}
+</style>
