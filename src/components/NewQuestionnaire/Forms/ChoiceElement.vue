@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import Icon from '../../UI/Icon.vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
 
@@ -27,10 +27,6 @@ export default defineComponent({
     isRadio: {
       type: Boolean,
       default: false
-    },
-    modelValue: {
-      type: Array as PropType<string[]>,
-      required: true
     }
   },
   emits: {

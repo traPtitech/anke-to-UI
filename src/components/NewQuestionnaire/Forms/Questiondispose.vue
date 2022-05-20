@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <Icon name="trash-can-outline" @click="deleteQuestion" />
-  </div>
+  <Icon name="trash-can-outline" @click="deleteQuestion" />
 </template>
 
 <script lang="ts">
@@ -39,8 +37,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" module>
-.input {
-  appearance: none;
-}
-</style>
+<style lang="scss" module></style>
