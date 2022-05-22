@@ -10,8 +10,7 @@
         <QuestionUpdown
           :index="i"
           :max="ChoiceQuestions.length"
-          @up="upChoice"
-          @down="downChoice"
+          @swap="swapChoice"
         />
         <ChoiceElement
           :label="label"
@@ -94,18 +93,10 @@ export default defineComponent({
       updateChoiceQuestionData('options', ChoiceQuestions.value)
     }
 
-    const upChoice = (index: number) => {
-      ;[ChoiceQuestions.value[index], ChoiceQuestions.value[index - 1]] = [
-        ChoiceQuestions.value[index - 1],
-        ChoiceQuestions.value[index]
-      ]
-      updateChoiceQuestionData('options', ChoiceQuestions.value)
-    }
-    const downChoice = (index: number) => {
-      ;[ChoiceQuestions.value[index], ChoiceQuestions.value[index + 1]] = [
-        ChoiceQuestions.value[index + 1],
-        ChoiceQuestions.value[index]
-      ]
+    const swapChoice = (index: number, parameter: number) => {
+      const tmp = ChoiceQuestions.value[index]
+      ChoiceQuestions.value[index] = ChoiceQuestions.value[index + parameter]
+      ChoiceQuestions.value[index + parameter] = tmp
       updateChoiceQuestionData('options', ChoiceQuestions.value)
     }
 
@@ -116,8 +107,7 @@ export default defineComponent({
       updateChoice,
       deleteChoice,
       addChoice,
-      upChoice,
-      downChoice
+      swapChoice
     }
   }
 })

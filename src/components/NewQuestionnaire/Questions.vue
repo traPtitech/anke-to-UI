@@ -12,8 +12,7 @@
           <QuestionUpdown
             :index="i"
             :max="questions.length"
-            @up="upQuestion"
-            @down="downQuestion"
+            @swap="swapQuestions"
           />
           <QuestionDispose :index="i" @delete="deleteQuestion" />
           <TextForm
@@ -92,17 +91,11 @@ export default defineComponent({
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
     }
-    const upQuestion = (index: number) => {
-      ;[questions.value[index], questions.value[index - 1]] = [
-        questions.value[index - 1],
-        questions.value[index]
-      ]
-    }
-    const downQuestion = (index: number) => {
-      ;[questions.value[index], questions.value[index + 1]] = [
-        questions.value[index + 1],
-        questions.value[index]
-      ]
+
+    const swapQuestions = (index: number, parameter: number) => {
+      const tmp = questions.value[index]
+      questions.value[index] = questions.value[index + parameter]
+      questions.value[index + parameter] = tmp
     }
     return {
       QuestionType,
@@ -113,8 +106,7 @@ export default defineComponent({
       isTextForm,
       isChoiceForm,
       isLinearScaleForm,
-      upQuestion,
-      downQuestion
+      swapQuestions
     }
   }
 })
