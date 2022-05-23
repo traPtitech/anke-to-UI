@@ -48,10 +48,6 @@ export default defineComponent({
     Icon
   },
   props: {
-    index: {
-      type: Number,
-      required: true
-    },
     questionData: {
       type: Object as PropType<CheckboxQuestion>,
       required: true
@@ -63,7 +59,7 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: CheckboxQuestion, index: number) => true
+    update: (question: CheckboxQuestion) => true
   },
   setup(props, context) {
     const ChoiceQuestions = ref(props.questionData.options)
@@ -93,10 +89,10 @@ export default defineComponent({
       updateChoiceQuestionData('options', ChoiceQuestions.value)
     }
 
-    const swapChoice = (index: number, parameter: number) => {
-      const tmp = ChoiceQuestions.value[index]
-      ChoiceQuestions.value[index] = ChoiceQuestions.value[index + parameter]
-      ChoiceQuestions.value[index + parameter] = tmp
+    const swapChoice = (index1: number, index2: number) => {
+      const tmp = ChoiceQuestions.value[index1]
+      ChoiceQuestions.value[index1] = ChoiceQuestions.value[index2]
+      ChoiceQuestions.value[index2] = tmp
       updateChoiceQuestionData('options', ChoiceQuestions.value)
     }
 

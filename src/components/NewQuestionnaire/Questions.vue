@@ -17,22 +17,31 @@
           <QuestionDispose :index="i" @delete="deleteQuestion" />
           <TextForm
             v-if="isTextForm(question)"
-            :index="i"
             :question-data="question"
-            @update="updateQuestions"
+            @update="
+              question => {
+                updateQuestions(i)(question)
+              }
+            "
           />
           <ChoiceForm
             v-if="isChoiceForm(question)"
-            :index="i"
             :question-data="question"
             :is-radio="question.question_type === QuestionType.MultipleChoice"
-            @update="updateQuestions"
+            @update="
+              question => {
+                updateQuestions(i)(question)
+              }
+            "
           />
           <LinearScaleForm
             v-if="isLinearScaleForm(question)"
-            :index="i"
             :question-data="question"
-            @update="updateQuestions"
+            @update="
+              question => {
+                updateQuestions(i)(question)
+              }
+            "
           />
         </template>
       </Card>
@@ -73,8 +82,7 @@ export default defineComponent({
       const question = createNewQuestion(type)
       questions.value.push(question)
     }
-
-    const updateQuestions = (newData: QuestionData, index: number) => {
+    const updateQuestions = (index: number) => (newData: QuestionData) => {
       questions.value[index] = newData
     }
 
@@ -92,10 +100,10 @@ export default defineComponent({
       questions.value.splice(index, 1)
     }
 
-    const swapQuestions = (index: number, parameter: number) => {
-      const tmp = questions.value[index]
-      questions.value[index] = questions.value[index + parameter]
-      questions.value[index + parameter] = tmp
+    const swapQuestions = (index1: number, index2: number) => {
+      const tmp = questions.value[index1]
+      questions.value[index1] = questions.value[index2]
+      questions.value[index2] = tmp
     }
     return {
       QuestionType,

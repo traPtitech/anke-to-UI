@@ -37,10 +37,6 @@ export default defineComponent({
     QuestionForm
   },
   props: {
-    index: {
-      type: Number,
-      required: true
-    },
     questionData: {
       type: Object as PropType<TextQuestion>,
       required: true
@@ -48,7 +44,7 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: TextQuestion, index: number) => true
+    update: (question: TextQuestion) => true
   },
   setup(props, context) {
     const updateTextQuestionData = updateQuestionData<TextQuestion>(

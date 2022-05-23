@@ -42,10 +42,6 @@ export default defineComponent({
     QuestionInput
   },
   props: {
-    index: {
-      type: Number,
-      required: true
-    },
     questionData: {
       type: Object as PropType<LinearScaleQuestion>,
       required: true
@@ -53,7 +49,7 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: LinearScaleQuestion, index: number) => true
+    update: (question: LinearScaleQuestion) => true
   },
   setup(props, context) {
     const updateLinearScaleQuestionData =
