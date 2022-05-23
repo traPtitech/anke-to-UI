@@ -1,7 +1,7 @@
 <template>
   <QuestionForm
-    :name="questionData.body"
-    :is-required="questionData.is_required"
+    :name="questions.body"
+    :is-required="questions.is_required"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
@@ -16,7 +16,6 @@
           :label="label"
           :index="i"
           :is-radio="isRadio"
-          :model-value="questionData.options"
           @update:label="updateChoice"
           @delete="deleteChoice"
         />
@@ -31,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import Icon from '../../UI/Icon.vue'
@@ -62,7 +61,8 @@ export default defineComponent({
     update: (question: CheckboxQuestion) => true
   },
   setup(props, context) {
-    const ChoiceQuestions = ref(props.questionData.options)
+    const questions = computed(() => props.questionData)
+    const ChoiceQuestions = computed(() => props.questionData.options)
     const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
       props,
       context
@@ -75,28 +75,33 @@ export default defineComponent({
     }
 
     const updateChoice = (label: string, index: number) => {
-      ChoiceQuestions.value[index] = label
-      updateChoiceQuestionData('options', ChoiceQuestions.value)
+      const tmp = [...ChoiceQuestions.value]
+      tmp[index] = label
+      updateChoiceQuestionData('options', tmp)
     }
 
     const deleteChoice = (index: number) => {
-      ChoiceQuestions.value.splice(index, 1)
-      updateChoiceQuestionData('options', ChoiceQuestions.value)
+      const tmp = [...ChoiceQuestions.value]
+      tmp.splice(index, 1)
+      updateChoiceQuestionData('options', tmp)
     }
 
     const addChoice = () => {
-      ChoiceQuestions.value.push('')
-      updateChoiceQuestionData('options', ChoiceQuestions.value)
+      const tmp = [...ChoiceQuestions.value]
+      tmp.push('')
+      updateChoiceQuestionData('options', tmp)
     }
 
     const swapChoice = (index1: number, index2: number) => {
-      const tmp = ChoiceQuestions.value[index1]
-      ChoiceQuestions.value[index1] = ChoiceQuestions.value[index2]
-      ChoiceQuestions.value[index2] = tmp
-      updateChoiceQuestionData('options', ChoiceQuestions.value)
+      const tmp = [...ChoiceQuestions.value]
+      const mom = tmp[index1]
+      tmp[index1] = tmp[index2]
+      tmp[index2] = mom
+      updateChoiceQuestionData('options', tmp)
     }
 
     return {
+      questions,
       ChoiceQuestions,
       updateQuestionName,
       updateQuestionRequired,

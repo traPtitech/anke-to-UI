@@ -6,7 +6,7 @@
   </Card>
   <div>
     <div v-if="questions.length === 0">質問がありません</div>
-    <div v-for="(question, i) in questions" :key="question.key">
+    <div v-for="(question, i) in questions" :key="i">
       <Card :header-visible="false">
         <template #content>
           <QuestionUpdown
