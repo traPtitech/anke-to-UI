@@ -20,7 +20,7 @@
             :question-data="question"
             @update="
               question => {
-                updateQuestions(i)(question)
+                updateQuestions(i, question)
               }
             "
           />
@@ -30,7 +30,7 @@
             :is-radio="question.question_type === QuestionType.MultipleChoice"
             @update="
               question => {
-                updateQuestions(i)(question)
+                updateQuestions(i, question)
               }
             "
           />
@@ -39,7 +39,7 @@
             :question-data="question"
             @update="
               question => {
-                updateQuestions(i)(question)
+                updateQuestions(i, question)
               }
             "
           />
@@ -82,7 +82,7 @@ export default defineComponent({
       const question = createNewQuestion(type)
       questions.value.push(question)
     }
-    const updateQuestions = (index: number) => (newData: QuestionData) => {
+    const updateQuestions = (index: number, newData: QuestionData) => {
       questions.value[index] = newData
     }
 
