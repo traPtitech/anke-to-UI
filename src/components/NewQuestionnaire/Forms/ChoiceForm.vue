@@ -1,7 +1,7 @@
 <template>
   <QuestionForm
-    :name="questions.body"
-    :is-required="questions.is_required"
+    :name="questionData.body"
+    :is-required="questionData.is_required"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
@@ -61,7 +61,6 @@ export default defineComponent({
     update: (question: CheckboxQuestion) => true
   },
   setup(props, context) {
-    const questions = computed(() => props.questionData)
     const ChoiceQuestions = computed(() => props.questionData.options)
     const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
       props,
@@ -101,7 +100,6 @@ export default defineComponent({
     }
 
     return {
-      questions,
       ChoiceQuestions,
       updateQuestionName,
       updateQuestionRequired,

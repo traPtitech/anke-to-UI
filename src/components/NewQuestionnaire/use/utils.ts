@@ -45,7 +45,7 @@ export type TextQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
-} & { key: number } // 並び替えがあるためソート用のkeyを追加
+}
 
 export type LinearScaleQuestion = {
   question_type: QuestionType
@@ -55,42 +55,38 @@ export type LinearScaleQuestion = {
   scale_max: number
   scale_label_left: string
   scale_label_right: string
-} & { key: number } // 並び替えがあるためソート用のkeyを追加
+}
 
 export type CheckboxQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
   options: string[]
-} & { key: number } // 並び替えがあるためソート用のkeyを追加
+}
 
 export type QuestionData = TextQuestion | CheckboxQuestion | LinearScaleQuestion
 
-const randomNumber = () => Math.floor(Math.random() * 25000)
 export const createNewQuestion = (type: QuestionType): QuestionData => {
   switch (type) {
     case QuestionType.Text: {
       return {
         question_type: QuestionType.Text,
         body: '',
-        is_required: false,
-        key: randomNumber()
+        is_required: false
       }
     }
     case QuestionType.TextArea: {
       return {
         question_type: QuestionType.TextArea,
         body: '',
-        is_required: false,
-        key: randomNumber()
+        is_required: false
       }
     }
     case QuestionType.Number: {
       return {
         question_type: QuestionType.Number,
         body: '',
-        is_required: false,
-        key: randomNumber()
+        is_required: false
       }
     }
     case QuestionType.Checkbox: {
@@ -98,8 +94,7 @@ export const createNewQuestion = (type: QuestionType): QuestionData => {
         question_type: QuestionType.Checkbox,
         body: '',
         is_required: false,
-        options: [''],
-        key: randomNumber()
+        options: ['']
       }
     }
     case QuestionType.MultipleChoice: {
@@ -107,8 +102,7 @@ export const createNewQuestion = (type: QuestionType): QuestionData => {
         question_type: QuestionType.MultipleChoice,
         body: '',
         is_required: false,
-        options: [''],
-        key: randomNumber()
+        options: ['']
       }
     }
     case QuestionType.LinearScale: {
@@ -119,8 +113,7 @@ export const createNewQuestion = (type: QuestionType): QuestionData => {
         scale_min: 0,
         scale_max: 5,
         scale_label_left: '',
-        scale_label_right: '',
-        key: randomNumber()
+        scale_label_right: ''
       }
     }
     default: {
