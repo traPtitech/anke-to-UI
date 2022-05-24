@@ -1,9 +1,9 @@
 <template>
   <input
     :type="isNumber ? 'number' : 'text'"
+    :class="$style.input"
     :placeholder="isNumber ? '数値を入力' : '回答'"
     :disabled="disabled"
-    :value="modelValue"
     @input="update"
   />
   <input-underline :class="$style.underline" />
