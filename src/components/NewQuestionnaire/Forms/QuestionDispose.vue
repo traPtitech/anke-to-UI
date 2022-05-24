@@ -27,8 +27,8 @@ export default defineComponent({
   },
   setup(props, context) {
     const deleteQuestion = () => {
-      const trash = confirm('この質問を削除しますか？')
-      if (trash) {
+      const isTrash = confirm('この質問を削除しますか？')
+      if (isTrash) {
         context.emit('delete', props.index)
       }
     }

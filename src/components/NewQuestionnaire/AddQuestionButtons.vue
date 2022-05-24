@@ -1,10 +1,10 @@
 <template>
-  <button @click="Isappeared = !Isappeared">
+  <button @click="isAppeared = !isAppeared">
     新しい質問を追加
-    <Icon v-if="Isappeared" name="chevron-down" />
-    <Icon v-if="!Isappeared" name="chevron-right" />
+    <Icon v-if="isAppeared" name="chevron-down" />
+    <Icon v-if="!isAppeared" name="chevron-right" />
   </button>
-  <div v-if="Isappeared">
+  <div v-if="isAppeared">
     <button
       v-for="(questionType, key) in questionTypes"
       :key="key"
@@ -29,12 +29,12 @@ export default defineComponent({
     add: (key: string) => true
   },
   setup(props, context) {
-    const Isappeared = ref(false)
+    const isAppeared = ref(false)
     const add = (key: string) => {
       context.emit('add', key)
     }
     return {
-      Isappeared,
+      isAppeared,
       add,
       questionTypes
     }

@@ -6,10 +6,10 @@
     @update:required="updateQuestionRequired"
   >
     <div>
-      <div v-for="(label, i) in ChoiceQuestions" :key="i">
+      <div v-for="(label, i) in choiceQuestions" :key="i">
         <QuestionUpdown
           :index="i"
-          :max="ChoiceQuestions.length"
+          :max="choiceQuestions.length"
           @swap="swapChoice"
         />
         <ChoiceElement
@@ -61,7 +61,7 @@ export default defineComponent({
     update: (question: CheckboxQuestion) => true
   },
   setup(props, context) {
-    const ChoiceQuestions = computed(() => props.questionData.options)
+    const choiceQuestions = computed(() => props.questionData.options)
     const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
       props,
       context
@@ -100,7 +100,7 @@ export default defineComponent({
     }
 
     return {
-      ChoiceQuestions,
+      choiceQuestions,
       updateQuestionName,
       updateQuestionRequired,
       updateChoice,

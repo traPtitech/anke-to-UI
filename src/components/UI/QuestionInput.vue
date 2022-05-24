@@ -1,7 +1,6 @@
 <template>
   <input
     :type="isNumber ? 'number' : 'text'"
-    :class="[pointerevents ? '' : $style.pointerevents, $style.input]"
     :placeholder="isNumber ? '数値を入力' : '回答'"
     :disabled="disabled"
     :value="modelValue"
@@ -27,10 +26,6 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
-    },
-    pointerevents: {
-      type: Boolean,
-      default: true
     },
     modelValue: {
       type: String,
@@ -63,9 +58,6 @@ $underline-margin: -1 * $input-border;
   outline: 0;
   padding: 0.4rem;
   border-bottom: $input-border dotted #7c6c4d;
-}
-.pointerevents {
-  pointer-events: none;
 }
 .underline {
   margin-top: $underline-margin;

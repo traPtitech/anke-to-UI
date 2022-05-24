@@ -7,7 +7,7 @@
   >
     <div>
       <Select
-        :model-value="RangeMin"
+        :model-value="rangeMin"
         :contents="['0', '1']"
         @update:model-value="
           modelValue => updateLinearScale('scale_min', Number(modelValue))
@@ -15,7 +15,7 @@
       />
       to
       <Select
-        :model-value="RangeMax"
+        :model-value="rangeMax"
         :contents="['2', '3', '4', '5', '6', '7', '8', '9', '10']"
         @update:model-value="
           modelValue => updateLinearScale('scale_max', Number(modelValue))
@@ -26,7 +26,7 @@
       <div>
         {{ questionData.scale_min }}
         <QuestionInput
-          :model-value="LabelLeft"
+          :model-value="labelLeft"
           :is-number="false"
           @update:model-value="
             modelValue => updateLinearScale('scale_label_left', modelValue)
@@ -36,7 +36,7 @@
       <div>
         {{ questionData.scale_max }}
         <QuestionInput
-          :model-value="LabelRight"
+          :model-value="labelRight"
           :is-number="false"
           @update:model-value="
             modelValue => updateLinearScale('scale_label_right', modelValue)
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch, computed } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import Select from '../../UI/Select.vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
@@ -82,10 +82,10 @@ export default defineComponent({
       updateLinearScaleQuestionData('is_required', required)
     }
 
-    const RangeMin = computed(() => String(props.questionData.scale_min))
-    const RangeMax = computed(() => String(props.questionData.scale_max))
-    const LabelLeft = computed(() => props.questionData.scale_label_left)
-    const LabelRight = computed(() => props.questionData.scale_label_right)
+    const rangeMin = computed(() => String(props.questionData.scale_min))
+    const rangeMax = computed(() => String(props.questionData.scale_max))
+    const labelLeft = computed(() => props.questionData.scale_label_left)
+    const labelRight = computed(() => props.questionData.scale_label_right)
 
     const updateLinearScale = (
       type:
@@ -99,10 +99,10 @@ export default defineComponent({
     }
 
     return {
-      RangeMin,
-      RangeMax,
-      LabelLeft,
-      LabelRight,
+      rangeMin,
+      rangeMax,
+      labelLeft,
+      labelRight,
       updateQuestionBody,
       updateQuestionRequired,
       updateLinearScale
