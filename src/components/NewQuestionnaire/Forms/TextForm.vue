@@ -6,7 +6,17 @@
     @update:required="updateQuestionRequired"
   >
     <div>
-      <QuestionInput model-value="" />
+      <QuestionTextarea
+        v-if="questionData.question_type === 'TextArea'"
+        model-value=""
+        :pointerevents="false"
+      />
+      <QuestionInput
+        v-else
+        :is-number="questionData.question_type === 'Number'"
+        model-value=""
+        :pointerevents="false"
+      />
     </div>
   </QuestionForm>
 </template>
@@ -14,6 +24,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import QuestionInput from '../../UI/QuestionInput.vue'
+import QuestionTextarea from '/@/components/UI/QuestionTextarea.vue'
 import QuestionForm from './QuestionForm.vue'
 import { TextQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
@@ -21,14 +32,11 @@ import { updateQuestionData } from '../use/updateQuestionData'
 export default defineComponent({
   name: 'TextForm',
   components: {
-    QuestionForm,
-    QuestionInput
+    QuestionInput,
+    QuestionTextarea,
+    QuestionForm
   },
   props: {
-    index: {
-      type: Number,
-      required: true
-    },
     questionData: {
       type: Object as PropType<TextQuestion>,
       required: true
@@ -36,7 +44,7 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: TextQuestion, index: number) => true
+    update: (question: TextQuestion) => true
   },
   setup(props, context) {
     const updateTextQuestionData = updateQuestionData<TextQuestion>(
