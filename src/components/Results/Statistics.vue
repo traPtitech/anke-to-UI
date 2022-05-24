@@ -15,6 +15,8 @@
       <markdown-tab
         v-else-if="tableForm === 'markdown'"
         :value="markdownTable"
+        :rows="markdownTable.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
+        class="textarea"
       />
     </div>
   </div>
@@ -26,8 +28,21 @@ import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
 import Tab from '/@/components/UI/Tab.vue'
 import ViewTab from './Statistics/ViewTab.vue'
 import MarkdownTab from './Statistics/MarkdownTab.vue'
-import { TableFormTypes, tableFormTabs } from './use/utils'
+import {
+  ResultsPerQuestion,
+  isNumberQuestion,
+  AllTypeQuestionUnion,
+  generateStats,
+  generateMarkdownTable,
+  questionToMarkdown
+} from '/@/lib/util/statistics'
+import {
+  TableFormTypes,
+  tableFormTabs,
+  TEXTAREA_ADDITIONAL_LINE_NUM
+} from './use/utils'
 
+//export default class Data implements CountedData {}
 export default defineComponent({
   name: 'Statistics',
   components: {
@@ -47,12 +62,34 @@ export default defineComponent({
     questions: {
       type: Object as PropType<QuestionDetails[]>,
       default: []
+    },
+    resultsPerQuestion: {
+      type: Object as PropType<ResultsPerQuestion>,
+      required: true
     }
   },
-  setup() {
+
+  setup(props) {
     const markdownTable = computed(() => {
-      // マークダウン生成
-      return ''
+      // generate Markdown
+      return props.resultsPerQuestion.questions
+        .map((question: AllTypeQuestionUnion) => {
+          let res = [`# ${question.question.body}`]
+          if (isNumberQuestion(question)) {
+            const total = generateStats(question)
+            res = res.concat([
+              `**平均値**: ${total.average}`,
+              `**標準偏差**: ${total.standardDeviation}`,
+              `**中央値**: ${total.median}`,
+              `**最頻値**: ${total.mode}`,
+              ''
+            ])
+          }
+          res = res.concat(generateMarkdownTable(questionToMarkdown(question)))
+          res.concat([''])
+          return res.join('\n')
+        })
+        .join('\n')
     })
 
     const tableForm = ref<TableFormTypes>('view')
@@ -60,7 +97,8 @@ export default defineComponent({
     return {
       tableForm,
       tableFormTabs,
-      markdownTable
+      markdownTable,
+      TEXTAREA_ADDITIONAL_LINE_NUM
     }
   }
 })

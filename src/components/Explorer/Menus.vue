@@ -4,7 +4,6 @@
       v-model="optionStr.sort"
       title="並べ替え"
       :contents="sortOrders"
-      :class="$style.dropdown"
       :is-open="state.isOpenSort"
       @open="openSort"
       @close="closeMenus"
@@ -14,7 +13,6 @@
       v-model="optionStr.nontargeted"
       title="フィルター"
       :contents="targetedOptions"
-      :class="$style.dropdown"
       :is-open="state.isOpenOption"
       @open="openOption"
       @close="closeMenus"
@@ -98,8 +96,6 @@ export default defineComponent({
 <style lang="scss" module>
 .container {
   display: flex;
-  .dropdown {
-    margin-right: 0.5rem;
-  }
+  column-gap: 1rem;
 }
 </style>

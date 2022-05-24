@@ -1,32 +1,25 @@
 <template>
-  <div :class="$style.tool_wrapper">
-    <menus @change="changeOption" />
-    <search-input
-      v-model="searchQuery"
-      :class="$style.search"
-      @search="search"
-    />
-  </div>
-  <div :class="$style.container">
-    <ATable>
-      <template #tableheader>
-        <th
-          v-for="(header, index) in HEADERS"
-          :key="index"
-          :class="$style.header"
-        >
-          {{ header }}
-        </th>
+  <div :class="$style.page_wrapper">
+    <div :class="$style.tool_wrapper">
+      <search-input
+        v-model="searchQuery"
+        :class="$style.search"
+        @search="search"
+      />
+      <menus @change="changeOption" />
+    </div>
+    <Card :header-visible="false">
+      <template #content>
+        <transition name="fadeExplore">
+          <div v-if="isFetched">
+            <CardContentDetail :questionnaires="questionnaires" />
+          </div>
+          <div v-else>
+            <CardContentDetailMock />
+          </div>
+        </transition>
       </template>
-      <template #tablecontent>
-        <table-row
-          v-for="questionnaire in questionnaires"
-          :key="questionnaire.questionnaireID"
-        >
-          <questionnaires-table-row :questionnaire="questionnaire" />
-        </table-row>
-      </template>
-    </ATable>
+    </Card>
   </div>
 </template>
 
@@ -35,22 +28,20 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useTitle } from './use/title'
 import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
-import QuestionnairesTableRow from '/@/components/Explorer/QuestionnairesTableRow.vue'
-import apis, { QuestionnaireForList } from '/@/lib/apis'
-import { Option } from '../components/Explorer/use/useOptions'
-import ATable from '/@/components/UI/ATable.vue'
-import TableRow from '/@/components/UI/TableRow.vue'
-
-const HEADERS = ['', '回答期限', '更新日時', '作成日時', '結果']
+import apis, { SortType, QuestionnaireForList } from '/@/lib/apis'
+import { Option } from '/@/components/Explorer/use/useOptions'
+import Card from '/@/components/UI/Card.vue'
+import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
+import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
 
 export default defineComponent({
   name: 'Explorer',
   components: {
-    ATable,
     Menus,
-    QuestionnairesTableRow,
     SearchInput,
-    TableRow
+    Card,
+    CardContentDetail,
+    CardContentDetailMock
   },
   setup() {
     useTitle(ref('アンケート一覧'))
@@ -58,21 +49,22 @@ export default defineComponent({
     const questionnaires = ref<QuestionnaireForList[]>([])
 
     const option = ref<Option>({
-      sort: '-modified_at',
+      sort: SortType.ModifiedAtDESC,
       page: 1,
       nontargeted: 'true'
     })
     const searchQuery = ref('')
-
+    const isFetched = ref(false)
     const getQuestionnaires = async () => {
       try {
         const { data } = await apis.getQuestionnaires(
           option.value.sort,
+          searchQuery.value,
           option.value.page,
-          option.value.nontargeted === 'true',
-          searchQuery.value
+          option.value.nontargeted === 'true'
         )
         questionnaires.value = data.questionnaires
+        isFetched.value = true
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
         // TODO: 後で消す
@@ -93,25 +85,35 @@ export default defineComponent({
       getQuestionnaires()
     })
 
-    return { HEADERS, questionnaires, searchQuery, changeOption, search }
+    return {
+      questionnaires,
+      searchQuery,
+      changeOption,
+      search,
+      isFetched
+    }
   }
 })
 </script>
 
 <style lang="scss" module>
+.page_wrapper {
+  max-width: 1280px;
+}
 .tool_wrapper {
   padding: 1rem 0rem;
   display: flex;
   flex-wrap: wrap;
+  row-gap: 1rem;
 }
-.container {
-  max-width: 1280px;
-  padding: 1rem;
-  border: solid 1.5px #d9d9d9;
-  overflow: auto;
-}
-.header {
-  text-align: center;
-  padding: 0.8rem;
+:global {
+  .fadeExplore-enter-active,
+  .fadeExplore-leave-active {
+    transition: opacity 0.2s;
+  }
+  .fadeExplore-enter-from,
+  .fadeExplore-leave-to {
+    opacity: 0;
+  }
 }
 </style>

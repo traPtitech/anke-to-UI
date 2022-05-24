@@ -3,16 +3,19 @@
     <label
       v-for="(content, index) in contents"
       :key="index"
-      :class="$style.label"
+      :class="[disabled ? $style.disabledlabel : '', $style.label]"
     >
-      <span :class="$style.check">
+      <span :class="[disabled ? $style.disabledcheck : '', $style.check]">
         <icon
+          v-if="!disabled"
           name="check"
           :class="[isChecked(index) ? $style.checked : '', $style.icon]"
         />
       </span>
       <input type="checkbox" :class="$style.checkbox" @input="check(index)" />
-      <p :class="$style.content">{{ content }}</p>
+      <p :class="$style.content">
+        {{ content }}
+      </p>
     </label>
   </div>
 </template>
@@ -30,6 +33,10 @@ export default defineComponent({
     contents: {
       type: Array as PropType<string[]>,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     modelValue: {
       type: Array as PropType<string[]>,
@@ -80,6 +87,12 @@ export default defineComponent({
     opacity: 0.6;
   }
 }
+.disabledlabel {
+  &:hover {
+    cursor: not-allowed;
+    opacity: 1;
+  }
+}
 .check {
   display: inline-block;
   cursor: pointer;
@@ -98,6 +111,10 @@ export default defineComponent({
   .checked {
     opacity: 1;
   }
+}
+.disabledcheck {
+  cursor: not-allowed;
+  background-color: rgb(239, 239, 239, 0.5);
 }
 .checkbox {
   appearance: none;

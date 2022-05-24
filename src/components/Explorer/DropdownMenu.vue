@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.dropdown">
     <button :class="$style.button" @click="open">
-      <div :class="$style.dropdown_trigger">
+      <div :class="$style.dropdownTrigger">
         <p :class="$style.title">{{ showOption ? modelValue : title }}</p>
         <icon
           name="chevron-down"
@@ -79,19 +79,21 @@ export default defineComponent({
 .dropdown {
   width: fit-content;
 }
-.dropdown_trigger {
+.dropdownTrigger {
   display: flex;
-  padding: 0.3rem 1rem 0.3rem 1.4rem;
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
   align-items: center;
   .title {
-    margin: 0 0.3rem 0 0;
+    margin: 0;
     font-size: 1rem;
+    width: 5rem;
+    text-align: left;
   }
 }
 .button {
   background-color: #ffffff;
   border: solid 0.1rem #cfb998;
-  border-radius: 0.3rem;
+  border-radius: 0.25rem;
   padding: 0;
   cursor: pointer;
   &:hover {

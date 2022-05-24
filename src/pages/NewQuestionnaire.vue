@@ -1,33 +1,68 @@
 <template>
-  <Tab v-model="selectedTab" :tabs="tabs" :class="$style.tab" />
-  <Information v-if="selectedTab === 'Information'" />
+  <Tab v-model="selectedTab" :tabs="detailTabs" />
+  <Questions v-if="selectedTab === 'questions'" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import Information from '/@/components/NewQuestionnaire/Information.vue'
+import { defineComponent, ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import {
+  NewQuestionnaireTabTypes,
+  detailTabs
+} from '/@/components/NewQuestionnaire/use/utils'
 import Tab from '/@/components/UI/Tab.vue'
-import { useTitle } from './use/title'
+import Questions from '/@/components/NewQuestionnaire/Questions.vue'
 
 export default defineComponent({
-  name: 'NewQuestionnaire',
+  name: 'ResultTab',
   components: {
-    Information,
+    Questions,
     Tab
   },
+  props: {},
   setup() {
-    useTitle(ref('新規アンケート作成'))
+    const route = useRoute()
+    const router = useRouter()
+    const selectedTab = ref<NewQuestionnaireTabTypes>('information')
 
-    const tabs = ['Information', 'Questions']
-    const selectedTab = ref(tabs[0])
+    const getTabLink = (tab: string) => ({
+      path: route.path,
+      query: {
+        tab
+      }
+    })
 
-    return { tabs, selectedTab }
+    onMounted(() => {
+      selectedTab.value =
+        <NewQuestionnaireTabTypes>route.query.tab || 'information'
+    })
+
+    const changeTab = (tab: string) => {
+      router.push({
+        path: '/questionnaires/new',
+        query: {
+          tab
+        }
+      })
+    }
+
+    watch(
+      () => route.query,
+      newQuery => {
+        selectedTab.value = detailTabs.includes(
+          <NewQuestionnaireTabTypes>newQuery.tab
+        )
+          ? <NewQuestionnaireTabTypes>newQuery.tab
+          : 'information'
+      }
+    )
+
+    return {
+      detailTabs,
+      getTabLink,
+      selectedTab,
+      changeTab
+    }
   }
 })
 </script>
-
-<style lang="scss" module>
-.tab {
-  margin-bottom: 1rem;
-}
-</style>

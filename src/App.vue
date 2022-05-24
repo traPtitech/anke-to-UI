@@ -83,6 +83,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   height: 100%;
+  color: $ui-primary;
 }
 .header {
   flex-shrink: 0;
@@ -91,6 +92,7 @@ export default defineComponent({
   padding: 1.5rem;
   overflow-y: auto;
   width: 100%;
+  background: $bg-primary;
 }
 .main {
   display: flex;

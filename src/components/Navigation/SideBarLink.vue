@@ -26,7 +26,7 @@ export default defineComponent({
 <style lang="scss" module>
 .link {
   position: relative;
-  color: #313033;
+  color: $ui-white;
   text-decoration: none;
   white-space: nowrap;
   padding: 0.5rem;
@@ -37,7 +37,7 @@ export default defineComponent({
     content: '';
     width: calc(100% - 0.2rem * 2);
     height: 2px;
-    background: #cfb998;
+    background: $bg-secondary-highlight;
     transform: scale(0, 1);
     transform-origin: left top;
     transition: 0.3s;

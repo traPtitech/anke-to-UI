@@ -14,7 +14,9 @@ import {
   mdiCheck,
   mdiLoading,
   mdiPencil,
-  mdiFilePlus
+  mdiFilePlus,
+  mdiTrashCanOutline,
+  mdiAlertOutline
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -34,7 +36,9 @@ const mdi = new Map<string, string>([
   ['check', mdiCheck],
   ['loading', mdiLoading],
   ['pencil', mdiPencil],
-  ['file-plus', mdiFilePlus]
+  ['file-plus', mdiFilePlus],
+  ['trash-can-outline', mdiTrashCanOutline],
+  ['alert', mdiAlertOutline]
 ])
 
 export default mdi

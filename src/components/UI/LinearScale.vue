@@ -1,9 +1,14 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.leftLabel">{{ leftLabel }}</div>
-    <label v-for="(num, index) in range" :key="index">
+    <label
+      v-for="(num, index) in range"
+      :key="index"
+      :class="[disabled ? $style.disabledlabel : '']"
+    >
       <radio-button
         :is-selected="index === selectedIndex"
+        :disabled="disabled"
         @input="update(index)"
       />
     </label>
@@ -32,6 +37,10 @@ export default defineComponent({
     rightLabel: {
       type: String,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     modelValue: {
       type: Number,
@@ -66,5 +75,8 @@ export default defineComponent({
 }
 .rightLabel {
   margin-left: 0.5rem;
+}
+.disabledlabel {
+  cursor: not-allowed;
 }
 </style>

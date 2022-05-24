@@ -4,28 +4,42 @@
     :key="index"
     :class="$style.container"
   >
-    <LinkIconQuestion
-      :id="questionnaire.questionnaireID"
-      :title="questionnaire.title"
-      :iconsize="24"
-      :textsize="20"
-    ></LinkIconQuestion>
-    <div :class="$style.tableItemDescription">
-      <p>{{ questionnaire.description }}</p>
-    </div>
-    <div :class="$style.tableItemDate">
+    <router-link
+      :class="$style.table_item"
+      :to="`/questionnaires/${questionnaire.questionnaireID}`"
+    >
+      <LinkIconQuestion
+        :id="questionnaire.questionnaireID"
+        :title="questionnaire.title"
+        :iconsize="24"
+        :textsize="20"
+        :is-responded="
+          questionnaire.has_response || questionnaire.all_responded
+        "
+      ></LinkIconQuestion>
       <div :class="$style.column">
-        <div>回答期限: {{ questionnaire.res_time_limit }}</div>
-        <div>更新日: {{ questionnaire.modified_at }}</div>
+        <div :class="$style.res_time_limit">
+          回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+        </div>
+        <div :class="$style.modified_at">
+          更新日: {{ getRelativeTime(questionnaire.modified_at) }}
+        </div>
       </div>
-    </div>
+      <div :class="$style.description">
+        {{ questionnaire.description }}
+      </div>
+    </router-link>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
-import { QuestionnaireMyTargeted } from '/@/lib/apis'
+import { Questionnaire } from '/@/lib/apis'
+import {
+  getTimeLimit,
+  getRelativeTime
+} from '/@/components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'CardContentDetail',
@@ -34,45 +48,62 @@ export default defineComponent({
   },
   props: {
     questionnaires: {
-      type: Array as PropType<QuestionnaireMyTargeted[]>,
+      type: Array as PropType<
+        (Questionnaire & {
+          has_response?: boolean
+          all_responded?: boolean
+        })[]
+      >,
       required: true
     }
   },
   setup() {
-    return {}
+    return { getTimeLimit, getRelativeTime }
   }
 })
 </script>
 
 <style lang="scss" module>
 .container {
-  border-bottom: solid 1.5px #d9d9d9;
   text-align: left;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
+  border-bottom: solid 1px $border;
+  position: relative;
+  transition: 0.2s;
+  &:hover {
+    background-color: $bg-secondary-highlight;
+    &:first-child {
+      border-radius: 1rem 1rem 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 1rem 1rem;
+    }
+  }
+  &:last-child {
+    border: none;
+  }
 }
-.container:first-of-type {
-  padding-top: 0;
+.table_item {
+  text-decoration: none;
+  color: inherit;
 }
-.container:last-of-type {
-  padding-bottom: 0;
-  border: none;
-}
-.tableItemDescription {
-  margin-bottom: 0.8rem;
+.description {
   word-break: break-all;
 }
-.tableItemDate {
-  padding-left: 24px;
-}
 .column {
-  padding: 0;
-  div:first-of-type {
-    margin-right: 100px;
-  }
-  margin-bottom: 0;
-  font-weight: 550;
-  display: flex;
+  margin: 0.5rem 0;
   align-items: center;
+  display: grid;
+  grid-template-columns: 50%;
+}
+.res_time_limit {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  text-align: left;
+}
+.modified_at {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  text-align: left;
 }
 </style>
