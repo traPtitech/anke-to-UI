@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import QuestionTitle from './QuestionTitle.vue'
+import QuestionTitle from '/@/components/UI/QuestionTitle.vue'
 import QuestionCheckbox from '../../UI/QuestionCheckbox.vue'
 
 export default defineComponent({
