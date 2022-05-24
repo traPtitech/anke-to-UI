@@ -1,7 +1,12 @@
 import { QuestionType } from '/@/lib/apis'
 
-export type NewQuestionnaireTabTypes = 'information' | 'questions'
-export const detailTabs = ['information', 'questions']
+export const NewInformationTabName = 'Information'
+export const NewQuestionsTabName = 'Questions'
+export type NewQuestionnaireTabTypes = 'Information' | 'Questions'
+export const detailTabs: NewQuestionnaireTabTypes[] = [
+  NewInformationTabName,
+  NewQuestionsTabName
+]
 export const questionTypes = {
   Text: {
     type: 'Text',
@@ -24,7 +29,7 @@ export const questionTypes = {
     component: 'multiple-choice'
   },
   MultipleChoice: {
-    type: 'MultipleChoSice',
+    type: 'MultipleChoice',
     label: 'ラジオボタン',
     component: 'multiple-choice'
   },
@@ -36,13 +41,13 @@ export const questionTypes = {
 }
 
 // question types
-export interface TextQuestion {
+export type TextQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
 }
 
-export interface LinearScaleQuestion {
+export type LinearScaleQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
@@ -52,7 +57,7 @@ export interface LinearScaleQuestion {
   scale_label_right: string
 }
 
-export interface CheckboxQuestion {
+export type CheckboxQuestion = {
   question_type: QuestionType
   body: string
   is_required: boolean
@@ -61,7 +66,7 @@ export interface CheckboxQuestion {
 
 export type QuestionData = TextQuestion | CheckboxQuestion | LinearScaleQuestion
 
-export const createNewQuestion = (type: QuestionType): QuestionData | null => {
+export const createNewQuestion = (type: QuestionType): QuestionData => {
   switch (type) {
     case QuestionType.Text: {
       return {

@@ -1,6 +1,7 @@
 import {
   mdiChevronDown,
   mdiChevronUp,
+  mdiChevronRight,
   mdiMagnify,
   mdiOpenInNew,
   mdiHelpCircleOutline,
@@ -16,18 +17,19 @@ import {
   mdiPencil,
   mdiFilePlus,
   mdiTrashCanOutline,
-  mdiAlertOutline
+  mdiAlertOutline,
+  mdiPlusCircleOutline
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
   ['chevron-down', mdiChevronDown],
   ['chevron-up', mdiChevronUp],
+  ['chevron-right', mdiChevronRight],
   ['magnify', mdiMagnify],
   ['open-in-new', mdiOpenInNew],
   ['help-circle-outline', mdiHelpCircleOutline],
   ['menu', mdiMenu],
   ['close', mdiClose],
-  ['chevron-down', mdiChevronDown],
   ['eye-closed', mdiEyeOff],
   ['eye', mdiEye],
   ['clipboard', mdiClipboard],
@@ -38,7 +40,8 @@ const mdi = new Map<string, string>([
   ['pencil', mdiPencil],
   ['file-plus', mdiFilePlus],
   ['trash-can-outline', mdiTrashCanOutline],
-  ['alert', mdiAlertOutline]
+  ['alert', mdiAlertOutline],
+  ['plus-circle-outline', mdiPlusCircleOutline]
 ])
 
 export default mdi

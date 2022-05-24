@@ -1,37 +1,28 @@
 <template>
   <div>
-    <div>
-      <Icon name="chevron-up" />
-      <Icon name="chevron-down" />
-      <Icon name="delete" />
-    </div>
-    <div>
-      <div>
-        <QuestionInput v-model="questionName" />
-        <QuestionCheckbox
-          v-model="questionIsRequired"
-          :contents="questionRequiredContent"
-        />
-      </div>
-      <slot></slot>
-    </div>
+    <QuestionTitle
+      :model-value="questionName"
+      @update:model-value="updateQuestionName"
+    />
+    <QuestionCheckbox
+      :model-value="questionIsRequired"
+      :contents="[REQUIRED_LABEL]"
+      @update:model-value="updateQuestionIsRequired"
+    />
+    <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
-import QuestionInput from '../../UI/QuestionInput.vue'
+import { defineComponent, computed } from 'vue'
+import QuestionTitle from '/@/components/UI/QuestionTitle.vue'
 import QuestionCheckbox from '../../UI/QuestionCheckbox.vue'
-import Icon from '../../UI/Icon.vue'
-
-const REQUIRED_LABEL = '必須'
 
 export default defineComponent({
   name: 'QuestionForm',
   components: {
-    QuestionInput,
-    QuestionCheckbox,
-    Icon
+    QuestionTitle,
+    QuestionCheckbox
   },
   props: {
     name: {
@@ -50,22 +41,33 @@ export default defineComponent({
     'update:required': (v: boolean) => true
   },
   setup(props, context) {
-    const questionName = ref(props.name)
-    const questionIsRequired = ref(props.isRequired ? [REQUIRED_LABEL] : [])
+    const REQUIRED_LABEL = '必須'
+    const questionName = computed(() => props.name)
+    // todo: ここでQuestionのCheckboxを使っていいか考える
+    const questionIsRequired = computed(() => {
+      if (props.isRequired) {
+        return [REQUIRED_LABEL]
+      } else {
+        return []
+      }
+    })
 
-    watch(questionName, newName => context.emit('update:name', newName))
-    watch(questionIsRequired, newIsRequired =>
-      context.emit(
-        'update:required',
-        newIsRequired.length > 0 && newIsRequired[0] == REQUIRED_LABEL
-      )
-    )
+    const updateQuestionName = (newName: string) => {
+      context.emit('update:name', newName)
+    }
+    const updateQuestionIsRequired = (newIsRequired: string[]) => {
+      context.emit('update:required', newIsRequired.length === 1)
+    }
 
     return {
+      REQUIRED_LABEL,
       questionName,
       questionIsRequired,
-      questionRequiredContent: [REQUIRED_LABEL]
+      updateQuestionName,
+      updateQuestionIsRequired
     }
   }
 })
 </script>
+
+<style lang="scss" module></style>

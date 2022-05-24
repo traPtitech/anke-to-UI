@@ -1,13 +1,15 @@
 <template>
   <Tab v-model="selectedTab" :tabs="detailTabs" />
-  <Information v-if="selectedTab === 'information'" />
-  <Questions v-if="selectedTab === 'questions'" />
+  <Information v-if="selectedTab === NewInformationTabName" />
+  <Questions v-if="selectedTab === NewQuestionsTabName" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
+  NewInformationTabName,
+  NewQuestionsTabName,
   NewQuestionnaireTabTypes,
   detailTabs
 } from '/@/components/NewQuestionnaire/use/utils'
@@ -26,7 +28,7 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const selectedTab = ref<NewQuestionnaireTabTypes>('information')
+    const selectedTab = ref<NewQuestionnaireTabTypes>(NewInformationTabName)
 
     const getTabLink = (tab: string) => ({
       path: route.path,
@@ -37,7 +39,7 @@ export default defineComponent({
 
     onMounted(() => {
       selectedTab.value =
-        <NewQuestionnaireTabTypes>route.query.tab || 'information'
+        <NewQuestionnaireTabTypes>route.query.tab || NewInformationTabName
     })
 
     const changeTab = (tab: string) => {
@@ -56,11 +58,13 @@ export default defineComponent({
           <NewQuestionnaireTabTypes>newQuery.tab
         )
           ? <NewQuestionnaireTabTypes>newQuery.tab
-          : 'information'
+          : NewInformationTabName
       }
     )
 
     return {
+      NewInformationTabName,
+      NewQuestionsTabName,
       detailTabs,
       getTabLink,
       selectedTab,

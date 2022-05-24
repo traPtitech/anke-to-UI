@@ -6,7 +6,12 @@
     @update:required="updateQuestionRequired"
   >
     <div>
-      <div v-for="(label, i) in questionData.options" :key="i">
+      <div v-for="(label, i) in choiceQuestions" :key="i">
+        <QuestionUpdown
+          :index="i"
+          :max="choiceQuestions.length"
+          @swap="swapChoice"
+        />
         <ChoiceElement
           :label="label"
           :index="i"
@@ -17,7 +22,7 @@
       </div>
     </div>
     <div>
-      <span @click="addChoice">
+      <span :class="$style.newchoice" @click="addChoice">
         <Icon name="plus-circle-outline" />新しい選択肢を追加
       </span>
     </div>
@@ -25,10 +30,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import Icon from '../../UI/Icon.vue'
+import QuestionUpdown from './QuestionUpdown.vue'
 import { CheckboxQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 
@@ -37,13 +43,10 @@ export default defineComponent({
   components: {
     QuestionForm,
     ChoiceElement,
+    QuestionUpdown,
     Icon
   },
   props: {
-    index: {
-      type: Number,
-      required: true
-    },
     questionData: {
       type: Object as PropType<CheckboxQuestion>,
       required: true
@@ -55,9 +58,10 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: CheckboxQuestion, index: number) => true
+    update: (question: CheckboxQuestion) => true
   },
   setup(props, context) {
+    const choiceQuestions = computed(() => props.questionData.options)
     const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
       props,
       context
@@ -70,30 +74,46 @@ export default defineComponent({
     }
 
     const updateChoice = (label: string, index: number) => {
-      const newOptions = [...props.questionData.options]
-      newOptions[index] = label
-      updateChoiceQuestionData('options', newOptions)
+      const tmp = [...choiceQuestions.value]
+      tmp[index] = label
+      updateChoiceQuestionData('options', tmp)
     }
 
-    const deleteChoice = (label: string, index: number) => {
-      const newOptions = [...props.questionData.options]
-      newOptions.splice(index, 1)
-      updateChoiceQuestionData('options', newOptions)
+    const deleteChoice = (index: number) => {
+      const tmp = [...choiceQuestions.value]
+      tmp.splice(index, 1)
+      updateChoiceQuestionData('options', tmp)
     }
 
     const addChoice = () => {
-      const newOptions = [...props.questionData.options]
-      newOptions.push('')
-      updateChoiceQuestionData('options', newOptions)
+      const tmp = [...choiceQuestions.value]
+      tmp.push('')
+      updateChoiceQuestionData('options', tmp)
+    }
+
+    const swapChoice = (index1: number, index2: number) => {
+      const tmp = [...choiceQuestions.value]
+      const mom = tmp[index1]
+      tmp[index1] = tmp[index2]
+      tmp[index2] = mom
+      updateChoiceQuestionData('options', tmp)
     }
 
     return {
+      choiceQuestions,
       updateQuestionName,
       updateQuestionRequired,
       updateChoice,
       deleteChoice,
-      addChoice
+      addChoice,
+      swapChoice
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.newchoice {
+  cursor: pointer;
+}
+</style>
