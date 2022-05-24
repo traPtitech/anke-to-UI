@@ -74,25 +74,25 @@ export default defineComponent({
     }
 
     const updateChoice = (label: string, index: number) => {
-      const tmp = [...ChoiceQuestions.value]
+      const tmp = [...choiceQuestions.value]
       tmp[index] = label
       updateChoiceQuestionData('options', tmp)
     }
 
     const deleteChoice = (index: number) => {
-      const tmp = [...ChoiceQuestions.value]
+      const tmp = [...choiceQuestions.value]
       tmp.splice(index, 1)
       updateChoiceQuestionData('options', tmp)
     }
 
     const addChoice = () => {
-      const tmp = [...ChoiceQuestions.value]
+      const tmp = [...choiceQuestions.value]
       tmp.push('')
       updateChoiceQuestionData('options', tmp)
     }
 
     const swapChoice = (index1: number, index2: number) => {
-      const tmp = [...ChoiceQuestions.value]
+      const tmp = [...choiceQuestions.value]
       const mom = tmp[index1]
       tmp[index1] = tmp[index2]
       tmp[index2] = mom
