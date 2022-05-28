@@ -1,5 +1,4 @@
 <template>
-  <!-- <div :class="($style.underline, [orange ? $style.orange : $style.blue])" /> -->
   <div :class="[$style.underline, isBlue ? $style.blue : '']" />
 </template>
 
