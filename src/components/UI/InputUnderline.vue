@@ -21,12 +21,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-$orange: #ac4848;
+$red: #ac4848;
 $blue: #005bac;
 .underline {
   width: 100%;
   height: 2px;
-  background-color: $orange;
+  background-color: $red;
   transform: scaleX(0);
   transition: transform 0.1s;
   textarea:focus + &,
