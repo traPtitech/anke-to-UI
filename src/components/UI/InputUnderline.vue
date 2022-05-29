@@ -13,7 +13,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-$accent-primary: #ac4848;
 .underline {
   width: 100%;
   height: 2px;

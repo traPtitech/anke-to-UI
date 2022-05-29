@@ -53,7 +53,6 @@ export default defineComponent({
 <style lang="scss" module>
 $input-border: 1px;
 $underline-margin: -1 * $input-border;
-$ui-primary: #665558;
 .input {
   font-family: 'Arial';
   font-size: 1rem;
