@@ -2,7 +2,7 @@
   <input
     :type="isNumber ? 'number' : 'text'"
     :class="$style.input"
-    :placeholder="isNumber ? '数値を入力' : '回答'"
+    :placeholder="placeholder"
     :disabled="disabled"
     @input="update"
   />
@@ -19,6 +19,10 @@ export default defineComponent({
     InputUnderline
   },
   props: {
+    placeholder: {
+      type: String,
+      required: true
+    },
     isNumber: {
       type: Boolean,
       default: false
@@ -49,7 +53,7 @@ export default defineComponent({
 <style lang="scss" module>
 $input-border: 1px;
 $underline-margin: -1 * $input-border;
-
+$ui-primary: #665558;
 .input {
   font-family: 'Arial';
   font-size: 1rem;
@@ -58,7 +62,7 @@ $underline-margin: -1 * $input-border;
   border: none;
   outline: 0;
   padding: 0.4rem;
-  border-bottom: $input-border solid #665558;
+  border-bottom: $input-border solid $ui-primary;
 }
 .underline {
   margin-top: $underline-margin;
