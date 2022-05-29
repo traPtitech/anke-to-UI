@@ -9,13 +9,11 @@
       <QuestionTextarea
         v-if="questionData.question_type === 'TextArea'"
         model-value=""
-        :pointerevents="false"
       />
       <QuestionInput
         v-else
         :is-number="questionData.question_type === 'Number'"
         model-value=""
-        :pointerevents="false"
       />
     </div>
   </QuestionForm>
