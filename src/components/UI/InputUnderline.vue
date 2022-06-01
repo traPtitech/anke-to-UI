@@ -14,8 +14,8 @@ export default defineComponent({
 
 <style lang="scss" module>
 .underline {
-  width: 100%;
-  height: 2px;
+  width: 277px;
+  height: 1px;
   background-color: $accent-primary;
   transform: scaleX(0);
   transition: transform 0.1s;
