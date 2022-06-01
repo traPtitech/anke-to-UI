@@ -54,14 +54,38 @@ export default defineComponent({
 $input-border: 1px;
 $underline-margin: -1 * $input-border;
 .input {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 4px;
+  gap: 10px;
+  width: 277px;
+  height: 26px;
   font-family: 'Arial';
-  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  color: $ui-primary;
   box-sizing: border-box;
-  width: 100%;
   border: none;
   outline: 0;
-  padding: 0.4rem;
-  border-bottom: $input-border solid $ui-primary;
+  border-bottom: $input-border solid $ui-secondary;
+  &::placeholder {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 6px 4px;
+    gap: 10px;
+    width: 277px;
+    height: 26px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: $ui-secondary;
+  }
 }
 .underline {
   margin-top: $underline-margin;
