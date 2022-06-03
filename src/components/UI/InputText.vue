@@ -51,37 +51,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-$input-border: 1px;
-$underline-margin: -1 * $input-border;
+$underline-margin: -1px;
 .input {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
   padding: 4px;
-  gap: 10px;
-  width: 277px;
+  width: 100%;
   height: 26px;
-  font-family: 'Arial';
-  font-style: normal;
-  font-weight: 400;
   font-size: 16px;
   line-height: 18px;
   color: $ui-primary;
   box-sizing: border-box;
   border: none;
-  outline: 0;
-  border-bottom: $input-border solid $ui-secondary;
+  outline: none;
   &::placeholder {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
     padding: 6px 4px;
-    gap: 10px;
-    width: 277px;
+    width: 100%;
     height: 26px;
-    font-family: 'Arial';
-    font-style: normal;
-    font-weight: 400;
     font-size: 12px;
     line-height: 14px;
     color: $ui-secondary;
