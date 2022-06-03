@@ -1,4 +1,5 @@
 <template>
+  <div :class="$style.underlinefocus" />
   <div :class="$style.underline" />
 </template>
 
@@ -14,7 +15,13 @@ export default defineComponent({
 
 <style lang="scss" module>
 .underline {
-  width: 277px;
+  width: 100%;
+  height: 1px;
+  background-color: $ui-secondary;
+  margin-top: -1px;
+}
+.underlinefocus {
+  width: 100%;
   height: 1px;
   background-color: $accent-primary;
   transform: scaleX(0);
