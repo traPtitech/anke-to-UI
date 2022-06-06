@@ -5,14 +5,12 @@
       :key="index"
       :class="[disabled ? $style.disabledlabel : '', $style.label]"
     >
-      <span :class="[disabled ? $style.disabledcheck : '', $style.check]">
-        <icon
-          v-if="!disabled"
-          name="check"
-          :class="[isChecked(index) ? $style.checked : '', $style.icon]"
-        />
-      </span>
-      <input type="checkbox" :class="$style.checkbox" @input="check(index)" />
+      <Checkbox
+        :disabled="false"
+        :index="index"
+        :is-checked="isChecked(index)"
+        @update:check="updatecheck"
+      />
       <p :class="$style.content">
         {{ content }}
       </p>
@@ -22,13 +20,11 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import Icon from '/@/components/UI/Icon.vue'
+import Checkbox from './Checkbox.vue'
 
 export default defineComponent({
   name: 'QuestionCheckbox',
-  components: {
-    Icon
-  },
+  components: { Checkbox },
   props: {
     contents: {
       type: Array as PropType<string[]>,
@@ -48,10 +44,7 @@ export default defineComponent({
     'update:modelValue': (v: string[]) => true
   },
   setup(props, context) {
-    const isChecked = (index: number) =>
-      props.modelValue?.includes(props.contents[index])
-
-    const check = (index: number) => {
+    const updatecheck = (index: number) => {
       const content = props.contents[index]
       const checkedContents = props.modelValue || []
       if (checkedContents.includes(content)) {
@@ -62,8 +55,11 @@ export default defineComponent({
 
       context.emit('update:modelValue', checkedContents)
     }
+    const isChecked = (index: number) => {
+      return props.modelValue?.includes(props.contents[index])
+    }
 
-    return { check, isChecked }
+    return { updatecheck, isChecked }
   }
 })
 </script>
@@ -93,31 +89,5 @@ export default defineComponent({
     cursor: not-allowed;
     opacity: 1;
   }
-}
-.check {
-  display: inline-block;
-  cursor: pointer;
-  content: '';
-  height: 1rem;
-  width: 1rem;
-  border: 1px solid #7c6c4d;
-  border-radius: 0.2rem;
-  .icon {
-    opacity: 0;
-    color: #625c3d;
-    height: 100%;
-    width: 100%;
-    transition: 0.2s;
-  }
-  .checked {
-    opacity: 1;
-  }
-}
-.disabledcheck {
-  cursor: not-allowed;
-  background-color: rgb(239, 239, 239, 0.5);
-}
-.checkbox {
-  appearance: none;
 }
 </style>
