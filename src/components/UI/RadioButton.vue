@@ -42,14 +42,14 @@ export default defineComponent({
   content: '';
   width: 1rem;
   height: 1rem;
-  border: solid 1px #7c6c4d;
+  border: solid 1px $ui-primary;
   border-radius: 50%;
   cursor: pointer;
   .innerButton {
     content: '';
     width: 75%;
     height: 75%;
-    background-color: #7c6c4d;
+    background-color: $ui-primary;
     border-radius: 50%;
     transition: transform 0.1s;
     transform: scale(0);
