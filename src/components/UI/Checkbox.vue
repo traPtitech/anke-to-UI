@@ -6,7 +6,7 @@
       :class="[isChecked ? $style.checked : '', $style.icon]"
     />
   </span>
-  <input type="checkbox" :class="$style.checkbox" @input="updateChecked" />
+  <input type="checkbox" :class="$style.checkbox" @input="onInput" />
 </template>
 
 <script lang="ts">
@@ -19,10 +19,6 @@ export default defineComponent({
     Icon
   },
   props: {
-    index: {
-      type: Number,
-      required: true
-    },
     disabled: {
       type: Boolean,
       default: false
@@ -34,14 +30,14 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:check': (index: number) => true
+    input: () => true
   },
   setup(props, context) {
-    const updateChecked = () => {
-      context.emit('update:check', props.index)
+    const onInput = () => {
+      context.emit('input')
     }
 
-    return { updateChecked }
+    return { onInput }
   }
 })
 </script>
