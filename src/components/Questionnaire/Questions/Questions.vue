@@ -13,6 +13,7 @@
           v-if="questioncontent.question_type === 'Number'"
           :is-number="true"
           :disabled="true"
+          :placeholder="'数値を入力'"
         />
 
         <QuestionRadio
@@ -30,6 +31,7 @@
           v-if="questioncontent.question_type === 'Text'"
           :is-number="false"
           :disabled="true"
+          :placeholder="'回答'"
         />
 
         <QuestionCheckbox
