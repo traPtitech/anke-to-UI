@@ -13,7 +13,7 @@ import { defineComponent } from 'vue'
 import InputFocusUnderline from '/@/components/UI/InputFocusUnderline.vue'
 
 export default defineComponent({
-  name: 'QuestionInput',
+  name: 'QuestionTitle',
   components: {
     InputFocusUnderline
   },
