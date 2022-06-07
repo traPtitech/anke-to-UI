@@ -3,8 +3,8 @@ export const resize = (e: KeyboardEvent): void => {
 
   el.style.height = 'auto'
   if (e.code === 'Enter') {
-    el.style.height = `${el.scrollHeight + 30}px`
+    el.style.height = `${el.scrollHeight + 32}px`
   } else {
-    el.style.height = `${el.scrollHeight + 1}px`
+    el.style.height = `${el.scrollHeight + 5}px`
   }
 }

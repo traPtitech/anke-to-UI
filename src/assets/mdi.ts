@@ -14,6 +14,8 @@ import {
   mdiArrowLeft,
   mdiCheck,
   mdiLoading,
+  mdiPencil,
+  mdiFilePlus,
   mdiTrashCanOutline,
   mdiAlertOutline,
   mdiPlusCircleOutline
@@ -35,6 +37,8 @@ const mdi = new Map<string, string>([
   ['arrow-left', mdiArrowLeft],
   ['check', mdiCheck],
   ['loading', mdiLoading],
+  ['pencil', mdiPencil],
+  ['file-plus', mdiFilePlus],
   ['trash-can-outline', mdiTrashCanOutline],
   ['alert', mdiAlertOutline],
   ['plus-circle-outline', mdiPlusCircleOutline]

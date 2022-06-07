@@ -10,6 +10,7 @@
     "clean": "rimraf ./src/lib/apis/generated"
   },
   "dependencies": {
+    "v-calendar": "^3.0.0-alpha.5",
     "@mdi/js": "^6.7.96",
     "@traptitech/vite-plugin-trap-auth": "^0.2.7",
     "axios": "^0.27.2",

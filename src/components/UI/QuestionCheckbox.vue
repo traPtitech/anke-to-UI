@@ -80,8 +80,7 @@ export default defineComponent({
   flex-direction: row;
   margin: 0.2rem 0;
   .content {
-    margin: 0;
-    margin-left: 0.4rem;
+    margin: 0 0.5rem 0 0.25rem;
   }
   &:hover {
     cursor: pointer;

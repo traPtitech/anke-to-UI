@@ -2,7 +2,7 @@
   <div :class="$style.dropdown">
     <button :class="$style.button" @click="open">
       <div :class="$style.dropdownTrigger">
-        <p :class="$style.title">{{ title }}</p>
+        <p :class="$style.title">{{ showOption ? modelValue : title }}</p>
         <icon
           name="chevron-down"
           :class="[$style.icon, isOpen ? $style.rotate : '']"
@@ -12,6 +12,8 @@
     <dropdown-contents
       :is-open="isOpen"
       :contents="contents"
+      :selected="modelValue"
+      :class="$style.contents"
       @close="close"
       @change-option="change"
     />
@@ -42,6 +44,10 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true
     },
+    showOption: {
+      type: Boolean,
+      default: false
+    },
     modelValue: {
       type: String,
       required: true
@@ -70,6 +76,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.dropdown {
+  width: fit-content;
+}
 .dropdownTrigger {
   display: flex;
   padding: 0.25rem 0.5rem 0.25rem 1rem;

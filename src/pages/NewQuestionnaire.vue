@@ -1,5 +1,6 @@
 <template>
   <Tab v-model="selectedTab" :tabs="detailTabs" />
+  <Information v-if="selectedTab === NewInformationTabName" />
   <Questions v-if="selectedTab === NewQuestionsTabName" />
 </template>
 
@@ -14,11 +15,13 @@ import {
 } from '/@/components/NewQuestionnaire/use/utils'
 import Tab from '/@/components/UI/Tab.vue'
 import Questions from '/@/components/NewQuestionnaire/Questions.vue'
+import Information from '/@/components/NewQuestionnaire/Information.vue'
 
 export default defineComponent({
   name: 'ResultTab',
   components: {
     Questions,
+    Information,
     Tab
   },
   props: {},

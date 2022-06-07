@@ -4,7 +4,7 @@
       <p
         v-for="(content, index) in contents"
         :key="index"
-        :class="$style.contents"
+        :class="[$style.contents, content === selected ? $style.selected : '']"
         @click="onClick(content)"
       >
         {{ content }}
@@ -25,6 +25,10 @@ export default defineComponent({
     },
     contents: {
       type: Array as PropType<string[]>,
+      required: true
+    },
+    selected: {
+      type: String,
       required: true
     }
   },
@@ -83,6 +87,9 @@ export default defineComponent({
     &:hover {
       background-color: #f4ecec;
     }
+  }
+  .selected {
+    background-color: #cfb998;
   }
 }
 </style>
