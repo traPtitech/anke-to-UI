@@ -6,17 +6,17 @@
     :disabled="disabled"
     @input="update"
   />
-  <input-underline :class="$style.underline" :is-blue="true" />
+  <input-focus-underline :class="$style.underline" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import InputUnderline from '/@/components/UI/InputUnderline.vue'
+import InputFocusUnderline from './InputFocusUnderline.vue'
 
 export default defineComponent({
   name: 'InputText',
   components: {
-    InputUnderline
+    InputFocusUnderline
   },
   props: {
     placeholder: {
@@ -51,7 +51,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-$underline-margin: -1px;
+$input-border: 1px;
+$underline-margin: -1 * $input-border;
 .input {
   padding: 4px;
   width: 100%;
@@ -61,6 +62,7 @@ $underline-margin: -1px;
   color: $ui-primary;
   box-sizing: border-box;
   border: none;
+  border-bottom: $input-border solid $ui-secondary;
   outline: none;
   &::placeholder {
     padding: 6px 4px;
