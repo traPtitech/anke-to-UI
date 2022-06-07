@@ -28,6 +28,7 @@
         <InputText
           :model-value="labelLeft"
           :is-number="false"
+          :placeholder="'ラベル(任意)'"
           @update:model-value="
             modelValue => updateLinearScale('scale_label_left', modelValue)
           "
@@ -38,6 +39,7 @@
         <InputText
           :model-value="labelRight"
           :is-number="false"
+          :placeholder="'ラベル(任意)'"
           @update:model-value="
             modelValue => updateLinearScale('scale_label_right', modelValue)
           "
