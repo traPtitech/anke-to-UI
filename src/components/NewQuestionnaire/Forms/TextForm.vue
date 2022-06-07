@@ -10,7 +10,7 @@
         v-if="questionData.question_type === 'TextArea'"
         model-value=""
       />
-      <QuestionInput
+      <InputText
         v-else
         :is-number="questionData.question_type === 'Number'"
         model-value=""
@@ -21,16 +21,16 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import QuestionInput from '../../UI/QuestionInput.vue'
 import QuestionTextarea from '/@/components/UI/QuestionTextarea.vue'
 import QuestionForm from './QuestionForm.vue'
+import InputText from '/@/components/UI/InputText.vue'
 import { TextQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 
 export default defineComponent({
   name: 'TextForm',
   components: {
-    QuestionInput,
+    InputText,
     QuestionTextarea,
     QuestionForm
   },
