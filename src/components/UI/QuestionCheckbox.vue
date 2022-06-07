@@ -6,10 +6,10 @@
       :class="[disabled ? $style.disabledlabel : '', $style.label]"
     >
       <Checkbox
-        :disabled="false"
+        :disabled="disabled"
         :index="index"
         :is-checked="isChecked(index)"
-        @update:check="updatecheck"
+        @input="updatecheck(index)"
       />
       <p :class="$style.content">
         {{ content }}
