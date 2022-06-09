@@ -7,7 +7,6 @@
     >
       <Checkbox
         :disabled="disabled"
-        :index="index"
         :is-checked="isChecked(index)"
         @input="updatecheck(index)"
       />
