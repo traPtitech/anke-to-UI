@@ -1,19 +1,23 @@
 <template>
   <input :type="[isRadio ? 'radio' : 'checkbox']" value="true" />
-  <QuestionInput v-model="labelRef" :model-value="label" />
+  <InputText
+    v-model="labelRef"
+    :model-value="label"
+    :placeholder="'選択肢を入力'"
+  />
   <Icon name="trash-can-outline" @click="deleteChoice" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
 import Icon from '../../UI/Icon.vue'
-import QuestionInput from '../../UI/QuestionInput.vue'
+import InputText from '../../UI/InputText.vue'
 
 export default defineComponent({
   name: 'ChoiceElement',
   components: {
     Icon,
-    QuestionInput
+    InputText
   },
   props: {
     index: {

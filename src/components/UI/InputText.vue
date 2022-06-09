@@ -2,23 +2,27 @@
   <input
     :type="isNumber ? 'number' : 'text'"
     :class="$style.input"
-    :placeholder="isNumber ? '数値を入力' : '回答'"
+    :placeholder="placeholder"
     :disabled="disabled"
     @input="update"
   />
-  <input-underline :class="$style.underline" />
+  <input-focus-underline :class="$style.underline" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import InputUnderline from '/@/components/UI/InputUnderline.vue'
+import InputFocusUnderline from './InputFocusUnderline.vue'
 
 export default defineComponent({
-  name: 'QuestionInput',
+  name: 'InputText',
   components: {
-    InputUnderline
+    InputFocusUnderline
   },
   props: {
+    placeholder: {
+      type: String,
+      required: true
+    },
     isNumber: {
       type: Boolean,
       default: false
@@ -49,15 +53,25 @@ export default defineComponent({
 <style lang="scss" module>
 $input-border: 1px;
 $underline-margin: -1 * $input-border;
-
 .input {
-  box-sizing: border-box;
+  padding: 4px;
   width: 100%;
-  font-size: 1rem;
+  height: 26px;
+  font-size: 16px;
+  line-height: 18px;
+  color: $ui-primary;
+  box-sizing: border-box;
   border: none;
-  outline: 0;
-  padding: 0.4rem;
-  border-bottom: $input-border dotted #7c6c4d;
+  border-bottom: $input-border solid $ui-secondary;
+  outline: none;
+  &::placeholder {
+    padding: 6px 4px;
+    width: 100%;
+    height: 26px;
+    font-size: 12px;
+    line-height: 14px;
+    color: $ui-secondary;
+  }
 }
 .underline {
   margin-top: $underline-margin;

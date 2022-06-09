@@ -1,12 +1,11 @@
 <template>
-  <div :class="$style.underline" />
+  <div :class="$style.focusunderline" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
 export default defineComponent({
-  name: 'InputUnderline',
+  name: 'InputFocusUnderline',
   setup() {
     return {}
   }
@@ -14,10 +13,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.underline {
+.focusunderline {
   width: 100%;
-  height: 2px;
-  background-color: #7c6c4d;
+  height: 1px;
+  background-color: $accent-primary;
   transform: scaleX(0);
   transition: transform 0.1s;
   textarea:focus + &,

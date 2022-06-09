@@ -5,17 +5,17 @@
     :value="modelValue"
     @input="update"
   />
-  <input-underline :class="$style.underline" />
+  <input-focus-underline :class="$style.underline" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import InputUnderline from '/@/components/UI/InputUnderline.vue'
+import InputFocusUnderline from '/@/components/UI/InputFocusUnderline.vue'
 
 export default defineComponent({
-  name: 'QuestionInput',
+  name: 'QuestionTitle',
   components: {
-    InputUnderline
+    InputFocusUnderline
   },
   props: {
     modelValue: {
