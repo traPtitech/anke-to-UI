@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import Checkbox from './Checkbox.vue'
+import Checkbox from './QuestionCheckboxIcon.vue'
 
 export default defineComponent({
   name: 'QuestionCheckbox',
