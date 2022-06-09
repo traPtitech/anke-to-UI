@@ -1,6 +1,6 @@
 <template>
   <input :type="[isRadio ? 'radio' : 'checkbox']" value="true" />
-  <InputText v-model="labelRef" :model-value="label" />
+  <InputText v-model="labelRef" :model-value="label" :placeholder="'選択肢を入力'" />
   <Icon name="trash-can-outline" @click="deleteChoice" />
 </template>
 
