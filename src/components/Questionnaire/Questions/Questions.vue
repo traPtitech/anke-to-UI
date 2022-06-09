@@ -9,10 +9,11 @@
           <p>{{ questioncontent.body }}</p>
           <span><IsRequired :required="questioncontent.is_required" /></span>
         </div>
-        <QuestionInput
+        <InputText
           v-if="questioncontent.question_type === 'Number'"
           :is-number="true"
           :disabled="true"
+          :placeholder="'数値を入力'"
         />
 
         <QuestionRadio
@@ -26,10 +27,11 @@
           :disabled="true"
         />
 
-        <QuestionInput
+        <InputText
           v-if="questioncontent.question_type === 'Text'"
           :is-number="false"
           :disabled="true"
+          :placeholder="'回答'"
         />
 
         <QuestionCheckbox
@@ -58,7 +60,7 @@ import IsRequired from './IsRequired.vue'
 import { questionrangedetail } from '/@/components/Questionnaire/usequestonnaire'
 import LinearScale from '/@/components/UI/LinearScale.vue'
 import QuestionCheckbox from '/@/components/UI/QuestionCheckbox.vue'
-import QuestionInput from '/@/components/UI/QuestionInput.vue'
+import InputText from '/@/components/UI/InputText.vue'
 import QuestionRadio from '/@/components/UI/QuestionRadio.vue'
 import QuestionTextarea from '/@/components/UI/QuestionTextarea.vue'
 import { QuestionnaireMyTargeted, QuestionDetails } from '/@/lib/apis'
@@ -69,7 +71,7 @@ export default defineComponent({
     Card,
     LinearScale,
     QuestionCheckbox,
-    QuestionInput,
+    InputText,
     QuestionRadio,
     QuestionTextarea,
     IsRequired

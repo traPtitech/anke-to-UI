@@ -25,9 +25,10 @@
     <div>
       <div>
         {{ questionData.scale_min }}
-        <QuestionInput
+        <InputText
           :model-value="labelLeft"
           :is-number="false"
+          :placeholder="'ラベル(任意)'"
           @update:model-value="
             modelValue => updateLinearScale('scale_label_left', modelValue)
           "
@@ -35,9 +36,10 @@
       </div>
       <div>
         {{ questionData.scale_max }}
-        <QuestionInput
+        <InputText
           :model-value="labelRight"
           :is-number="false"
+          :placeholder="'ラベル(任意)'"
           @update:model-value="
             modelValue => updateLinearScale('scale_label_right', modelValue)
           "
@@ -51,7 +53,7 @@
 import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import Select from '../../UI/Select.vue'
-import QuestionInput from '../../UI/QuestionInput.vue'
+import InputText from '../../UI/InputText.vue'
 import { LinearScaleQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 
@@ -60,7 +62,7 @@ export default defineComponent({
   components: {
     QuestionForm,
     Select,
-    QuestionInput
+    InputText
   },
   props: {
     questionData: {

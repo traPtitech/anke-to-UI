@@ -8,17 +8,17 @@
     @input="update"
     @keydown="resize"
   />
-  <input-underline :class="$style.underline" />
+  <input-focus-underline :class="$style.underline" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import InputUnderline from '/@/components/UI/InputUnderline.vue'
+import InputFocusUnderline from '/@/components/UI/InputFocusUnderline.vue'
 import { resize } from './use/question'
 
 export default defineComponent({
   name: 'QuestionTextarea',
-  components: { InputUnderline },
+  components: { InputFocusUnderline },
   props: {
     disabled: {
       type: Boolean,
