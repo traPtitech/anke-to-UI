@@ -45,21 +45,21 @@ export default defineComponent({
   border: solid 1px $ui-primary;
   border-radius: 50%;
   cursor: pointer;
-  .innerButton {
-    content: '';
-    width: 75%;
-    height: 75%;
-    background-color: $ui-primary;
-    border-radius: 50%;
-    transition: transform 0.1s;
-    transform: scale(0);
-  }
-  .selected {
-    transform: scale(1);
-  }
   &:hover {
     opacity: 0.6;
   }
+}
+.innerButton {
+  content: '';
+  width: 75%;
+  height: 75%;
+  background-color: $ui-primary;
+  border-radius: 50%;
+  transition: transform 0.1s;
+  transform: scale(0);
+}
+.selected {
+  transform: scale(1);
 }
 .disabledbutton {
   background-color: rgb(239, 239, 239, 0.5);
