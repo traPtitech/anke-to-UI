@@ -45,24 +45,22 @@ export default defineComponent({
 <style lang="scss" module>
 .check {
   display: inline-block;
-  position: relative;
   cursor: pointer;
   content: '';
   height: 1rem;
   width: 1rem;
   border: 1px solid $ui-primary;
   border-radius: 0.2rem;
-  .icon {
-    opacity: 0;
-    position: absolute;
-    color: $ui-primary;
-    height: 100%;
-    width: 100%;
-    transition: 0.2s;
-  }
-  .checked {
-    opacity: 1;
-  }
+}
+.icon {
+  opacity: 0;
+  color: $ui-primary;
+  height: 100%;
+  width: 100%;
+  transition: 0.2s;
+}
+.checked {
+  opacity: 1;
 }
 .disabledcheck {
   cursor: not-allowed;
