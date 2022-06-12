@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue'
-import RadioButton from '/@/components/UI/RadioButton.vue'
+import RadioButton from '/@/components/UI/QuestionRadioButtonIcon.vue'
 
 export default defineComponent({
   name: 'LinearScale',
