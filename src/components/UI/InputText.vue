@@ -4,6 +4,7 @@
     :class="$style.input"
     :placeholder="placeholder"
     :disabled="disabled"
+    :value="modelValue"
     @input="update"
   />
   <input-focus-underline :class="$style.underline" />
