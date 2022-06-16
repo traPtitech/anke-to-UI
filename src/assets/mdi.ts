@@ -16,7 +16,9 @@ import {
   mdiLoading,
   mdiTrashCan,
   mdiAlertOutline,
-  mdiPlusCircleOutline
+  mdiPlusCircleOutline,
+  mdiDelete,
+  mdiContentDuplicate
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -37,7 +39,9 @@ const mdi = new Map<string, string>([
   ['loading', mdiLoading],
   ['trash-can', mdiTrashCan],
   ['alert', mdiAlertOutline],
-  ['plus-circle-outline', mdiPlusCircleOutline]
+  ['plus-circle-outline', mdiPlusCircleOutline],
+  ['delete', mdiDelete],
+  ['content-duplicate', mdiContentDuplicate]
 ])
 
 export default mdi

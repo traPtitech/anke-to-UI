@@ -1,12 +1,10 @@
 <template>
-  <div>
+  <div :class="$style.icon">
     <Icon
       :class="[index === 0 ? $style.button : '']"
       name="chevron-up"
       @click="upQuestion"
     />
-  </div>
-  <div>
     <Icon
       :class="[index === max - 1 ? $style.button : '']"
       name="chevron-down"
@@ -53,6 +51,10 @@ export default defineComponent({
 <style lang="scss" module>
 .button {
   pointer-events: none;
-  color: red;
+  color: $ui-secondary;
+}
+.icon {
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <Icon name="trash-can-outline" @click="deleteQuestion" />
+  <Icon name="delete" @click="deleteQuestion" />
 </template>
 
 <script lang="ts">
@@ -12,10 +12,6 @@ export default defineComponent({
     Icon
   },
   props: {
-    questionarray: {
-      type: Array,
-      required: true
-    },
     index: {
       type: Number,
       required: true

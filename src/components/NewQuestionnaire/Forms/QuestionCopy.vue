@@ -1,5 +1,5 @@
 <template>
-  <Icon name="clipboard" @click="deleteQuestion" />
+  <Icon name="content-duplicate" @click="deleteQuestion" />
 </template>
 
 <script lang="ts">

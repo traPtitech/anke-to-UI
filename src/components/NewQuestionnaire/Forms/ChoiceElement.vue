@@ -5,7 +5,7 @@
     :model-value="label"
     :placeholder="'選択肢を入力'"
   />
-  <Icon name="trash-can-outline" @click="deleteChoice" />
+  <Icon name="delete" @click="deleteChoice" />
 </template>
 
 <script lang="ts">
