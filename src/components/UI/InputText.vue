@@ -1,13 +1,15 @@
 <template>
-  <input
-    :type="isNumber ? 'number' : 'text'"
-    :class="$style.input"
-    :placeholder="placeholder"
-    :disabled="disabled"
-    :value="modelValue"
-    @input="update"
-  />
-  <input-focus-underline :class="$style.underline" />
+  <div>
+    <input
+      :type="isNumber ? 'number' : 'text'"
+      :class="$style.input"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :value="modelValue"
+      @input="update"
+    />
+    <input-focus-underline :class="$style.underline" />
+  </div>
 </template>
 
 <script lang="ts">
