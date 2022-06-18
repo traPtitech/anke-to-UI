@@ -1,11 +1,13 @@
 <template>
-  <input
-    :class="$style.input"
-    placeholder="質問文"
-    :value="modelValue"
-    @input="update"
-  />
-  <input-focus-underline :class="$style.underline" />
+  <div>
+    <input
+      :class="$style.input"
+      placeholder="質問文"
+      :value="modelValue"
+      @input="update"
+    />
+    <input-focus-underline :class="$style.underline" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -40,15 +42,25 @@ export default defineComponent({
 <style lang="scss" module>
 $input-border: 1px;
 $underline-margin: -1 * $input-border;
-
 .input {
-  box-sizing: border-box;
+  padding: 4px;
   width: 100%;
-  font-size: 1rem;
+  height: 26px;
+  font-size: 16px;
+  line-height: 18px;
+  color: $ui-primary;
+  box-sizing: border-box;
   border: none;
-  outline: 0;
-  padding: 0.4rem;
-  border-bottom: $input-border dotted #7c6c4d;
+  border-bottom: $input-border solid $ui-secondary;
+  outline: none;
+  &::placeholder {
+    padding: 6px 4px;
+    width: 100%;
+    height: 26px;
+    font-size: 12px;
+    line-height: 14px;
+    color: $ui-secondary;
+  }
 }
 .underline {
   margin-top: $underline-margin;
