@@ -1,28 +1,29 @@
 <template>
-  <div>
-    <QuestionTitle
+  <div :class="$style.questiontitle">
+    <InputText
+      :class="$style.title"
       :model-value="questionName"
+      :placeholder="'質問文'"
       @update:model-value="updateQuestionName"
     />
-    <QuestionCheckbox
-      :model-value="questionIsRequired"
-      :contents="[REQUIRED_LABEL]"
-      @update:model-value="updateQuestionIsRequired"
+    <required-switch
+      :is-checked="questionIsRequired"
+      @update:checked="updateQuestionIsRequired()"
     />
-    <slot></slot>
   </div>
+  <slot></slot>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import QuestionTitle from '/@/components/UI/QuestionTitle.vue'
-import QuestionCheckbox from '../../UI/QuestionCheckbox.vue'
+import InputText from '/@/components/UI/InputText.vue'
+import RequiredSwitch from './RequiredSwitch.vue'
 
 export default defineComponent({
   name: 'QuestionForm',
   components: {
-    QuestionTitle,
-    QuestionCheckbox
+    InputText,
+    RequiredSwitch
   },
   props: {
     name: {
@@ -41,26 +42,23 @@ export default defineComponent({
     'update:required': (v: boolean) => true
   },
   setup(props, context) {
-    const REQUIRED_LABEL = '必須'
     const questionName = computed(() => props.name)
-    // todo: ここでQuestionのCheckboxを使っていいか考える
     const questionIsRequired = computed(() => {
       if (props.isRequired) {
-        return [REQUIRED_LABEL]
+        return true
       } else {
-        return []
+        return false
       }
     })
 
     const updateQuestionName = (newName: string) => {
       context.emit('update:name', newName)
     }
-    const updateQuestionIsRequired = (newIsRequired: string[]) => {
-      context.emit('update:required', newIsRequired.length === 1)
+    const updateQuestionIsRequired = () => {
+      context.emit('update:required', !questionIsRequired.value)
     }
 
     return {
-      REQUIRED_LABEL,
       questionName,
       questionIsRequired,
       updateQuestionName,
@@ -70,4 +68,14 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.questiontitle {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+  gap: 16px;
+}
+.title {
+  flex-grow: 1;
+}
+</style>
