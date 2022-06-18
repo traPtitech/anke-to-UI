@@ -9,40 +9,60 @@
     <div v-for="(question, i) in questions" :key="i">
       <Card :header-visible="false">
         <template #content>
-          <QuestionUpdown
-            :index="i"
-            :max="questions.length"
-            @swap="swapQuestions"
-          />
-          <QuestionDispose :index="i" @delete="deleteQuestion" />
-          <TextForm
-            v-if="isTextForm(question)"
-            :question-data="question"
-            @update="
-              question => {
-                updateQuestions(i, question)
-              }
-            "
-          />
-          <ChoiceForm
-            v-if="isChoiceForm(question)"
-            :question-data="question"
-            :is-radio="question.question_type === QuestionType.MultipleChoice"
-            @update="
-              question => {
-                updateQuestions(i, question)
-              }
-            "
-          />
-          <LinearScaleForm
-            v-if="isLinearScaleForm(question)"
-            :question-data="question"
-            @update="
-              question => {
-                updateQuestions(i, question)
-              }
-            "
-          />
+          <div :class="$style.question">
+            <QuestionUpdown
+              :index="i"
+              :max="questions.length"
+              @swap="swapQuestions"
+            />
+            <div :class="$style.border" />
+            <div :class="$style.questiondetail">
+              <TextForm
+                v-if="isTextForm(question)"
+                :question-data="question"
+                @update="
+                  question => {
+                    updateQuestions(i, question)
+                  }
+                "
+              />
+              <ChoiceForm
+                v-if="isChoiceForm(question)"
+                :question-data="question"
+                :is-radio="
+                  question.question_type === QuestionType.MultipleChoice
+                "
+                @update="
+                  question => {
+                    updateQuestions(i, question)
+                  }
+                "
+              />
+              <LinearScaleForm
+                v-if="isLinearScaleForm(question)"
+                :question-data="question"
+                @update="
+                  question => {
+                    updateQuestions(i, question)
+                  }
+                "
+              />
+              <div :class="$style.control">
+                <QuestionTypeSelect
+                  :model-value="question.question_type"
+                  @update:type="
+                    type => {
+                      updateQuestionType(i, type)
+                    }
+                  "
+                />
+                <div :class="$style.button">
+                  <QuestionCopy :index="i" @copy="copyQuestion" />
+                  <QuestionDispose :index="i" @delete="deleteQuestion" />
+                </div>
+              </div>
+            </div>
+          </div>
         </template>
       </Card>
     </div>
@@ -62,6 +82,8 @@ import ChoiceForm from './Forms/ChoiceForm.vue'
 import LinearScaleForm from './Forms/LinearScaleForm.vue'
 import QuestionDispose from './Forms/QuestionDispose.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
+import QuestionCopy from './Forms/QuestionCopy.vue'
+import QuestionTypeSelect from './Forms/QuestionTypeSelect.vue'
 
 export default defineComponent({
   name: 'Questions',
@@ -73,7 +95,9 @@ export default defineComponent({
     LinearScaleForm,
     AddQuestionButtons,
     QuestionDispose,
-    QuestionUpdown
+    QuestionUpdown,
+    QuestionCopy,
+    QuestionTypeSelect
   },
   setup() {
     const questions = ref<QuestionData[]>([])
@@ -84,6 +108,10 @@ export default defineComponent({
     }
     const updateQuestions = (index: number, newData: QuestionData) => {
       questions.value[index] = newData
+    }
+    const updateQuestionType = (i: number, type: QuestionType) => {
+      const question = createNewQuestion(type)
+      questions.value.splice(i, 1, question)
     }
 
     const isTextForm = (question: QuestionData) =>
@@ -99,7 +127,9 @@ export default defineComponent({
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
     }
-
+    const copyQuestion = (index: number) => {
+      questions.value.splice(index + 1, 0, questions.value[index])
+    }
     const swapQuestions = (index1: number, index2: number) => {
       const tmp = questions.value[index1]
       questions.value[index1] = questions.value[index2]
@@ -110,12 +140,41 @@ export default defineComponent({
       questions,
       addQuestion,
       updateQuestions,
+      updateQuestionType,
       deleteQuestion,
       isTextForm,
       isChoiceForm,
       isLinearScaleForm,
-      swapQuestions
+      swapQuestions,
+      copyQuestion
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.question {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+}
+.border {
+  width: 1px;
+  background-color: $ui-primary;
+  margin-right: 4px;
+}
+.questiondetail {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 8px;
+}
+.control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.button {
+  margin-left: auto;
+}
+</style>
