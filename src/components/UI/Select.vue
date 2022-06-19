@@ -1,7 +1,7 @@
 <template>
-  <div :class="$style.select">
+  <div :class="$style.container">
     <select
-      :class="$style.display"
+      :class="$style.select"
       :value="modelValue"
       @change="update($event.target.value)"
     >
@@ -49,24 +49,22 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.display {
-  display: flex;
-  align-items: center;
-  position: relative;
+.select {
   appearance: none;
   width: 200px;
   height: 40px;
   border-radius: 6px;
   background-color: $ui-white;
   border-color: $ui-secondary;
-  padding: 4px 50px 4px 8px;
+  padding: 8px 16px;
+  cursor: pointer;
 }
-.select {
+.container {
   position: relative;
   width: 200px;
   height: 40px;
 }
-.select::after {
+.container::after {
   content: '';
   position: absolute;
   right: 12px;
@@ -76,7 +74,6 @@ export default defineComponent({
   border-top: 3px solid $ui-primary;
   border-left: 3px solid $ui-primary;
   transform: translateY(-50%) rotate(-135deg);
-  font-size: 20px;
   pointer-events: none;
 }
 </style>
