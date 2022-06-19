@@ -7,7 +7,7 @@
       @update:model-value="updateQuestionName"
     />
     <required-switch
-      :is-checked="questionIsRequired"
+      :is-checked="isRequired"
       @update:checked="updateQuestionIsRequired()"
     />
   </div>
@@ -43,13 +43,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const questionName = computed(() => props.name)
-    const questionIsRequired = computed(() => {
-      if (props.isRequired) {
-        return true
-      } else {
-        return false
-      }
-    })
+    const questionIsRequired = computed(() => props.isRequired)
 
     const updateQuestionName = (newName: string) => {
       context.emit('update:name', newName)
@@ -60,7 +54,6 @@ export default defineComponent({
 
     return {
       questionName,
-      questionIsRequired,
       updateQuestionName,
       updateQuestionIsRequired
     }
@@ -72,7 +65,7 @@ export default defineComponent({
 .questiontitle {
   display: flex;
   flex-direction: row;
-  flex-basis: 100%;
+  align-items: center;
   gap: 16px;
 }
 .title {
