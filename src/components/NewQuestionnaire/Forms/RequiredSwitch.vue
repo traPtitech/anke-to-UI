@@ -1,7 +1,7 @@
 <template>
   <label :class="$style.label">
-    <div :class="$style.word">必答</div>
-    <toggle-switch :is-checked="isChecked" @input="updateChecked" />
+    <div :class="$style.word">必須</div>
+    <toggle-switch :is-checked="isChecked" @toggle="updateChecked" />
   </label>
 </template>
 
@@ -37,6 +37,8 @@ export default defineComponent({
 .label {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  cursor: pointer;
   gap: 4px;
 }
 </style>
