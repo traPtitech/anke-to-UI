@@ -25,11 +25,11 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    input: () => true
+    toggle: () => true
   },
   setup(props, context) {
     const onInput = () => {
-      context.emit('input')
+      context.emit('toggle')
     }
     return { onInput }
   }
@@ -41,6 +41,7 @@ export default defineComponent({
   position: relative;
   width: 44px;
   height: 24px;
+  cursor: pointer;
 }
 .input {
   position: absolute;
@@ -51,6 +52,7 @@ export default defineComponent({
   height: 24px;
   border-radius: 160px;
   background-color: $ui-primary;
+  transition: 0.1s;
 }
 .checkedbackground {
   background-color: $accent-primary;
@@ -63,6 +65,7 @@ export default defineComponent({
   top: 4px;
   border-radius: 50%;
   background-color: $ui-white;
+  transition: 0.1s;
 }
 .checkedcircle {
   transform: translateX(16px);
