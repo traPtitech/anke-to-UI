@@ -1,5 +1,9 @@
 <template>
-  <Icon name="content-duplicate" @click="deleteQuestion" />
+  <Icon
+    name="content-duplicate"
+    :class="$style.copybutton"
+    @click="copyQuestion"
+  />
 </template>
 
 <script lang="ts">
@@ -7,7 +11,7 @@ import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
-  name: 'QuestionCopy',
+  name: 'QuestionCopyButton',
   components: {
     Icon
   },
@@ -22,12 +26,16 @@ export default defineComponent({
     copy: (index: number) => true
   },
   setup(props, context) {
-    const deleteQuestion = () => {
+    const copyQuestion = () => {
       context.emit('copy', props.index)
     }
-    return { deleteQuestion }
+    return { copyQuestion }
   }
 })
 </script>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.copybutton {
+  cursor: pointer;
+}
+</style>
