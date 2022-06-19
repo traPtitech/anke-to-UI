@@ -13,55 +13,16 @@
             <QuestionUpdown
               :index="i"
               :max="questions.length"
+              :class="$style.border"
               @swap="swapQuestions"
             />
-            <div :class="$style.border" />
-            <div :class="$style.questiondetail">
-              <TextForm
-                v-if="isTextForm(question)"
-                :question-data="question"
-                @update="
-                  question => {
-                    updateQuestions(i, question)
-                  }
-                "
-              />
-              <ChoiceForm
-                v-if="isChoiceForm(question)"
-                :question-data="question"
-                :is-radio="
-                  question.question_type === QuestionType.MultipleChoice
-                "
-                @update="
-                  question => {
-                    updateQuestions(i, question)
-                  }
-                "
-              />
-              <LinearScaleForm
-                v-if="isLinearScaleForm(question)"
-                :question-data="question"
-                @update="
-                  question => {
-                    updateQuestions(i, question)
-                  }
-                "
-              />
-              <div :class="$style.control">
-                <QuestionTypeSelect
-                  :model-value="question.question_type"
-                  @update:type="
-                    type => {
-                      updateQuestionType(i, type)
-                    }
-                  "
-                />
-                <div :class="$style.button">
-                  <QuestionCopy :index="i" @copy="copyQuestion" />
-                  <QuestionDispose :index="i" @delete="deleteQuestion" />
-                </div>
-              </div>
-            </div>
+            <Question
+              :model-value="question"
+              @update:question="question => updateQuestions(i, question)"
+              @update:questiontype="type => updateQuestionType(i, type)"
+              @delete="deleteQuestion(i)"
+              @copy="copyQuestion(i)"
+            />
           </div>
         </template>
       </Card>
@@ -77,27 +38,17 @@ import QuestionnaireTitle from './QuestionnaireTitle.vue'
 import AddQuestionButtons from './AddQuestionButtons.vue'
 import { createNewQuestion, QuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
-import TextForm from './Forms/TextForm.vue'
-import ChoiceForm from './Forms/ChoiceForm.vue'
-import LinearScaleForm from './Forms/LinearScaleForm.vue'
-import QuestionDispose from './Forms/QuestionDispose.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
-import QuestionCopy from './Forms/QuestionCopy.vue'
-import QuestionTypeSelect from './Forms/QuestionTypeSelect.vue'
+import Question from './Question.vue'
 
 export default defineComponent({
   name: 'Questions',
   components: {
     QuestionnaireTitle,
     Card,
-    TextForm,
-    ChoiceForm,
-    LinearScaleForm,
-    AddQuestionButtons,
-    QuestionDispose,
     QuestionUpdown,
-    QuestionCopy,
-    QuestionTypeSelect
+    AddQuestionButtons,
+    Question
   },
   setup() {
     const questions = ref<QuestionData[]>([])
@@ -113,17 +64,6 @@ export default defineComponent({
       const question = createNewQuestion(type)
       questions.value.splice(i, 1, question)
     }
-
-    const isTextForm = (question: QuestionData) =>
-      question.question_type === QuestionType.Text ||
-      question.question_type === QuestionType.Number ||
-      question.question_type === QuestionType.TextArea
-    const isChoiceForm = (question: QuestionData) =>
-      question.question_type === QuestionType.Checkbox ||
-      question.question_type === QuestionType.MultipleChoice
-    const isLinearScaleForm = (question: QuestionData) =>
-      question.question_type === QuestionType.LinearScale
-
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
     }
@@ -142,9 +82,6 @@ export default defineComponent({
       updateQuestions,
       updateQuestionType,
       deleteQuestion,
-      isTextForm,
-      isChoiceForm,
-      isLinearScaleForm,
       swapQuestions,
       copyQuestion
     }
@@ -156,25 +93,10 @@ export default defineComponent({
 .question {
   display: flex;
   flex-direction: row;
-  padding: 1rem;
+  padding: 16px;
 }
 .border {
-  width: 1px;
-  background-color: $ui-primary;
-  margin-right: 4px;
-}
-.questiondetail {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 8px;
-}
-.control {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.button {
-  margin-left: auto;
+  border-right: 2px solid $ui-primary;
+  margin-right: 16px;
 }
 </style>
