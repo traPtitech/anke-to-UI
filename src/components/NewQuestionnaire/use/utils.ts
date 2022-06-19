@@ -123,7 +123,7 @@ export const createNewQuestion = (type: QuestionType): QuestionData => {
   }
 }
 
-export const findQuestionTypes = (type: string) => {
+export const findQuestionTypes = (type: string): QuestionType => {
   switch (type) {
     case questionTypes.Text.label: {
       return QuestionType.Text
