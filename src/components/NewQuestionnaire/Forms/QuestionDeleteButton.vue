@@ -1,5 +1,5 @@
 <template>
-  <Icon name="delete" @click="deleteQuestion" />
+  <Icon name="delete" :class="$style.deletebutton" @click="deleteQuestion" />
 </template>
 
 <script lang="ts">
@@ -7,7 +7,7 @@ import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
-  name: 'QuestionDispose',
+  name: 'QuestionDeleteButton',
   components: {
     Icon
   },
@@ -33,4 +33,8 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.deletebutton {
+  cursor: pointer;
+}
+</style>
