@@ -11,12 +11,12 @@
         <template #content>
           <div :class="$style.question">
             <QuestionUpdown
-              :index="i"
-              :max="questions.length"
               :class="$style.border"
-              @swap="swapQuestions"
+              :up-disable="i === 0"
+              :down-disable="i === questions.length - 1"
+              @swap="index => swapQuestions(i, i + index)"
             />
-            <Question
+            <QuestionContent
               :model-value="question"
               @update:question="question => updateQuestions(i, question)"
               @update:questiontype="type => updateQuestionType(i, type)"
@@ -39,7 +39,7 @@ import AddQuestionButtons from './AddQuestionButtons.vue'
 import { createNewQuestion, QuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
-import Question from './Question.vue'
+import QuestionContent from './QuestionContent.vue'
 
 export default defineComponent({
   name: 'Questions',
@@ -48,7 +48,7 @@ export default defineComponent({
     Card,
     QuestionUpdown,
     AddQuestionButtons,
-    Question
+    QuestionContent
   },
   setup() {
     const questions = ref<QuestionData[]>([])

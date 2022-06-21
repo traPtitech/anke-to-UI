@@ -8,9 +8,9 @@
     <div>
       <div v-for="(label, i) in choiceQuestions" :key="i">
         <QuestionUpdown
-          :index="i"
-          :max="choiceQuestions.length"
-          @swap="swapChoice"
+          :up-disable="i === 0"
+          :down-disable="i === choiceQuestions.length - 1"
+          @swap="index => swapChoice(i, i + index)"
         />
         <ChoiceElement
           :label="label"
