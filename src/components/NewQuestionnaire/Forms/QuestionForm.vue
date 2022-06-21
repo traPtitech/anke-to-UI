@@ -8,7 +8,7 @@
     />
     <required-switch
       :is-checked="isRequired"
-      @update:checked="updateQuestionIsRequired()"
+      @update:checked="updateQuestionIsRequired"
     />
   </div>
   <slot></slot>
@@ -43,13 +43,12 @@ export default defineComponent({
   },
   setup(props, context) {
     const questionName = computed(() => props.name)
-    const questionIsRequired = computed(() => props.isRequired)
 
     const updateQuestionName = (newName: string) => {
       context.emit('update:name', newName)
     }
-    const updateQuestionIsRequired = () => {
-      context.emit('update:required', !questionIsRequired.value)
+    const updateQuestionIsRequired = (isRequired: boolean) => {
+      context.emit('update:required', isRequired)
     }
 
     return {

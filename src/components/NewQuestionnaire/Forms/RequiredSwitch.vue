@@ -22,11 +22,11 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:checked': (checked: boolean) => true
+    'update:checked': (isChecked: boolean) => true
   },
   setup(props, context) {
-    const updateChecked = (checked: boolean) => {
-      context.emit('update:checked', checked)
+    const updateChecked = () => {
+      context.emit('update:checked', !props.isChecked)
     }
     return { updateChecked }
   }
