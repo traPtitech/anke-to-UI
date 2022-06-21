@@ -1,12 +1,12 @@
 <template>
   <div :class="$style.icon">
     <Icon
-      :class="[index === 0 ? $style.button : '']"
+      :class="[upDisable ? $style.button : '']"
       name="chevron-up"
       @click="upQuestion"
     />
     <Icon
-      :class="[index === max - 1 ? $style.button : '']"
+      :class="[downDisable ? $style.button : '']"
       name="chevron-down"
       @click="downQuestion"
     />
@@ -23,25 +23,25 @@ export default defineComponent({
     Icon
   },
   props: {
-    index: {
-      type: Number,
+    upDisable: {
+      type: Boolean,
       required: true
     },
-    max: {
-      type: Number,
+    downDisable: {
+      type: Boolean,
       required: true
     }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    swap: (index1: number, index2: number) => true
+    swap: (index: number) => true
   },
   setup(props, context) {
     const upQuestion = () => {
-      context.emit('swap', props.index, props.index - 1)
+      context.emit('swap', -1)
     }
     const downQuestion = () => {
-      context.emit('swap', props.index, props.index + 1)
+      context.emit('swap', +1)
     }
     return { upQuestion, downQuestion }
   }
