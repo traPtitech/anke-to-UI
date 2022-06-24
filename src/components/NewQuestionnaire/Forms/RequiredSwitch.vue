@@ -1,6 +1,6 @@
 <template>
   <label :class="$style.label">
-    <div :class="$style.word">必須</div>
+    <div :class="$style.word">必答</div>
     <toggle-switch :is-checked="isChecked" @toggle="updateChecked" />
   </label>
 </template>
@@ -44,7 +44,6 @@ export default defineComponent({
 .word {
   width: 28px;
   height: 21px;
-  text-align: center;
   font-size: 14px;
   line-height: 21px;
 }
