@@ -14,7 +14,8 @@
               :class="$style.border"
               :up-disable="i === 0"
               :down-disable="i === questions.length - 1"
-              @swap="index => swapQuestions(i, i + index)"
+              @up="swapQuestions(i, i - 1)"
+              @down="swapQuestions(i, i + 1)"
             />
             <QuestionContent
               :model-value="question"
@@ -96,7 +97,7 @@ export default defineComponent({
   padding: 16px;
 }
 .border {
-  border-right: 2px solid $ui-primary;
+  border-right: 2px solid $ui-secondary;
   margin-right: 16px;
 }
 </style>
