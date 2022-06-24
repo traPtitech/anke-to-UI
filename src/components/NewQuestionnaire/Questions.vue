@@ -97,7 +97,8 @@ export default defineComponent({
   padding: 16px;
 }
 .border {
-  border-right: 2px solid $ui-secondary;
-  margin-right: 16px;
+  border-right: 1px solid $ui-secondary;
+  padding-right: 8px;
+  margin-right: 8px;
 }
 </style>
