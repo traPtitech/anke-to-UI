@@ -39,6 +39,13 @@ export default defineComponent({
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-  gap: 4px;
+  gap: 8px;
+}
+.word {
+  width: 28px;
+  height: 21px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 21px;
 }
 </style>
