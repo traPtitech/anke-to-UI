@@ -3,6 +3,7 @@
     <TextForm
       v-if="isTextForm"
       :question-data="question"
+      :text-type="question.question_type"
       @update="updateQuestion"
     />
     <ChoiceForm
