@@ -1,12 +1,10 @@
 <template>
   <label :class="$style.label">
     <div>
-      <div
-        :class="[isChecked ? $style.checkedcircle : '', $style.circle]"
-      ></div>
+      <div :class="[isChecked ? $style.checkedcircle : '', $style.circle]" />
       <div
         :class="[isChecked ? $style.checkedbackground : '', $style.background]"
-      ></div>
+      />
       <input type="Checkbox" :class="$style.input" @click="onInput" />
     </div>
   </label>
@@ -39,19 +37,18 @@ export default defineComponent({
 <style lang="scss" module>
 .label {
   position: relative;
-  width: 44px;
-  height: 24px;
+  width: 34px;
+  height: 20px;
   cursor: pointer;
 }
 .input {
-  position: absolute;
   display: none;
 }
 .background {
-  width: 44px;
-  height: 24px;
-  border-radius: 160px;
-  background-color: $ui-primary;
+  width: 34px;
+  height: 20px;
+  border-radius: 9999px;
+  background: rgba(102, 85, 88, 0.5);
   transition: 0.1s;
 }
 .checkedbackground {
@@ -61,13 +58,14 @@ export default defineComponent({
   position: absolute;
   width: 16px;
   height: 16px;
-  left: 6px;
-  top: 4px;
+  left: 2px;
+  top: 2px;
   border-radius: 50%;
   background-color: $ui-white;
+  opacity: 1;
   transition: 0.1s;
 }
 .checkedcircle {
-  transform: translateX(16px);
+  transform: translateX(14px);
 }
 </style>
