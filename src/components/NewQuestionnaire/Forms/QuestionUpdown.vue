@@ -34,14 +34,15 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    swap: (index: number) => true
+    up: () => true,
+    down: () => true
   },
   setup(props, context) {
     const upQuestion = () => {
-      context.emit('swap', -1)
+      context.emit('up')
     }
     const downQuestion = () => {
-      context.emit('swap', +1)
+      context.emit('down')
     }
     return { upQuestion, downQuestion }
   }
