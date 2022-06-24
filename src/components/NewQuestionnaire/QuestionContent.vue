@@ -1,18 +1,18 @@
 <template>
   <div :class="$style.questiondetail">
     <TextForm
-      v-if="isTextForm(question)"
+      v-if="isTextForm"
       :question-data="question"
       @update="updateQuestion"
     />
     <ChoiceForm
-      v-if="isChoiceForm(question)"
+      v-if="isChoiceForm"
       :question-data="question"
       :is-radio="question.question_type === QuestionType.MultipleChoice"
       @update="updateQuestion"
     />
     <LinearScaleForm
-      v-if="isLinearScaleForm(question)"
+      v-if="isLinearScaleForm"
       :question-data="question"
       @update="updateQuestion"
     />
@@ -80,15 +80,20 @@ export default defineComponent({
       context.emit('copy')
     }
 
-    const isTextForm = (question: QuestionData) =>
-      question.question_type === QuestionType.Text ||
-      question.question_type === QuestionType.Number ||
-      question.question_type === QuestionType.TextArea
-    const isChoiceForm = (question: QuestionData) =>
-      question.question_type === QuestionType.Checkbox ||
-      question.question_type === QuestionType.MultipleChoice
-    const isLinearScaleForm = (question: QuestionData) =>
-      question.question_type === QuestionType.LinearScale
+    const isTextForm = computed(
+      () =>
+        props.modelValue.question_type === QuestionType.Text ||
+        props.modelValue.question_type === QuestionType.Number ||
+        props.modelValue.question_type === QuestionType.TextArea
+    )
+    const isChoiceForm = computed(
+      () =>
+        props.modelValue.question_type === QuestionType.Checkbox ||
+        props.modelValue.question_type === QuestionType.MultipleChoice
+    )
+    const isLinearScaleForm = computed(
+      () => props.modelValue.question_type === QuestionType.LinearScale
+    )
     return {
       QuestionType,
       question,
