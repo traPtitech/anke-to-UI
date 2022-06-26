@@ -47,12 +47,15 @@ export default defineComponent({
 .background {
   width: 34px;
   height: 20px;
-  border-radius: 9999px;
-  background: rgba(102, 85, 88, 0.5);
+  border-radius: 10px;
+  background-color: $ui-primary;
+  opacity: 0.5;
+  z-index: 0;
   transition: 0.1s;
 }
 .checkedbackground {
   background-color: $accent-primary;
+  opacity: 1;
 }
 .circle {
   position: absolute;
@@ -61,8 +64,8 @@ export default defineComponent({
   left: 2px;
   top: 2px;
   border-radius: 50%;
+  z-index: 1;
   background-color: $ui-white;
-  opacity: 1;
   transition: 0.1s;
 }
 .checkedcircle {
