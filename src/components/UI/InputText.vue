@@ -73,9 +73,7 @@ $underline-margin: -1 * $input-border;
   padding: 4px 8px;
   width: 100%;
   height: 32px;
-  font-family: 'Mplus 1p';
-  font-size: 16px;
-  line-height: 24px;
+  @include size-body;
   color: $ui-primary;
   box-sizing: border-box;
   border: none;
@@ -85,13 +83,12 @@ $underline-margin: -1 * $input-border;
     padding: 4px 8px;
     width: 100%;
     height: 24px;
-    font-family: 'Mplus 1p';
-    font-size: 14px;
-    line-height: 21px;
+    @include size-body-small;
     color: $ui-secondary;
   }
   &:hover {
     background-color: $bg-secondary-highlight;
+    transition: 0.1s;
   }
   &:focus {
     background-color: $bg-secondary-highlight;
