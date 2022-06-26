@@ -42,8 +42,6 @@ export default defineComponent({
   gap: 8px;
 }
 .word {
-  width: 28px;
-  height: 21px;
   font-size: 14px;
   line-height: 21px;
 }
