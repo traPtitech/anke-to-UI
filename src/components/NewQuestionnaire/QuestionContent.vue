@@ -42,7 +42,7 @@ import QuestionCopyButton from './Forms/QuestionCopyButton.vue'
 import QuestionTypeSelect from './Forms/QuestionTypeSelect.vue'
 
 export default defineComponent({
-  name: 'Question',
+  name: 'QuestionContent',
   components: {
     TextForm,
     ChoiceForm,
