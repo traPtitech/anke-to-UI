@@ -15,19 +15,13 @@ export default defineComponent({
   components: {
     Icon
   },
-  props: {
-    index: {
-      type: Number,
-      required: true
-    }
-  },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    copy: (index: number) => true
+    copy: () => true
   },
   setup(props, context) {
     const copyQuestion = () => {
-      context.emit('copy', props.index)
+      context.emit('copy')
     }
     return { copyQuestion }
   }

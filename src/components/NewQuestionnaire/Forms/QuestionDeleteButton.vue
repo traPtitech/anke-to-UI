@@ -11,21 +11,15 @@ export default defineComponent({
   components: {
     Icon
   },
-  props: {
-    index: {
-      type: Number,
-      required: true
-    }
-  },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    delete: (index: number) => true
+    delete: () => true
   },
   setup(props, context) {
     const deleteQuestion = () => {
       const isTrash = confirm('この質問を削除しますか？')
       if (isTrash) {
-        context.emit('delete', props.index)
+        context.emit('delete')
       }
     }
     return { deleteQuestion }
