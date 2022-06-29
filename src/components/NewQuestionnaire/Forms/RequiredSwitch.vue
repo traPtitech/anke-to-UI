@@ -42,7 +42,6 @@ export default defineComponent({
   gap: 8px;
 }
 .word {
-  font-size: 14px;
-  line-height: 21px;
+  @include size-body-small;
 }
 </style>
