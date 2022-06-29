@@ -1,12 +1,11 @@
 <template>
-  <div :class="[isNumber ? $style.spin : '']">
+  <div>
     <input
-      :type="isNumber ? 'number' : 'text'"
+      type="text"
       :class="[
         isLong ? $style.longtext : '',
-        nonEvents ? $style.pointerevents : '',
-        isNumber ? $style.number : '',
-        $style.input
+        $style.input,
+        disabled ? $style.disabled : ''
       ]"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -94,7 +93,7 @@ $underline-margin: -1 * $input-border;
     background-color: $bg-secondary-highlight;
   }
 }
-.pointerevents {
+.disabled {
   pointer-events: none;
 }
 .longtext {
@@ -102,54 +101,5 @@ $underline-margin: -1 * $input-border;
 }
 .underline {
   margin-top: $underline-margin;
-}
-.number {
-  &::-webkit-inner-spin-button {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 8px;
-    margin: auto;
-    transform: scale(1.6);
-    transform-origin: right center;
-    opacity: 0;
-    cursor: pointer;
-  }
-  &::-webkit-contacts-auto-fill-button {
-    opacity: 0;
-  }
-}
-.spin {
-  position: relative;
-  &::before {
-    position: absolute;
-    width: 24px;
-    height: 12px;
-    border-radius: 4px 4px 0 0;
-    top: 4px;
-    right: 8px;
-    color: $ui-primary;
-    font-size: 10px;
-    content: '▲';
-    &:content {
-      transform: scale(2, 0.5);
-    }
-    border: 1px solid $ui-secondary;
-    pointer-events: none;
-  }
-
-  &::after {
-    position: absolute;
-    width: 24px;
-    height: 12px;
-    border-radius: 0 0 4px 4px;
-    bottom: 5px;
-    right: 8px;
-    color: $ui-primary;
-    font-size: 10px;
-    content: '▼';
-    border: 1px solid $ui-secondary;
-    pointer-events: none;
-  }
 }
 </style>
