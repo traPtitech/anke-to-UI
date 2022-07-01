@@ -4,34 +4,18 @@
     :is-required="questionData.is_required"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
-  >
-    <div>
-      <QuestionTextarea
-        v-if="questionData.question_type === 'TextArea'"
-        model-value=""
-      />
-      <InputText
-        v-else
-        :is-number="questionData.question_type === 'Number'"
-        model-value=""
-      />
-    </div>
-  </QuestionForm>
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import QuestionTextarea from '/@/components/UI/QuestionTextarea.vue'
 import QuestionForm from './QuestionForm.vue'
-import InputText from '/@/components/UI/InputText.vue'
 import { TextQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 
 export default defineComponent({
   name: 'TextForm',
   components: {
-    InputText,
-    QuestionTextarea,
     QuestionForm
   },
   props: {

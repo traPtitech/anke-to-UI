@@ -9,40 +9,22 @@
     <div v-for="(question, i) in questions" :key="i">
       <Card :header-visible="false">
         <template #content>
-          <QuestionUpdown
-            :index="i"
-            :max="questions.length"
-            @swap="swapQuestions"
-          />
-          <QuestionDispose :index="i" @delete="deleteQuestion" />
-          <TextForm
-            v-if="isTextForm(question)"
-            :question-data="question"
-            @update="
-              question => {
-                updateQuestions(i, question)
-              }
-            "
-          />
-          <ChoiceForm
-            v-if="isChoiceForm(question)"
-            :question-data="question"
-            :is-radio="question.question_type === QuestionType.MultipleChoice"
-            @update="
-              question => {
-                updateQuestions(i, question)
-              }
-            "
-          />
-          <LinearScaleForm
-            v-if="isLinearScaleForm(question)"
-            :question-data="question"
-            @update="
-              question => {
-                updateQuestions(i, question)
-              }
-            "
-          />
+          <div :class="$style.question">
+            <QuestionUpdown
+              :class="$style.border"
+              :up-disable="i === 0"
+              :down-disable="i === questions.length - 1"
+              @up="swapQuestions(i, i - 1)"
+              @down="swapQuestions(i, i + 1)"
+            />
+            <QuestionContent
+              :model-value="question"
+              @update:question="question => updateQuestions(i, question)"
+              @update:questiontype="type => updateQuestionType(i, type)"
+              @delete="deleteQuestion(i)"
+              @copy="copyQuestion(i)"
+            />
+          </div>
         </template>
       </Card>
     </div>
@@ -57,23 +39,17 @@ import QuestionnaireTitle from './QuestionnaireTitle.vue'
 import AddQuestionButtons from './AddQuestionButtons.vue'
 import { createNewQuestion, QuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
-import TextForm from './Forms/TextForm.vue'
-import ChoiceForm from './Forms/ChoiceForm.vue'
-import LinearScaleForm from './Forms/LinearScaleForm.vue'
-import QuestionDispose from './Forms/QuestionDispose.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
+import QuestionContent from './QuestionContent.vue'
 
 export default defineComponent({
   name: 'Questions',
   components: {
     QuestionnaireTitle,
     Card,
-    TextForm,
-    ChoiceForm,
-    LinearScaleForm,
+    QuestionUpdown,
     AddQuestionButtons,
-    QuestionDispose,
-    QuestionUpdown
+    QuestionContent
   },
   setup() {
     const questions = ref<QuestionData[]>([])
@@ -85,21 +61,16 @@ export default defineComponent({
     const updateQuestions = (index: number, newData: QuestionData) => {
       questions.value[index] = newData
     }
-
-    const isTextForm = (question: QuestionData) =>
-      question.question_type === QuestionType.Text ||
-      question.question_type === QuestionType.Number ||
-      question.question_type === QuestionType.TextArea
-    const isChoiceForm = (question: QuestionData) =>
-      question.question_type === QuestionType.Checkbox ||
-      question.question_type === QuestionType.MultipleChoice
-    const isLinearScaleForm = (question: QuestionData) =>
-      question.question_type === QuestionType.LinearScale
-
+    const updateQuestionType = (i: number, type: QuestionType) => {
+      const question = createNewQuestion(type)
+      questions.value.splice(i, 1, question)
+    }
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
     }
-
+    const copyQuestion = (index: number) => {
+      questions.value.splice(index + 1, 0, questions.value[index])
+    }
     const swapQuestions = (index1: number, index2: number) => {
       const tmp = questions.value[index1]
       questions.value[index1] = questions.value[index2]
@@ -110,12 +81,24 @@ export default defineComponent({
       questions,
       addQuestion,
       updateQuestions,
+      updateQuestionType,
       deleteQuestion,
-      isTextForm,
-      isChoiceForm,
-      isLinearScaleForm,
-      swapQuestions
+      swapQuestions,
+      copyQuestion
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.question {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+}
+.border {
+  border-right: 1px solid $ui-secondary;
+  padding-right: 8px;
+  margin-right: 8px;
+}
+</style>

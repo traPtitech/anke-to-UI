@@ -1,12 +1,15 @@
 <template>
-  <input
-    :type="isNumber ? 'number' : 'text'"
-    :class="$style.input"
-    :placeholder="placeholder"
-    :disabled="disabled"
-    @input="update"
-  />
-  <input-focus-underline :class="$style.underline" />
+  <div>
+    <input
+      :type="isNumber ? 'number' : 'text'"
+      :class="[$style.input, disabled ? $style.disabled : '']"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :value="modelValue"
+      @input="update"
+    />
+    <input-focus-underline :class="$style.underline" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,6 +31,10 @@ export default defineComponent({
       default: false
     },
     disabled: {
+      type: Boolean,
+      default: false
+    },
+    nonEvents: {
       type: Boolean,
       default: false
     },
@@ -54,24 +61,32 @@ export default defineComponent({
 $input-border: 1px;
 $underline-margin: -1 * $input-border;
 .input {
-  padding: 4px;
+  padding: 4px 8px;
   width: 100%;
-  height: 26px;
-  font-size: 16px;
-  line-height: 18px;
+  height: 32px;
+  @include size-body;
   color: $ui-primary;
   box-sizing: border-box;
   border: none;
   border-bottom: $input-border solid $ui-secondary;
   outline: none;
   &::placeholder {
-    padding: 6px 4px;
+    padding: 4px 8px;
     width: 100%;
-    height: 26px;
-    font-size: 12px;
-    line-height: 14px;
+    height: 24px;
+    @include size-body-small;
     color: $ui-secondary;
   }
+  &:hover {
+    background-color: $bg-secondary-highlight;
+    transition: 0.1s;
+  }
+  &:focus {
+    background-color: $bg-secondary-highlight;
+  }
+}
+.disabled {
+  pointer-events: none;
 }
 .underline {
   margin-top: $underline-margin;

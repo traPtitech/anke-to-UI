@@ -8,9 +8,10 @@
     <div>
       <div v-for="(label, i) in choiceQuestions" :key="i">
         <QuestionUpdown
-          :index="i"
-          :max="choiceQuestions.length"
-          @swap="swapChoice"
+          :up-disable="i === 0"
+          :down-disable="i === choiceQuestions.length - 1"
+          @up="swapChoices(i, i - 1)"
+          @down="swapChoices(i, i + 1)"
         />
         <ChoiceElement
           :label="label"
@@ -91,7 +92,7 @@ export default defineComponent({
       updateChoiceQuestionData('options', tmp)
     }
 
-    const swapChoice = (index1: number, index2: number) => {
+    const swapChoices = (index1: number, index2: number) => {
       const tmp = [...choiceQuestions.value]
       const mom = tmp[index1]
       tmp[index1] = tmp[index2]
@@ -106,7 +107,7 @@ export default defineComponent({
       updateChoice,
       deleteChoice,
       addChoice,
-      swapChoice
+      swapChoices
     }
   }
 })

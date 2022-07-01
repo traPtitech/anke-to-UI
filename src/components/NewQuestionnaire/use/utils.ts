@@ -122,3 +122,29 @@ export const createNewQuestion = (type: QuestionType): QuestionData => {
     }
   }
 }
+
+export const findQuestionTypes = (type: string): QuestionType => {
+  switch (type) {
+    case questionTypes.Text.label: {
+      return QuestionType.Text
+    }
+    case questionTypes.TextArea.label: {
+      return QuestionType.TextArea
+    }
+    case questionTypes.Number.label: {
+      return QuestionType.Number
+    }
+    case questionTypes.Checkbox.label: {
+      return QuestionType.Checkbox
+    }
+    case questionTypes.MultipleChoice.label: {
+      return QuestionType.MultipleChoice
+    }
+    case questionTypes.LinearScale.label: {
+      return QuestionType.LinearScale
+    }
+    default: {
+      throw new Error(`型${type}は質問の型にありません`)
+    }
+  }
+}
