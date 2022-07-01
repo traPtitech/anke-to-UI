@@ -1,12 +1,8 @@
 <template>
   <div>
     <input
-      type="text"
-      :class="[
-        isLong ? $style.longtext : '',
-        $style.input,
-        disabled ? $style.disabled : ''
-      ]"
+      :type="isNumber ? 'number' : 'text'"
+      :class="[$style.input, disabled ? $style.disabled : '']"
       :placeholder="placeholder"
       :disabled="disabled"
       :value="modelValue"
@@ -31,10 +27,6 @@ export default defineComponent({
       required: true
     },
     isNumber: {
-      type: Boolean,
-      default: false
-    },
-    isLong: {
       type: Boolean,
       default: false
     },
@@ -95,9 +87,6 @@ $underline-margin: -1 * $input-border;
 }
 .disabled {
   pointer-events: none;
-}
-.longtext {
-  height: 29px;
 }
 .underline {
   margin-top: $underline-margin;
