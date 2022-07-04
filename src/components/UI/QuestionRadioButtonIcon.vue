@@ -13,7 +13,7 @@ export default defineComponent({
   props: {
     isSelected: {
       type: Boolean,
-      required: true
+      default: false
     },
     disabled: {
       type: Boolean,
@@ -39,10 +39,9 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  content: '';
-  width: 1rem;
-  height: 1rem;
-  border: solid 1px $ui-primary;
+  width: 16px;
+  height: 16px;
+  border: solid 2px $ui-secondary;
   border-radius: 50%;
   cursor: pointer;
   &:hover {
@@ -50,7 +49,6 @@ export default defineComponent({
   }
 }
 .innerButton {
-  content: '';
   width: 75%;
   height: 75%;
   background-color: $ui-primary;
@@ -62,8 +60,11 @@ export default defineComponent({
   transform: scale(1);
 }
 .disabledbutton {
-  background-color: rgb(239, 239, 239, 0.5);
-  pointer-events: none;
+  background-color: $ui-secondary;
+  cursor: not-allowed;
+  &:hover {
+    opacity: 1;
+  }
 }
 .input {
   appearance: none;
