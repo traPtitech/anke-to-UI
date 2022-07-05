@@ -94,7 +94,7 @@ export const createNewQuestion = (type: QuestionType): QuestionData => {
         question_type: QuestionType.Checkbox,
         body: '',
         is_required: false,
-        options: ['']
+        options: []
       }
     }
     case QuestionType.MultipleChoice: {
@@ -102,7 +102,7 @@ export const createNewQuestion = (type: QuestionType): QuestionData => {
         question_type: QuestionType.MultipleChoice,
         body: '',
         is_required: false,
-        options: ['']
+        options: []
       }
     }
     case QuestionType.LinearScale: {
