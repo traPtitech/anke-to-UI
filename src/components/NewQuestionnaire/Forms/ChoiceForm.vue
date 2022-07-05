@@ -5,8 +5,12 @@
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
-    <div>
-      <div v-for="(label, i) in choiceQuestions" :key="i">
+    <div :class="$style.container">
+      <div
+        v-for="(label, i) in choiceQuestions"
+        :key="i"
+        :class="$style.element"
+      >
         <QuestionUpdown
           :up-disable="i === 0"
           :down-disable="i === choiceQuestions.length - 1"
@@ -17,27 +21,31 @@
           :label="label"
           :index="i"
           :is-radio="isRadio"
-          @update:label="updateChoice"
-          @delete="deleteChoice"
+          :is-focus="isFocus"
+          :class="$style.choiceelement"
+          @focusout="deletefocusout(i)"
+          @update:label="text => updateChoice(text, i)"
+          @delete="deleteChoice(i)"
         />
       </div>
     </div>
-    <div>
-      <span :class="$style.newchoice" @click="addChoice">
-        <Icon name="plus-circle-outline" />新しい選択肢を追加
-      </span>
-    </div>
+    <InputText
+      :placeholder="'質問を追加'"
+      :model-value="''"
+      :class="$style.newchoice"
+      @focusin="addChoice"
+    />
   </QuestionForm>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, ref, onMounted } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
-import Icon from '../../UI/Icon.vue'
 import QuestionUpdown from './QuestionUpdown.vue'
 import { CheckboxQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
+import InputText from '/@/components/UI/InputText.vue'
 
 export default defineComponent({
   name: 'ChoiceForm',
@@ -45,7 +53,7 @@ export default defineComponent({
     QuestionForm,
     ChoiceElement,
     QuestionUpdown,
-    Icon
+    InputText
   },
   props: {
     questionData: {
@@ -73,7 +81,6 @@ export default defineComponent({
     const updateQuestionRequired = (required: boolean) => {
       updateChoiceQuestionData('is_required', required)
     }
-
     const updateChoice = (label: string, index: number) => {
       const tmp = [...choiceQuestions.value]
       tmp[index] = label
@@ -85,13 +92,12 @@ export default defineComponent({
       tmp.splice(index, 1)
       updateChoiceQuestionData('options', tmp)
     }
-
     const addChoice = () => {
       const tmp = [...choiceQuestions.value]
       tmp.push('')
       updateChoiceQuestionData('options', tmp)
+      isFocus.value = true
     }
-
     const swapChoices = (index1: number, index2: number) => {
       const tmp = [...choiceQuestions.value]
       const mom = tmp[index1]
@@ -99,6 +105,13 @@ export default defineComponent({
       tmp[index2] = mom
       updateChoiceQuestionData('options', tmp)
     }
+    const deletefocusout = (index: number) => {
+      if (props.questionData.options[index] === '') {
+        deleteChoice(index)
+      }
+    }
+    const isFocus = ref(false)
+    onMounted(() => (isFocus.value = false))
 
     return {
       choiceQuestions,
@@ -107,14 +120,31 @@ export default defineComponent({
       updateChoice,
       deleteChoice,
       addChoice,
-      swapChoices
+      swapChoices,
+      isFocus,
+      deletefocusout
     }
   }
 })
 </script>
 
 <style lang="scss" module>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.choiceelement {
+  flex-grow: 1;
+}
 .newchoice {
   cursor: pointer;
+  padding: 0px 32px 0px 48px;
 }
 </style>
