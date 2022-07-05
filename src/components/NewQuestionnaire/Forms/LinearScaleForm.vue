@@ -1,7 +1,7 @@
 <template>
   <QuestionForm
-    :name="questionData.body"
-    :is-required="questionData.is_required"
+    :name="questionData.title"
+    :is-required="questionData.isRequired"
     @update:name="updateQuestionBody"
     @update:required="updateQuestionRequired"
   >
@@ -10,7 +10,7 @@
         :model-value="rangeMin"
         :contents="['0', '1']"
         @update:model-value="
-          modelValue => updateLinearScale('scale_min', Number(modelValue))
+          modelValue => updateLinearScale('scaleMin', Number(modelValue))
         "
       />
       to
@@ -18,30 +18,30 @@
         :model-value="rangeMax"
         :contents="['2', '3', '4', '5', '6', '7', '8', '9', '10']"
         @update:model-value="
-          modelValue => updateLinearScale('scale_max', Number(modelValue))
+          modelValue => updateLinearScale('scaleMax', Number(modelValue))
         "
       />
     </div>
     <div>
       <div>
-        {{ questionData.scale_min }}
+        {{ questionData.scaleMin }}
         <InputText
           :model-value="labelLeft"
           :is-number="false"
           :placeholder="'ラベル(任意)'"
           @update:model-value="
-            modelValue => updateLinearScale('scale_label_left', modelValue)
+            modelValue => updateLinearScale('scaleLabelLeft', modelValue)
           "
         />
       </div>
       <div>
-        {{ questionData.scale_max }}
+        {{ questionData.scaleMax }}
         <InputText
           :model-value="labelRight"
           :is-number="false"
           :placeholder="'ラベル(任意)'"
           @update:model-value="
-            modelValue => updateLinearScale('scale_label_right', modelValue)
+            modelValue => updateLinearScale('scaleLabelRight', modelValue)
           "
         />
       </div>
@@ -54,7 +54,7 @@ import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import Select from '../../UI/Select.vue'
 import InputText from '../../UI/InputText.vue'
-import { LinearScaleQuestion } from '../use/utils'
+import { NewLinearScaleQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 
 export default defineComponent({
@@ -66,38 +66,34 @@ export default defineComponent({
   },
   props: {
     questionData: {
-      type: Object as PropType<LinearScaleQuestion>,
+      type: Object as PropType<NewLinearScaleQuestion>,
       required: true
     }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: LinearScaleQuestion) => true
+    update: (question: NewLinearScaleQuestion) => true
   },
   setup(props, context) {
-    const updateLinearScaleQuestionData =
-      updateQuestionData<LinearScaleQuestion>(props, context)
+    const updateNewLinearScaleQuestionData =
+      updateQuestionData<NewLinearScaleQuestion>(props, context)
     const updateQuestionBody = (body: string) => {
-      updateLinearScaleQuestionData('body', body)
+      updateNewLinearScaleQuestionData('title', body)
     }
     const updateQuestionRequired = (required: boolean) => {
-      updateLinearScaleQuestionData('is_required', required)
+      updateNewLinearScaleQuestionData('isRequired', required)
     }
 
-    const rangeMin = computed(() => String(props.questionData.scale_min))
-    const rangeMax = computed(() => String(props.questionData.scale_max))
-    const labelLeft = computed(() => props.questionData.scale_label_left)
-    const labelRight = computed(() => props.questionData.scale_label_right)
+    const rangeMin = computed(() => String(props.questionData.scaleMin))
+    const rangeMax = computed(() => String(props.questionData.scaleMax))
+    const labelLeft = computed(() => props.questionData.scaleLabelLeft)
+    const labelRight = computed(() => props.questionData.scaleLabelRight)
 
     const updateLinearScale = (
-      type:
-        | 'scale_min'
-        | 'scale_max'
-        | 'scale_label_left'
-        | 'scale_label_right',
+      type: 'scaleMin' | 'scaleMax' | 'scaleLabelLeft' | 'scaleLabelRight',
       value: string | number
     ) => {
-      updateLinearScaleQuestionData(type, value)
+      updateNewLinearScaleQuestionData(type, value)
     }
 
     return {
