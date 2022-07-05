@@ -1,16 +1,7 @@
 <template>
   <div>
     <input
-      v-if="isFocus"
       v-focus
-      type="text"
-      :class="$style.input"
-      :placeholder="placeholder"
-      :value="model"
-      @input="update"
-    />
-    <input
-      v-else
       type="text"
       :class="$style.input"
       :placeholder="placeholder"
@@ -42,10 +33,6 @@ export default defineComponent({
     placeholder: {
       type: String,
       required: true
-    },
-    isFocus: {
-      type: Boolean,
-      default: false
     },
     modelValue: {
       type: String,
