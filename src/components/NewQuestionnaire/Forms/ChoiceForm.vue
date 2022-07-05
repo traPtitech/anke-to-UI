@@ -1,7 +1,7 @@
 <template>
   <QuestionForm
-    :name="questionData.body"
-    :is-required="questionData.is_required"
+    :name="questionData.title"
+    :is-required="questionData.isRequired"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
@@ -21,7 +21,6 @@
           :label="label"
           :index="i"
           :is-radio="isRadio"
-          :is-focus="isFocus"
           :class="$style.choiceelement"
           @focusout="deletefocusout(i)"
           @update:label="text => updateChoice(text, i)"
@@ -39,11 +38,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, onMounted } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
 import QuestionUpdown from './QuestionUpdown.vue'
-import { CheckboxQuestion } from '../use/utils'
+import { NewCheckboxQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
 import InputText from '/@/components/UI/InputText.vue'
 
@@ -57,7 +56,7 @@ export default defineComponent({
   },
   props: {
     questionData: {
-      type: Object as PropType<CheckboxQuestion>,
+      type: Object as PropType<NewCheckboxQuestion>,
       required: true
     },
     isRadio: {
@@ -67,19 +66,19 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: CheckboxQuestion) => true
+    update: (question: NewCheckboxQuestion) => true
   },
   setup(props, context) {
     const choiceQuestions = computed(() => props.questionData.options)
-    const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
+    const updateChoiceQuestionData = updateQuestionData<NewCheckboxQuestion>(
       props,
       context
     )
     const updateQuestionName = (name: string) => {
-      updateChoiceQuestionData('body', name)
+      updateChoiceQuestionData('title', name)
     }
     const updateQuestionRequired = (required: boolean) => {
-      updateChoiceQuestionData('is_required', required)
+      updateChoiceQuestionData('isRequired', required)
     }
     const updateChoice = (label: string, index: number) => {
       const tmp = [...choiceQuestions.value]
@@ -96,7 +95,6 @@ export default defineComponent({
       const tmp = [...choiceQuestions.value]
       tmp.push('')
       updateChoiceQuestionData('options', tmp)
-      isFocus.value = true
     }
     const swapChoices = (index1: number, index2: number) => {
       const tmp = [...choiceQuestions.value]
@@ -110,8 +108,6 @@ export default defineComponent({
         deleteChoice(index)
       }
     }
-    const isFocus = ref(false)
-    onMounted(() => (isFocus.value = false))
 
     return {
       choiceQuestions,
@@ -121,7 +117,6 @@ export default defineComponent({
       deleteChoice,
       addChoice,
       swapChoices,
-      isFocus,
       deletefocusout
     }
   }
