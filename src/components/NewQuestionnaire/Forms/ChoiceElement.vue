@@ -7,7 +7,6 @@
       :model-value="label"
       :placeholder="'選択肢を入力'"
       :class="$style.input"
-      :is-focus="isFocus"
     />
     <Icon name="close" :class="$style.close" @click="deleteChoice" />
   </div>
@@ -34,10 +33,6 @@ export default defineComponent({
       required: true
     },
     isRadio: {
-      type: Boolean,
-      default: false
-    },
-    isFocus: {
       type: Boolean,
       default: false
     }
