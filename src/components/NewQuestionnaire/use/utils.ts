@@ -41,79 +41,89 @@ export const questionTypes = {
 }
 
 // question types
-export type TextQuestion = {
-  question_type: QuestionType
-  body: string
-  is_required: boolean
+export type NewQuestionBase = {
+  title: string
+  isRequired: boolean
+  key: number
 }
+export type NewTextQuestion = {
+  questionType: QuestionType.Text | QuestionType.TextArea | QuestionType.Number
+} & NewQuestionBase
 
-export type LinearScaleQuestion = {
-  question_type: QuestionType
-  body: string
-  is_required: boolean
-  scale_min: number
-  scale_max: number
-  scale_label_left: string
-  scale_label_right: string
-}
+export type NewLinearScaleQuestion = {
+  questionType: QuestionType.LinearScale
+  scaleMin: number
+  scaleMax: number
+  scaleLabelLeft: string
+  scaleLabelRight: string
+} & NewQuestionBase
 
-export type CheckboxQuestion = {
-  question_type: QuestionType
-  body: string
-  is_required: boolean
+export type NewCheckboxQuestion = {
+  questionType: QuestionType.MultipleChoice | QuestionType.Checkbox
   options: string[]
-}
+} & NewQuestionBase
 
-export type QuestionData = TextQuestion | CheckboxQuestion | LinearScaleQuestion
+export type NewQuestionData =
+  | NewTextQuestion
+  | NewCheckboxQuestion
+  | NewLinearScaleQuestion
 
-export const createNewQuestion = (type: QuestionType): QuestionData => {
+const randomNumber = () => Math.random()
+
+export const createNewQuestion = (type: QuestionType): NewQuestionData => {
   switch (type) {
     case QuestionType.Text: {
       return {
-        question_type: QuestionType.Text,
-        body: '',
-        is_required: false
+        questionType: QuestionType.Text,
+        title: '',
+        isRequired: false,
+        key: randomNumber()
       }
     }
     case QuestionType.TextArea: {
       return {
-        question_type: QuestionType.TextArea,
-        body: '',
-        is_required: false
+        questionType: QuestionType.TextArea,
+        title: '',
+        isRequired: false,
+        key: randomNumber()
       }
     }
     case QuestionType.Number: {
       return {
-        question_type: QuestionType.Number,
-        body: '',
-        is_required: false
+        questionType: QuestionType.Number,
+        title: '',
+        isRequired: false,
+        key: randomNumber()
       }
     }
     case QuestionType.Checkbox: {
       return {
-        question_type: QuestionType.Checkbox,
-        body: '',
-        is_required: false,
-        options: []
+        questionType: QuestionType.Checkbox,
+        title: '',
+        isRequired: false,
+        options: [],
+        key: randomNumber()
       }
     }
     case QuestionType.MultipleChoice: {
       return {
-        question_type: QuestionType.MultipleChoice,
-        body: '',
-        is_required: false,
-        options: []
+        questionType: QuestionType.MultipleChoice,
+        title: '',
+        isRequired: false,
+        options: [],
+        key: randomNumber()
       }
     }
     case QuestionType.LinearScale: {
       return {
-        question_type: QuestionType.LinearScale,
-        body: '',
-        is_required: false,
-        scale_min: 0,
-        scale_max: 5,
-        scale_label_left: '',
-        scale_label_right: ''
+        questionType: QuestionType.LinearScale,
+        title: '',
+        isRequired: false,
+        scaleMin: 0,
+        scaleMax: 5,
+        scaleLabelLeft: '',
+        scaleLabelRight: '',
+        key: randomNumber()
       }
     }
     default: {
