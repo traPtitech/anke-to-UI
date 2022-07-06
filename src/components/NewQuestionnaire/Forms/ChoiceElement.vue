@@ -1,13 +1,15 @@
 <template>
   <div :class="$style.choice">
-    <RadioButton v-if="isRadio" :disabled="true" />
-    <Checkbox v-else :disabled="true" />
-    <InputTextNoBorder
-      v-model="labelRef"
-      :model-value="label"
-      :placeholder="'選択肢を入力'"
-      :class="$style.input"
-    />
+    <div :class="$style.choiceName">
+      <RadioButton v-if="isRadio" :disabled="true" />
+      <Checkbox v-else :disabled="true" />
+      <InputTextNoBorder
+        v-model="labelRef"
+        :model-value="label"
+        :placeholder="'選択肢を入力'"
+        :class="$style.input"
+      />
+    </div>
     <Icon name="close" :class="$style.close" @click="deleteChoice" />
   </div>
 </template>
@@ -64,11 +66,16 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 8px;
+}
+.choiceName {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
 }
 .input {
   flex-grow: 1;
-}
-.close {
-  margin-left: 8px;
 }
 </style>
