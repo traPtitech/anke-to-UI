@@ -21,8 +21,8 @@
           :label="label"
           :index="i"
           :is-radio="isRadio"
-          :class="$style.choiceelement"
-          @focusout="deletefocusout(i)"
+          :class="$style.choiceElement"
+          @focusout="deleteFocusout(i)"
           @update:label="text => updateChoice(text, i)"
           @delete="deleteChoice(i)"
         />
@@ -31,7 +31,7 @@
     <InputText
       :placeholder="'質問を追加'"
       :model-value="''"
-      :class="$style.newchoice"
+      :class="$style.newChoice"
       @focusin="addChoice"
     />
   </QuestionForm>
@@ -103,7 +103,7 @@ export default defineComponent({
       tmp[index2] = mom
       updateChoiceQuestionData('options', tmp)
     }
-    const deletefocusout = (index: number) => {
+    const deleteFocusout = (index: number) => {
       if (props.questionData.options[index] === '') {
         deleteChoice(index)
       }
@@ -117,7 +117,7 @@ export default defineComponent({
       deleteChoice,
       addChoice,
       swapChoices,
-      deletefocusout
+      deleteFocusout
     }
   }
 })
@@ -135,11 +135,11 @@ export default defineComponent({
   align-items: center;
   gap: 8px;
 }
-.choiceelement {
+.choiceElement {
   flex-grow: 1;
 }
-.newchoice {
+.newChoice {
   cursor: pointer;
-  padding: 0px 32px 0px 48px;
+  padding: 0px 32px 0px 52px;
 }
 </style>
