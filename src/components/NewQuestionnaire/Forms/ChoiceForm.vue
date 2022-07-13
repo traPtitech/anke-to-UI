@@ -139,7 +139,6 @@ export default defineComponent({
   flex-grow: 1;
 }
 .newChoice {
-  cursor: pointer;
   padding: 0px 32px 0px 52px;
 }
 </style>
