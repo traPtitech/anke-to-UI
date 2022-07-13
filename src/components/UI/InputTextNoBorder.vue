@@ -1,33 +1,26 @@
 <template>
-  <div>
-    <input
-      v-focus
-      type="text"
-      :class="$style.input"
-      :placeholder="placeholder"
-      :value="modelValue"
-      @input="update"
-    />
+  <InputText
+    :is-focus="true"
+    :is-hover="false"
+    :model-value="modelValue"
+    @update:model-value="update"
+  >
     <input-focus-underline :class="$style.focusunderline" />
     <div :class="$style.underline" />
-  </div>
+    <div :class="$style.hideunderline" />
+  </InputText>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import InputFocusUnderline from './InputFocusUnderline.vue'
+import InputText from './InputText.vue'
 
 export default defineComponent({
-  name: 'InputText',
+  name: 'InputTextNoBorder',
   components: {
-    InputFocusUnderline
-  },
-  directives: {
-    focus: {
-      mounted(el) {
-        el.focus()
-      }
-    }
+    InputFocusUnderline,
+    InputText
   },
   props: {
     placeholder: {
@@ -44,8 +37,8 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    const update = (e: InputEvent) => {
-      context.emit('update:modelValue', (e.target as HTMLInputElement).value)
+    const update = (value: string) => {
+      context.emit('update:modelValue', value)
     }
     const model = computed(() => props.modelValue)
 
@@ -57,43 +50,30 @@ export default defineComponent({
 <style lang="scss" module>
 $input-border: 1px;
 $underline-margin: -1 * $input-border;
-.input {
-  padding: 4px 8px;
-  width: 100%;
-  height: 32px;
-  @include size-body;
-  color: $ui-primary;
-  box-sizing: border-box;
-  border: none;
-  outline: none;
-  transition: 0.1s;
-  &::placeholder {
-    padding: 4px 8px;
-    width: 100%;
-    height: 24px;
-    @include size-body-small;
-    color: $ui-secondary;
-  }
-  &:focus {
-    background-color: $bg-secondary-highlight;
-  }
-}
 .underline {
   position: relative;
-  z-index: 0;
+  z-index: 1;
   width: 100%;
   height: 1px;
   background-color: $ui-secondary;
+  transition: 0.1s;
   transform: scaleX(0);
   input:hover + .focusunderline + & {
     transform: scaleX(1);
   }
   margin-top: $underline-margin;
 }
-
 .focusunderline {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  margin-top: $underline-margin;
+}
+.hideunderline {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 1px;
+  background-color: $bg-secondary;
   margin-top: $underline-margin;
 }
 </style>
