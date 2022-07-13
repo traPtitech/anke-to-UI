@@ -2,11 +2,13 @@
   <div :class="$style.icon">
     <Icon
       :class="[upDisable ? $style.button : '']"
+      :height="16"
       name="chevron-up"
       @click="upQuestion"
     />
     <Icon
       :class="[downDisable ? $style.button : '']"
+      :height="16"
       name="chevron-down"
       @click="downQuestion"
     />
@@ -16,7 +18,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-
 export default defineComponent({
   name: 'QuestionUpdown',
   components: {
