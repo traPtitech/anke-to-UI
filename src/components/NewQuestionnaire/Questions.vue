@@ -20,15 +20,18 @@
             <QuestionContent
               :model-value="question"
               @update:question="question => updateQuestions(i, question)"
-              @update:questiontype="type => updateQuestionType(i, type)"
+              @update:questiontype="
+                type => updateQuestionType(i, type, question.body)
+              "
               @delete="deleteQuestion(i)"
               @copy="copyQuestion(i)"
+              @focusout="deleteFocusout(i)"
             />
           </div>
         </template>
       </Card>
     </div>
-    <AddQuestionButtons @add="addQuestion" />
+    <AddQuestion @focusin="addQuestion(QuestionType.Text)" />
   </div>
 </template>
 
@@ -36,11 +39,11 @@
 import { defineComponent, ref } from 'vue'
 import { QuestionType } from '/@/lib/apis'
 import QuestionnaireTitle from './QuestionnaireTitle.vue'
-import AddQuestionButtons from './AddQuestionButtons.vue'
 import { createNewQuestion, QuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
 import QuestionContent from './QuestionContent.vue'
+import AddQuestion from './AddQuestion.vue'
 
 export default defineComponent({
   name: 'Questions',
@@ -48,8 +51,8 @@ export default defineComponent({
     QuestionnaireTitle,
     Card,
     QuestionUpdown,
-    AddQuestionButtons,
-    QuestionContent
+    QuestionContent,
+    AddQuestion
   },
   setup() {
     const questions = ref<QuestionData[]>([])
@@ -61,12 +64,22 @@ export default defineComponent({
     const updateQuestions = (index: number, newData: QuestionData) => {
       questions.value[index] = newData
     }
-    const updateQuestionType = (i: number, type: QuestionType) => {
+    const updateQuestionType = (
+      i: number,
+      type: QuestionType,
+      title: string
+    ) => {
       const question = createNewQuestion(type)
+      question.body = title
       questions.value.splice(i, 1, question)
     }
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
+    }
+    const deleteFocusout = (index: number) => {
+      if (questions.value[index].body === '') {
+        deleteQuestion(index)
+      }
     }
     const copyQuestion = (index: number) => {
       questions.value.splice(index + 1, 0, questions.value[index])
@@ -83,6 +96,7 @@ export default defineComponent({
       updateQuestions,
       updateQuestionType,
       deleteQuestion,
+      deleteFocusout,
       swapQuestions,
       copyQuestion
     }
