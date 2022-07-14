@@ -17,7 +17,8 @@ import {
   mdiAlertOutline,
   mdiPlusCircleOutline,
   mdiDelete,
-  mdiContentDuplicate
+  mdiContentDuplicate,
+  mdiPlus
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -39,7 +40,8 @@ const mdi = new Map<string, string>([
   ['alert', mdiAlertOutline],
   ['plus-circle-outline', mdiPlusCircleOutline],
   ['delete', mdiDelete],
-  ['content-duplicate', mdiContentDuplicate]
+  ['content-duplicate', mdiContentDuplicate],
+  ['plus', mdiPlus]
 ])
 
 export default mdi
