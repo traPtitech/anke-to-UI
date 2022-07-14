@@ -1,25 +1,40 @@
 <template>
   <div>
     <input
+      v-focus="isFocus"
       :type="isNumber ? 'number' : 'text'"
-      :class="[$style.input, disabled ? $style.disabled : '']"
+      :class="[
+        $style.input,
+        disabled ? $style.disabled : '',
+        isHover ? $style.hover : ''
+      ]"
       :placeholder="placeholder"
       :disabled="disabled"
       :value="modelValue"
       @input="update"
     />
-    <input-focus-underline :class="$style.underline" />
+    <slot>
+      <input-focus-underline :class="$style.underline" />
+    </slot>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import InputFocusUnderline from './InputFocusUnderline.vue'
-
 export default defineComponent({
   name: 'InputText',
   components: {
     InputFocusUnderline
+  },
+  directives: {
+    focus: {
+      mounted(el, isfocus) {
+        if (isfocus.value) {
+          el.focus()
+        }
+      }
+    }
   },
   props: {
     placeholder: {
@@ -34,9 +49,13 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    nonEvents: {
+    isFocus: {
       type: Boolean,
       default: false
+    },
+    isHover: {
+      type: Boolean,
+      default: true
     },
     modelValue: {
       type: String,
@@ -51,7 +70,6 @@ export default defineComponent({
     const update = (e: InputEvent) => {
       context.emit('update:modelValue', (e.target as HTMLInputElement).value)
     }
-
     return { update }
   }
 })
@@ -77,13 +95,14 @@ $underline-margin: -1 * $input-border;
     @include size-body-small;
     color: $ui-secondary;
   }
-  &:hover {
+  &:focus {
     background-color: $bg-secondary-highlight;
     transition: 0.1s;
   }
-  &:focus {
-    background-color: $bg-secondary-highlight;
-  }
+}
+.hover:hover {
+  background-color: $bg-secondary-highlight;
+  transition: 0.1s;
 }
 .disabled {
   pointer-events: none;
