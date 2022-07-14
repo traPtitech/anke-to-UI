@@ -4,6 +4,7 @@
       :class="$style.title"
       :model-value="questionName"
       :placeholder="'質問文'"
+      :is-focus="true"
       @update:model-value="updateQuestionName"
     />
     <required-switch
