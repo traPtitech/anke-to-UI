@@ -5,7 +5,6 @@
     :model-value="modelValue"
     @update:model-value="update"
   >
-    <input-focus-underline :class="$style.focusunderline" />
     <div :class="$style.underline" />
     <div :class="$style.hideunderline" />
   </InputText>
@@ -13,13 +12,11 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import InputFocusUnderline from './InputFocusUnderline.vue'
 import InputText from './InputText.vue'
 
 export default defineComponent({
-  name: 'InputTextNoBorder',
+  name: 'InputTextNoBorder', //hoverでunderlineがでる
   components: {
-    InputFocusUnderline,
     InputText
   },
   props: {
@@ -58,14 +55,9 @@ $underline-margin: -1 * $input-border;
   background-color: $ui-secondary;
   transition: 0.1s;
   transform: scaleX(0);
-  input:hover + .focusunderline + & {
+  input:hover ~ & {
     transform: scaleX(1);
   }
-  margin-top: $underline-margin;
-}
-.focusunderline {
-  position: relative;
-  z-index: 2;
   margin-top: $underline-margin;
 }
 .hideunderline {
