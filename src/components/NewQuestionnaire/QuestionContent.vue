@@ -12,11 +12,6 @@
       :is-radio="question.questionType === QuestionType.MultipleChoice"
       @update="updateQuestion"
     />
-    <LinearScaleForm
-      v-if="isLinearScaleForm"
-      :question-data="question"
-      @update="updateQuestion"
-    />
     <div :class="$style.control">
       <QuestionTypeSelect
         :model-value="question.questionType"
@@ -36,7 +31,6 @@ import { QuestionType } from '/@/lib/apis'
 import { NewQuestionData } from './use/utils'
 import TextForm from './Forms/TextForm.vue'
 import ChoiceForm from './Forms/ChoiceForm.vue'
-import LinearScaleForm from './Forms/LinearScaleForm.vue'
 import QuestionDeleteButton from './Forms/QuestionDeleteButton.vue'
 import QuestionCopyButton from './Forms/QuestionCopyButton.vue'
 import QuestionTypeSelect from './Forms/QuestionTypeSelect.vue'
@@ -46,7 +40,6 @@ export default defineComponent({
   components: {
     TextForm,
     ChoiceForm,
-    LinearScaleForm,
     QuestionDeleteButton,
     QuestionCopyButton,
     QuestionTypeSelect
