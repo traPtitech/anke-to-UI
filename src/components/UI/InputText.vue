@@ -13,9 +13,8 @@
       :value="modelValue"
       @input="update"
     />
-    <slot>
-      <input-focus-underline :class="$style.underline" />
-    </slot>
+    <input-focus-underline :class="$style.underline" />
+    <slot> </slot>
   </div>
 </template>
 
@@ -110,6 +109,8 @@ $underline-margin: -1 * $input-border;
   pointer-events: none;
 }
 .underline {
+  position: relative;
+  z-index: 2;
   margin-top: $underline-margin;
 }
 </style>
