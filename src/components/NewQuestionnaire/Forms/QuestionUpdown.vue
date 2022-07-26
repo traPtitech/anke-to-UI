@@ -1,13 +1,13 @@
 <template>
   <div :class="$style.icon">
     <Icon
-      :class="[upDisable ? $style.button : '']"
+      :class="[$style.cursor, upDisable ? $style.button : '']"
       :height="16"
       name="chevron-up"
       @click="upQuestion"
     />
     <Icon
-      :class="[downDisable ? $style.button : '']"
+      :class="[$style.cursor, downDisable ? $style.button : '']"
       :height="16"
       name="chevron-down"
       @click="downQuestion"
@@ -58,5 +58,8 @@ export default defineComponent({
 .icon {
   display: flex;
   flex-direction: column;
+}
+.cursor {
+  cursor: pointer;
 }
 </style>

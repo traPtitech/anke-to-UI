@@ -78,4 +78,7 @@ export default defineComponent({
 .input {
   flex-grow: 1;
 }
+.close {
+  cursor: pointer;
+}
 </style>
