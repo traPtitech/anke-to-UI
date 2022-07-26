@@ -46,10 +46,9 @@ export default defineComponent({
 .check {
   display: inline-block;
   cursor: pointer;
-  content: '';
-  height: 1rem;
-  width: 1rem;
-  border: 1px solid $ui-primary;
+  height: 16px;
+  width: 16px;
+  border: 2px solid $ui-secondary;
   border-radius: 0.2rem;
 }
 .icon {
@@ -64,7 +63,7 @@ export default defineComponent({
 }
 .disabledcheck {
   cursor: not-allowed;
-  background-color: rgb(239, 239, 239, 0.5);
+  background-color: $ui-secondary;
 }
 .checkbox {
   appearance: none;

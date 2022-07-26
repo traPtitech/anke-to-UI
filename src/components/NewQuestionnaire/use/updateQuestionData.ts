@@ -1,8 +1,8 @@
 import { SetupContext } from 'vue'
-import { QuestionData } from './utils'
+import { NewQuestionData } from './utils'
 
 export const updateQuestionData =
-  <T extends QuestionData>(
+  <T extends NewQuestionData>(
     props: {
       questionData: T
     },

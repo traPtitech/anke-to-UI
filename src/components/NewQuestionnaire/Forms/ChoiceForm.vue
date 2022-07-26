@@ -1,12 +1,16 @@
 <template>
   <QuestionForm
-    :name="questionData.body"
-    :is-required="questionData.is_required"
+    :name="questionData.title"
+    :is-required="questionData.isRequired"
     @update:name="updateQuestionName"
     @update:required="updateQuestionRequired"
   >
-    <div>
-      <div v-for="(label, i) in choiceQuestions" :key="i">
+    <div :class="$style.container">
+      <div
+        v-for="(label, i) in choiceQuestions"
+        :key="i"
+        :class="$style.element"
+      >
         <QuestionUpdown
           :up-disable="i === 0"
           :down-disable="i === choiceQuestions.length - 1"
@@ -17,16 +21,19 @@
           :label="label"
           :index="i"
           :is-radio="isRadio"
-          @update:label="updateChoice"
-          @delete="deleteChoice"
+          :class="$style.choiceElement"
+          @focusout="deleteFocusout(i)"
+          @update:label="text => updateChoice(text, i)"
+          @delete="deleteChoice(i)"
         />
       </div>
     </div>
-    <div>
-      <span :class="$style.newchoice" @click="addChoice">
-        <Icon name="plus-circle-outline" />新しい選択肢を追加
-      </span>
-    </div>
+    <InputText
+      :placeholder="'質問を追加'"
+      :model-value="''"
+      :class="$style.newChoice"
+      @focusin="addChoice"
+    />
   </QuestionForm>
 </template>
 
@@ -34,10 +41,10 @@
 import { defineComponent, PropType, computed } from 'vue'
 import QuestionForm from './QuestionForm.vue'
 import ChoiceElement from './ChoiceElement.vue'
-import Icon from '../../UI/Icon.vue'
 import QuestionUpdown from './QuestionUpdown.vue'
-import { CheckboxQuestion } from '../use/utils'
+import { NewCheckboxQuestion } from '../use/utils'
 import { updateQuestionData } from '../use/updateQuestionData'
+import InputText from '/@/components/UI/InputText.vue'
 
 export default defineComponent({
   name: 'ChoiceForm',
@@ -45,11 +52,11 @@ export default defineComponent({
     QuestionForm,
     ChoiceElement,
     QuestionUpdown,
-    Icon
+    InputText
   },
   props: {
     questionData: {
-      type: Object as PropType<CheckboxQuestion>,
+      type: Object as PropType<NewCheckboxQuestion>,
       required: true
     },
     isRadio: {
@@ -59,21 +66,20 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    update: (question: CheckboxQuestion) => true
+    update: (question: NewCheckboxQuestion) => true
   },
   setup(props, context) {
     const choiceQuestions = computed(() => props.questionData.options)
-    const updateChoiceQuestionData = updateQuestionData<CheckboxQuestion>(
+    const updateChoiceQuestionData = updateQuestionData<NewCheckboxQuestion>(
       props,
       context
     )
     const updateQuestionName = (name: string) => {
-      updateChoiceQuestionData('body', name)
+      updateChoiceQuestionData('title', name)
     }
     const updateQuestionRequired = (required: boolean) => {
-      updateChoiceQuestionData('is_required', required)
+      updateChoiceQuestionData('isRequired', required)
     }
-
     const updateChoice = (label: string, index: number) => {
       const tmp = [...choiceQuestions.value]
       tmp[index] = label
@@ -85,19 +91,22 @@ export default defineComponent({
       tmp.splice(index, 1)
       updateChoiceQuestionData('options', tmp)
     }
-
     const addChoice = () => {
       const tmp = [...choiceQuestions.value]
       tmp.push('')
       updateChoiceQuestionData('options', tmp)
     }
-
     const swapChoices = (index1: number, index2: number) => {
       const tmp = [...choiceQuestions.value]
       const mom = tmp[index1]
       tmp[index1] = tmp[index2]
       tmp[index2] = mom
       updateChoiceQuestionData('options', tmp)
+    }
+    const deleteFocusout = (index: number) => {
+      if (props.questionData.options[index] === '') {
+        deleteChoice(index)
+      }
     }
 
     return {
@@ -107,14 +116,29 @@ export default defineComponent({
       updateChoice,
       deleteChoice,
       addChoice,
-      swapChoices
+      swapChoices,
+      deleteFocusout
     }
   }
 })
 </script>
 
 <style lang="scss" module>
-.newchoice {
-  cursor: pointer;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.choiceElement {
+  flex-grow: 1;
+}
+.newChoice {
+  padding: 0px 32px 0px 52px;
 }
 </style>

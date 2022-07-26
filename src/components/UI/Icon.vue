@@ -1,8 +1,8 @@
 <template>
   <svg
-    :width="size"
-    :height="size"
-    viewBox="0 0 24 24"
+    :width="width"
+    :height="height"
+    :viewBox="box"
     role="img"
     :class="$style.icon"
   >
@@ -20,14 +20,24 @@ export default defineComponent({
       type: String,
       required: true
     },
-    size: {
+    width: {
+      type: Number,
+      default: 24
+    },
+    height: {
       type: Number,
       default: 24
     }
   },
   setup(props) {
     const path = computed(() => mdi.get(props.name))
-    return { path }
+    const box = computed(() => {
+      return `0 ${(props.width - props.height) / 2} ${props.width} ${
+        props.height
+      }`
+    })
+
+    return { path, box }
   }
 })
 </script>

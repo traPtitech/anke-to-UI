@@ -1,12 +1,14 @@
 <template>
   <div :class="$style.icon">
     <Icon
-      :class="[upDisable ? $style.button : '']"
+      :class="[$style.cursor, upDisable ? $style.button : '']"
+      :height="16"
       name="chevron-up"
       @click="upQuestion"
     />
     <Icon
-      :class="[downDisable ? $style.button : '']"
+      :class="[$style.cursor, downDisable ? $style.button : '']"
+      :height="16"
       name="chevron-down"
       @click="downQuestion"
     />
@@ -16,7 +18,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-
 export default defineComponent({
   name: 'QuestionUpdown',
   components: {
@@ -57,5 +58,8 @@ export default defineComponent({
 .icon {
   display: flex;
   flex-direction: column;
+}
+.cursor {
+  cursor: pointer;
 }
 </style>
