@@ -6,7 +6,7 @@
   </Card>
   <div>
     <div v-if="questions.length === 0">質問がありません</div>
-    <div v-for="(question, i) in questions" :key="i">
+    <div v-for="(question, i) in questions" :key="question.key">
       <Card :header-visible="false">
         <template #content>
           <div :class="$style.question">
@@ -39,7 +39,8 @@
 import { defineComponent, ref } from 'vue'
 import { QuestionType } from '/@/lib/apis'
 import QuestionnaireTitle from './QuestionnaireTitle.vue'
-import { createNewQuestion, QuestionData } from './use/utils'
+import AddQuestionButtons from './AddQuestionButtons.vue'
+import { createNewQuestion, NewQuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
 import QuestionContent from './QuestionContent.vue'
@@ -55,13 +56,13 @@ export default defineComponent({
     AddQuestion
   },
   setup() {
-    const questions = ref<QuestionData[]>([])
+    const questions = ref<NewQuestionData[]>([])
 
     const addQuestion = (type: QuestionType) => {
       const question = createNewQuestion(type)
       questions.value.push(question)
     }
-    const updateQuestions = (index: number, newData: QuestionData) => {
+    const updateQuestions = (index: number, newData: NewQuestionData) => {
       questions.value[index] = newData
     }
     const updateQuestionType = (

@@ -1,29 +1,35 @@
 <template>
-  <input :type="[isRadio ? 'radio' : 'checkbox']" value="true" />
-  <InputText
-    v-model="labelRef"
-    :model-value="label"
-    :placeholder="'選択肢を入力'"
-  />
-  <Icon name="delete" @click="deleteChoice" />
+  <div :class="$style.choice">
+    <div :class="$style.choiceName">
+      <RadioButton v-if="isRadio" :disabled="true" />
+      <Checkbox v-else :disabled="true" />
+      <InputTextNoBorder
+        v-model="labelRef"
+        :model-value="label"
+        :placeholder="'選択肢を入力'"
+        :class="$style.input"
+      />
+    </div>
+    <Icon name="close" :class="$style.close" @click="deleteChoice" />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
 import Icon from '../../UI/Icon.vue'
-import InputText from '../../UI/InputText.vue'
+import Checkbox from '/@/components/UI/QuestionCheckboxIcon.vue'
+import RadioButton from '/@/components/UI/QuestionRadioButtonIcon.vue'
+import InputTextNoBorder from '/@/components/UI/InputTextNoBorder.vue'
 
 export default defineComponent({
   name: 'ChoiceElement',
   components: {
     Icon,
-    InputText
+    Checkbox,
+    RadioButton,
+    InputTextNoBorder
   },
   props: {
-    index: {
-      type: Number,
-      required: true
-    },
     label: {
       type: String,
       required: true
@@ -35,17 +41,17 @@ export default defineComponent({
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:label': (text: string, index: number) => true,
+    'update:label': (text: string) => true,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    delete: (index: number) => true
+    delete: () => true
   },
   setup(props, context) {
     const labelRef = ref(props.label)
     watch(labelRef, newLabel => {
-      context.emit('update:label', newLabel, props.index)
+      context.emit('update:label', newLabel)
     })
     const deleteChoice = () => {
-      context.emit('delete', props.index)
+      context.emit('delete')
     }
     return {
       labelRef,
@@ -54,3 +60,25 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" module>
+.choice {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.choiceName {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+.input {
+  flex-grow: 1;
+}
+.close {
+  cursor: pointer;
+}
+</style>

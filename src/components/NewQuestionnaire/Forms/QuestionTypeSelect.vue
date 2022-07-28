@@ -30,11 +30,9 @@ export default defineComponent({
   setup(props, context) {
     const questionType = [
       'テキスト',
-      'テキスト（長文）',
       '数値',
       'チェックボックス',
-      'ラジオボタン',
-      '目盛り'
+      'ラジオボタン'
     ]
     const modelValuetype = computed(() => questionTypes[props.modelValue].label)
     const update = (type: string) => {

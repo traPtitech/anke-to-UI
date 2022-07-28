@@ -3,23 +3,18 @@
     <TextForm
       v-if="isTextForm"
       :question-data="question"
-      :text-type="question.question_type"
+      :text-type="question.questionType"
       @update="updateQuestion"
     />
     <ChoiceForm
       v-if="isChoiceForm"
       :question-data="question"
-      :is-radio="question.question_type === QuestionType.MultipleChoice"
-      @update="updateQuestion"
-    />
-    <LinearScaleForm
-      v-if="isLinearScaleForm"
-      :question-data="question"
+      :is-radio="question.questionType === QuestionType.MultipleChoice"
       @update="updateQuestion"
     />
     <div :class="$style.control">
       <QuestionTypeSelect
-        :model-value="question.question_type"
+        :model-value="question.questionType"
         @update:type="updateQuestionType"
       />
       <div :class="$style.controlButton">
@@ -33,10 +28,9 @@
 <script lang="ts">
 import { defineComponent, PropType, computed } from 'vue'
 import { QuestionType } from '/@/lib/apis'
-import { QuestionData } from './use/utils'
+import { NewQuestionData } from './use/utils'
 import TextForm from './Forms/TextForm.vue'
 import ChoiceForm from './Forms/ChoiceForm.vue'
-import LinearScaleForm from './Forms/LinearScaleForm.vue'
 import QuestionDeleteButton from './Forms/QuestionDeleteButton.vue'
 import QuestionCopyButton from './Forms/QuestionCopyButton.vue'
 import QuestionTypeSelect from './Forms/QuestionTypeSelect.vue'
@@ -46,20 +40,19 @@ export default defineComponent({
   components: {
     TextForm,
     ChoiceForm,
-    LinearScaleForm,
     QuestionDeleteButton,
     QuestionCopyButton,
     QuestionTypeSelect
   },
   props: {
     modelValue: {
-      type: Object as PropType<QuestionData>,
+      type: Object as PropType<NewQuestionData>,
       required: true
     }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:question': (question: QuestionData) => true,
+    'update:question': (question: NewQuestionData) => true,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     'update:questiontype': (type: QuestionType) => true,
     delete: () => true,
@@ -68,7 +61,7 @@ export default defineComponent({
   setup(props, context) {
     const question = computed(() => props.modelValue)
 
-    const updateQuestion = (newData: QuestionData) => {
+    const updateQuestion = (newData: NewQuestionData) => {
       context.emit('update:question', newData)
     }
     const updateQuestionType = (type: QuestionType) => {
@@ -83,17 +76,17 @@ export default defineComponent({
 
     const isTextForm = computed(
       () =>
-        props.modelValue.question_type === QuestionType.Text ||
-        props.modelValue.question_type === QuestionType.Number ||
-        props.modelValue.question_type === QuestionType.TextArea
+        props.modelValue.questionType === QuestionType.Text ||
+        props.modelValue.questionType === QuestionType.Number ||
+        props.modelValue.questionType === QuestionType.TextArea
     )
     const isChoiceForm = computed(
       () =>
-        props.modelValue.question_type === QuestionType.Checkbox ||
-        props.modelValue.question_type === QuestionType.MultipleChoice
+        props.modelValue.questionType === QuestionType.Checkbox ||
+        props.modelValue.questionType === QuestionType.MultipleChoice
     )
     const isLinearScaleForm = computed(
-      () => props.modelValue.question_type === QuestionType.LinearScale
+      () => props.modelValue.questionType === QuestionType.LinearScale
     )
     return {
       QuestionType,
