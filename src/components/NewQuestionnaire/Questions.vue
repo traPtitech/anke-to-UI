@@ -5,7 +5,6 @@
     </template>
   </Card>
   <div>
-    <div v-if="questions.length === 0">質問がありません</div>
     <div v-for="(question, i) in questions" :key="question.key">
       <Card :header-visible="false">
         <template #content>
@@ -21,7 +20,7 @@
               :model-value="question"
               @update:question="question => updateQuestions(i, question)"
               @update:questiontype="
-                type => updateQuestionType(i, type, question.body)
+                type => updateQuestionType(i, type, question)
               "
               @delete="deleteQuestion(i)"
               @copy="copyQuestion(i)"
@@ -68,17 +67,27 @@ export default defineComponent({
     const updateQuestionType = (
       i: number,
       type: QuestionType,
-      title: string
+      preQuestion: NewQuestionData
     ) => {
-      const question = createNewQuestion(type)
-      question.body = title
-      questions.value.splice(i, 1, question)
+      const newQuestion = createNewQuestion(type)
+      newQuestion.title = preQuestion.title
+      newQuestion.isRequired = preQuestion.isRequired
+      newQuestion.key = preQuestion.key
+      if (
+        (newQuestion.questionType === QuestionType.Checkbox ||
+          newQuestion.questionType === QuestionType.MultipleChoice) &&
+        (preQuestion.questionType === QuestionType.Checkbox ||
+          preQuestion.questionType === QuestionType.MultipleChoice)
+      ) {
+        newQuestion.options = preQuestion.options
+      }
+      questions.value.splice(i, 1, newQuestion)
     }
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
     }
     const deleteFocusout = (index: number) => {
-      if (questions.value[index].body === '') {
+      if (questions.value[index].title === '') {
         deleteQuestion(index)
       }
     }
