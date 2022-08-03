@@ -3,7 +3,8 @@
     <InputText
       :class="$style.title"
       :model-value="questionName"
-      :placeholder="'質問文'"
+      :placeholder="'質問のタイトルを入力'"
+      :is-focus="true"
       @update:model-value="updateQuestionName"
     />
     <required-switch

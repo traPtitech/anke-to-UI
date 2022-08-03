@@ -5,7 +5,6 @@
     </template>
   </Card>
   <div>
-    <div v-if="questions.length === 0">質問がありません</div>
     <div v-for="(question, i) in questions" :key="question.key">
       <Card :header-visible="false">
         <template #content>
@@ -20,15 +19,18 @@
             <QuestionContent
               :model-value="question"
               @update:question="question => updateQuestions(i, question)"
-              @update:questiontype="type => updateQuestionType(i, type)"
+              @update:questiontype="
+                type => updateQuestionType(i, type, question)
+              "
               @delete="deleteQuestion(i)"
               @copy="copyQuestion(i)"
+              @focusout="deleteFocusout(i)"
             />
           </div>
         </template>
       </Card>
     </div>
-    <AddQuestionButtons @add="addQuestion" />
+    <AddQuestion @focusin="addQuestion(QuestionType.Text)" />
   </div>
 </template>
 
@@ -36,11 +38,11 @@
 import { defineComponent, ref } from 'vue'
 import { QuestionType } from '/@/lib/apis'
 import QuestionnaireTitle from './QuestionnaireTitle.vue'
-import AddQuestionButtons from './AddQuestionButtons.vue'
 import { createNewQuestion, NewQuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
 import QuestionContent from './QuestionContent.vue'
+import AddQuestion from './AddQuestion.vue'
 
 export default defineComponent({
   name: 'Questions',
@@ -48,8 +50,8 @@ export default defineComponent({
     QuestionnaireTitle,
     Card,
     QuestionUpdown,
-    AddQuestionButtons,
-    QuestionContent
+    QuestionContent,
+    AddQuestion
   },
   setup() {
     const questions = ref<NewQuestionData[]>([])
@@ -61,12 +63,35 @@ export default defineComponent({
     const updateQuestions = (index: number, newData: NewQuestionData) => {
       questions.value[index] = newData
     }
-    const updateQuestionType = (i: number, type: QuestionType) => {
-      const question = createNewQuestion(type)
-      questions.value.splice(i, 1, question)
+    const updateQuestionType = (
+      i: number,
+      type: QuestionType,
+      preQuestion: NewQuestionData
+    ) => {
+      const newQuestion = createNewQuestion(type)
+
+      newQuestion.title = preQuestion.title
+      newQuestion.isRequired = preQuestion.isRequired
+      newQuestion.key = preQuestion.key
+      if (
+        (newQuestion.questionType === QuestionType.Checkbox ||
+          newQuestion.questionType === QuestionType.MultipleChoice) &&
+        (preQuestion.questionType === QuestionType.Checkbox ||
+          preQuestion.questionType === QuestionType.MultipleChoice)
+      ) {
+        newQuestion.options = preQuestion.options
+      }
+
+      questions.value.splice(i, 1, newQuestion)
     }
+
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
+    }
+    const deleteFocusout = (index: number) => {
+      if (questions.value[index].title === '') {
+        deleteQuestion(index)
+      }
     }
     const copyQuestion = (index: number) => {
       questions.value.splice(index + 1, 0, questions.value[index])
@@ -76,6 +101,7 @@ export default defineComponent({
       questions.value[index1] = questions.value[index2]
       questions.value[index2] = tmp
     }
+
     return {
       QuestionType,
       questions,
@@ -83,6 +109,7 @@ export default defineComponent({
       updateQuestions,
       updateQuestionType,
       deleteQuestion,
+      deleteFocusout,
       swapQuestions,
       copyQuestion
     }

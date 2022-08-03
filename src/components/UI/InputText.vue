@@ -21,7 +21,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import InputFocusUnderline from './InputFocusUnderline.vue'
-
 export default defineComponent({
   name: 'InputText',
   components: {
@@ -70,7 +69,6 @@ export default defineComponent({
     const update = (e: InputEvent) => {
       context.emit('update:modelValue', (e.target as HTMLInputElement).value)
     }
-
     return { update }
   }
 })
