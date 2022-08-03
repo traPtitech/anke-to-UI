@@ -63,6 +63,28 @@ export default defineComponent({
     const updateQuestions = (index: number, newData: NewQuestionData) => {
       questions.value[index] = newData
     }
+    const updateQuestionType = (
+      i: number,
+      type: QuestionType,
+      preQuestion: NewQuestionData
+    ) => {
+      const newQuestion = createNewQuestion(type)
+
+      newQuestion.title = preQuestion.title
+      newQuestion.isRequired = preQuestion.isRequired
+      newQuestion.key = preQuestion.key
+      if (
+        (newQuestion.questionType === QuestionType.Checkbox ||
+          newQuestion.questionType === QuestionType.MultipleChoice) &&
+        (preQuestion.questionType === QuestionType.Checkbox ||
+          preQuestion.questionType === QuestionType.MultipleChoice)
+      ) {
+        newQuestion.options = preQuestion.options
+      }
+
+      questions.value.splice(i, 1, newQuestion)
+    }
+
     const deleteQuestion = (index: number) => {
       questions.value.splice(index, 1)
     }
@@ -78,26 +100,6 @@ export default defineComponent({
       const tmp = questions.value[index1]
       questions.value[index1] = questions.value[index2]
       questions.value[index2] = tmp
-    }
-
-    const updateQuestionType = (
-      i: number,
-      type: QuestionType,
-      preQuestion: NewQuestionData
-    ) => {
-      const newQuestion = createNewQuestion(type)
-      newQuestion.title = preQuestion.title
-      newQuestion.isRequired = preQuestion.isRequired
-      newQuestion.key = preQuestion.key
-      if (
-        (newQuestion.questionType === QuestionType.Checkbox ||
-          newQuestion.questionType === QuestionType.MultipleChoice) &&
-        (preQuestion.questionType === QuestionType.Checkbox ||
-          preQuestion.questionType === QuestionType.MultipleChoice)
-      ) {
-        newQuestion.options = preQuestion.options
-      }
-      questions.value.splice(i, 1, newQuestion)
     }
 
     return {
