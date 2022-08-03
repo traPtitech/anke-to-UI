@@ -38,7 +38,6 @@
 import { defineComponent, ref } from 'vue'
 import { QuestionType } from '/@/lib/apis'
 import QuestionnaireTitle from './QuestionnaireTitle.vue'
-import AddQuestionButtons from './AddQuestionButtons.vue'
 import { createNewQuestion, NewQuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
@@ -64,6 +63,23 @@ export default defineComponent({
     const updateQuestions = (index: number, newData: NewQuestionData) => {
       questions.value[index] = newData
     }
+    const deleteQuestion = (index: number) => {
+      questions.value.splice(index, 1)
+    }
+    const deleteFocusout = (index: number) => {
+      if (questions.value[index].title === '') {
+        deleteQuestion(index)
+      }
+    }
+    const copyQuestion = (index: number) => {
+      questions.value.splice(index + 1, 0, questions.value[index])
+    }
+    const swapQuestions = (index1: number, index2: number) => {
+      const tmp = questions.value[index1]
+      questions.value[index1] = questions.value[index2]
+      questions.value[index2] = tmp
+    }
+    
     const updateQuestionType = (
       i: number,
       type: QuestionType,
@@ -83,22 +99,7 @@ export default defineComponent({
       }
       questions.value.splice(i, 1, newQuestion)
     }
-    const deleteQuestion = (index: number) => {
-      questions.value.splice(index, 1)
-    }
-    const deleteFocusout = (index: number) => {
-      if (questions.value[index].title === '') {
-        deleteQuestion(index)
-      }
-    }
-    const copyQuestion = (index: number) => {
-      questions.value.splice(index + 1, 0, questions.value[index])
-    }
-    const swapQuestions = (index1: number, index2: number) => {
-      const tmp = questions.value[index1]
-      questions.value[index1] = questions.value[index2]
-      questions.value[index2] = tmp
-    }
+    
     return {
       QuestionType,
       questions,
