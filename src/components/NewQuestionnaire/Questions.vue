@@ -79,7 +79,7 @@ export default defineComponent({
       questions.value[index1] = questions.value[index2]
       questions.value[index2] = tmp
     }
-    
+
     const updateQuestionType = (
       i: number,
       type: QuestionType,
@@ -99,7 +99,7 @@ export default defineComponent({
       }
       questions.value.splice(i, 1, newQuestion)
     }
-    
+
     return {
       QuestionType,
       questions,
