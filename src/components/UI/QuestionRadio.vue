@@ -10,9 +10,9 @@
         :disabled="disabled"
         @input="update(index)"
       />
-      <p :class="$style.content">
+      <div :class="$style.content">
         {{ content }}
-      </p>
+      </div>
     </label>
   </div>
 </template>
@@ -62,19 +62,18 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0.5rem;
+  gap: 4px;
 }
 .label {
   display: flex;
   align-items: center;
-  margin: 0.2rem 0;
-  .content {
-    margin: 0;
-    margin-left: 0.4rem;
-  }
   &:hover {
     cursor: pointer;
     opacity: 0.6;
   }
+}
+.content {
+  @include size-body;
+  margin-left: 8px;
 }
 </style>
