@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card :header-visible="false">
     <template #content>
       <div :class="$style.container">
         <div :class="$style.header">
