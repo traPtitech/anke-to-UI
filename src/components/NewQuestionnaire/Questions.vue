@@ -4,7 +4,7 @@
       <QuestionnaireTitle :title="'タイトル'" />
     </template>
   </Card>
-  <div>
+  <div :class="$style.gap">
     <div v-for="(question, i) in questions" :key="question.key">
       <Card :header-visible="false">
         <template #content>
@@ -118,6 +118,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.gap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 .question {
   display: flex;
   flex-direction: row;
