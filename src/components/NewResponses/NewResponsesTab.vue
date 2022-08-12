@@ -35,21 +35,13 @@
         />
       </div>
     </div>
-    <div>
-      {{ NewResponses }}
-    </div>
   </template>
   <template v-else> 読み込み中</template>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
-import {
-  QuestionDetails,
-  QuestionnaireByID,
-  QuestionType,
-  ResponseBody
-} from '/@/lib/apis'
+import { QuestionDetails, QuestionnaireByID, QuestionType } from '/@/lib/apis'
 import Card from '/@/components/UI/Card.vue'
 import InputQuestionCard from './InputQuestionCard.vue'
 import ChoiceQuestionCard from './ChoiceQuestionCard.vue'
