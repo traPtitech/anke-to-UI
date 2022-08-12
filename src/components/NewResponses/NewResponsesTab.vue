@@ -1,0 +1,108 @@
+<template>
+  <template v-if="questionnaire">
+    <div :class="$style.gap">
+      <Card :header-visible="false">
+        <template #content>
+          <div :class="[$style.container, $style.right]">
+            <div :class="$style.title">{{ questionnaire.title }}</div>
+            <div :class="$style.discription">
+              {{ questionnaire.description }}
+            </div>
+          </div>
+        </template>
+      </Card>
+      <div v-for="(question, i) in questioncontents" :key="i">
+        <InputQuestionCard
+          v-if="
+            question.question_type === QuestionType.Text ||
+            question.question_type === QuestionType.TextArea ||
+            question.question_type === QuestionType.Number
+          "
+          :title="question.body"
+          :is-required="question.is_required"
+          :question-type="question.question_type"
+          :model-value="NewResponses[i].response"
+          @update="value => updateInput(i, value)"
+        />
+        <ChoiceQuestionCard
+          v-else
+          :title="question.body"
+          :is-required="question.is_required"
+          :question-type="question.question_type"
+          :options="question.options"
+          :model-value="NewResponses[i].option_response"
+          @update="choice => updateChoice(i, choice)"
+        />
+      </div>
+    </div>
+    <div>
+      {{ NewResponses }}
+    </div>
+  </template>
+  <template v-else> 読み込み中</template>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType, ref } from 'vue'
+import {
+  QuestionDetails,
+  QuestionnaireByID,
+  QuestionType,
+  ResponseBody
+} from '/@/lib/apis'
+import Card from '/@/components/UI/Card.vue'
+import InputQuestionCard from './InputQuestionCard.vue'
+import ChoiceQuestionCard from './ChoiceQuestionCard.vue'
+import { createResponses } from './use/util'
+
+export default defineComponent({
+  name: 'NewResponses',
+  components: { Card, InputQuestionCard, ChoiceQuestionCard },
+  props: {
+    questionnaire: {
+      type: Object as PropType<QuestionnaireByID>,
+      required: true
+    },
+    questioncontents: {
+      type: Array as PropType<QuestionDetails[]>,
+      required: true
+    }
+  },
+  setup(props) {
+    const NewResponses = ref(createResponses(props.questioncontents))
+    const updateInput = (i: number, value: string) => {
+      NewResponses.value[i].response = value
+    }
+    const updateChoice = (i: number, option: string[]) => {
+      NewResponses.value[i].option_response = option
+    }
+    return { QuestionType, NewResponses, updateInput, updateChoice }
+  }
+})
+</script>
+
+<style lang="scss" module>
+.gap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.right {
+  align-items: flex-start;
+  gap: 8px;
+}
+.title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  color: $ui-primary;
+}
+.description {
+  @include size-body;
+}
+</style>
