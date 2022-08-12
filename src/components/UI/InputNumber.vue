@@ -6,6 +6,7 @@
         :disabled="disabled"
         :placeholder="placeholder"
         :model-value="modelValue"
+        @update:model-value="update"
       />
     </input-base-with-underline>
   </div>
