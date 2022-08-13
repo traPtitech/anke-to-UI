@@ -1,5 +1,21 @@
 <template>
+  <textarea
+    v-if="isLong"
+    ref="area"
+    v-focus="isFocus"
+    rows="1"
+    :class="[
+      $style.input,
+      $style.long,
+      disabled ? $style.disabled : '',
+      isHover ? $style.hover : ''
+    ]"
+    :placeholder="placeholder"
+    :style="styles"
+    @input="resize"
+  />
   <input
+    v-else
     v-focus="isFocus"
     :type="isNumber ? 'number' : 'text'"
     :class="[
@@ -16,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, computed, nextTick } from 'vue'
 
 export default defineComponent({
   name: 'InputBase',
@@ -50,6 +66,10 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    isLong: {
+      type: Boolean,
+      default: false
+    },
     modelValue: {
       type: String,
       required: true
@@ -63,7 +83,20 @@ export default defineComponent({
     const update = (e: InputEvent) => {
       context.emit('update:modelValue', (e.target as HTMLInputElement).value)
     }
-    return { update }
+    const area = ref()
+    const height = ref('32px')
+    const resize = () => {
+      height.value = 'auto'
+      nextTick(() => {
+        height.value = area.value.scrollHeight + 'px'
+      })
+    }
+    const styles = computed(() => {
+      return {
+        height: height.value
+      }
+    })
+    return { update, height, styles, area, resize }
   }
 })
 </script>
@@ -91,6 +124,11 @@ $input-border: 1px;
     background-color: $bg-secondary-highlight;
     transition: 0.1s;
   }
+}
+.long {
+  display: block;
+  overflow: hidden;
+  resize: none;
 }
 .hover:hover {
   background-color: $bg-secondary-highlight;
