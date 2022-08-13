@@ -3,6 +3,7 @@
     <input-base
       :disabled="disabled"
       :is-focus="isFocus"
+      :is-long="isLong"
       :placeholder="placeholder"
       :model-value="modelValue"
       @update:model-value="update"
@@ -37,6 +38,10 @@ export default defineComponent({
     isHover: {
       type: Boolean,
       default: true
+    },
+    isLong: {
+      type: Boolean,
+      default: false
     },
     modelValue: {
       type: String,

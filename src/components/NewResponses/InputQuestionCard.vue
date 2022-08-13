@@ -11,6 +11,7 @@
       <InputText
         :placeholder="'回答を入力'"
         :model-value="modelValue"
+        :is-long="true"
         @update:model-value="update"
       />
     </div>
