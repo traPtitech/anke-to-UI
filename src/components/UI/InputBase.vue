@@ -12,7 +12,7 @@
     ]"
     :placeholder="placeholder"
     :style="styles"
-    @input="resize"
+    @input="resizeupdate"
   />
   <input
     v-else
@@ -91,12 +91,16 @@ export default defineComponent({
         height.value = area.value.scrollHeight + 'px'
       })
     }
+    const resizeupdate = (e: InputEvent) => {
+      update(e)
+      resize()
+    }
     const styles = computed(() => {
       return {
         height: height.value
       }
     })
-    return { update, height, styles, area, resize }
+    return { update, height, styles, area, resize, resizeupdate }
   }
 })
 </script>
