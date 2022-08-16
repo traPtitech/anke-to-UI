@@ -10,8 +10,8 @@
     <div v-else>
       <QuestionRadio
         :contents="options"
-        :model-value="modelValue[0]"
-        @update:model-value="updateRadio"
+        :model-value="modelValue"
+        @update:model-value="update"
       />
     </div>
   </question-card-base>
@@ -46,7 +46,7 @@ export default defineComponent({
     },
     options: {
       type: Array as PropType<string[]>,
-      default: []
+      required: true
     },
     modelValue: {
       type: Array as PropType<string[]>,
@@ -61,10 +61,7 @@ export default defineComponent({
     const update = (choice: string[]) => {
       context.emit('update', choice)
     }
-    const updateRadio = (choice: string) => {
-      context.emit('update', [choice])
-    }
-    return { QuestionType, update, updateRadio }
+    return { QuestionType, update }
   }
 })
 </script>
