@@ -36,20 +36,20 @@ export default defineComponent({
       default: false
     },
     modelValue: {
-      type: String,
+      type: Array as PropType<string[]>,
       required: true
     }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:modelValue': (v: string) => true
+    'update:modelValue': (v: string[]) => true
   },
   setup(props, context) {
     const selectedIndex = computed(() => {
-      return props.contents.indexOf(props.modelValue)
+      return props.contents.indexOf(props.modelValue[0])
     })
     const update = (index: number) => {
-      context.emit('update:modelValue', props.contents[index])
+      context.emit('update:modelValue', [props.contents[index]])
     }
 
     return { selectedIndex, update }
