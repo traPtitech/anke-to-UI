@@ -50,13 +50,11 @@ export default defineComponent({
 }
 .title {
   text-align: left;
-  font-size: 20px;
-  line-height: 30px;
+  @include size-title;
   color: $ui-primary;
 }
 .required {
-  font-size: 12px;
-  line-height: 18px;
+  @include size-body-small-2;
   margin-left: auto;
   color: $accent-error;
 }

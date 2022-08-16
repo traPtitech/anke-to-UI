@@ -44,23 +44,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" module>
-.container {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-}
-.right {
-  align-items: flex-start;
-  gap: 8px;
-}
-.title {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 36px;
-  color: $ui-primary;
-}
-.description {
-  @include size-body;
-}
-</style>
+<style lang="scss" module></style>
