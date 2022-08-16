@@ -1,9 +1,9 @@
 <template>
   <template v-if="questionnaire">
-    <div :class="$style.gap">
+    <div :class="$style.container">
       <Card :header-visible="false">
         <template #content>
-          <div :class="[$style.container, $style.right]">
+          <div :class="[$style.card, $style.right]">
             <div :class="$style.title">{{ questionnaire.title }}</div>
             <div :class="$style.discription">
               {{ questionnaire.description }}
@@ -21,7 +21,7 @@
           :title="question.body"
           :is-required="question.is_required"
           :question-type="question.question_type"
-          :model-value="NewResponses[i].response"
+          :model-value="newResponses[i].response"
           @update="value => updateInput(i, value)"
         />
         <ChoiceQuestionCard
@@ -30,7 +30,7 @@
           :is-required="question.is_required"
           :question-type="question.question_type"
           :options="question.options"
-          :model-value="NewResponses[i].option_response"
+          :model-value="newResponses[i].option_response"
           @update="choice => updateChoice(i, choice)"
         />
       </div>
@@ -61,25 +61,25 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const NewResponses = ref(createResponses(props.questioncontents))
+    const newResponses = ref(createResponses(props.questioncontents))
     const updateInput = (i: number, value: string) => {
-      NewResponses.value[i].response = value
+      newResponses.value[i].response = value
     }
     const updateChoice = (i: number, option: string[]) => {
-      NewResponses.value[i].option_response = option
+      newResponses.value[i].option_response = option
     }
-    return { QuestionType, NewResponses, updateInput, updateChoice }
+    return { QuestionType, newResponses, updateInput, updateChoice }
   }
 })
 </script>
 
 <style lang="scss" module>
-.gap {
+.container {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.container {
+.card {
   padding: 16px;
   display: flex;
   flex-direction: column;
