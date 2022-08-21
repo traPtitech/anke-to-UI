@@ -1,6 +1,6 @@
 <template>
   <textarea
-    v-if="isLong"
+    v-if="isTextarea"
     ref="area"
     v-focus="isFocus"
     rows="1"
@@ -66,7 +66,7 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    isLong: {
+    isTextarea: {
       type: Boolean,
       default: false
     },
