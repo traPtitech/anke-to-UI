@@ -3,7 +3,7 @@
     <input-base
       :disabled="disabled"
       :is-focus="isFocus"
-      :is-long="isLong"
+      :is-textarea="isTextarea"
       :placeholder="placeholder"
       :model-value="modelValue"
       @update:model-value="update"
@@ -39,7 +39,7 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    isLong: {
+    isTextarea: {
       type: Boolean,
       default: false
     },
