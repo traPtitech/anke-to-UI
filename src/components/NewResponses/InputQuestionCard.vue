@@ -2,7 +2,7 @@
   <question-card-base :title="title" :is-required="isRequired">
     <div v-if="questionType === QuestionType.Number">
       <InputNumber
-        :placeholder="0"
+        placeholder="0"
         :model-value="modelValue"
         @update:model-value="update"
       />
@@ -11,7 +11,7 @@
       <InputText
         :placeholder="'回答を入力'"
         :model-value="modelValue"
-        :is-long="true"
+        :is-textarea="true"
         @update:model-value="update"
       />
     </div>

@@ -33,17 +33,17 @@ export default defineComponent({
       default: false
     },
     modelValue: {
-      type: Number,
+      type: String,
       required: true
     }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:modelValue': (value: number) => true
+    'update:modelValue': (value: string) => true
   },
   setup(props, context) {
     const update = (value: string) => {
-      context.emit('update:modelValue', Number(value))
+      context.emit('update:modelValue', value)
     }
     return { update }
   }
