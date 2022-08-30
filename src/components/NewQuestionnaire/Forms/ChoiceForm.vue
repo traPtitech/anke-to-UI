@@ -27,13 +27,13 @@
           @delete="deleteChoice(i)"
         />
       </div>
+      <InputText
+        :placeholder="'質問を追加'"
+        :model-value="''"
+        :class="$style.newChoice"
+        @focusin="addChoice"
+      />
     </div>
-    <InputText
-      :placeholder="'質問を追加'"
-      :model-value="''"
-      :class="$style.newChoice"
-      @focusin="addChoice"
-    />
   </QuestionForm>
 </template>
 
@@ -125,6 +125,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 4px;
