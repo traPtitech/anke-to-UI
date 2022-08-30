@@ -1,5 +1,5 @@
 <template>
-  <Card :header-visible="false">
+  <Card>
     <template #content>
       <div :class="$style.container">
         <div :class="$style.header">
@@ -38,7 +38,6 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
