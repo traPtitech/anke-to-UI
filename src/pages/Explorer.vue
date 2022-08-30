@@ -8,7 +8,7 @@
       />
       <menus @change="changeOption" />
     </div>
-    <Card :header-visible="false">
+    <CardWithHeader :header-visible="false">
       <template #content>
         <transition name="fadeExplore">
           <div v-if="isFetched">
@@ -19,7 +19,7 @@
           </div>
         </transition>
       </template>
-    </Card>
+    </CardWithHeader>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ import Menus from '/@/components/Explorer/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
 import apis, { SortType, QuestionnaireForList } from '/@/lib/apis'
 import { Option } from '/@/components/Explorer/use/useOptions'
-import Card from '/@/components/UI/Card.vue'
+import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
 
@@ -39,7 +39,7 @@ export default defineComponent({
   components: {
     Menus,
     SearchInput,
-    Card,
+    CardWithHeader,
     CardContentDetail,
     CardContentDetailMock
   },
