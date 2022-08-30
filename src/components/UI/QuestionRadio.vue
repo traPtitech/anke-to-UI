@@ -10,9 +10,9 @@
         :disabled="disabled"
         @input="update(index)"
       />
-      <p :class="$style.content">
+      <div :class="$style.content">
         {{ content }}
-      </p>
+      </div>
     </label>
   </div>
 </template>
@@ -36,20 +36,20 @@ export default defineComponent({
       default: false
     },
     modelValue: {
-      type: String,
+      type: Array as PropType<string[]>,
       required: true
     }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    'update:modelValue': (v: string) => true
+    'update:modelValue': (v: string[]) => true
   },
   setup(props, context) {
     const selectedIndex = computed(() => {
-      return props.contents.indexOf(props.modelValue)
+      return props.contents.indexOf(props.modelValue[0])
     })
     const update = (index: number) => {
-      context.emit('update:modelValue', props.contents[index])
+      context.emit('update:modelValue', [props.contents[index]])
     }
 
     return { selectedIndex, update }
@@ -62,19 +62,18 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0.5rem;
+  gap: 4px;
 }
 .label {
   display: flex;
   align-items: center;
-  margin: 0.2rem 0;
-  .content {
-    margin: 0;
-    margin-left: 0.4rem;
-  }
   &:hover {
     cursor: pointer;
     opacity: 0.6;
   }
+}
+.content {
+  @include size-body;
+  margin-left: 8px;
 }
 </style>

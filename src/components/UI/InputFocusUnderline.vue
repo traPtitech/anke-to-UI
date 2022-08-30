@@ -19,8 +19,8 @@ export default defineComponent({
   background-color: $accent-primary;
   transform: scaleX(0);
   transition: transform 0.1s;
-  textarea:focus + &,
-  input:focus + & {
+  textarea:focus ~ &,
+  input:focus ~ & {
     transform: scaleX(1);
   }
 }

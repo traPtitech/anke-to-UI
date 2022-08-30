@@ -16,7 +16,7 @@ import Tab from '/@/components/UI/Tab.vue'
 import Questions from '/@/components/NewQuestionnaire/Questions.vue'
 
 export default defineComponent({
-  name: 'ResultTab',
+  name: 'NewQuestionnaire',
   components: {
     Questions,
     Tab
