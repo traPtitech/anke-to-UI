@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.card">
-    <Card>
+    <CardWithHeader>
       <template #header>自分の回答</template>
       <template #content>
         <div :class="$style.fadeResponse">
@@ -33,13 +33,13 @@
           </transition>
         </div>
       </template>
-    </Card>
+    </CardWithHeader>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import Card from '/@/components/UI/Card.vue'
+import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import ATable from '/@/components/UI/ATable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 import TableRow from '/@/components/UI/TableRow.vue'
@@ -49,7 +49,7 @@ import LoadingForExplorerAndResponses from '/@/components/UI/QuestionnairesTable
 export default defineComponent({
   name: 'Responses',
   components: {
-    Card,
+    CardWithHeader,
     ATable,
     TableRow,
     ResponsesTableRow,
