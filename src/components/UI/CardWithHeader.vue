@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="headerVisible" :class="$style.header">
+    <div :class="$style.header">
       <slot name="header"></slot>
     </div>
     <div :class="$style.content">
@@ -13,13 +13,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'CardWithHeader', //paddingなし
-  props: {
-    headerVisible: {
-      type: Boolean,
-      default: true
-    }
-  }
+  name: 'CardWithHeader'
 })
 </script>
 

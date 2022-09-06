@@ -7,7 +7,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({
-  name: 'Card' //paddingあり
+  name: 'Card',
+  props: {
+    hasPadding: {
+      type: Boolean,
+      default: false
+    }
+  }
 })
 </script>
 
