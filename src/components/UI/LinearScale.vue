@@ -6,6 +6,7 @@
       :key="index"
       :class="[disabled ? $style.disabledlabel : '']"
     >
+      <div>{{ num }}</div>
       <radio-button
         :is-selected="index === selectedIndex"
         :disabled="disabled"
