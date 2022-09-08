@@ -80,7 +80,6 @@ export default defineComponent({
   gap: 20px;
 }
 .card {
-  padding: 16px;
   display: flex;
   flex-direction: column;
 }
