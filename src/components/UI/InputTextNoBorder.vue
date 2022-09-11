@@ -1,23 +1,26 @@
 <template>
-  <InputText
-    :is-focus="true"
-    :is-hover="false"
-    :model-value="modelValue"
-    @update:model-value="update"
-  >
+  <input-base-with-underline>
+    <input-base
+      :is-focus="true"
+      :is-hover="false"
+      :model-value="modelValue"
+      @update:model-value="update"
+    />
     <div :class="$style.underline" />
     <div :class="$style.hideunderline" />
-  </InputText>
+  </input-base-with-underline>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import InputText from './InputText.vue'
+import { defineComponent } from 'vue'
+import InputBaseWithUnderline from './InputBaseWithUnderline.vue'
+import InputBase from './InputBase.vue'
 
 export default defineComponent({
   name: 'InputTextNoBorder', //hoverでunderlineがでる
   components: {
-    InputText
+    InputBaseWithUnderline,
+    InputBase
   },
   props: {
     placeholder: {
@@ -37,9 +40,8 @@ export default defineComponent({
     const update = (value: string) => {
       context.emit('update:modelValue', value)
     }
-    const model = computed(() => props.modelValue)
 
-    return { update, model }
+    return { update }
   }
 })
 </script>
@@ -55,10 +57,10 @@ $underline-margin: -1 * $input-border;
   background-color: $ui-secondary;
   transition: 0.1s;
   transform: scaleX(0);
+  margin-top: $underline-margin;
   input:hover ~ & {
     transform: scaleX(1);
   }
-  margin-top: $underline-margin;
 }
 .hideunderline {
   position: relative;

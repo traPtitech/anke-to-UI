@@ -1,48 +1,31 @@
 <template>
-  <div>
-    <input
-      v-focus="isFocus"
-      :type="isNumber ? 'number' : 'text'"
-      :class="[
-        $style.input,
-        disabled ? $style.disabled : '',
-        isHover ? $style.hover : ''
-      ]"
-      :placeholder="placeholder"
+  <input-base-with-underline>
+    <input-base
       :disabled="disabled"
-      :value="modelValue"
-      @input="update"
+      :is-focus="isFocus"
+      :is-textarea="isTextarea"
+      :placeholder="placeholder"
+      :model-value="modelValue"
+      @update:model-value="update"
     />
-    <input-focus-underline :class="$style.underline" />
-    <slot> </slot>
-  </div>
+  </input-base-with-underline>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import InputFocusUnderline from './InputFocusUnderline.vue'
+import InputBase from './InputBase.vue'
+import InputBaseWithUnderline from './InputBaseWithUnderline.vue'
+
 export default defineComponent({
   name: 'InputText',
   components: {
-    InputFocusUnderline
-  },
-  directives: {
-    focus: {
-      mounted(el, isfocus) {
-        if (isfocus.value) {
-          el.focus()
-        }
-      }
-    }
+    InputBaseWithUnderline,
+    InputBase
   },
   props: {
     placeholder: {
       type: String,
       required: true
-    },
-    isNumber: {
-      type: Boolean,
-      default: false
     },
     disabled: {
       type: Boolean,
@@ -56,6 +39,10 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    isTextarea: {
+      type: Boolean,
+      default: false
+    },
     modelValue: {
       type: String,
       required: true
@@ -66,49 +53,10 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    const update = (e: InputEvent) => {
-      context.emit('update:modelValue', (e.target as HTMLInputElement).value)
+    const update = (value: string) => {
+      context.emit('update:modelValue', value)
     }
     return { update }
   }
 })
 </script>
-
-<style lang="scss" module>
-$input-border: 1px;
-$underline-margin: -1 * $input-border;
-.input {
-  padding: 4px 8px;
-  width: 100%;
-  height: 32px;
-  @include size-body;
-  color: $ui-primary;
-  box-sizing: border-box;
-  border: none;
-  border-bottom: $input-border solid $ui-secondary;
-  outline: none;
-  &::placeholder {
-    padding: 4px 8px;
-    width: 100%;
-    height: 24px;
-    @include size-body-small;
-    color: $ui-secondary;
-  }
-  &:focus {
-    background-color: $bg-secondary-highlight;
-    transition: 0.1s;
-  }
-}
-.hover:hover {
-  background-color: $bg-secondary-highlight;
-  transition: 0.1s;
-}
-.disabled {
-  pointer-events: none;
-}
-.underline {
-  position: relative;
-  z-index: 2;
-  margin-top: $underline-margin;
-}
-</style>

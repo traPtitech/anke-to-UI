@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.container">
+  <div>
     <div v-show="headerVisible" :class="$style.header">
       <slot name="header"></slot>
     </div>
@@ -23,9 +23,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-.container {
-  padding: 1rem 0;
-}
 .header {
   border-collapse: collapse;
   text-align: left;
