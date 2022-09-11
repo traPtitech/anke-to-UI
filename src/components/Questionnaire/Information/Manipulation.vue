@@ -1,36 +1,35 @@
 <template>
-  <Card>
-    <template #header>操作</template>
-    <template #content>
-      <div>
-        <router-link :to="'/responses/new/' + questionnaire.questionnaireID"
-          >回答する</router-link
-        >
-      </div>
-      <div>
-        <input type="url" :value="questionnaireLink" readonly />
-        <span><button @click="linkCopy()">リンクコピー</button></span>
-        <p v-if="isLinkCopied === true">リンクコピーされました</p>
-      </div>
-      <div>
-        <router-link :to="'/results/' + questionnaire.questionnaireID"
-          >結果を見る</router-link
-        >
-      </div>
-      <div><button>アンケートを締め切る</button></div>
-      <div><button>アンケートを削除</button></div>
-    </template>
-  </Card>
+  <div>
+    <Button
+      text="回答する"
+      :to="'/responses/new/' + questionnaire.questionnaireID"
+      :show-icon="false"
+    />
+    <Button
+      :text="'結果を見る'"
+      :to="'/results/' + questionnaire.questionnaireID"
+      :is-secondary="true"
+      :show-icon="false"
+    />
+    <div>回答期限 : {{ getTimeLimit(questionnaire.res_time_limit) }}</div>
+    <div>公開範囲 : {{ questionnaire.res_shared_to }}</div>
+    <!-- <div>
+      <input type="url" :value="questionnaireLink" readonly />
+      <span><button @click="linkCopy()">リンクコピー</button></span>
+      <p v-if="isLinkCopied === true">リンクコピーされました</p>
+    </div> -->
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
-import Card from '/@/components/UI/Card.vue'
 import { QuestionnaireByID } from '/@/lib/apis'
+import Button from '/@/components/UI/Button.vue'
+import { getTimeLimit } from '/@/components/Explorer/use/useOptions'
 
 export default defineComponent({
   name: 'Manipulation',
-  components: { Card },
+  components: { Button },
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
@@ -50,7 +49,8 @@ export default defineComponent({
     return {
       questionnaireLink,
       linkCopy,
-      isLinkCopied
+      isLinkCopied,
+      getTimeLimit
     }
   }
 })
