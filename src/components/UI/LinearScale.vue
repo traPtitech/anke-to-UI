@@ -4,8 +4,9 @@
     <label
       v-for="(num, index) in range"
       :key="index"
-      :class="[disabled ? $style.disabledlabel : '']"
+      :class="[disabled ? $style.disabledlabel : '', $style.label]"
     >
+      <div>{{ num }}</div>
       <radio-button
         :is-selected="index === selectedIndex"
         :disabled="disabled"
@@ -69,6 +70,11 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .leftLabel {
   margin-right: 0.5rem;
