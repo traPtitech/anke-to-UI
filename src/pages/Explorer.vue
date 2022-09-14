@@ -8,7 +8,7 @@
       />
       <menus @change="changeOption" />
     </div>
-    <Card :header-visible="false">
+    <Card :has-padding="false">
       <template #content>
         <transition name="fadeExplore">
           <div v-if="isFetched">

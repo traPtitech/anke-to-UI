@@ -1,5 +1,5 @@
 <template>
-  <Card :class="$style.card">
+  <CardWithHeader :class="$style.card">
     <template #header>回答対象になっているアンケート</template>
     <template #content>
       <transition name="fadeTargeted">
@@ -11,13 +11,13 @@
         </div>
       </transition>
     </template>
-  </Card>
+  </CardWithHeader>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { useTitle } from './use/title'
-import Card from '/@/components/UI/Card.vue'
+import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
 import apis, { QuestionnaireMyTargeted } from '/@/lib/apis'
@@ -25,7 +25,7 @@ import apis, { QuestionnaireMyTargeted } from '/@/lib/apis'
 export default defineComponent({
   name: 'Targeted',
   components: {
-    Card,
+    CardWithHeader,
     CardContentDetail,
     CardContentDetailMock
   },

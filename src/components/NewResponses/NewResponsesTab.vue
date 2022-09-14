@@ -1,7 +1,7 @@
 <template>
   <template v-if="questionnaire">
     <div :class="$style.container">
-      <Card :header-visible="false">
+      <Card>
         <template #content>
           <div :class="[$style.card, $style.right]">
             <div :class="$style.title">{{ questionnaire.title }}</div>
@@ -106,7 +106,6 @@ export default defineComponent({
   gap: 20px;
 }
 .card {
-  padding: 16px;
   display: flex;
   flex-direction: column;
 }

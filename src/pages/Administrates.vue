@@ -1,25 +1,25 @@
 <template>
   <div :class="$style.card">
-    <Card>
+    <CardWithHeader>
       <template #header>自分が管理者になっているアンケート</template>
       <template #content>
         <CardContentDetail :questionnaires="questionnaires" />
       </template>
-    </Card>
+    </CardWithHeader>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { useTitle } from './use/title'
-import Card from '/@/components/UI/Card.vue'
+import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import apis, { QuestionnaireMyAdministrates } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'Administrates',
   components: {
-    Card,
+    CardWithHeader,
     CardContentDetail
   },
   setup() {

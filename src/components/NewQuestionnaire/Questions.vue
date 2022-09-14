@@ -1,12 +1,12 @@
 <template>
-  <Card>
+  <CardWithHeader>
     <template #header>
       <QuestionnaireTitle :title="'タイトル'" />
     </template>
-  </Card>
+  </CardWithHeader>
   <div :class="$style.container">
     <div v-for="(question, i) in questions" :key="question.key">
-      <Card :header-visible="false">
+      <Card>
         <template #content>
           <div :class="$style.question">
             <QuestionUpdown
@@ -40,6 +40,7 @@ import { QuestionType } from '/@/lib/apis'
 import QuestionnaireTitle from './QuestionnaireTitle.vue'
 import { createNewQuestion, NewQuestionData } from './use/utils'
 import Card from '/@/components/UI/Card.vue'
+import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import QuestionUpdown from './Forms/QuestionUpdown.vue'
 import QuestionContent from './QuestionContent.vue'
 import AddQuestion from './AddQuestion.vue'
@@ -49,6 +50,7 @@ export default defineComponent({
   components: {
     QuestionnaireTitle,
     Card,
+    CardWithHeader,
     QuestionUpdown,
     QuestionContent,
     AddQuestion
@@ -126,7 +128,6 @@ export default defineComponent({
 .question {
   display: flex;
   flex-direction: row;
-  padding: 16px;
 }
 .border {
   border-right: 1px solid $ui-secondary;
