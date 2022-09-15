@@ -95,6 +95,7 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
+  position: relative;
   display: flex;
   column-gap: 1rem;
 }
