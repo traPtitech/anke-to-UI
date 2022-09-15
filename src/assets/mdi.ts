@@ -18,6 +18,7 @@ import {
   mdiPlusCircleOutline,
   mdiDelete,
   mdiContentDuplicate,
+  mdiContentCopy,
   mdiPlus
 } from '@mdi/js'
 
@@ -41,6 +42,7 @@ const mdi = new Map<string, string>([
   ['plus-circle-outline', mdiPlusCircleOutline],
   ['delete', mdiDelete],
   ['content-duplicate', mdiContentDuplicate],
+  ['content-copy', mdiContentCopy],
   ['plus', mdiPlus]
 ])
 
