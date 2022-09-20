@@ -31,10 +31,7 @@
 import { defineComponent, PropType } from 'vue'
 import { Questionnaire } from '/@/lib/apis'
 import Icon from '/@/components/UI/Icon.vue'
-import {
-  getTimeLimit,
-  getRelativeTime
-} from '/@/components/Explorer/use/useOptions'
+import { getTimeLimit, getRelativeTime } from '/@/components/UI/use/useOptions'
 
 export default defineComponent({
   name: 'QuestionnaireTableRow',

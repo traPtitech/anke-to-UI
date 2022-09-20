@@ -39,10 +39,7 @@
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
 import { ResponseSummary } from '/@/lib/apis'
-import {
-  getTimeLimit,
-  getRelativeTime
-} from '/@/components/Explorer/use/useOptions'
+import { getTimeLimit, getRelativeTime } from '/@/components/UI/use/useOptions'
 
 export default defineComponent({
   name: 'ResponsesTableRow',

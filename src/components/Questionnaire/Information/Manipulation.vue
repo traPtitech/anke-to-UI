@@ -25,7 +25,7 @@
 import { defineComponent, PropType, ref } from 'vue'
 import { QuestionnaireByID } from '/@/lib/apis'
 import Button from '/@/components/UI/Button.vue'
-import { getTimeLimit } from '/@/components/Explorer/use/useOptions'
+import { getTimeLimit } from '/@/components/UI/use/useOptions'
 
 export default defineComponent({
   name: 'Manipulation',

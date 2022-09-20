@@ -26,10 +26,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { useTitle } from './use/title'
-import Menus from '/@/components/Explorer/Menus.vue'
+import Menus from '../components/UI/Menus.vue'
 import SearchInput from '/@/components/Explorer/SearchInput.vue'
 import apis, { SortType, QuestionnaireForList } from '/@/lib/apis'
-import { Option } from '/@/components/Explorer/use/useOptions'
+import { Option } from '/@/components/UI/use/useOptions'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'

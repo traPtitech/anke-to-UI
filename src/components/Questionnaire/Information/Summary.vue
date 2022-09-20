@@ -24,9 +24,9 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import { QuestionnaireMyTargeted } from '/@/lib/apis'
-import { getTimeLimit } from '/@/components/Explorer/use/useOptions'
+import { getTimeLimit } from '/@/components/UI/use/useOptions'
 import icon from '/@/components/UI/Icon.vue'
-import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
+import DropdownContents from '../../UI/DropdownContents.vue'
 import useIsMobile from '/@/use/isMobile'
 
 export default defineComponent({
