@@ -12,8 +12,6 @@
           :is-open="isContentShown"
           :contents="['traQで共有', 'リンクをコピー']"
           :class="isMobile ? $style.dropdownMobile : ''"
-          @close="close"
-          @change-option="change"
         />
       </div>
     </div>
@@ -41,13 +39,10 @@ export default defineComponent({
   setup() {
     const isContentShown = ref(false)
     const open = () => (isContentShown.value = !isContentShown.value)
-    const show = false
     const { isMobile } = useIsMobile()
     return {
       getTimeLimit,
       open,
-      close,
-      show,
       isMobile: isMobile,
       isContentShown
     }
