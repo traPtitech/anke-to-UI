@@ -1,5 +1,13 @@
 <template>
   <div>
+    <router-link
+      v-if="isAdmin"
+      :to="'questionnaires/' + questionnaire.questionnaireID + '/edit'"
+      :class="$style.link"
+    >
+      管理者ページへ
+      <icon name="chevron-right" :class="$style.icon" />
+    </router-link>
     <Button
       text="回答する"
       :to="'/responses/new/' + questionnaire.questionnaireID"
@@ -25,11 +33,13 @@
 import { defineComponent, PropType, ref } from 'vue'
 import { QuestionnaireByID } from '/@/lib/apis'
 import Button from '/@/components/UI/Button.vue'
+import icon from '/@/components/UI//Icon.vue'
 import { getTimeLimit } from '/@/components/UI/use/useOptions'
+import useMe from '/@/use/me'
 
 export default defineComponent({
   name: 'Manipulation',
-  components: { Button },
+  components: { Button, icon },
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
@@ -46,12 +56,40 @@ export default defineComponent({
       isLinkCopied.value = true
       setTimeout(() => (isLinkCopied.value = false), 1000)
     }
+    const isAdmin = ref(
+      props.questionnaire.administrators.includes(useMe().traqID.value)
+    )
     return {
       questionnaireLink,
       linkCopy,
       isLinkCopied,
-      getTimeLimit
+      getTimeLimit,
+      isAdmin
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.link {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: $accent-primary;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding-left: 2rem;
+
+  &:hover {
+    color: $accent-primary-highlight;
+  }
+}
+.icon {
+  flex: none;
+  right: 0.5rem;
+}
+</style>
