@@ -1,27 +1,37 @@
 <template>
   <PageTemplate>
     <template #header>
-      <ResultHeader />
+      <div :class="$style.container">
+        <div :class="$style.title">{{ questionnaire.title }}</div>
+        <div :class="$style.rightcontent">
+          <icon :name="'download'" @click="isOpen = !isOpen" />
+          <dropdown-contents
+            :contents="downloadTypes"
+            :is-open="isOpen"
+            @close="isOpen = !isOpen"
+            @change-option="download"
+          />
+        </div>
+      </div>
+      <div :class="$style.container">
+        <Tab v-model="tabType" :tabs="tabTypes" />
+        <dropdown-form
+          v-model="formType"
+          :contents="formTypes"
+          :class="$style.rightcontent"
+        />
+      </div>
     </template>
-    <div>
-      {{ questionnaire.title }}
-    </div>
     <template #content>
-      <Individual
-        v-if="currentTabComponent === 'individual'"
-        :questionnaire="questionnaire"
-        :results="results"
-        :questions="questions"
-      />
       <Statistics
-        v-if="currentTabComponent === 'statistics'"
+        v-if="tabType === '概要'"
         :questionnaire="questionnaire"
         :results="results"
         :questions="questions"
-        :results-per-question="resultsPerQuestion"
+        :form-type="formType"
       />
-      <Spreadsheet
-        v-if="currentTabComponent === 'spreadsheet'"
+      <Individual
+        v-if="tabType === '個別'"
         :questionnaire="questionnaire"
         :results="results"
         :questions="questions"
@@ -31,25 +41,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, PropType, onMounted } from 'vue'
+import { defineComponent, ref, PropType } from 'vue'
 import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-import { useRoute } from 'vue-router'
+import Tab from '/@/components/UI/Tab.vue'
+import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
+import Icon from '/@/components/UI/Icon.vue'
+import DropdownForm from './DropdownForm.vue'
 import PageTemplate from './PageTemplate.vue'
-import ResultHeader from './ResultHeader.vue'
 import Individual from './Individual.vue'
 import Statistics from './Statistics.vue'
-import Spreadsheet from './Spreadsheet.vue'
-import { detailTabs, DetailTabTypes } from './use/utils'
+import {
+  tabTypes,
+  TabTypes,
+  downloadTypes,
+  DownloadTypes,
+  formTypes,
+  FormTypes
+} from './use/utils'
 import { ResultsPerQuestion } from '/@/lib/util/statistics'
 
 export default defineComponent({
   name: 'ResultTab',
   components: {
     PageTemplate,
-    ResultHeader,
+    Icon,
+    DropdownForm,
     Individual,
     Statistics,
-    Spreadsheet
+    DropdownContents,
+    Tab
   },
   props: {
     questionnaire: {
@@ -70,30 +90,37 @@ export default defineComponent({
     }
   },
   setup() {
-    const selectedTab = ref<DetailTabTypes>('statistics')
-    const route = useRoute()
-
-    onMounted(() => {
-      selectedTab.value = <DetailTabTypes>route.query.tab || 'statistics'
-    })
-
-    const currentTabComponent = computed(() => {
-      if (detailTabs.includes(selectedTab.value)) return selectedTab.value
-      // eslint-disable-next-line no-console
-      console.error('unexpected selectedTab')
-      return ''
-    })
-
-    watch(
-      () => route.query,
-      newQuery => {
-        selectedTab.value = <DetailTabTypes>newQuery.tab
-      }
-    )
+    const tabType = ref<TabTypes>('概要')
+    const isOpen = ref<boolean>(false)
+    const download = (value: string) => {
+      alert(value)
+    }
+    const formType = ref<FormTypes>('Markdown')
     return {
-      selectedTab,
-      currentTabComponent
+      isOpen,
+      downloadTypes,
+      download,
+      formType,
+      formTypes,
+      tabType,
+      tabTypes
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.title {
+  @include size-body;
+  font-weight: 700;
+  text-align: left;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.rightcontent {
+  margin-left: auto;
+}
+</style>
