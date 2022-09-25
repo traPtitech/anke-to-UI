@@ -42,15 +42,16 @@ export default defineComponent({
     onMounted(async () => {
       const questionnaireId = Number(route.params.id)
       if (isNaN(questionnaireId)) return
-      const [qres, rres, qsres] = await Promise.all([
+      const [qres, rres, qsres, rpres] = await Promise.all([
         apis.getQuestionnaire(questionnaireId, ''),
         apis.getResults(questionnaireId),
-        apis.getQuestions(questionnaireId, '')
+        apis.getQuestions(questionnaireId, ''),
+        getResultsPerQuestion(questionnaireId)
       ])
       questionnaire.value = qres.data
       results.value = rres.data
       questions.value = qsres.data
-      resultsPerQuestion.value = await getResultsPerQuestion(questionnaireId)
+      resultsPerQuestion.value = rpres
 
       useTitle(ref(`${questionnaire.value?.title}`))
     })
