@@ -3,23 +3,24 @@ export const defaultColumns = [
   { name: 'traqID', label: 'traQID' },
   { name: 'submitted_at', label: '回答日時' }
 ]
-export type TableFormTypes = 'view' | 'markdown' | 'csv'
-export const tableFormTabs: TableFormTypes[] = ['view', 'markdown', 'csv']
-export type DetailTabTypes = 'statistics' | 'spreadsheet' | 'individual'
-export const detailTabs: DetailTabTypes[] = [
-  'statistics',
-  'spreadsheet',
-  'individual'
+export type TabTypes = '概要' | '個別'
+export const tabTypes: TabTypes[] = ['概要', '個別']
+export type DownloadTypes = 'Markdownでダウンロード' | 'CSVでダウンロード'
+export const downloadTypes: DownloadTypes[] = [
+  'Markdownでダウンロード',
+  'CSVでダウンロード'
 ]
+export type FormTypes = 'Markdown' | 'CSV'
+export const formTypes = ['Markdown', 'CSV']
 
-export const getIsTextTable = (tableForm: TableFormTypes): boolean =>
-  ['markdown', 'csv'].includes(tableForm)
 export const isSelectType = (type: string): boolean =>
-  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(type)
+  ['MultipleChoice', 'Checkbox'].includes(type)
 export const isNumberType = (type: string): boolean =>
   ['LinearScale', 'Number'].includes(type)
+export const isTextType = (type: string): boolean =>
+  ['Text', 'TextArea'].includes(type)
 export const isSelectTypeData = (arg: CountedData): arg is SelectTypeData =>
-  ['MultipleChoice', 'Checkbox', 'Dropdown'].includes(arg.type)
+  ['MultipleChoice', 'Checkbox'].includes(arg.type)
 
 export type SelectTypeData = Required<CountedData> & {
   total: null
@@ -29,7 +30,6 @@ export const textTables = {
   markdown: '',
   csv: ''
 }
-export const TEXTAREA_ADDITIONAL_LINE_NUM = 3
 
 export const getTableRow = (
   results: ResponseResult[],
@@ -68,14 +68,14 @@ const responseToString = (body: ResponseBody): string => {
 export type CountedData = {
   title: string
   type: string
-  length?: number
+  length: number
   total: {
     average: string
     standardDeviation: string
     median: string
     mode: string
   } | null
-  data?: [choice: string | number, ids: string[]][]
+  data: [choice: string | number, ids: string[]][]
 }
 
 type AnswerData = {
@@ -85,10 +85,16 @@ type AnswerData = {
 }
 
 const generateIdTable = (
-  questionType: string,
+  question: QuestionDetails,
   answers: AnswerData[]
 ): [choice: string | number, ids: string[]][] => {
   const total = new Map()
+  const questionType = question.question_type
+  if (isSelectType(questionType)) {
+    for (let i = 0; i < question.options.length; i++) {
+      total.set(question.options[i], [])
+    }
+  }
   answers.forEach((answer: AnswerData) => {
     if (isSelectType(questionType)) {
       ;(<string[]>answer.answer).forEach(value => {
@@ -151,17 +157,34 @@ const generateStats = (
   }
 }
 
+const generateLength = (
+  questionType: string,
+  answers: AnswerData[]
+): number => {
+  if (questionType === 'Checkbox') {
+    return answers.reduce((sum, individual): number => {
+      if (typeof individual.answer === 'object') {
+        return sum + individual.answer.length
+      } else {
+        return 1
+      }
+    }, 0)
+  } else {
+    return answers.length
+  }
+}
+
 export const countData = (
   questions: QuestionDetails[],
   results: ResponseResult[]
-): null | CountedData[] => {
-  if (questions.length <= 0 || results.length <= 0) return null
+): CountedData[] => {
+  if (questions.length <= 0 || results.length <= 0) return []
   const data: AnswerData[][] = Array.from(
     { length: questions.length },
     () => []
   )
 
-  // question毎に各結果を格納
+  // 各個人のResponsesをquestion毎にdataへ格納
   results.forEach((result: ResponseResult) => {
     const answers = result.body
 
@@ -182,9 +205,137 @@ export const countData = (
     (question: QuestionDetails, index: number): CountedData => ({
       title: question.body,
       type: question.question_type,
-      data: generateIdTable(question.question_type, data[index]),
+      data: generateIdTable(question, data[index]),
       total: generateStats(question.question_type, data[index]),
-      length: data[index].length
+      // 複数選択肢(Checkbox)のときはlengthが異なる
+      length: generateLength(question.question_type, data[index])
     })
   )
+}
+
+//CopyのBaseを作る系
+export type FormInfo<Key extends string> = {
+  header: ReadonlyArray<[Key, string]>
+  rows: ReadonlyArray<Record<Key, string>>
+}
+
+export const questionToFormBase = (
+  countedData: CountedData
+):
+  | FormInfo<'body' | 'count' | 'percentage' | 'respondent'>
+  | FormInfo<'body' | 'count' | 'respondent'> => {
+  if (isSelectType(countedData.type) || isNumberType(countedData.type)) {
+    const header: ReadonlyArray<
+      ['body' | 'count' | 'percentage' | 'respondent', string]
+    > = [
+      ['body', '回答'],
+      ['count', '回答数'],
+      ['percentage', '割合'],
+      ['respondent', 'その回答をした人']
+    ]
+    const rows: ReadonlyArray<
+      Record<'body' | 'count' | 'percentage' | 'respondent', string>
+    > = countedData.data.map(([choice, ids]) => ({
+      body: String(choice),
+      count: `${ids.length}件`,
+      percentage: `${(
+        (ids.length / (countedData.length !== 0 ? countedData.length : 1)) *
+        100
+      ).toFixed(2)}%`,
+      respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
+    }))
+    return { header, rows }
+  } else {
+    const header: ReadonlyArray<['body' | 'count' | 'respondent', string]> = [
+      ['body', '回答'],
+      ['count', '回答数'],
+      ['respondent', 'その回答をした人']
+    ]
+    const rows: ReadonlyArray<Record<'body' | 'count' | 'respondent', string>> =
+      countedData.data.map(([choice, ids]) => ({
+        body: String(choice),
+        count: `${ids.length}件`,
+        respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
+      }))
+    return { header, rows }
+  }
+}
+
+type ArrayFormInfo = FormInfo<'body' | 'count' | 'percentage' | 'respondent'>
+
+type NotArrayFormInfo = FormInfo<'body' | 'count' | 'respondent'>
+
+export const hasPercentageFormInfo = (
+  question: ArrayFormInfo | NotArrayFormInfo
+): question is ArrayFormInfo => question.header.length === 4
+
+//CopyMarkdown系
+export const generateMarkdownTable = (
+  answer: ArrayFormInfo | NotArrayFormInfo
+): string[] => {
+  let head = '| '
+  let partition = '| '
+  for (let i = 0; i < answer.header.length; i++) {
+    head = head.concat(answer.header[i][1], ' | ')
+    partition = partition.concat(' - | ')
+  }
+  let res = [head, partition]
+  if (hasPercentageFormInfo(answer)) {
+    res = res.concat(
+      answer.rows.map(
+        ananswer =>
+          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.percentage} | ${ananswer.respondent} |`
+      )
+    )
+  } else {
+    res = res.concat(
+      answer.rows.map(
+        ananswer =>
+          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.respondent} |`
+      )
+    )
+  }
+  return res
+}
+
+export const generateQuestionMarkdownTable = (question: CountedData) => {
+  let res = [`# ${question.title}`]
+  res = res.concat(generateMarkdownTable(questionToFormBase(question)))
+  res.concat([''])
+  return res.join('\n')
+}
+
+//CopyCSV系
+
+export const generateCSVTable = (
+  answer: ArrayFormInfo | NotArrayFormInfo
+): string[] => {
+  let head = ''
+  for (let i = 0; i < answer.header.length; i++) {
+    head = head.concat(`"${answer.header[i][1]}"`, ',')
+  }
+  let res = [head.slice(0, -1)]
+  if (hasPercentageFormInfo(answer)) {
+    res = res.concat(
+      answer.rows.map(
+        ananswer =>
+          `"${ananswer.body}","${ananswer.count}","${ananswer.percentage}","${ananswer.respondent}"`
+      )
+    )
+  } else {
+    res = res.concat(
+      answer.rows.map(
+        ananswer =>
+          `"${ananswer.body}","${ananswer.count}","${ananswer.respondent}"`
+      )
+    )
+  }
+  return res
+}
+
+export const generateQuestionCSVTable = (question: CountedData) => {
+  let res = [`"${question.title}"`]
+  res = res.concat(generateCSVTable(questionToFormBase(question)))
+  res.concat([''])
+  return res.join('\n')
 }
