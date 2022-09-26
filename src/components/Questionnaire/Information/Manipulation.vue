@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType, ref, computed } from 'vue'
 import { QuestionnaireByID } from '/@/lib/apis'
 import Button from '/@/components/UI/Button.vue'
 import icon from '/@/components/UI//Icon.vue'
@@ -56,7 +56,7 @@ export default defineComponent({
       isLinkCopied.value = true
       setTimeout(() => (isLinkCopied.value = false), 1000)
     }
-    const isAdmin = ref(
+    const isAdmin = computed(() =>
       props.questionnaire.administrators.includes(useMe().traqID.value)
     )
     return {
