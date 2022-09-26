@@ -72,13 +72,13 @@ export default defineComponent({
 
 <style lang="scss" module>
 .link {
+  @include size-body;
+  @include weight-bold;
   display: flex;
   flex-direction: row;
   justify-content: center;
   color: $accent-primary;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 1rem;
   text-align: center;
   align-items: flex-end;
   gap: 0.5rem;

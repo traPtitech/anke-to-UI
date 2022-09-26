@@ -57,26 +57,25 @@ export default defineComponent({
   flex-direction: column;
 }
 .title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  @include font-head;
   text-align: left;
 }
 .description {
-  font-size: 1rem;
-  font-weight: 400;
+  @include size-body;
   text-align: left;
 }
 .dataAndShare {
   display: flex;
 }
 .date {
+  @include size-body-small;
+  @include weight-bold;
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 0px;
   gap: 2rem;
   width: 100%;
-  font-size: 0.875rem;
 }
 .mobile {
   display: flex;

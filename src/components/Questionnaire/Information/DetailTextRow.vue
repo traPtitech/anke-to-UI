@@ -36,10 +36,10 @@ export default defineComponent({
 
 <style lang="scss" module>
 .container {
+  @include size-body-small;
+  @include weight-bold;
   display: flex;
   gap: 2rem;
-  font-weight: 700;
-  font-size: 0.875rem;
   text-align: left;
 }
 .mobile {

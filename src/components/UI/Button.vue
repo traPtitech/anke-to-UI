@@ -44,7 +44,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.375rem 1rem;
+  padding: 0.5rem 1rem;
   gap: 0.5rem;
   border-radius: 0.5rem;
   background-color: $accent-primary;
@@ -65,10 +65,9 @@ export default defineComponent({
   border: solid 2px $ui-primary;
 }
 .text {
-  font-weight: 700;
-  font-size: 1rem;
+  @include size-body;
+  @include weight-bold;
   margin-bottom: 0;
-  line-height: 1.5rem;
 }
 .icon {
   position: absolute;
