@@ -38,7 +38,8 @@ export default defineComponent({
       required: true
     },
     myResponses: {
-      type: Array as PropType<ResponseSummary[]>
+      type: Array as PropType<ResponseSummary[]>,
+      default: []
     }
   },
   setup() {

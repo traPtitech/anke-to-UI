@@ -25,7 +25,8 @@ export default defineComponent({
   components: { Card, Icon },
   props: {
     myResponses: {
-      type: Array as PropType<ResponseSummary[]>
+      type: Array as PropType<ResponseSummary[]>,
+      default: []
     }
   },
   setup() {
