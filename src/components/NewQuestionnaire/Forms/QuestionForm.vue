@@ -1,18 +1,20 @@
 <template>
-  <div :class="$style.questiontitle">
-    <InputText
-      :class="$style.title"
-      :model-value="questionName"
-      :placeholder="'質問のタイトルを入力'"
-      :is-focus="true"
-      @update:model-value="updateQuestionName"
-    />
-    <required-switch
-      :is-checked="isRequired"
-      @update:checked="updateQuestionIsRequired"
-    />
+  <div>
+    <div :class="$style.questiontitle">
+      <InputText
+        :class="$style.title"
+        :model-value="questionName"
+        :placeholder="'質問のタイトルを入力'"
+        :is-focus="true"
+        @update:model-value="updateQuestionName"
+      />
+      <required-switch
+        :is-checked="isRequired"
+        @update:checked="updateQuestionIsRequired"
+      />
+    </div>
+    <slot></slot>
   </div>
-  <slot></slot>
 </template>
 
 <script lang="ts">

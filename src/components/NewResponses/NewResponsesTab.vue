@@ -1,7 +1,7 @@
 <template>
   <template v-if="questionnaire">
     <div :class="$style.container">
-      <Card :header-visible="false">
+      <Card>
         <template #content>
           <div :class="[$style.card, $style.right]">
             <div :class="$style.title">{{ questionnaire.title }}</div>
@@ -24,6 +24,17 @@
           :model-value="newResponses[i].response"
           @update="value => updateInput(i, value)"
         />
+        <LinearScaleQuestionCard
+          v-else-if="question.question_type === QuestionType.LinearScale"
+          :title="question.body"
+          :is-required="question.is_required"
+          :left-label="question.scale_label_left"
+          :right-label="question.scale_label_right"
+          :scale-min="question.scale_min"
+          :scale-max="question.scale_max"
+          :model-value="newResponses[i].response"
+          @update="value => updateLinearScale(i, value)"
+        />
         <ChoiceQuestionCard
           v-else
           :title="question.body"
@@ -45,11 +56,17 @@ import { QuestionDetails, QuestionnaireByID, QuestionType } from '/@/lib/apis'
 import Card from '/@/components/UI/Card.vue'
 import InputQuestionCard from './InputQuestionCard.vue'
 import ChoiceQuestionCard from './ChoiceQuestionCard.vue'
+import LinearScaleQuestionCard from './LinearScaleQuestionCard.vue'
 import { createResponses } from './use/util'
 
 export default defineComponent({
   name: 'NewResponses',
-  components: { Card, InputQuestionCard, ChoiceQuestionCard },
+  components: {
+    Card,
+    InputQuestionCard,
+    ChoiceQuestionCard,
+    LinearScaleQuestionCard
+  },
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
@@ -68,7 +85,16 @@ export default defineComponent({
     const updateChoice = (i: number, option: string[]) => {
       newResponses.value[i].option_response = option
     }
-    return { QuestionType, newResponses, updateInput, updateChoice }
+    const updateLinearScale = (i: number, value: string) => {
+      newResponses.value[i].response = value
+    }
+    return {
+      QuestionType,
+      newResponses,
+      updateInput,
+      updateLinearScale,
+      updateChoice
+    }
   }
 })
 </script>
@@ -80,7 +106,6 @@ export default defineComponent({
   gap: 20px;
 }
 .card {
-  padding: 16px;
   display: flex;
   flex-direction: column;
 }

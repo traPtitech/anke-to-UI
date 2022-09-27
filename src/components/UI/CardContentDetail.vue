@@ -70,10 +70,10 @@ export default defineComponent({
   &:hover {
     background-color: $bg-secondary-highlight;
     &:first-child {
-      border-radius: 1rem 1rem 0 0;
+      border-radius: 8px 8px 0 0;
     }
     &:last-child {
-      border-radius: 0 0 1rem 1rem;
+      border-radius: 0 0 8px 8px;
     }
   }
   &:last-child {

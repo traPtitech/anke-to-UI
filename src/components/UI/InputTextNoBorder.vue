@@ -3,6 +3,7 @@
     <input-base
       :is-focus="true"
       :is-hover="false"
+      :placeholder="placeholder"
       :model-value="modelValue"
       @update:model-value="update"
     />
