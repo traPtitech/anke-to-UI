@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
+import DropdownContents from '/@/components/UI/DropdownContents.vue'
 
 export default defineComponent({
   name: 'DropdownForm',
@@ -71,12 +71,12 @@ export default defineComponent({
 }
 .button {
   background-color: $bg-secondary;
-  border: solid 1px #e2e8f0;
-  border-radius: 6px;
+  border: solid 0.1rem #cfb998;
+  border-radius: 0.25rem;
   padding: 0;
   cursor: pointer;
   &:hover {
-    background-color: $bg-secondary-highlight;
+    background-color: #f4ecec;
   }
 }
 .icon {
