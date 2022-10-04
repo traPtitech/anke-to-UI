@@ -1,11 +1,7 @@
 <template>
   <table :class="$style.table">
     <tbody>
-      <tr
-        v-for="[choice, ids] of question.data"
-        :key="choice"
-        :class="$style.container"
-      >
+      <tr v-for="[choice, ids] of data" :key="choice" :class="$style.container">
         <td :class="isText ? $style.texttype : $style.defaulttype">
           {{ choice }}
         </td>
@@ -13,13 +9,14 @@
         <td v-if="!isText" :class="$style.percent">
           {{
             `(${(
-              (ids.length / (question.length !== 0 ? question.length : 1)) *
+              (ids.length /
+                (question.results.length !== 0 ? question.results.length : 1)) *
               100
             ).toFixed(2)}%)`
           }}
         </td>
-        <td :class="$style.icons">
-          <div v-for="id of ids" :key="id" :class="$style.icon">
+        <td :class="[isText ? $style.text : '', $style.icons]">
+          <div v-for="(id, i) of ids" :key="i" :class="$style.icon">
             <user-icon :user-name="id" :class="$style.usericon" />
             <dropdown-detail :content="id" :class="$style.dropdown_detail" />
           </div>
@@ -30,8 +27,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { CountedData, isTextType } from '../use/utils'
+import { defineComponent, PropType, computed } from 'vue'
+import {
+  AllTypeQuestionUnion,
+  isTextQuestion,
+  generateChoiceIdsArray
+} from '../use/statistics'
 import UserIcon from '/@/components/UI/UserIcon.vue'
 import DropdownDetail from '/@/components/UI/DropdownDetail.vue'
 
@@ -43,13 +44,15 @@ export default defineComponent({
   },
   props: {
     question: {
-      type: Object as PropType<CountedData>,
+      type: Object as PropType<AllTypeQuestionUnion>,
       required: true
     }
   },
   setup(props) {
-    const isText = isTextType(props.question.type)
+    const data = computed(() => generateChoiceIdsArray(props.question))
+    const isText = computed(() => isTextQuestion(props.question))
     return {
+      data,
       isText
     }
   }
@@ -61,28 +64,34 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   align-items: center;
-  word-break: break-word;
+  word-break: break-all;
   text-align: left;
 }
 .texttype {
   width: 70%;
 }
 .defaulttype {
-  width: 25%;
+  width: 20%;
 }
 .numbers {
-  width: 25%;
+  width: 15%;
   text-align: right;
 }
 .percent {
-  width: 7.5%;
+  width: 25%;
+  word-break: normal;
   text-align: right;
 }
 .icons {
+  width: 50%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 8px;
+  margin-left: 16px;
+}
+.texticons {
+  width: 30%;
 }
 .icon {
   position: relative;
@@ -100,10 +109,5 @@ export default defineComponent({
   width: 100%;
   color: $ui-primary;
   @include size-body;
-}
-.container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 </style>
