@@ -3,7 +3,7 @@ import { Apis } from '/@/lib/apis/generated'
 import {
   associateQuestionToResultFromRawData,
   ResultsPerQuestion
-} from '../util/statistics'
+} from '/@/components/Results/use/statistics'
 const apis = new Apis({ basePath: '/api' })
 
 export default apis
