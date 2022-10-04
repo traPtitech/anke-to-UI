@@ -1,32 +1,36 @@
 <template>
-  <ResultCard :title="countedData.title" @copy="copy">
+  <view-card-base :title="questionData.question.body" @copy="copy">
     <template #statistics>
-      <div v-if="isNumberType(countedData.type)" :class="$style.analysis">
-        <span>平均値：{{ countedData.total?.average }}</span>
-        <span>標準偏差：{{ countedData.total?.average }}</span>
-        <span>中央値：{{ countedData.total?.standardDeviation }}</span>
-        <span>最頻値：{{ countedData.total?.mode }}</span>
+      <div v-if="isNumberQuestion(questionData)" :class="$style.analysis">
+        <span>平均値：{{ statistics?.average }}</span>
+        <span>標準偏差：{{ statistics?.standardDeviation }}</span>
+        <span>中央値：{{ statistics?.median }}</span>
+        <span>最頻値：{{ statistics?.mode }}</span>
       </div>
-      <Responces :question="countedData" />
+      <Responces :question="questionData" />
     </template>
-  </ResultCard>
+  </view-card-base>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import Responces from './Responses.vue'
-import ResultCard from './ViewCardBase.vue'
-import { CountedData, isNumberType } from '../use/utils'
+import ViewCardBase from './ViewCardBase.vue'
+import {
+  AllTypeQuestionUnion,
+  generateStats,
+  isNumberQuestion
+} from '../use/statistics'
 
 export default defineComponent({
   name: 'ViewCard',
   components: {
     Responces,
-    ResultCard
+    ViewCardBase
   },
   props: {
-    countedData: {
-      type: Object as PropType<CountedData>,
+    questionData: {
+      type: Object as PropType<AllTypeQuestionUnion>,
       required: true
     }
   },
@@ -38,9 +42,13 @@ export default defineComponent({
     const copy = () => {
       context.emit('copy')
     }
+    const statistics = computed(() => {
+      return generateStats(props.questionData)
+    })
     return {
-      copy,
-      isNumberType
+      statistics,
+      isNumberQuestion,
+      copy
     }
   }
 })
