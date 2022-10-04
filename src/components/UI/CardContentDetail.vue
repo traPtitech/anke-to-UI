@@ -36,10 +36,7 @@
 import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
 import { Questionnaire } from '/@/lib/apis'
-import {
-  getTimeLimit,
-  getRelativeTime
-} from '/@/components/Explorer/use/useOptions'
+import { getTimeLimit, getRelativeTime } from './use/useOptions'
 
 export default defineComponent({
   name: 'CardContentDetail',

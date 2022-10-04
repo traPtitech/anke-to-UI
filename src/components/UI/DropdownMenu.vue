@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
+import DropdownContents from '../UI/DropdownContents.vue'
 
 export default defineComponent({
   name: 'DropdownMenu',
