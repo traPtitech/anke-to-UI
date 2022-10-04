@@ -1,9 +1,10 @@
-@mixin font-head {
+@mixin font-bold {
   font-weight: 700;
+}
+@mixin size-head {
   font-size: 24px;
   line-height: 36px;
 }
-
 @mixin size-title {
   font-size: 20px;
   line-height: 30px;
