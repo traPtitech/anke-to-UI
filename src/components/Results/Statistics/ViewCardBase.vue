@@ -18,7 +18,7 @@ import Card from '/@/components/UI/Card.vue'
 import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
-  name: 'ResultCard',
+  name: 'ViewCardBase',
   components: {
     Card,
     Icon
@@ -49,9 +49,10 @@ export default defineComponent({
 }
 .title {
   @include size-body;
-  font-weight: 700;
+  @include font-bold;
 }
 .copybutton {
+  cursor: pointer;
   position: relative;
   margin-left: auto;
 }
