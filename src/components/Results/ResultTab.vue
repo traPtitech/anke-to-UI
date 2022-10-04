@@ -10,7 +10,7 @@
           <dropdown-contents
             :contents="downloadTypes"
             :is-open="isOpen"
-            @close="isOpen = !isOpen"
+            :class="$style.dropdown"
             @change-option="downloadType"
           />
         </div>
@@ -39,7 +39,7 @@
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue'
 import Tab from '/@/components/UI/Tab.vue'
-import DropdownContents from '/@/components/Explorer/DropdownContents.vue'
+import DropdownContents from '/@/components/UI/DropdownContents.vue'
 import Icon from '/@/components/UI/Icon.vue'
 import DropdownForm from './DropdownForm.vue'
 import PageTemplate from './PageTemplate.vue'
@@ -95,6 +95,7 @@ export default defineComponent({
         )
       }
     }
+
     return {
       downloadType,
       isOpen,
@@ -111,7 +112,7 @@ export default defineComponent({
 <style lang="scss" module>
 .title {
   @include size-head;
-  @include font-bold;
+  @include weight-bold;
   text-align: left;
 }
 .container {
@@ -121,5 +122,8 @@ export default defineComponent({
 }
 .rightcontent {
   margin-left: auto;
+}
+.dropdown {
+  right: 2rem;
 }
 </style>
