@@ -26,7 +26,7 @@ export default defineComponent({
   props: {
     myResponses: {
       type: Array as PropType<ResponseSummary[]>,
-      required: true
+      default: []
     }
   },
   setup() {

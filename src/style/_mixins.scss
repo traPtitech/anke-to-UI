@@ -3,24 +3,28 @@
 }
 @mixin size-head {
   font-size: 24px;
-  line-height: 36px;
+  line-height: 28px;
 }
 @mixin size-title {
   font-size: 20px;
-  line-height: 30px;
+  line-height: 24px;
 }
 
 @mixin size-body {
   font-size: 16px;
-  line-height: 24px;
+  line-height: 20px;
 }
 
 @mixin size-body-small {
   font-size: 14px;
-  line-height: 21px;
+  line-height: 18px;
 }
 
 @mixin size-body-small-2 {
   font-size: 12px;
-  line-height: 18px;
+  line-height: 16px;
+}
+
+@mixin weight-bold {
+  font-weight: 700;
 }

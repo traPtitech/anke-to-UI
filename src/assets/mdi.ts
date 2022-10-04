@@ -18,8 +18,10 @@ import {
   mdiPlusCircleOutline,
   mdiDelete,
   mdiContentDuplicate,
-  mdiContentCopy,
-  mdiPlus
+  mdiPlus,
+  mdiExportVariant,
+  mdiSend,
+  mdiChartAreaspline
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -42,8 +44,10 @@ const mdi = new Map<string, string>([
   ['plus-circle-outline', mdiPlusCircleOutline],
   ['delete', mdiDelete],
   ['content-duplicate', mdiContentDuplicate],
-  ['content-copy', mdiContentCopy],
-  ['plus', mdiPlus]
+  ['plus', mdiPlus],
+  ['export-variant', mdiExportVariant],
+  ['send', mdiSend],
+  ['chart', mdiChartAreaspline]
 ])
 
 export default mdi

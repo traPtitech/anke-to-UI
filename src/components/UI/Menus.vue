@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import DropdownMenu from '/@/components/Explorer/DropdownMenu.vue'
+import DropdownMenu from '../UI/DropdownMenu.vue'
 import {
   Option,
   sortOrderMap,

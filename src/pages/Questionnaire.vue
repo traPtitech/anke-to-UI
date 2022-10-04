@@ -1,10 +1,6 @@
 <template>
   <template v-if="questionnaire">
-    <QuestionnaireTab
-      :questionnaire="questionnaire"
-      :myresponses="myresponses"
-      :questioncontents="questioncontents"
-    />
+    <Informations :questionnaire="questionnaire" :myresponses="myresponses" />
   </template>
   <template v-else> 読み込み中</template>
 </template>
@@ -18,11 +14,11 @@ import apis, {
   QuestionnaireByID,
   ResponseSummary
 } from '../lib/apis'
-import QuestionnaireTab from '/@/components/Questionnaire/QuestionnaireTab.vue'
+import Informations from '/@/components/Questionnaire/Informations.vue'
 
 export default defineComponent({
   name: 'Questionnaire',
-  components: { QuestionnaireTab },
+  components: { Informations },
   setup() {
     const route = useRoute()
     const questionnaire = ref<QuestionnaireByID | null>(null)
