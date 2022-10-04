@@ -1,4 +1,5 @@
 import { ResultsPerQuestion, isArrayQuestion } from './statistics'
+import { getTimeLimit } from '/@/components/UI/use/useOptions'
 
 type FormInfo = {
   header: SpreadForm
@@ -31,7 +32,7 @@ const questionToSpreadForm = (
     spreadForm.push({
       traq_id: result.traqID + '',
       response_id: result.responseID,
-      submitted_at: result.modified_at,
+      submitted_at: getTimeLimit(result.modified_at),
       results: []
     })
   })
