@@ -1,62 +1,53 @@
 <template>
   <div :class="$style.container">
-    <div v-for="(data, i) in countedData" :key="i">
-      <view-tab :counted-data="data" @copy="copy(data)" />
+    <div v-for="(data, i) in resultsPerQuestion.questions" :key="i">
+      <view-card
+        :counted-data="data"
+        :question-data="resultsPerQuestion.questions[i]"
+        @copy="copy(data)"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue'
-import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-import ViewTab from './Statistics/ViewCard.vue'
+import { defineComponent, PropType } from 'vue'
+import ViewCard from './Statistics/ViewCard.vue'
+import { AllTypeQuestionUnion, ResultsPerQuestion } from './use/statistics'
 import {
-  countData,
-  CountedData,
-  FormTypes,
-  generateQuestionMarkdownTable,
-  generateQuestionCSVTable
-} from './use/utils'
+  generateQuestionCSVTable,
+  generateQuestionMarkdownTable
+} from './use/CopyForm'
+import { FormTypes } from './use/utils'
 
 export default defineComponent({
   name: 'Statistics',
   components: {
-    ViewTab
+    ViewCard
   },
   props: {
-    questionnaire: {
-      type: Object as PropType<QuestionnaireByID>,
-      required: true
-    },
-    results: {
-      type: Array as PropType<ResponseResult[]>,
-      default: []
-    },
-    questions: {
-      type: Object as PropType<QuestionDetails[]>,
-      default: []
-    },
     formType: {
       type: String as PropType<FormTypes>,
+      required: true
+    },
+    resultsPerQuestion: {
+      type: Object as PropType<ResultsPerQuestion>,
       required: true
     }
   },
 
   setup(props) {
-    const copy = (data: CountedData) => {
+    const copy = (questionData: AllTypeQuestionUnion) => {
       if (props.formType === 'Markdown') {
-        navigator.clipboard.writeText(generateQuestionMarkdownTable(data))
+        navigator.clipboard.writeText(
+          generateQuestionMarkdownTable(questionData)
+        )
       } else {
-        navigator.clipboard.writeText(generateQuestionCSVTable(data))
+        navigator.clipboard.writeText(generateQuestionCSVTable(questionData))
       }
     }
 
-    const countedData = computed(() =>
-      countData(props.questions, props.results)
-    )
-
     return {
-      countedData,
       copy
     }
   }
