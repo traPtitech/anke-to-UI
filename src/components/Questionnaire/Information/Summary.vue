@@ -57,7 +57,8 @@ export default defineComponent({
   flex-direction: column;
 }
 .title {
-  @include font-head;
+  @include size-head;
+  @include weight-bold;
   text-align: left;
 }
 .description {

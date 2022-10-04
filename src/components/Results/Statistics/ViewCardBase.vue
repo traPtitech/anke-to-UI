@@ -49,7 +49,7 @@ export default defineComponent({
 }
 .title {
   @include size-body;
-  @include font-bold;
+  @include weight-bold;
 }
 .copybutton {
   cursor: pointer;
