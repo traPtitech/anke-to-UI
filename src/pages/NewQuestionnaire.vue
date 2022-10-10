@@ -1,6 +1,9 @@
 <template>
-  <Tab v-model="selectedTab" :tabs="detailTabs" />
-  <Questions v-if="selectedTab === NewQuestionsTabName" />
+  <div :class="$style.container">
+    <div :class="$style.title">新規アンケートの作成</div>
+    <Tab v-model="selectedTab" :tabs="detailTabs" />
+    <Questions v-if="selectedTab === NewQuestionsTabName" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -70,3 +73,15 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" module>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.title {
+  @include font-head;
+  text-align: left;
+}
+</style>
