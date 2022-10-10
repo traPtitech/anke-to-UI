@@ -1,8 +1,8 @@
 import { QuestionType } from '/@/lib/apis'
 
-export const NewInformationTabName = 'Information'
-export const NewQuestionsTabName = 'Questions'
-export type NewQuestionnaireTabTypes = 'Information' | 'Questions'
+export const NewInformationTabName = '概要'
+export const NewQuestionsTabName = '質問'
+export type NewQuestionnaireTabTypes = '概要' | '質問'
 export const detailTabs: NewQuestionnaireTabTypes[] = [
   NewInformationTabName,
   NewQuestionsTabName
