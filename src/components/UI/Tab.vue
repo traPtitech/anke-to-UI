@@ -115,10 +115,10 @@ export default defineComponent({
     margin: 0.125rem 0;
     border-radius: 100rem;
     cursor: pointer;
+    transition: all 0.2s;
     &:hover {
       color: $ui-white;
       background: $bg-primary-highlight;
-      transition: color 0.2s;
     }
   }
   .selectedTab {
