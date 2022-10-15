@@ -117,12 +117,12 @@ export const generateQuestionCSVSpreadseet = (
 }
 
 //Download系
-export const download = (name: string, data: string, form: string) => {
+export const download = (name: string, data: string, extention: string) => {
   const blob = new Blob([data], { type: `text/plain` })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   document.body.appendChild(a)
-  a.download = `${name}.${form}`
+  a.download = `${name}.${extention}`
   a.href = url
   a.click()
   a.remove()
