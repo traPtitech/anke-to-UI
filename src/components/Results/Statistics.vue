@@ -1,10 +1,9 @@
 <template>
   <div :class="$style.container">
-    <div v-for="(data, i) in resultsPerQuestion.questions" :key="i">
+    <div v-for="(question, i) in resultsPerQuestion.questions" :key="i">
       <view-card
-        :counted-data="data"
         :question-data="resultsPerQuestion.questions[i]"
-        @copy="copy(data)"
+        @copy="copy(question)"
       />
     </div>
   </div>
