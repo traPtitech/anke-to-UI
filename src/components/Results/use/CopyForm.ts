@@ -26,7 +26,7 @@ const questionToFormBase = (
     ]
     const rows: ReadonlyArray<Record<ArrayFormInfoKey, string>> = choiceIds.map(
       ([choice, ids]) => ({
-        body: String(choice),
+        body: choice,
         count: `${ids.length}件`,
         percentage: `${(
           (ids.length /
@@ -47,7 +47,7 @@ const questionToFormBase = (
     ]
     const rows: ReadonlyArray<Record<NotArrayFormInfoKey, string>> =
       choiceIds.map(([choice, ids]) => ({
-        body: String(choice),
+        body: choice,
         count: `${ids.length}件`,
         respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
       }))
