@@ -10,44 +10,42 @@ type FormInfo<Key extends string> = {
   header: ReadonlyArray<[Key, string]>
   rows: ReadonlyArray<Record<Key, string>>
 }
+type ArrayFormInfoKey = 'body' | 'count' | 'percentage' | 'respondent'
+type NotArrayFormInfoKey = 'body' | 'count' | 'respondent'
 
 const questionToFormBase = (
   questionData: AllTypeQuestionUnion
-):
-  | FormInfo<'body' | 'count' | 'percentage' | 'respondent'>
-  | FormInfo<'body' | 'count' | 'respondent'> => {
+): FormInfo<ArrayFormInfoKey> | FormInfo<NotArrayFormInfoKey> => {
   const choiceIds = generateChoiceIdsArray(questionData)
   if (isArrayQuestion(questionData) || isNumberQuestion(questionData)) {
-    const header: ReadonlyArray<
-      ['body' | 'count' | 'percentage' | 'respondent', string]
-    > = [
+    const header: ReadonlyArray<[ArrayFormInfoKey, string]> = [
       ['body', '回答'],
       ['count', '回答数'],
       ['percentage', '割合'],
       ['respondent', 'その回答をした人']
     ]
-    const rows: ReadonlyArray<
-      Record<'body' | 'count' | 'percentage' | 'respondent', string>
-    > = choiceIds.map(([choice, ids]) => ({
-      body: String(choice),
-      count: `${ids.length}件`,
-      percentage: `${(
-        (ids.length /
-          (questionData.results.length !== 0
-            ? questionData.results.length
-            : 1)) *
-        100
-      ).toFixed(2)}%`,
-      respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
-    }))
+    const rows: ReadonlyArray<Record<ArrayFormInfoKey, string>> = choiceIds.map(
+      ([choice, ids]) => ({
+        body: String(choice),
+        count: `${ids.length}件`,
+        percentage: `${(
+          (ids.length /
+            (questionData.results.length !== 0
+              ? questionData.results.length
+              : 1)) *
+          100
+        ).toFixed(2)}%`,
+        respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
+      })
+    )
     return { header, rows }
   } else {
-    const header: ReadonlyArray<['body' | 'count' | 'respondent', string]> = [
+    const header: ReadonlyArray<[NotArrayFormInfoKey, string]> = [
       ['body', '回答'],
       ['count', '回答数'],
       ['respondent', 'その回答をした人']
     ]
-    const rows: ReadonlyArray<Record<'body' | 'count' | 'respondent', string>> =
+    const rows: ReadonlyArray<Record<NotArrayFormInfoKey, string>> =
       choiceIds.map(([choice, ids]) => ({
         body: String(choice),
         count: `${ids.length}件`,
@@ -57,9 +55,9 @@ const questionToFormBase = (
   }
 }
 
-type ArrayFormInfo = FormInfo<'body' | 'count' | 'percentage' | 'respondent'>
+type ArrayFormInfo = FormInfo<ArrayFormInfoKey>
 
-type NotArrayFormInfo = FormInfo<'body' | 'count' | 'respondent'>
+type NotArrayFormInfo = FormInfo<NotArrayFormInfoKey>
 
 const hasPercentageFormInfo = (
   question: ArrayFormInfo | NotArrayFormInfo
