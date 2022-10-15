@@ -11,7 +11,7 @@
             :contents="downloadTypes"
             :is-open="isOpen"
             :class="$style.dropdown"
-            @change-option="downloadType"
+            @change-option="onClickDownload"
           />
         </div>
       </div>
@@ -80,8 +80,8 @@ export default defineComponent({
     const tabType = ref<TabTypes>('概要')
     const isOpen = ref<boolean>(false)
     const formType = ref<FormTypes>('Markdown')
-    const downloadType = (value: string) => {
-      if (value === 'Markdownでダウンロード') {
+    const onClickDownload = (downloadType: string) => {
+      if (downloadType === 'Markdownでダウンロード') {
         download(
           props.resultsPerQuestion.questionnaire.title,
           generateQuestionMarkdownSpreadseet(props.resultsPerQuestion),
@@ -97,7 +97,7 @@ export default defineComponent({
     }
 
     return {
-      downloadType,
+      onClickDownload,
       isOpen,
       downloadTypes,
       formType,
