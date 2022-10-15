@@ -42,9 +42,11 @@ export default defineComponent({
     const copy = () => {
       context.emit('copy')
     }
-    const statistics = computed(() => {
-      return generateStats(props.questionData)
-    })
+    const statistics = computed(() =>
+      isNumberQuestion(props.questionData)
+        ? generateStats(props.questionData)
+        : null
+    )
     return {
       statistics,
       isNumberQuestion,
