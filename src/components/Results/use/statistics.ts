@@ -240,16 +240,13 @@ export const generateChoiceIdsArray = (
   return arr
 }
 export const generateStats = (
-  answers: AllTypeQuestionUnion
+  answers: NumberTypeQuestion | LinearScaleTypeQuestion
 ): {
   average: string
   standardDeviation: string
   median: string
   mode: string
-} | null => {
-  if (!isNumberQuestion(answers)) {
-    return null
-  }
+} => {
   const average =
     answers.results.reduce((acc, answer) => acc + Number(answer.response), 0) /
     answers.results.length
