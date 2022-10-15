@@ -71,12 +71,12 @@ export default defineComponent({
 }
 .button {
   background-color: $bg-secondary;
-  border: solid 0.1rem #cfb998;
+  border: solid 0.1rem $border;
   border-radius: 0.25rem;
   padding: 0;
   cursor: pointer;
   &:hover {
-    background-color: #f4ecec;
+    background-color: $bg-secondary-highlight;
   }
 }
 .icon {

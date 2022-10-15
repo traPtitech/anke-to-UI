@@ -82,13 +82,14 @@ export default defineComponent({
   }
 }
 .button {
-  background-color: #ffffff;
-  border: solid 0.1rem #cfb998;
+  background-color: $bg-secondary;
+  border: solid 0.1rem $border;
   border-radius: 0.25rem;
   padding: 0;
   cursor: pointer;
+  transition: 0.1s;
   &:hover {
-    background-color: #f4ecec;
+    background-color: $bg-secondary-highlight;
   }
 }
 .icon {
