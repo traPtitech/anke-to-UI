@@ -1,8 +1,13 @@
 <template>
   <div :class="$style.container">
-    <div v-for="(question, i) in resultsPerQuestion.questions" :key="i">
+    <div
+      v-for="question in resultsPerQuestion.questions"
+      :key="question.question.question_num"
+    >
       <view-card
-        :question-data="resultsPerQuestion.questions[i]"
+        :question-data="
+          resultsPerQuestion.questions[question.question.question_num]
+        "
         @copy="copy(question)"
       />
     </div>
