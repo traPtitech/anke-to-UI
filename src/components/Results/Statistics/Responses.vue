@@ -1,7 +1,11 @@
 <template>
   <table :class="$style.table">
     <tbody>
-      <tr v-for="[choice, ids] of data" :key="choice" :class="$style.container">
+      <tr
+        v-for="[choice, ids] of choiceIds"
+        :key="choice"
+        :class="$style.container"
+      >
         <td :class="isText ? $style.texttype : $style.defaulttype">
           {{ choice }}
         </td>
@@ -49,10 +53,10 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const data = computed(() => generateChoiceIdsArray(props.question))
+    const choiceIds = computed(() => generateChoiceIdsArray(props.question))
     const isText = computed(() => isTextQuestion(props.question))
     return {
-      data,
+      choiceIds,
       isText
     }
   }
