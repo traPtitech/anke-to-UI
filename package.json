@@ -16,7 +16,7 @@
     "direct-vuex": "^0.12.1",
     "vue": "^3.2.40",
     "vue-router": "^4.1.5",
-    "vuex": "^4.0.2"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
