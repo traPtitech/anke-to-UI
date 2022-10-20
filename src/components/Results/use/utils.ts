@@ -64,6 +64,32 @@ const responseToString = (body: ResponseBody): string => {
   }
 }
 
+export const arrayToMarkdown = (array: string[]): string => {
+  let markdown = '|'
+  array.forEach(val => {
+    markdown += ' ' + val + ' |'
+  })
+  markdown += '\n'
+  return markdown
+}
+
+export const resultsToMarkdown = (
+  header: string[],
+  results: ResponseResult[]
+): string => {
+  const head = arrayToMarkdown(header)
+  let partition = '|'
+  for (let i = 0; i < header.length; i++) {
+    partition += ' - |'
+  }
+  partition += '\n'
+  let body = ''
+  for (let i = 0; i < results.length; i++) {
+    body += arrayToMarkdown(getTableRow(results, i))
+  }
+  return head + partition + body
+}
+
 // statistic系
 export type CountedData = {
   title: string
