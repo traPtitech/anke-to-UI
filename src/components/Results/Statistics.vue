@@ -4,12 +4,7 @@
       v-for="question in resultsPerQuestion.questions"
       :key="question.question.question_num"
     >
-      <view-card
-        :question-data="
-          resultsPerQuestion.questions[question.question.question_num]
-        "
-        @copy="copy(question)"
-      />
+      <view-card :question-data="question" @copy="copy(question)" />
     </div>
   </div>
 </template>
