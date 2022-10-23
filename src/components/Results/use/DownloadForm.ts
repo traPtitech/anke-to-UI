@@ -6,49 +6,47 @@ type FormInfo = {
   rows: SpreadForm[]
 }
 type SpreadForm = {
-  readonly traq_id: string
-  readonly response_id?: number
-  readonly submitted_at: string
+  readonly traqID: string
+  readonly responseID?: number
+  readonly submittedAt: string
   results: string[]
 }
 
 const generateHeader = (resultsPerQuestion: ResultsPerQuestion) => {
   const spreadHeader: SpreadForm = {
-    traq_id: 'traQID',
-    submitted_at: '回答日時',
-    results: []
-  }
-  for (let i = 0; i < resultsPerQuestion.questions.length; i++) {
-    spreadHeader.results.push(resultsPerQuestion.questions[i].question.body)
+    traqID: 'traQID',
+    submittedAt: '回答日時',
+    results: resultsPerQuestion.questions.map(v => v.question.body)
   }
   return spreadHeader
 }
-
 const questionToSpreadForm = (
   resultsPerQuestion: ResultsPerQuestion
 ): FormInfo => {
-  const spreadForm: SpreadForm[] = []
-  resultsPerQuestion.questions[0].results.map(result => {
-    spreadForm.push({
-      traq_id: result.traqID + '',
-      response_id: result.responseID,
-      submitted_at: getTimeLimit(result.modified_at),
-      results: []
-    })
-  })
+  const spreadForm: SpreadForm[] = resultsPerQuestion.questions[0].results.map(
+    result => {
+      return {
+        traqID: result.traqID,
+        responseID: result.responseID,
+        submittedAt: getTimeLimit(result.modified_at),
+        results: []
+      }
+    }
+  )
+
   for (let i = 0; i < resultsPerQuestion.questions.length; i++) {
     const question = resultsPerQuestion.questions[i]
     if (isArrayQuestion(question)) {
       question.results.forEach(result => {
         const index = spreadForm.findIndex(
-          response => response.response_id === result.responseID
+          response => response.responseID === result.responseID
         )
         spreadForm[index].results.push(result.option_response.join(','))
       })
     } else {
       question.results.forEach(result => {
         const index = spreadForm.findIndex(
-          response => response.response_id === result.responseID
+          response => response.responseID === result.responseID
         )
         spreadForm[index].results.push(result.response)
       })
@@ -57,28 +55,23 @@ const questionToSpreadForm = (
   return { header: generateHeader(resultsPerQuestion), rows: spreadForm }
 }
 //DownloadMarkdown系
+const generateEachMarkdown = (eachResponse: SpreadForm): string => {
+  return `| ${eachResponse.traqID} | ${
+    eachResponse.submittedAt
+  } | ${eachResponse.results.join(' | ')} |`
+}
 const generateQuestionMarkdownSpreadseetForm = (
   response: FormInfo
 ): string[] => {
   //header
   const header = response.header
-  let head = `| ${header.traq_id} | ${header.submitted_at} | `
-  let partition = '| - | - |'
-  for (let i = 0; i < header.results.length; i++) {
-    head = head.concat(header.results[i], ' | ')
-    partition = partition.concat(' - |')
-  }
-  let res = [head, partition]
+  const head = generateEachMarkdown(response.header)
+  const preresponse = new Array(header.results.length).fill('-')
+  const prepartition = { traqID: '-', submittedAt: '-', results: preresponse }
+  const partition = generateEachMarkdown(prepartition)
   //rows
-  res = res.concat(
-    response.rows.map(
-      spread =>
-        `| ${spread.traq_id} | ${spread.submitted_at} | ${spread.results.join(
-          ' | '
-        )}|`
-    )
-  )
-  return res
+  const eachRows = response.rows.map(spread => generateEachMarkdown(spread))
+  return [head, partition, ...eachRows]
 }
 export const generateQuestionMarkdownSpreadseet = (
   resultPerQuestion: ResultsPerQuestion
@@ -89,24 +82,17 @@ export const generateQuestionMarkdownSpreadseet = (
 }
 
 //DownloadCSV系
+const generateEachCSV = (eachResponse: SpreadForm): string => {
+  return `"${eachResponse.traqID}","${
+    eachResponse.submittedAt
+  }","${eachResponse.results.join('","')}"`
+}
 const generateQuestionCSVSpreadseetForm = (response: FormInfo): string[] => {
   //header
-  const header = response.header
-  let res = [
-    `"${header.traq_id}","${header.submitted_at}","${header.results.join(
-      '","'
-    )}"`
-  ]
+  const head = generateEachCSV(response.header)
   //rows
-  res = res.concat(
-    response.rows.map(
-      spread =>
-        `"${spread.traq_id}","${spread.submitted_at}","${spread.results.join(
-          '","'
-        )}"`
-    )
-  )
-  return res
+  const eachRows = response.rows.map(spread => generateEachCSV(spread))
+  return [head, ...eachRows]
 }
 export const generateQuestionCSVSpreadseet = (
   resultsPerQuestion: ResultsPerQuestion
