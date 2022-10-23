@@ -1,11 +1,7 @@
 <template>
   <table :class="$style.table">
-    <tbody>
-      <tr
-        v-for="[choice, ids] of choiceIds"
-        :key="choice"
-        :class="$style.container"
-      >
+    <tbody :class="$style.container">
+      <tr v-for="[choice, ids] of choiceIds" :key="choice" :class="$style.body">
         <td :class="isText ? $style.texttype : $style.defaulttype">
           {{ choice }}
         </td>
@@ -64,7 +60,17 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
+.table {
+  width: 100%;
+  color: $ui-primary;
+  @include size-body;
+}
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.body {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -108,10 +114,5 @@ export default defineComponent({
   .usericon:hover ~ & {
     opacity: 1;
   }
-}
-.table {
-  width: 100%;
-  color: $ui-primary;
-  @include size-body;
 }
 </style>
