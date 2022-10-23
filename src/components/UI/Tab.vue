@@ -4,7 +4,7 @@
       v-for="(tab, index) in tabs"
       :key="index"
       :ref="setTabRef"
-      :class="$style.tab"
+      :class="[$style.tab, selectedTab === tab && $style.selectedTab]"
       @click="changeTab(tab)"
     >
       {{ tab }}
@@ -81,6 +81,9 @@ export default defineComponent({
     const handleResize = () => {
       updateStyle(tabRefs.value[selectedIndex.value], false)
     }
+    const selectedTab = computed(() => {
+      return props.tabs.includes(props.modelValue) ? props.modelValue : ''
+    })
     onMounted(() => {
       updateStyle(tabRefs.value[selectedIndex.value])
       window.addEventListener('resize', handleResize)
@@ -89,31 +92,48 @@ export default defineComponent({
       window.removeEventListener('resize', handleResize)
     })
 
-    return { setTabRef, lineStyle, changeTab }
+    return { setTabRef, lineStyle, changeTab, selectedTab }
   }
 })
 </script>
 
 <style lang="scss" module>
 .tabWrapper {
-  position: relative;
+  position: sticky;
+  top: -1.5em;
+  color: $ui-secondary;
+  background: $bg-primary;
+  box-shadow: 0px 10px 10px $bg-primary;
   display: flex;
-  justify-content: center;
-  border-bottom: solid 1px;
+  z-index: 10;
+  justify-content: left;
+  border-bottom: solid 1px $ui-secondary;
+  @include size-body;
+  @include weight-bold;
   .tab {
-    font-size: 1.2rem;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 3rem;
+    margin: 0.125rem 0;
+    border-radius: 100rem;
     cursor: pointer;
+    transition: all 0.2s;
     &:hover {
-      color: #cfb998;
-      transition: color 0.2s;
+      color: $ui-white;
+      background: $bg-primary-highlight;
+    }
+  }
+  .selectedTab {
+    color: $accent-primary;
+    &:hover {
+      color: $accent-primary;
+      background: none;
     }
   }
   .tabLine {
     position: absolute;
     bottom: -1px;
-    height: 0.2rem;
-    background-color: #92413b;
+    height: 0.25rem;
+    border-radius: 1rem;
+    background-color: $accent-primary;
   }
 }
 </style>
