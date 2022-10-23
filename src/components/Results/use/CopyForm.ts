@@ -7,133 +7,107 @@ import {
 
 //CopyのBaseを作る系
 type FormInfo<Key extends string> = {
-  header: ReadonlyArray<[Key, string]>
+  header: ReadonlyArray<{ key: Key; value: string }>
   rows: ReadonlyArray<Record<Key, string>>
 }
+type FormArrayHeader = ReadonlyArray<{ key: ArrayFormInfoKey; value: string }>
+type FormArrayRows = ReadonlyArray<Record<ArrayFormInfoKey, string>>
+type FormNotArrayHeader = ReadonlyArray<{
+  key: NotArrayFormInfoKey
+  value: string
+}>
+type FormNotArrayRows = ReadonlyArray<Record<NotArrayFormInfoKey, string>>
 type ArrayFormInfoKey = 'body' | 'count' | 'percentage' | 'respondent'
 type NotArrayFormInfoKey = 'body' | 'count' | 'respondent'
 
+const generatePercentage = (
+  questionData: AllTypeQuestionUnion,
+  length: number
+) => {
+  ;(
+    length /
+    (questionData.results.length !== 0 ? questionData.results.length : 1)
+  ).toFixed(2)
+}
 const questionToFormBase = (
   questionData: AllTypeQuestionUnion
 ): FormInfo<ArrayFormInfoKey> | FormInfo<NotArrayFormInfoKey> => {
   const choiceIds = generateChoiceIdsArray(questionData)
   if (isArrayQuestion(questionData) || isNumberQuestion(questionData)) {
-    const header: ReadonlyArray<[ArrayFormInfoKey, string]> = [
-      ['body', '回答'],
-      ['count', '回答数'],
-      ['percentage', '割合'],
-      ['respondent', 'その回答をした人']
+    const header: FormArrayHeader = [
+      { key: 'body', value: '回答' },
+      { key: 'count', value: '回答数' },
+      { key: 'percentage', value: '割合' },
+      { key: 'respondent', value: 'その回答をした人' }
     ]
-    const rows: ReadonlyArray<Record<ArrayFormInfoKey, string>> = choiceIds.map(
-      ([choice, ids]) => ({
-        body: choice,
-        count: `${ids.length}件`,
-        percentage: `${(
-          (ids.length /
-            (questionData.results.length !== 0
-              ? questionData.results.length
-              : 1)) *
-          100
-        ).toFixed(2)}%`,
-        respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
-      })
-    )
+    const rows: FormArrayRows = choiceIds.map(([choice, ids]) => ({
+      body: choice,
+      count: `${ids.length}件`,
+      percentage: `${generatePercentage(questionData, ids.length)}%`,
+      respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
+    }))
     return { header, rows }
   } else {
-    const header: ReadonlyArray<[NotArrayFormInfoKey, string]> = [
-      ['body', '回答'],
-      ['count', '回答数'],
-      ['respondent', 'その回答をした人']
+    const header: FormNotArrayHeader = [
+      { key: 'body', value: '回答' },
+      { key: 'count', value: '回答数' },
+      { key: 'respondent', value: 'その回答をした人' }
     ]
-    const rows: ReadonlyArray<Record<NotArrayFormInfoKey, string>> =
-      choiceIds.map(([choice, ids]) => ({
-        body: choice,
-        count: `${ids.length}件`,
-        respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
-      }))
+    const rows: FormNotArrayRows = choiceIds.map(([choice, ids]) => ({
+      body: choice,
+      count: `${ids.length}件`,
+      respondent: `${ids.length !== 0 ? `:@${ids.join(':,:@')}:` : ''}`
+    }))
     return { header, rows }
   }
 }
 
-type ArrayFormInfo = FormInfo<ArrayFormInfoKey>
-
-type NotArrayFormInfo = FormInfo<NotArrayFormInfoKey>
-
-const hasPercentageFormInfo = (
-  question: ArrayFormInfo | NotArrayFormInfo
-): question is ArrayFormInfo => question.header.length === 4
-
 //CopyMarkdown系
-const generateMarkdownTable = (
-  answer: ArrayFormInfo | NotArrayFormInfo
+const generateMarkdownTable = <T extends FormInfo<string>>(
+  answer: T
 ): string[] => {
-  let head = '| '
-  let partition = '| '
-  for (let i = 0; i < answer.header.length; i++) {
-    head = head.concat(answer.header[i][1], ' | ')
-    partition = partition.concat(' - |')
-  }
-  let res = [head, partition]
-  if (hasPercentageFormInfo(answer)) {
-    res = res.concat(
-      answer.rows.map(
-        ananswer =>
-          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.percentage} | ${ananswer.respondent} |`
-      )
-    )
-  } else {
-    res = res.concat(
-      answer.rows.map(
-        ananswer =>
-          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.respondent} |`
-      )
-    )
-  }
-  return res
+  const headerElements = answer.header.map(v => v.value)
+  const header = `| ${headerElements.join(' | ')} |`
+  const partition = `| ${headerElements.map(() => '-').join(' | ')} |`
+  const eachRowElements = answer.rows.map(row =>
+    answer.header.map(header => row[header.key])
+  )
+  const eachRows = eachRowElements.map(
+    eachRowElement => `| ${eachRowElement.join(' | ')} |`
+  )
+  return [header, partition, ...eachRows]
 }
 
 export const generateQuestionMarkdownTable = (
   questionData: AllTypeQuestionUnion
-) => {
-  let res = [`# ${questionData.question.body}`]
-  res = res.concat(generateMarkdownTable(questionToFormBase(questionData)))
-  res.concat([''])
-  return res.join('\n')
+): string => {
+  return [
+    `# ${questionData.question.body}`,
+    ...generateMarkdownTable(questionToFormBase(questionData)),
+    ''
+  ].join('\n')
 }
 
 //CopyCSV系
 
-const generateCSVTable = (
-  answer: ArrayFormInfo | NotArrayFormInfo
-): string[] => {
-  let head = ''
-  for (let i = 0; i < answer.header.length; i++) {
-    head = head.concat(`"${answer.header[i][1]}"`, ',')
-  }
-  let res = [head.slice(0, -1)]
-  if (hasPercentageFormInfo(answer)) {
-    res = res.concat(
-      answer.rows.map(
-        ananswer =>
-          `"${ananswer.body}","${ananswer.count}","${ananswer.percentage}","${ananswer.respondent}"`
-      )
-    )
-  } else {
-    res = res.concat(
-      answer.rows.map(
-        ananswer =>
-          `"${ananswer.body}","${ananswer.count}","${ananswer.respondent}"`
-      )
-    )
-  }
-  return res
+const generateCSVTable = <T extends FormInfo<string>>(answer: T): string[] => {
+  const headerElements = answer.header.map(v => v.value)
+  const header = `"${headerElements.join('","')}"`
+  const eachRowElements = answer.rows.map(row =>
+    answer.header.map(header => row[header.key])
+  )
+  const eachRows = eachRowElements.map(
+    eachRowElement => `"${eachRowElement.join('","')}"`
+  )
+  return [header, ...eachRows]
 }
 
 export const generateQuestionCSVTable = (
   questionData: AllTypeQuestionUnion
-) => {
-  let res = [`"${questionData.question.body}"`]
-  res = res.concat(generateCSVTable(questionToFormBase(questionData)))
-  res.concat([''])
-  return res.join('\n')
+): string => {
+  return [
+    `"${questionData.question.body}"`,
+    ...generateCSVTable(questionToFormBase(questionData)),
+    ''
+  ].join('\n')
 }
