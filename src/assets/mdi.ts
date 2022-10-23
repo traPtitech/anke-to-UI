@@ -21,7 +21,8 @@ import {
   mdiPlus,
   mdiExportVariant,
   mdiSend,
-  mdiChartAreaspline
+  mdiChartAreaspline,
+  mdiContentCopy
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -47,7 +48,8 @@ const mdi = new Map<string, string>([
   ['plus', mdiPlus],
   ['export-variant', mdiExportVariant],
   ['send', mdiSend],
-  ['chart', mdiChartAreaspline]
+  ['chart', mdiChartAreaspline],
+  ['content-copy', mdiContentCopy]
 ])
 
 export default mdi
