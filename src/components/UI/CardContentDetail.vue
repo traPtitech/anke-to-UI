@@ -96,7 +96,7 @@ export default defineComponent({
   color: inherit;
 }
 .description {
-  word-break: break-all;
+  word-break: break-word;
 }
 .column {
   margin: 0.5rem 0;
