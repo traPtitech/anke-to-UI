@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <CardWithHeader>
     <template #header>自分の回答</template>
     <template #content>
       <ul>
@@ -11,18 +11,18 @@
         </li>
       </ul>
     </template>
-  </Card>
+  </CardWithHeader>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import Card from '/@/components/UI/Card.vue'
+import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import Icon from '/@/components/UI/Icon.vue'
 import { ResponseSummary } from '/@/lib/apis'
 
 export default defineComponent({
   name: 'MyAnswer',
-  components: { Card, Icon },
+  components: { CardWithHeader, Icon },
   props: {
     myResponses: {
       type: Array as PropType<ResponseSummary[]>,

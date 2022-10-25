@@ -1,6 +1,6 @@
 <template>
   <template v-if="questionnaire">
-    <Informations :questionnaire="questionnaire" :myresponses="myresponses" />
+    <Informations :questionnaire="questionnaire" :my-responses="myresponses" />
   </template>
   <template v-else> 読み込み中</template>
 </template>
@@ -30,7 +30,7 @@ export default defineComponent({
       if (isNaN(questionnaireId)) return
       const [qdata, myrdata, qdatas] = await Promise.all([
         apis.getQuestionnaire(questionnaireId, ''),
-        apis.getMyResponses(questionnaireId),
+        apis.getMyResponsesByID(questionnaireId),
         apis.getQuestions(questionnaireId, '')
       ])
 
