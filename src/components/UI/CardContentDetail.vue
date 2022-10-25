@@ -24,7 +24,7 @@
           更新日: {{ getRelativeTime(questionnaire.modified_at) }}
         </div>
       </div>
-      <div :class="$style.description">
+      <div>
         {{ questionnaire.description }}
       </div>
     </router-link>
@@ -94,9 +94,6 @@ export default defineComponent({
 .table_item {
   text-decoration: none;
   color: inherit;
-}
-.description {
-  word-break: break-all;
 }
 .column {
   margin: 0.5rem 0;

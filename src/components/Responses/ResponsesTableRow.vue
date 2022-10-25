@@ -67,7 +67,6 @@ export default defineComponent({
 }
 .tableItemTitle {
   min-width: 10rem;
-  word-break: break-all;
   text-align: left;
 }
 .tableItemDate {
