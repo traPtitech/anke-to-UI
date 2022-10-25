@@ -13,9 +13,8 @@
         :title="questionnaire.title"
         :iconsize="24"
         :textsize="20"
-        :is-responded="
-          questionnaire.has_response || questionnaire.all_responded
-        "
+        :is-responded="isResponded(questionnaire)"
+        :with-icon="!!isResponded(questionnaire)"
       ></LinkIconQuestion>
       <div :class="$style.column">
         <div :class="$style.res_time_limit">
@@ -35,8 +34,17 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
-import { Questionnaire } from '/@/lib/apis'
+import type {
+  QuestionnaireForList,
+  QuestionnaireMyAdministrates,
+  QuestionnaireMyTargeted
+} from '/@/lib/apis'
 import { getTimeLimit, getRelativeTime } from './use/useOptions'
+
+type Questionnaire =
+  | QuestionnaireForList
+  | QuestionnaireMyAdministrates
+  | QuestionnaireMyTargeted
 
 export default defineComponent({
   name: 'CardContentDetail',
@@ -45,17 +53,20 @@ export default defineComponent({
   },
   props: {
     questionnaires: {
-      type: Array as PropType<
-        (Questionnaire & {
-          has_response?: boolean
-          all_responded?: boolean
-        })[]
-      >,
+      type: Array as PropType<Questionnaire[]>,
       required: true
     }
   },
   setup() {
-    return { getTimeLimit, getRelativeTime }
+    const isResponded = (questionnaire: Questionnaire) => {
+      if ('has_response' in questionnaire) {
+        return questionnaire.has_response
+      }
+      if ('all_responded' in questionnaire) {
+        return questionnaire.all_responded
+      }
+    }
+    return { getTimeLimit, getRelativeTime, isResponded }
   }
 })
 </script>

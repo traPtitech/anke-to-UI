@@ -1,12 +1,13 @@
 <template>
   <div :class="$style.tableItemTitle">
     <switch-icon
+      v-if="withIcon"
       :is-responded="isResponded"
       :size="iconsize"
       :class="$style.icon"
     />
     <router-link
-      :to="'/questionnaires/' + id"
+      :to="`/questionnaires/${id}`"
       :class="$style.link"
       :style="fontSize"
     >
@@ -20,13 +21,13 @@ import { defineComponent, computed } from 'vue'
 import SwitchIcon from '/@/components/UI/SwitchIcon.vue'
 
 export default defineComponent({
-  name: 'CardTitle',
+  name: 'LinkIconQuestion',
   components: {
     SwitchIcon
   },
   props: {
     id: {
-      type: String,
+      type: Number,
       required: true
     },
     title: {
@@ -44,7 +45,11 @@ export default defineComponent({
     },
     isResponded: {
       type: Boolean,
-      required: true
+      default: false
+    },
+    withIcon: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props) {
