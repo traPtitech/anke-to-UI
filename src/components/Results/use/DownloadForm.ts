@@ -36,21 +36,16 @@ const questionToSpreadForm = (
 
   for (let i = 0; i < resultsPerQuestion.questions.length; i++) {
     const question = resultsPerQuestion.questions[i]
-    if (isArrayQuestion(question)) {
-      question.results.forEach(result => {
-        const index = spreadForm.findIndex(
-          response => response.responseID === result.responseID
-        )
-        spreadForm[index].results.push(result.option_response.join(','))
-      })
-    } else {
-      question.results.forEach(result => {
-        const index = spreadForm.findIndex(
-          response => response.responseID === result.responseID
-        )
-        spreadForm[index].results.push(result.response)
-      })
-    }
+    question.results.forEach(result => {
+      const index = spreadForm.findIndex(
+        response => response.responseID === result.responseID
+      )
+      const res =
+        'option_response' in result // isArrayQuestion(question)
+          ? result.option_response.join(',')
+          : result.response
+      spreadForm[index].results.push(res)
+    })
   }
   return { header: generateHeader(resultsPerQuestion), rows: spreadForm }
 }
