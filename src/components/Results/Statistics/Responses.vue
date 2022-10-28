@@ -1,7 +1,7 @@
 <template>
   <table :class="$style.table">
     <tbody :class="$style.container">
-      <tr v-for="[choice, ids] of choiceIds" :key="choice" :class="$style.body">
+      <tr v-for="[choice, ids] of choiceIds" :key="choice" :class="$style.row">
         <td :class="isText ? $style.texttype : $style.defaulttype">
           {{ choice }}
         </td>
@@ -70,7 +70,7 @@ export default defineComponent({
   flex-direction: column;
   gap: 8px;
 }
-.body {
+.row {
   display: flex;
   flex-direction: row;
   align-items: center;
