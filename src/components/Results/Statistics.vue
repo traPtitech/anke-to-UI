@@ -1,67 +1,33 @@
 <template>
-  <div>
-    <Tab v-model="tableForm" :tabs="tableFormTabs" />
-    <div>
-      <!-- table view -->
-      <div v-if="tableForm === 'view'">
-        <view-tab
-          v-if="tableForm === 'view'"
-          :results="results"
-          :questions="questions"
-        />
-      </div>
-
-      <!-- markdown view -->
-      <markdown-tab
-        v-else-if="tableForm === 'markdown'"
-        :value="markdownTable"
-        :rows="markdownTable.split('\n').length + TEXTAREA_ADDITIONAL_LINE_NUM"
-        class="textarea"
-      />
+  <div :class="$style.container">
+    <div
+      v-for="question in resultsPerQuestion.questions"
+      :key="question.question.question_num"
+    >
+      <view-card :question-data="question" @copy="copy(question)" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref } from 'vue'
-import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-import Tab from '/@/components/UI/Tab.vue'
-import ViewTab from './Statistics/ViewTab.vue'
-import MarkdownTab from './Statistics/MarkdownTab.vue'
+import { defineComponent, PropType } from 'vue'
+import ViewCard from './Statistics/ViewCard.vue'
+import { AllTypeQuestionUnion, ResultsPerQuestion } from './use/statistics'
 import {
-  ResultsPerQuestion,
-  isNumberQuestion,
-  AllTypeQuestionUnion,
-  generateStats,
-  generateMarkdownTable,
-  questionToMarkdown
-} from '/@/lib/util/statistics'
-import {
-  TableFormTypes,
-  tableFormTabs,
-  TEXTAREA_ADDITIONAL_LINE_NUM
-} from './use/utils'
+  generateQuestionCSVTable,
+  generateQuestionMarkdownTable
+} from './use/CopyForm'
+import { FormTypes } from './use/utils'
 
-//export default class Data implements CountedData {}
 export default defineComponent({
   name: 'Statistics',
   components: {
-    Tab,
-    ViewTab,
-    MarkdownTab
+    ViewCard
   },
   props: {
-    questionnaire: {
-      type: Object as PropType<QuestionnaireByID>,
+    formType: {
+      type: String as PropType<FormTypes>,
       required: true
-    },
-    results: {
-      type: Array as PropType<ResponseResult[]>,
-      default: []
-    },
-    questions: {
-      type: Object as PropType<QuestionDetails[]>,
-      default: []
     },
     resultsPerQuestion: {
       type: Object as PropType<ResultsPerQuestion>,
@@ -70,36 +36,27 @@ export default defineComponent({
   },
 
   setup(props) {
-    const markdownTable = computed(() => {
-      // generate Markdown
-      return props.resultsPerQuestion.questions
-        .map((question: AllTypeQuestionUnion) => {
-          let res = [`# ${question.question.body}`]
-          if (isNumberQuestion(question)) {
-            const total = generateStats(question)
-            res = res.concat([
-              `**平均値**: ${total.average}`,
-              `**標準偏差**: ${total.standardDeviation}`,
-              `**中央値**: ${total.median}`,
-              `**最頻値**: ${total.mode}`,
-              ''
-            ])
-          }
-          res = res.concat(generateMarkdownTable(questionToMarkdown(question)))
-          res.concat([''])
-          return res.join('\n')
-        })
-        .join('\n')
-    })
-
-    const tableForm = ref<TableFormTypes>('view')
+    const copy = (questionData: AllTypeQuestionUnion) => {
+      if (props.formType === 'Markdown') {
+        navigator.clipboard.writeText(
+          generateQuestionMarkdownTable(questionData)
+        )
+      } else {
+        navigator.clipboard.writeText(generateQuestionCSVTable(questionData))
+      }
+    }
 
     return {
-      tableForm,
-      tableFormTabs,
-      markdownTable,
-      TEXTAREA_ADDITIONAL_LINE_NUM
+      copy
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+</style>

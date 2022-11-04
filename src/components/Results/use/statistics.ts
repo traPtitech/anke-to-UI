@@ -17,7 +17,8 @@ export const associateQuestionToResultFromRawData = (
           ...body,
           modified_at: r.modified_at,
           submitted_at: r.submitted_at,
-          traqID: r.traqID
+          traqID: r.traqID,
+          responseID: r.responseID
         }))
       )
       .map(bodies => bodies.find(v => v.questionID === q.questionID))
@@ -134,6 +135,7 @@ export interface ResonsePerQuestionWithUser extends ResponseBody {
   submitted_at: string
   modified_at: string
   traqID: string
+  responseID: number
 }
 
 export interface ResultsPerQuestion {
@@ -174,7 +176,11 @@ export const isValidTypeQuestion = (
     'Checkbox',
     'LinearScale'
   ].includes(question.type)
-
+//isTextType
+export const isTextQuestion = (
+  question: AllTypeQuestionUnion
+): question is TextTypeQuestion | TextAreaTypeQuestion =>
+  ['Text', 'TextArea'].includes(question.type)
 //isSelectType
 export const isArrayQuestion = (
   question: AllTypeQuestionUnion
@@ -203,11 +209,13 @@ export const generateChoiceIdsArray = (
 ): [choice: string, ids: string[]][] => {
   const choiceIdsMap = new Map<string, string[]>()
   if (isArrayQuestion(answers)) {
+    for (let i = 0; i < answers.question.options.length; i++) {
+      if (!choiceIdsMap.has(answers.question.options[i])) {
+        choiceIdsMap.set(answers.question.options[i], [])
+      }
+    }
     answers.results.forEach(answer => {
       answer.option_response.forEach(option_response => {
-        if (!choiceIdsMap.has(option_response)) {
-          choiceIdsMap.set(option_response, [])
-        }
         const strings = choiceIdsMap.get(option_response)
         if (typeof strings !== 'undefined') {
           strings.push(answer.traqID)
@@ -231,7 +239,6 @@ export const generateChoiceIdsArray = (
   }
   return arr
 }
-
 export const generateStats = (
   answers: NumberTypeQuestion | LinearScaleTypeQuestion
 ): {
@@ -277,88 +284,4 @@ export const generateStats = (
     median: median + '',
     mode
   }
-}
-
-export type MarkdownInfo<Key extends string> = {
-  header: ReadonlyArray<[Key, string]>
-  rows: ReadonlyArray<Record<Key, string>>
-}
-
-export const questionToMarkdown = (
-  question: AllTypeQuestionUnion
-):
-  | MarkdownInfo<'body' | 'count' | 'percentage' | 'respondent'>
-  | MarkdownInfo<'body' | 'count' | 'respondent'> => {
-  const data: [choice: string, ids: string[]][] =
-    generateChoiceIdsArray(question)
-  if (isArrayQuestion(question)) {
-    const header: ReadonlyArray<
-      ['body' | 'count' | 'percentage' | 'respondent', string]
-    > = [
-      ['body', '回答'],
-      ['count', '回答数'],
-      ['percentage', '選択率'],
-      ['respondent', 'その回答をした人']
-    ]
-    const rows: ReadonlyArray<
-      Record<'body' | 'count' | 'percentage' | 'respondent', string>
-    > = data.map(([choice, ids]) => ({
-      body: choice ? choice : '',
-      count: String(ids.length),
-      percentage: ((ids.length / question.results.length) * 100).toFixed(2),
-      respondent: ids.join(', ')
-    }))
-    return { header, rows }
-  } else {
-    const header: ReadonlyArray<['body' | 'count' | 'respondent', string]> = [
-      ['body', '回答'],
-      ['count', '回答数'],
-      ['respondent', 'その回答をした人']
-    ]
-    const rows: ReadonlyArray<Record<'body' | 'count' | 'respondent', string>> =
-      data.map(([choice, ids]) => ({
-        body: choice ? choice : '',
-        count: String(ids.length),
-        respondent: ids.join(', ')
-      }))
-    return { header, rows }
-  }
-}
-
-type ArrayMarkdownInfo = MarkdownInfo<
-  'body' | 'count' | 'percentage' | 'respondent'
->
-
-type NotArrayMarkdownInfo = MarkdownInfo<'body' | 'count' | 'respondent'>
-
-export const isArrayMarkdownInfo = (
-  question: ArrayMarkdownInfo | NotArrayMarkdownInfo
-): question is ArrayMarkdownInfo => 'percentage' in question
-
-export const generateMarkdownTable = (
-  answer: ArrayMarkdownInfo | NotArrayMarkdownInfo
-): string[] => {
-  let head = '| '
-  let partition = '| '
-  for (let i = 0; i < answer.header.length; i++) {
-    head = head.concat(answer.header[i][1], ' | ')
-    partition = partition.concat(' - | ')
-  }
-  let res = [head, partition]
-  if (isArrayMarkdownInfo(answer)) {
-    res = res.concat(
-      answer.rows.map(
-        ananswer =>
-          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.percentage} | ${ananswer.respondent} |`
-      )
-    )
-  } else {
-    res = res.concat(
-      answer.rows.map(
-        ananswer =>
-          `| ${ananswer.body} | ${ananswer.count} | ${ananswer.respondent} |`
-      )
-    )
-  }
-  return res
 }

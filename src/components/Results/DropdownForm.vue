@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.dropdown">
-    <button :class="$style.button" @click="open">
+    <button :class="$style.button" @click="isOpen = !isOpen">
       <div :class="$style.dropdownTrigger">
-        <p :class="$style.title">{{ title }}</p>
+        <p :class="$style.title">{{ modelValue }}</p>
         <icon
           name="chevron-down"
           :class="[$style.icon, isOpen ? $style.rotate : '']"
@@ -12,32 +12,24 @@
     <dropdown-contents
       :is-open="isOpen"
       :contents="contents"
-      @close="close"
+      @close="isOpen = !isOpen"
       @change-option="change"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
-import DropdownContents from '../UI/DropdownContents.vue'
+import DropdownContents from '/@/components/UI/DropdownContents.vue'
 
 export default defineComponent({
-  name: 'DropdownMenu',
+  name: 'DropdownForm',
   components: {
     Icon,
     DropdownContents
   },
   props: {
-    title: {
-      type: String,
-      required: true
-    },
-    isOpen: {
-      type: Boolean,
-      required: true
-    },
     contents: {
       type: Array as PropType<string[]>,
       required: true
@@ -48,35 +40,31 @@ export default defineComponent({
     }
   },
   emits: {
-    open: () => true,
-    close: () => true,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    const open = () => {
-      context.emit('open')
-    }
-    const close = () => {
-      context.emit('close')
-    }
+    const isOpen = ref(false)
     const change = (newOption: string) => {
       context.emit('update:modelValue', newOption)
     }
 
-    return { open, close, change }
+    return { change, isOpen }
   }
 })
 </script>
 
 <style lang="scss" module>
+.dropdown {
+  position: relative;
+}
 .dropdownTrigger {
   display: flex;
   padding: 0.25rem 0.5rem 0.25rem 1rem;
   align-items: center;
   .title {
     margin: 0;
-    font-size: 1rem;
+    @include size-body;
     width: 5rem;
     text-align: left;
   }
@@ -87,7 +75,6 @@ export default defineComponent({
   border-radius: 0.25rem;
   padding: 0;
   cursor: pointer;
-  transition: 0.1s;
   &:hover {
     background-color: $bg-secondary-highlight;
   }
