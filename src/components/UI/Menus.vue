@@ -7,7 +7,7 @@
       :is-open="state.isOpenSort"
       @open="openSort"
       @close="closeMenus"
-      @update:modelValue="change"
+      @update:model-value="change"
     />
     <dropdown-menu
       v-model="optionStr.nontargeted"
@@ -16,7 +16,7 @@
       :is-open="state.isOpenOption"
       @open="openOption"
       @close="closeMenus"
-      @update:modelValue="change"
+      @update:model-value="change"
     />
   </div>
 </template>
