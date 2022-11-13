@@ -9,6 +9,7 @@
           v-if="tabType === '概要'"
           :name="'download'"
           :contents="downloadTypes"
+          :right="'2rem'"
           :class="$style.dropdown"
           @change-option="onClickDownload"
         />
