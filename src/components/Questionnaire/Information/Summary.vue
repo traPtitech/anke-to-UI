@@ -9,7 +9,7 @@
       <dropdown-icon
         :name="'export-variant'"
         :contents="['traQで共有', 'リンクをコピー']"
-        :right="'1rem'"
+        :right="isMobile ? '1rem' : 'auto'"
         :class="isMobile ? $style.dropdownMobile : ''"
       />
     </div>
