@@ -4,6 +4,7 @@
     <dropdown-contents
       :contents="contents"
       :is-open="isOpen"
+      :style="`right:${right}`"
       @change-option="changeOption"
       @close="isOpen = !isOpen"
     />
@@ -30,6 +31,10 @@ export default defineComponent({
     contents: {
       type: Array as PropType<string[]>,
       required: true
+    },
+    right: {
+      type: String,
+      default: 'auto'
     }
   },
   emits: {
