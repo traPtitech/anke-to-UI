@@ -9,6 +9,7 @@
       <dropdown-icon
         :name="'export-variant'"
         :contents="['traQで共有', 'リンクをコピー']"
+        :right="'1rem'"
         :class="isMobile ? $style.dropdownMobile : ''"
       />
     </div>
@@ -17,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { QuestionnaireMyTargeted } from '/@/lib/apis'
 import { getTimeLimit } from '/@/components/UI/use/useOptions'
 import DropdownIcon from '/@/components/UI/DropdownIcon.vue'
