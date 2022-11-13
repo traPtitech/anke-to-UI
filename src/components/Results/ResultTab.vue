@@ -5,15 +5,13 @@
         <div :class="$style.title">
           {{ resultsPerQuestion.questionnaire.title }}
         </div>
-        <div v-if="tabType === '概要'" :class="$style.rightcontent">
-          <icon :name="'download'" @click="isOpen = !isOpen" />
-          <dropdown-contents
-            :contents="downloadTypes"
-            :is-open="isOpen"
-            :class="$style.dropdown"
-            @change-option="onClickDownload"
-          />
-        </div>
+        <dropdown-icon
+          v-if="tabType === '概要'"
+          :name="'download'"
+          :contents="downloadTypes"
+          :class="$style.dropdown"
+          @change-option="onClickDownload"
+        />
       </div>
       <div :class="$style.container">
         <Tab v-model="tabType" :tabs="tabTypes" />
@@ -39,8 +37,6 @@
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue'
 import Tab from '/@/components/UI/Tab.vue'
-import DropdownContents from '/@/components/UI/DropdownContents.vue'
-import Icon from '/@/components/UI/Icon.vue'
 import DropdownForm from './DropdownForm.vue'
 import PageTemplate from './PageTemplate.vue'
 import Individual from './Individual.vue'
@@ -58,17 +54,17 @@ import {
   generateQuestionCSVSpreadseet,
   download
 } from './use/DownloadForm'
+import DropdownIcon from '/@/components/UI/DropdownIcon.vue'
 
 export default defineComponent({
   name: 'ResultTab',
   components: {
     PageTemplate,
-    Icon,
     DropdownForm,
     Individual,
     Statistics,
-    DropdownContents,
-    Tab
+    Tab,
+    DropdownIcon
   },
   props: {
     resultsPerQuestion: {
@@ -78,7 +74,6 @@ export default defineComponent({
   },
   setup(props) {
     const tabType = ref<TabTypes>('概要')
-    const isOpen = ref<boolean>(false)
     const formType = ref<FormTypes>('Markdown')
     const onClickDownload = (downloadType: string) => {
       if (downloadType === 'Markdownでダウンロード') {
@@ -98,7 +93,6 @@ export default defineComponent({
 
     return {
       onClickDownload,
-      isOpen,
       downloadTypes,
       formType,
       formTypes,
@@ -124,6 +118,6 @@ export default defineComponent({
   margin-left: auto;
 }
 .dropdown {
-  right: 2rem;
+  margin-left: auto;
 }
 </style>
