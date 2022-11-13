@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.dropdown">
-    <button :class="$style.button" @click="open">
+    <button :id="dropdownId" :class="$style.button" @click="open">
       <div :class="$style.dropdownTrigger">
         <p :class="$style.title">{{ title }}</p>
         <icon
@@ -21,6 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import Icon from '/@/components/UI/Icon.vue'
+import { dropdownId } from '/@/components/UI/use/hideOnClickOutside'
 import DropdownContents from '../UI/DropdownContents.vue'
 
 export default defineComponent({
@@ -64,7 +65,7 @@ export default defineComponent({
       context.emit('update:modelValue', newOption)
     }
 
-    return { open, close, change }
+    return { open, close, change, dropdownId }
   }
 })
 </script>
