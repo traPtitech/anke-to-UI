@@ -1,6 +1,6 @@
 <template>
-  <div :class="$style.dropdown">
-    <button :id="dropdownId" :class="$style.button" @click="open">
+  <div :id="dropdownId" :class="$style.dropdown">
+    <button :class="$style.button" @click="open">
       <div :class="$style.dropdownTrigger">
         <p :class="$style.title">{{ title }}</p>
         <icon

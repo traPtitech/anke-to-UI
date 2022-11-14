@@ -1,6 +1,6 @@
 <template>
   <transition name="drop-down-content-fade" mode="out-in">
-    <div v-if="isOpen" :id="dropdownId" :class="$style.dropdownMenu">
+    <div v-if="isOpen" :class="$style.dropdownMenu">
       <p
         v-for="(content, index) in contents"
         :key="index"

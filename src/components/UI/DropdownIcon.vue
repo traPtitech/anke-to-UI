@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <icon :id="dropdownId" :name="name" @click="isOpen = !isOpen" />
+  <div :id="dropdownId">
+    <icon :name="name" @click="isOpen = !isOpen" />
     <dropdown-contents
       :contents="contents"
       :is-open="isOpen"
