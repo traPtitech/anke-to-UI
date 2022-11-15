@@ -80,6 +80,7 @@ export default defineComponent({
     }
   },
   emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updatePage: (value: number) => true
   },
   setup(props, context) {
