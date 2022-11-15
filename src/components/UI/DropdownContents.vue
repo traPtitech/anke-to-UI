@@ -68,10 +68,11 @@ export default defineComponent({
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(33, 63, 99, 0.3);
   z-index: 1;
-  background-color: #ffffff;
+  background-color: $bg-secondary;
   .contents {
     margin: 0;
     padding: 0.5rem 1rem;
+    transition: 0.1s;
     &:first-child {
       padding: 1rem 1rem 0.5rem;
     }
@@ -81,7 +82,7 @@ export default defineComponent({
     text-align: left;
     cursor: pointer;
     &:hover {
-      background-color: #f4ecec;
+      background-color: $bg-secondary-highlight;
     }
   }
 }

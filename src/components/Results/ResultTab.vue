@@ -1,99 +1,129 @@
 <template>
   <PageTemplate>
     <template #header>
-      <ResultHeader />
+      <div :class="$style.container">
+        <div :class="$style.title">
+          {{ resultsPerQuestion.questionnaire.title }}
+        </div>
+        <div v-if="tabType === '概要'" :class="$style.rightcontent">
+          <icon :name="'download'" @click="isOpen = !isOpen" />
+          <dropdown-contents
+            :contents="downloadTypes"
+            :is-open="isOpen"
+            :class="$style.dropdown"
+            @change-option="onClickDownload"
+          />
+        </div>
+      </div>
+      <div :class="$style.container">
+        <Tab v-model="tabType" :tabs="tabTypes" />
+        <dropdown-form
+          v-if="tabType === '概要'"
+          v-model="formType"
+          :contents="formTypes"
+          :class="$style.rightcontent"
+        />
+      </div>
     </template>
-    <div>
-      {{ questionnaire.title }}
-    </div>
     <template #content>
-      <Individual
-        v-if="currentTabComponent === 'individual'"
-        :questionnaire="questionnaire"
-        :results="results"
-        :questions="questions"
-      />
       <Statistics
-        v-if="currentTabComponent === 'statistics'"
-        :questionnaire="questionnaire"
-        :results="results"
-        :questions="questions"
+        v-if="tabType === '概要'"
+        :form-type="formType"
         :results-per-question="resultsPerQuestion"
       />
-      <Spreadsheet
-        v-if="currentTabComponent === 'spreadsheet'"
-        :questionnaire="questionnaire"
-        :results="results"
-        :questions="questions"
-      />
+      <Individual v-if="tabType === '個別'" />
     </template>
   </PageTemplate>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, PropType, onMounted } from 'vue'
-import { QuestionnaireByID, ResponseResult, QuestionDetails } from '/@/lib/apis'
-import { useRoute } from 'vue-router'
+import { defineComponent, ref, PropType } from 'vue'
+import Tab from '/@/components/UI/Tab.vue'
+import DropdownContents from '/@/components/UI/DropdownContents.vue'
+import Icon from '/@/components/UI/Icon.vue'
+import DropdownForm from './DropdownForm.vue'
 import PageTemplate from './PageTemplate.vue'
-import ResultHeader from './ResultHeader.vue'
 import Individual from './Individual.vue'
 import Statistics from './Statistics.vue'
-import Spreadsheet from './Spreadsheet.vue'
-import { detailTabs, DetailTabTypes } from './use/utils'
-import { ResultsPerQuestion } from '/@/lib/util/statistics'
+import {
+  tabTypes,
+  TabTypes,
+  downloadTypes,
+  formTypes,
+  FormTypes
+} from './use/utils'
+import { ResultsPerQuestion } from './use/statistics'
+import {
+  generateQuestionMarkdownSpreadseet,
+  generateQuestionCSVSpreadseet,
+  download
+} from './use/DownloadForm'
 
 export default defineComponent({
   name: 'ResultTab',
   components: {
     PageTemplate,
-    ResultHeader,
+    Icon,
+    DropdownForm,
     Individual,
     Statistics,
-    Spreadsheet
+    DropdownContents,
+    Tab
   },
   props: {
-    questionnaire: {
-      type: Object as PropType<QuestionnaireByID>,
-      required: true
-    },
-    results: {
-      type: Object as PropType<ResponseResult[]>,
-      required: true
-    },
-    questions: {
-      type: Object as PropType<QuestionDetails[]>,
-      required: true
-    },
     resultsPerQuestion: {
       type: Object as PropType<ResultsPerQuestion>,
       required: true
     }
   },
-  setup() {
-    const selectedTab = ref<DetailTabTypes>('statistics')
-    const route = useRoute()
-
-    onMounted(() => {
-      selectedTab.value = <DetailTabTypes>route.query.tab || 'statistics'
-    })
-
-    const currentTabComponent = computed(() => {
-      if (detailTabs.includes(selectedTab.value)) return selectedTab.value
-      // eslint-disable-next-line no-console
-      console.error('unexpected selectedTab')
-      return ''
-    })
-
-    watch(
-      () => route.query,
-      newQuery => {
-        selectedTab.value = <DetailTabTypes>newQuery.tab
+  setup(props) {
+    const tabType = ref<TabTypes>('概要')
+    const isOpen = ref<boolean>(false)
+    const formType = ref<FormTypes>('Markdown')
+    const onClickDownload = (downloadType: string) => {
+      if (downloadType === 'Markdownでダウンロード') {
+        download(
+          props.resultsPerQuestion.questionnaire.title,
+          generateQuestionMarkdownSpreadseet(props.resultsPerQuestion),
+          'md'
+        )
+      } else {
+        download(
+          props.resultsPerQuestion.questionnaire.title,
+          generateQuestionCSVSpreadseet(props.resultsPerQuestion),
+          'csv'
+        )
       }
-    )
+    }
+
     return {
-      selectedTab,
-      currentTabComponent
+      onClickDownload,
+      isOpen,
+      downloadTypes,
+      formType,
+      formTypes,
+      tabType,
+      tabTypes
     }
   }
 })
 </script>
+
+<style lang="scss" module>
+.title {
+  @include size-head;
+  @include weight-bold;
+  text-align: left;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.rightcontent {
+  margin-left: auto;
+}
+.dropdown {
+  right: 2rem;
+}
+</style>

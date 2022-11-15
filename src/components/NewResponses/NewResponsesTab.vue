@@ -114,7 +114,8 @@ export default defineComponent({
   gap: 8px;
 }
 .title {
-  @include font-head;
+  @include weight-bold;
+  @include size-head;
   color: $ui-primary;
 }
 .description {
