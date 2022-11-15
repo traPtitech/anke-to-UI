@@ -20,6 +20,14 @@
         </transition>
       </template>
     </Card>
+    <div :class="$style.pagination_wrapper">
+      <Pagination
+        v-if="isFetched"
+        :current="option.page"
+        :total-page="101"
+        @update-page="updatePage"
+      />
+    </div>
   </div>
 </template>
 
@@ -33,6 +41,7 @@ import { Option } from '/@/components/UI/use/useOptions'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
+import Pagination from '/@/components/UI/Pagination.vue'
 
 export default defineComponent({
   name: 'Explorer',
@@ -41,7 +50,8 @@ export default defineComponent({
     SearchInput,
     Card,
     CardContentDetail,
-    CardContentDetailMock
+    CardContentDetailMock,
+    Pagination
   },
   setup() {
     useTitle(ref('アンケート一覧'))
@@ -75,9 +85,16 @@ export default defineComponent({
 
     const changeOption = (newOption: Option) => {
       option.value = newOption
+      option.value.page = 1
       getQuestionnaires()
     }
     const search = () => {
+      option.value.page = 1
+      getQuestionnaires()
+    }
+
+    const updatePage = (page: number) => {
+      option.value.page = page
       getQuestionnaires()
     }
 
@@ -90,7 +107,9 @@ export default defineComponent({
       searchQuery,
       changeOption,
       search,
-      isFetched
+      isFetched,
+      option,
+      updatePage
     }
   }
 })
@@ -115,5 +134,9 @@ export default defineComponent({
   .fadeExplore-leave-to {
     opacity: 0;
   }
+}
+.pagination_wrapper {
+  display: flex;
+  justify-content: center;
 }
 </style>
