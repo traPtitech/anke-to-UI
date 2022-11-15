@@ -4,7 +4,7 @@
     :height="height"
     :viewBox="box"
     role="img"
-    :class="$style.icon"
+    :class="[$style.icon, hoverAnimation ? $style.hover : '']"
   >
     <path :d="path" fill="currentColor" />
   </svg>
@@ -27,6 +27,10 @@ export default defineComponent({
     height: {
       type: Number,
       default: 24
+    },
+    hoverAnimation: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
@@ -45,5 +49,14 @@ export default defineComponent({
 <style lang="scss" module>
 .icon {
   contain: strict;
+  display: flex;
+  border-radius: 99rem;
+}
+.hover {
+  transition: 0.2s;
+  &:hover {
+    transform: scale(1.2);
+    background: $bg-primary-highlight;
+  }
 }
 </style>
