@@ -1,6 +1,8 @@
 <template>
   <div :class="$style.pagination_wrapper">
+    <icon v-if="current == 1" name="chevron-left" :class="$style.disabled" />
     <icon
+      v-else
       name="chevron-left"
       :hover-animation="true"
       @click="updatePage(current - 1)"
@@ -43,6 +45,12 @@
       @click="updatePage(totalPage)"
     />
     <icon
+      v-if="current == totalPage"
+      name="chevron-right"
+      :class="$style.disabled"
+    />
+    <icon
+      v-else
       name="chevron-right"
       :hover-animation="true"
       @click="updatePage(current + 1)"
@@ -89,9 +97,12 @@ export default defineComponent({
   flex-direction: row;
   align-items: center;
   margin: 1rem 0;
-  gap: 0.5rem;
 }
 .dots {
-  color: $ui-secondary;
+  color: $ui-primary;
+}
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 </style>

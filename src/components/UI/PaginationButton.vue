@@ -33,6 +33,7 @@ export default defineComponent({
   height: 1.75rem;
   border-radius: 99rem;
   transition: 0.2s;
+  margin: 0 0.5rem;
   &:hover {
     transform: scale(1.2);
     background: $bg-primary-highlight;

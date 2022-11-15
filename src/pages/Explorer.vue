@@ -24,7 +24,7 @@
       <Pagination
         v-if="isFetched"
         :current="option.page"
-        :total-page="101"
+        :total-page="pagemax"
         @update-page="updatePage"
       />
     </div>
@@ -65,6 +65,7 @@ export default defineComponent({
     })
     const searchQuery = ref('')
     const isFetched = ref(false)
+    const pagemax = ref(1)
     const getQuestionnaires = async () => {
       try {
         const { data } = await apis.getQuestionnaires(
@@ -74,6 +75,7 @@ export default defineComponent({
           option.value.nontargeted === 'true'
         )
         questionnaires.value = data.questionnaires
+        pagemax.value = data.page_max - 1
         isFetched.value = true
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -109,7 +111,8 @@ export default defineComponent({
       search,
       isFetched,
       option,
-      updatePage
+      updatePage,
+      pagemax
     }
   }
 })
