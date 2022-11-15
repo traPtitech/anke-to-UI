@@ -2,6 +2,7 @@ import {
   mdiChevronDown,
   mdiChevronUp,
   mdiChevronRight,
+  mdiChevronLeft,
   mdiMagnify,
   mdiOpenInNew,
   mdiHelpCircleOutline,
@@ -21,13 +22,15 @@ import {
   mdiPlus,
   mdiExportVariant,
   mdiSend,
-  mdiChartAreaspline
+  mdiChartAreaspline,
+  mdiDotsHorizontal
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
   ['chevron-down', mdiChevronDown],
   ['chevron-up', mdiChevronUp],
   ['chevron-right', mdiChevronRight],
+  ['chevron-left', mdiChevronLeft],
   ['magnify', mdiMagnify],
   ['open-in-new', mdiOpenInNew],
   ['help-circle-outline', mdiHelpCircleOutline],
@@ -47,7 +50,8 @@ const mdi = new Map<string, string>([
   ['plus', mdiPlus],
   ['export-variant', mdiExportVariant],
   ['send', mdiSend],
-  ['chart', mdiChartAreaspline]
+  ['chart', mdiChartAreaspline],
+  ['dots-horizontal', mdiDotsHorizontal]
 ])
 
 export default mdi
