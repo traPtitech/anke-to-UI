@@ -1,10 +1,10 @@
 <template>
   <div :id="dropdownId">
-    <icon :name="name" @click="isOpen = !isOpen" />
+    <icon :name="name" :class="$style.icon" @click="isOpen = !isOpen" />
     <dropdown-contents
       :contents="contents"
       :is-open="isOpen"
-      :style="`right:${right}`"
+      :class="isPopoutRight ? '' : $style.popoutleft"
       @change-option="changeOption"
       @close="isOpen = !isOpen"
     />
@@ -32,9 +32,9 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true
     },
-    right: {
-      type: String,
-      default: 'auto'
+    isPopoutRight: {
+      type: Boolean,
+      default: true
     }
   },
   emits: {
@@ -57,4 +57,12 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.icon {
+  cursor: pointer;
+}
+.popoutleft {
+  position: absolute;
+  right: 0px;
+}
+</style>
