@@ -1,7 +1,7 @@
 <template>
   <div :class="[$style.container, isMobile ? $style.mobile : '']">
     <div :class="$style.informations">
-      <div>
+      <div :class="isMobile ? $style.mobile_summary : ''">
         <Summary :questionnaire="questionnaire" />
       </div>
       <Manipulation
@@ -59,7 +59,6 @@ export default defineComponent({
 }
 
 .informations {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -77,5 +76,8 @@ export default defineComponent({
 .mobile {
   position: unset;
   grid-template-columns: unset;
+}
+.mobile_summary {
+  position: relative;
 }
 </style>
