@@ -9,7 +9,7 @@
           v-if="tabType === '概要'"
           :name="'download'"
           :contents="downloadTypes"
-          :right="'2rem'"
+          :is-popout-right="false"
           :class="$style.dropdown"
           @change-option="onClickDownload"
         />
@@ -111,6 +111,7 @@ export default defineComponent({
   text-align: left;
 }
 .container {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;

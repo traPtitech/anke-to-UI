@@ -59,6 +59,7 @@ export default defineComponent({
 }
 
 .informations {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
