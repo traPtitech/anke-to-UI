@@ -6,45 +6,39 @@
         <div>作成 : {{ getTimeLimit(questionnaire.created_at) }}</div>
         <div>更新 : {{ getTimeLimit(questionnaire.modified_at) }}</div>
       </div>
-      <div :class="$style.icon" @click="open">
-        <icon name="export-variant" />
-        <dropdown-contents
-          :is-open="isContentShown"
-          :contents="['traQで共有', 'リンクをコピー']"
-          :class="isMobile ? $style.dropdownMobile : ''"
-        />
-      </div>
+      <dropdown-icon
+        :name="'export-variant'"
+        :contents="['traQで共有', 'リンクをコピー']"
+        :is-popout-right="!isMobile"
+        :class="isMobile ? $style.dropdownMobile : ''"
+      />
     </div>
     <div :class="$style.description">{{ questionnaire.description }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
-import { QuestionnaireMyTargeted } from '/@/lib/apis'
+import { defineComponent, PropType } from 'vue'
+import { QuestionnaireByID } from '/@/lib/apis'
 import { getTimeLimit } from '/@/components/UI/use/useOptions'
-import icon from '/@/components/UI/Icon.vue'
-import DropdownContents from '../../UI/DropdownContents.vue'
+import DropdownIcon from '/@/components/UI/DropdownIcon.vue'
 import useIsMobile from '/@/use/isMobile'
 
 export default defineComponent({
   name: 'Summary',
-  components: { icon, DropdownContents },
+  components: { DropdownIcon },
   props: {
     questionnaire: {
-      type: Object as PropType<QuestionnaireMyTargeted>,
+      type: Object as PropType<QuestionnaireByID>,
       required: true
     }
   },
   setup() {
-    const isContentShown = ref(false)
-    const open = () => (isContentShown.value = !isContentShown.value)
     const { isMobile } = useIsMobile()
     return {
       getTimeLimit,
       open,
-      isMobile: isMobile,
-      isContentShown
+      isMobile: isMobile
     }
   }
 })
@@ -67,6 +61,7 @@ export default defineComponent({
 }
 .dataAndShare {
   display: flex;
+  align-items: center;
 }
 .date {
   @include size-body-small;
@@ -87,8 +82,5 @@ export default defineComponent({
 }
 .dropdownMobile {
   right: 1rem;
-}
-.icon {
-  margin: auto;
 }
 </style>

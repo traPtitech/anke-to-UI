@@ -14,7 +14,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
+import { dropdownId } from './use/hideOnClickOutside'
+import useHideOnClickOutside from './use/hideOnClickOutside'
 
 export default defineComponent({
   name: 'DropdownContents',
@@ -40,13 +42,23 @@ export default defineComponent({
     const changeOption = (newOption: string) => {
       context.emit('changeOption', newOption)
     }
+    const localIsOpen = computed({
+      get: () => props.isOpen,
+      set: () => {
+        close()
+      }
+    })
+    const toggle = () => {
+      localIsOpen.value = !localIsOpen.value
+    }
+    useHideOnClickOutside(dropdownId, localIsOpen, toggle)
 
     const onClick = (newOption: string) => {
       close()
       changeOption(newOption)
     }
 
-    return { onClick }
+    return { onClick, dropdownId }
   }
 })
 </script>
