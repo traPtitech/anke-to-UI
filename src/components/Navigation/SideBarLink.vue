@@ -55,7 +55,7 @@ export default defineComponent({
   padding: 0.5rem;
   text-decoration: none;
   white-space: nowrap;
-  transition: 0.1s;
+  transition: all 0.3s;
   padding: 4px 16px;
   &:hover {
     background-color: $bg-tertiary-highlight;
