@@ -7,9 +7,6 @@
     <router-link to="/targeted">
       <img :class="$style.logo" :src="Logo" />
     </router-link>
-    <a :class="$style.help" href="https://wiki.trap.jp/SysAd/docs/anke-to">
-      <icon name="help-circle-outline" />
-    </a>
     <user-icon :class="$style.icon" :user-name="myName" />
   </div>
 </template>
@@ -64,14 +61,6 @@ export default defineComponent({
 .logo {
   max-height: 1.75rem;
   margin: 0 16px;
-}
-.help {
-  color: $accent-primary;
-  height: 24px;
-  margin-left: 1rem;
-  &:hover {
-    color: $accent-primary-highlight;
-  }
 }
 .icon {
   margin-left: auto;

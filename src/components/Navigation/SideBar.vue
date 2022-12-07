@@ -1,11 +1,25 @@
 <template>
   <div :class="$style.container">
-    <div v-for="(link, index) in links" :key="index" :class="$style.link">
-      <side-bar-link :title="link.title" :to="link.to" />
+    <div v-for="(sidebarContent, index) in sidebarContents" :key="index">
+      <side-bar-link
+        :title="sidebarContent.title"
+        :to="sidebarContent.to"
+        :name="sidebarContent.icon"
+      />
     </div>
-    <div :class="$style.border" />
-    <div :class="$style.link">
-      <side-bar-link title="New Questionnaire" to="/questionnaires/new" />
+    <div :class="$style.new">
+      <side-bar-link
+        :title="'新規作成'"
+        :to="'/questionnaires/new'"
+        :name="'plus'"
+      />
+    </div>
+    <div :class="$style.help">
+      <side-bar-link
+        :title="'ヘルプ'"
+        :to="'https://wiki.trap.jp/SysAd/docs/anke-to'"
+        :name="'open-in-new'"
+      />
     </div>
   </div>
 </template>
@@ -18,14 +32,13 @@ export default defineComponent({
   name: 'SideBar',
   components: { SideBarLink },
   setup() {
-    const links = [
-      { title: 'Targeted', to: '/targeted' },
-      { title: 'Administrates', to: '/administrates' },
-      { title: 'Responses', to: '/responses' },
-      { title: 'Explorer', to: '/explorer' }
+    const sidebarContents = [
+      { title: 'アンケート', to: '/explorer', icon: 'form-select' },
+      { title: '自分の回答', to: '/responses', icon: 'history' },
+      { title: '管理者', to: '/administrates', icon: 'auto-fix' }
     ]
 
-    return { links }
+    return { sidebarContents }
   }
 })
 </script>
@@ -34,19 +47,20 @@ export default defineComponent({
 .container {
   display: flex;
   flex-direction: column;
-  background-color: $bg-tertiary;
+  background-color: $bg-territory;
+  padding: 40px 20px 20px;
+  gap: 16px;
   grid-area: sidebar;
   text-align: left;
   min-width: fit-content;
-  padding: 1rem;
   box-sizing: border-box;
 }
-.link {
-  padding: 0.5rem 0;
+.new {
+  margin-top: 20px;
+  background-color: $accent-primary;
+  border-radius: 9999px;
 }
-.border {
-  background-color: $border;
-  height: 4px;
-  margin: 0.3rem 0;
+.help {
+  margin-top: auto;
 }
 </style>

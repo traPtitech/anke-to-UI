@@ -1,12 +1,23 @@
 <template>
-  <router-link :class="$style.link" :to="to">{{ title }}</router-link>
+  <router-link v-if="isInternallink" :class="$style.container" :to="to">
+    <icon :name="name" />
+    <div>{{ title }}</div>
+  </router-link>
+  <a v-else :class="$style.container" :href="to">
+    <icon :name="name" />
+    <div>{{ title }}</div>
+  </a>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import Icon from '/@/components/UI/Icon.vue'
 
 export default defineComponent({
   name: 'SideBarLink',
+  components: {
+    Icon
+  },
   props: {
     title: {
       type: String,
@@ -15,36 +26,40 @@ export default defineComponent({
     to: {
       type: String,
       required: true
+    },
+    name: {
+      type: String,
+      required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    const isInternallink = computed(() => {
+      return !props.to.match(/^(http(s)?|ftp):\/\//)
+    })
+    return { isInternallink }
   }
 })
 </script>
 
 <style lang="scss" module>
-.link {
+.container {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @include size-sidebar;
+  @include weight-bold;
+  gap: 8px;
   position: relative;
   color: $ui-white;
+  padding: 0.5rem;
   text-decoration: none;
   white-space: nowrap;
-  padding: 0.5rem;
-  &::after {
-    position: absolute;
-    bottom: 4px;
-    left: 0.2rem;
-    content: '';
-    width: calc(100% - 0.2rem * 2);
-    height: 2px;
-    background: $bg-secondary-highlight;
-    transform: scale(0, 1);
-    transform-origin: left top;
-    transition: 0.3s;
-  }
-  &:hover::after {
-    transform-origin: right top;
-    transform: scale(1, 1);
+  transition: all 0.3s;
+  padding: 4px 16px;
+  &:hover {
+    background-color: $bg-tertiary-highlight;
+    border-radius: 9999px;
   }
 }
 </style>
