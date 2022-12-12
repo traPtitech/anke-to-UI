@@ -51,7 +51,7 @@ export default defineComponent({
     const option = ref<Option>({
       sort: SortType.ModifiedAtDESC,
       page: 1,
-      nontargeted: 'true'
+      nontargeted: true
     })
     const searchQuery = ref('')
     const isFetched = ref(false)
@@ -61,7 +61,7 @@ export default defineComponent({
           option.value.sort,
           searchQuery.value,
           option.value.page,
-          option.value.nontargeted === 'true'
+          option.value.nontargeted
         )
         questionnaires.value = data.questionnaires
         isFetched.value = true
@@ -98,13 +98,19 @@ export default defineComponent({
 
 <style lang="scss" module>
 .page_wrapper {
-  max-width: 1280px;
+  max-width: 720px;
+  margin-right: auto;
+  margin-left: auto;
 }
 .tool_wrapper {
-  padding: 1rem 0rem;
+  padding: 1rem 0rem 2rem 0rem;
   display: flex;
   flex-wrap: wrap;
+  gap: 5rem;
   row-gap: 1rem;
+}
+.search {
+  flex-grow: 1;
 }
 :global {
   .fadeExplore-enter-active,
