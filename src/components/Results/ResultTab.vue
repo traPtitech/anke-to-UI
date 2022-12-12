@@ -38,7 +38,7 @@
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue'
 import Tab from '/@/components/UI/Tab.vue'
-import DropdownForm from './DropdownForm.vue'
+import DropdownForm from '../UI/DropdownForm.vue'
 import PageTemplate from './PageTemplate.vue'
 import Individual from './Individual.vue'
 import Statistics from './Statistics.vue'
