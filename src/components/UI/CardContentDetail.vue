@@ -8,24 +8,28 @@
       :class="$style.table_item"
       :to="`/questionnaires/${questionnaire.questionnaireID}`"
     >
-      <LinkIconQuestion
-        :id="questionnaire.questionnaireID"
-        :title="questionnaire.title"
-        :iconsize="24"
-        :textsize="20"
-        :is-responded="isResponded(questionnaire)"
-        :with-icon="!!isResponded(questionnaire)"
-      ></LinkIconQuestion>
-      <div :class="$style.column">
-        <div :class="$style.res_time_limit">
-          回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+      <div :class="$style.questionnaire">
+        <div :class="$style.content">
+          <LinkIconQuestion
+            :id="questionnaire.questionnaireID"
+            :title="questionnaire.title"
+            :iconsize="24"
+            :is-responded="isResponded(questionnaire)"
+            :with-icon="!!isResponded(questionnaire)"
+          />
+          <div :class="$style.column">
+            <div :class="$style.res_time_limit">
+              回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+            </div>
+            <div :class="$style.modified_at">
+              更新日: {{ getRelativeTime(questionnaire.modified_at) }}
+            </div>
+            <div>
+              {{ questionnaire.description }}
+            </div>
+          </div>
         </div>
-        <div :class="$style.modified_at">
-          更新日: {{ getRelativeTime(questionnaire.modified_at) }}
-        </div>
-      </div>
-      <div>
-        {{ questionnaire.description }}
+        <Icon :name="'chevron-right'" />
       </div>
     </router-link>
   </div>
@@ -34,6 +38,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
+import Icon from '/@/components/UI/Icon.vue'
 import type {
   QuestionnaireForList,
   QuestionnaireMyAdministrates,
@@ -49,7 +54,8 @@ type Questionnaire =
 export default defineComponent({
   name: 'CardContentDetail',
   components: {
-    LinkIconQuestion
+    LinkIconQuestion,
+    Icon
   },
   props: {
     questionnaires: {
@@ -74,18 +80,18 @@ export default defineComponent({
 <style lang="scss" module>
 .container {
   text-align: left;
-  padding: 1rem;
-  border-bottom: solid 1px $border;
   position: relative;
   transition: 0.2s;
+  padding: 1rem;
+  border-bottom: solid 1px $border;
   &:hover {
     background-color: $bg-secondary-highlight;
-    &:first-child {
-      border-radius: 8px 8px 0 0;
-    }
-    &:last-child {
-      border-radius: 0 0 8px 8px;
-    }
+  }
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 8px 8px;
   }
   &:last-child {
     border: none;
@@ -99,12 +105,21 @@ export default defineComponent({
   margin: 0.5rem 0;
   align-items: center;
   display: grid;
+  @include size-body-small;
   grid-template-columns: 50%;
 }
 .res_time_limit {
   grid-row: 1/2;
   grid-column: 1/2;
   text-align: left;
+}
+.questionnaire {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.content {
+  flex-grow: 1;
 }
 .modified_at {
   grid-row: 1/2;
