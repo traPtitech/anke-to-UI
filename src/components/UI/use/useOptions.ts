@@ -9,10 +9,6 @@ export const sortOrderMap: [string, SortType][] = [
   ['最新', SortType.CreatedAtDESC],
   ['最も古い', SortType.ModifiedAtDESC]
 ]
-export const targetedOptionMap: [string, TargetedOption][] = [
-  ['全て', 'true'],
-  ['対象外のもののみ', 'false']
-]
 
 export const stringToOption = <T>(str: string, map: Map<string, T>): T => {
   const option = map.get(str)
@@ -22,12 +18,10 @@ export const stringToOption = <T>(str: string, map: Map<string, T>): T => {
   return option
 }
 
-type TargetedOption = `${boolean}`
-
 export interface Option {
   sort: SortType
   page: number
-  nontargeted: TargetedOption
+  nontargeted: boolean
 }
 
 export const getTimeLimit = (limit: string | null | undefined): string => {
