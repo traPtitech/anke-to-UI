@@ -33,6 +33,10 @@
   line-height: 21px;
 }
 
+@mixin size-body-small-4 {
+  font-size: 16px;
+  line-height: 24px;
+}
 @mixin weight-bold {
   font-weight: 700;
 }
