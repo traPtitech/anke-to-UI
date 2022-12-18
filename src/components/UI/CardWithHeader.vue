@@ -21,8 +21,8 @@ export default defineComponent({
 .header {
   border-collapse: collapse;
   text-align: left;
-  font-size: 1.25rem;
-  font-weight: bold;
+  @include size-head-2;
+  @include weight-bold;
   padding: 1rem;
 }
 .content {
