@@ -48,7 +48,9 @@ export default defineComponent({
 
 <style lang="scss" module>
 .card {
-  max-width: 1280px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 :global {
   .fadeAdministrates-enter-active,
