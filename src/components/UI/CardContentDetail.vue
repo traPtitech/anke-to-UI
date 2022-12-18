@@ -10,13 +10,7 @@
     >
       <div :class="$style.questionnaire">
         <div :class="$style.content">
-          <LinkIconQuestion
-            :id="questionnaire.questionnaireID"
-            :title="questionnaire.title"
-            :iconsize="24"
-            :is-responded="isResponded(questionnaire)"
-            :with-icon="!!isResponded(questionnaire)"
-          />
+          <div>{{ questionnaire.title }}</div>
           <div :class="$style.column">
             <div :class="$style.res_time_limit">
               回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
@@ -37,7 +31,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
 import Icon from '/@/components/UI/Icon.vue'
 import type {
   QuestionnaireForList,
@@ -54,7 +47,6 @@ type Questionnaire =
 export default defineComponent({
   name: 'CardContentDetail',
   components: {
-    LinkIconQuestion,
     Icon
   },
   props: {
