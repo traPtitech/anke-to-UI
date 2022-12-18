@@ -4,26 +4,34 @@
     :key="index"
     :class="$style.container"
   >
-    <td :class="$style.title_container">
-      <div :class="$style.box_title"></div>
-    </td>
-    <div :class="$style.column_container">
-      <td :class="$style.res_time_container">
-        <div :class="$style.box"></div>
-      </td>
-      <td :class="$style.modified_at_container">
-        <div :class="$style.box"></div>
-      </td>
+    <div :class="$style.questionnaire">
+      <div :class="$style.content">
+        <td :class="$style.title_container">
+          <div :class="$style.box_title"></div>
+        </td>
+        <div :class="$style.column_container">
+          <td :class="$style.res_time_container">
+            <div :class="$style.box"></div>
+          </td>
+          <td :class="$style.modified_at_container">
+            <div :class="$style.box"></div>
+          </td>
+        </div>
+        <div :class="$style.box_description"></div>
+      </div>
+      <Icon :name="'chevron-right'" />
     </div>
-    <div :class="$style.box_description"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import Icon from './Icon.vue'
 export default defineComponent({
-  name: 'QuestionnaireTableRowMock'
+  name: 'QuestionnaireTableRowMock',
+  components: {
+    Icon
+  }
 })
 </script>
 
@@ -35,6 +43,14 @@ export default defineComponent({
   &:last-child {
     border: none;
   }
+}
+.questionnaire {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.content {
+  flex-grow: 1;
 }
 .title_container {
   display: block;
@@ -60,16 +76,16 @@ export default defineComponent({
 .box_title {
   border-radius: 1rem;
   width: min(20rem, 100%);
-  height: 1.25rem;
+  height: 1.6875rem;
 }
 .box_description {
   border-radius: 1rem;
-  height: 1rem;
+  height: 1.5rem;
 }
 .box {
   border-radius: 1rem;
   width: min(6rem, 100%);
-  height: 1rem;
+  height: 1.3125rem;
 }
 
 .box_title,
