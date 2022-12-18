@@ -3,35 +3,14 @@
     <CardWithHeader>
       <template #header>自分の回答</template>
       <template #content>
-        <div :class="$style.fadeResponse">
-          <transition name="fadeResponse">
-            <div v-if="isFetched" :class="$style.container">
-              <ATable>
-                <template #tableheader>
-                  <th
-                    v-for="(header, index) in headers"
-                    :key="index"
-                    :class="$style.header"
-                  >
-                    {{ header }}
-                  </th>
-                </template>
-                <template #tablecontent>
-                  <table-row
-                    v-for="(responseSummary, index) in responseSummaries"
-                    :key="index"
-                    :class="$style.table"
-                  >
-                    <responses-table-row :response-summary="responseSummary" />
-                  </table-row>
-                </template>
-              </ATable>
-            </div>
-            <div v-else :class="$style.container">
-              <LoadingForExplorerAndResponses />
-            </div>
-          </transition>
-        </div>
+        <transition name="fadeResponse">
+          <div v-if="isFetched">
+            <CardContentDetail :questionnaires="responseSummaries" />
+          </div>
+          <div v-else>
+            <CardContentDetailMock :is-response="true" />
+          </div>
+        </transition>
       </template>
     </CardWithHeader>
   </div>
@@ -40,23 +19,18 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
-import ATable from '/@/components/UI/ATable.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
-import TableRow from '/@/components/UI/TableRow.vue'
-import ResponsesTableRow from '/@/components/Responses/ResponsesTableRow.vue'
-import LoadingForExplorerAndResponses from '/@/components/UI/QuestionnairesTableMock.vue'
+import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
+import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
 
 export default defineComponent({
   name: 'Responses',
   components: {
     CardWithHeader,
-    ATable,
-    TableRow,
-    ResponsesTableRow,
-    LoadingForExplorerAndResponses
+    CardContentDetail,
+    CardContentDetailMock
   },
   setup() {
-    const headers = ['', '回答期限', '回答日時', '更新日時', '回答']
     const responseSummaries = ref<ResponseSummary[]>([])
     const isFetched = ref(false)
     onMounted(async () => {
@@ -65,7 +39,6 @@ export default defineComponent({
       isFetched.value = true
     })
     return {
-      headers,
       responseSummaries,
       isFetched
     }
@@ -75,27 +48,14 @@ export default defineComponent({
 
 <style lang="scss" module>
 .card {
-  max-width: 1280px;
-}
-.container {
-  box-sizing: border-box;
-  overflow: auto;
-  top: 0;
-  width: 100%;
-  max-width: 1280px;
-}
-.header {
-  text-align: center;
-  padding: 0.8rem;
-}
-.fadeResponse {
-  position: relative;
-  width: 100%;
+  max-width: 720px;
+  margin-right: auto;
+  margin-left: auto;
 }
 :global {
   .fadeResponse-enter-active,
   .fadeResponse-leave-active {
-    transition: opacity 1s;
+    transition: opacity 0.2s;
   }
   .fadeResponse-enter-from,
   .fadeResponse-leave-to {
