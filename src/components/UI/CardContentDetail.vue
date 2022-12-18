@@ -10,17 +10,31 @@
     >
       <div :class="$style.questionnaire">
         <div :class="$style.content">
-          <div>{{ questionnaire.title }}</div>
+          <div v-if="!isResponseType(questionnaire)" :class="$style.title">
+            {{ questionnaire.title }}
+          </div>
+          <div v-else :class="$style.title">
+            {{ questionnaire.questionnaire_title }}
+          </div>
           <div :class="$style.column">
             <div :class="$style.res_time_limit">
               回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
             </div>
-            <div :class="$style.modified_at">
+            <div
+              v-if="isResponseType(questionnaire)"
+              :class="$style.modified_answered_at"
+            >
+              回答日: {{ getRelativeTime(questionnaire.modified_at) }}
+            </div>
+            <div v-else :class="$style.modified_answered_at">
               更新日: {{ getRelativeTime(questionnaire.modified_at) }}
             </div>
-            <div>
-              {{ questionnaire.description }}
-            </div>
+          </div>
+          <div
+            v-if="!isResponseType(questionnaire)"
+            :class="$style.description"
+          >
+            {{ questionnaire.description }}
           </div>
         </div>
         <Icon :name="'chevron-right'" />
@@ -35,14 +49,15 @@ import Icon from '/@/components/UI/Icon.vue'
 import type {
   QuestionnaireForList,
   QuestionnaireMyAdministrates,
-  QuestionnaireMyTargeted
+  QuestionnaireMyTargeted,
+  ResponseSummary
 } from '/@/lib/apis'
 import { getTimeLimit, getRelativeTime } from './use/useOptions'
-
 type Questionnaire =
   | QuestionnaireForList
   | QuestionnaireMyAdministrates
   | QuestionnaireMyTargeted
+  | ResponseSummary
 
 export default defineComponent({
   name: 'CardContentDetail',
@@ -64,7 +79,18 @@ export default defineComponent({
         return questionnaire.all_responded
       }
     }
-    return { getTimeLimit, getRelativeTime, isResponded }
+    const isResponseType = (
+      questionnaire: Questionnaire
+    ): questionnaire is ResponseSummary => {
+      return 'responseID' in questionnaire
+    }
+
+    return {
+      getTimeLimit,
+      getRelativeTime,
+      isResponded,
+      isResponseType
+    }
   }
 })
 </script>
@@ -97,13 +123,25 @@ export default defineComponent({
   margin: 0.5rem 0;
   align-items: center;
   display: grid;
-  @include size-body-small;
+  @include size-body-small-3;
   grid-template-columns: 50%;
+}
+.title {
+  @include weight-bold;
+  @include size-head-small;
 }
 .res_time_limit {
   grid-row: 1/2;
   grid-column: 1/2;
   text-align: left;
+}
+.modified_answered_at {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  text-align: left;
+}
+.description {
+  @include size-body-small-4;
 }
 .questionnaire {
   display: flex;
@@ -112,10 +150,5 @@ export default defineComponent({
 }
 .content {
   flex-grow: 1;
-}
-.modified_at {
-  grid-row: 1/2;
-  grid-column: 2/3;
-  text-align: left;
 }
 </style>
