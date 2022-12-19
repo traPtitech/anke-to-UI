@@ -6,7 +6,11 @@
   >
     <router-link
       :class="$style.table_item"
-      :to="`/questionnaires/${questionnaire.questionnaireID}`"
+      :to="
+        isResponseType(questionnaire)
+          ? `/questionnaires/responses/${questionnaire.responseID}`
+          : `/questionnaires/${questionnaire.questionnaireID}`
+      "
     >
       <div :class="$style.questionnaire">
         <div :class="$style.content">
