@@ -3,14 +3,14 @@
     <CardWithHeader>
       <template #header>自分が管理者になっているアンケート</template>
       <template #content>
-        <transition name="fadeAdministrates">
+        <FadeTransition>
           <div v-if="isFetched">
             <CardContentDetail :questionnaires="questionnaires" />
           </div>
           <div v-else>
             <CardContentDetailMock />
           </div>
-        </transition>
+        </FadeTransition>
       </template>
     </CardWithHeader>
   </div>
@@ -23,13 +23,15 @@ import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
 import apis, { QuestionnaireMyAdministrates } from '/@/lib/apis'
+import FadeTransition from '/@/components/UI/FadeTransition.vue'
 
 export default defineComponent({
   name: 'Administrates',
   components: {
     CardWithHeader,
     CardContentDetail,
-    CardContentDetailMock
+    CardContentDetailMock,
+    FadeTransition
   },
   setup() {
     useTitle(ref('回答対象のアンケート一覧'))
@@ -51,15 +53,5 @@ export default defineComponent({
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
-}
-:global {
-  .fadeAdministrates-enter-active,
-  .fadeAdministrates-leave-active {
-    transition: opacity 0.2s;
-  }
-  .fadeAdministrates-enter-from,
-  .fadeAdministrates-leave-to {
-    opacity: 0;
-  }
 }
 </style>

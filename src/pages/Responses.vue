@@ -3,14 +3,14 @@
     <CardWithHeader>
       <template #header>自分の回答</template>
       <template #content>
-        <transition name="fadeResponse">
+        <FadeTransition>
           <div v-if="isFetched">
             <CardContentDetail :questionnaires="responseSummaries" />
           </div>
           <div v-else>
             <CardContentDetailMock :is-response="true" />
           </div>
-        </transition>
+        </FadeTransition>
       </template>
     </CardWithHeader>
   </div>
@@ -22,13 +22,15 @@ import CardWithHeader from '/@/components/UI/CardWithHeader.vue'
 import apis, { ResponseSummary } from '/@/lib/apis'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
+import FadeTransition from '/@/components/UI/FadeTransition.vue'
 
 export default defineComponent({
   name: 'Responses',
   components: {
     CardWithHeader,
     CardContentDetail,
-    CardContentDetailMock
+    CardContentDetailMock,
+    FadeTransition
   },
   setup() {
     const responseSummaries = ref<ResponseSummary[]>([])
@@ -37,6 +39,7 @@ export default defineComponent({
       const { data } = await apis.getMyResponses()
       responseSummaries.value = data
       isFetched.value = true
+      console.log(responseSummaries.value)
     })
     return {
       responseSummaries,
@@ -51,15 +54,5 @@ export default defineComponent({
   max-width: 720px;
   margin-right: auto;
   margin-left: auto;
-}
-:global {
-  .fadeResponse-enter-active,
-  .fadeResponse-leave-active {
-    transition: opacity 0.2s;
-  }
-  .fadeResponse-enter-from,
-  .fadeResponse-leave-to {
-    opacity: 0;
-  }
 }
 </style>

@@ -10,14 +10,14 @@
     </div>
     <Card :has-padding="false">
       <template #content>
-        <transition name="fadeExplore">
+        <FadeTransition>
           <div v-if="isFetched">
             <CardContentDetail :questionnaires="questionnaires" />
           </div>
           <div v-else>
             <CardContentDetailMock />
           </div>
-        </transition>
+        </FadeTransition>
       </template>
     </Card>
   </div>
@@ -33,6 +33,7 @@ import { Option } from '/@/components/UI/use/useOptions'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
+import FadeTransition from '/@/components/UI/FadeTransition.vue'
 
 export default defineComponent({
   name: 'Explorer',
@@ -41,7 +42,8 @@ export default defineComponent({
     SearchInput,
     Card,
     CardContentDetail,
-    CardContentDetailMock
+    CardContentDetailMock,
+    FadeTransition
   },
   setup() {
     useTitle(ref('アンケート一覧'))
@@ -111,15 +113,5 @@ export default defineComponent({
 }
 .search {
   flex-grow: 1;
-}
-:global {
-  .fadeExplore-enter-active,
-  .fadeExplore-leave-active {
-    transition: opacity 0.2s;
-  }
-  .fadeExplore-enter-from,
-  .fadeExplore-leave-to {
-    opacity: 0;
-  }
 }
 </style>
