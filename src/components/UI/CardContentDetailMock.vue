@@ -17,7 +17,7 @@
             <div :class="$style.box"></div>
           </td>
         </div>
-        <div v-if="!isResponse" :class="$style.box_description"></div>
+        <div :class="$style.box_description"></div>
       </div>
       <Icon :name="'chevron-right'" />
     </div>
@@ -31,12 +31,6 @@ export default defineComponent({
   name: 'QuestionnaireTableRowMock',
   components: {
     Icon
-  },
-  props: {
-    isResponse: {
-      type: Boolean,
-      default: false
-    }
   }
 })
 </script>

@@ -8,7 +8,7 @@
             <CardContentDetail :questionnaires="responseSummaries" />
           </div>
           <div v-else>
-            <CardContentDetailMock :is-response="true" />
+            <CardContentDetailMock />
           </div>
         </FadeTransition>
       </template>
@@ -39,7 +39,6 @@ export default defineComponent({
       const { data } = await apis.getMyResponses()
       responseSummaries.value = data
       isFetched.value = true
-      console.log(responseSummaries.value)
     })
     return {
       responseSummaries,
