@@ -118,6 +118,9 @@ export default defineComponent({
   &:last-child {
     border: none;
   }
+  &:only-child {
+    border-radius: 8px;
+  }
 }
 .table_item {
   text-decoration: none;
