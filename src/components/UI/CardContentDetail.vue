@@ -34,10 +34,7 @@
               更新日: {{ getRelativeTime(questionnaire.modified_at) }}
             </div>
           </div>
-          <div
-            v-if="!isResponseType(questionnaire)"
-            :class="$style.description"
-          >
+          <div :class="$style.description">
             {{ questionnaire.description }}
           </div>
         </div>
