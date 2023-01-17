@@ -18,6 +18,10 @@
   line-height: 20px;
 }
 
+@mixin size-body-2 {
+  font-size: 16px;
+  line-height: 24px;
+}
 @mixin size-body-small {
   font-size: 14px;
   line-height: 18px;
