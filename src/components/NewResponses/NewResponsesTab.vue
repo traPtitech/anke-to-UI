@@ -51,8 +51,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
-import { QuestionDetails, QuestionnaireByID, QuestionType } from '/@/lib/apis'
+import { defineComponent, PropType, ref, watch } from 'vue'
+import {
+  QuestionDetails,
+  QuestionnaireByID,
+  QuestionType,
+  ResponseBody
+} from '/@/lib/apis'
 import Card from '/@/components/UI/Card.vue'
 import InputQuestionCard from './InputQuestionCard.vue'
 import ChoiceQuestionCard from './ChoiceQuestionCard.vue'
@@ -77,7 +82,11 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    'update:responsebody': (value: ResponseBody[]) => true
+  },
+  setup(props, context) {
     const newResponses = ref(createResponses(props.questioncontents))
     const updateInput = (i: number, value: string) => {
       newResponses.value[i].response = value
@@ -88,6 +97,9 @@ export default defineComponent({
     const updateLinearScale = (i: number, value: string) => {
       newResponses.value[i].response = value
     }
+    watch(newResponses.value, () => {
+      context.emit('update:responsebody', newResponses.value)
+    })
     return {
       QuestionType,
       newResponses,
