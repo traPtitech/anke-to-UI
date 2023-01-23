@@ -4,7 +4,7 @@
     <template #content>
       <ul>
         <li v-for="data in myResponses" :key="data.modified_at">
-          <router-link :to="`'/responses/'${data.responseID}`">{{
+          <router-link :to="`/responses/${data.responseID}`">{{
             data.submitted_at
           }}</router-link
           ><Icon :name="'trash-can-outline'" />
