@@ -55,6 +55,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 .content {
   @include weight-bold;
