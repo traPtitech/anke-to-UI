@@ -12,84 +12,23 @@
       :is-current="current === 1"
       @click="updatePage(1)"
     />
-    <div
-      v-if="current < 5 || totalPage <= 7"
-      :class="$style.pagination_wrapper"
-    >
-      <PaginationButton
-        v-if="totalPage > 2"
-        :number="2"
-        :is-current="current === 2"
-        @click="updatePage(2)"
-      />
-      <PaginationButton
-        v-if="totalPage > 3"
-        :number="3"
-        :is-current="current === 3"
-        @click="updatePage(3)"
-      />
-      <PaginationButton
-        v-if="totalPage > 4"
-        :number="4"
-        :is-current="current === 4"
-        @click="updatePage(4)"
-      />
-      <PaginationButton
-        v-if="totalPage > 5"
-        :number="5"
-        :is-current="current === 5"
-        @click="updatePage(5)"
-      />
-      <icon v-if="totalPage > 7" name="dots-horizontal" :class="$style.dots" />
-      <PaginationButton
-        v-else-if="totalPage > 6"
-        :number="6"
-        :is-current="current === 6"
-        @click="updatePage(6)"
-      />
-    </div>
-    <div v-else-if="current > totalPage - 3" :class="$style.pagination_wrapper">
-      <icon name="dots-horizontal" :class="$style.dots" />
-      <PaginationButton
-        :number="totalPage - 4"
-        :is-current="current === totalPage - 4"
-        @click="updatePage(totalPage - 4)"
-      />
-      <PaginationButton
-        :number="totalPage - 3"
-        :is-current="current === totalPage - 3"
-        @click="updatePage(totalPage - 3)"
-      />
-      <PaginationButton
-        :number="totalPage - 2"
-        :is-current="current === totalPage - 2"
-        @click="updatePage(totalPage - 2)"
-      />
-      <PaginationButton
-        :number="totalPage - 1"
-        :is-current="current === totalPage - 1"
-        @click="updatePage(totalPage - 1)"
-      />
-    </div>
-    <div v-else :class="$style.pagination_wrapper">
-      <icon name="dots-horizontal" :class="$style.dots" />
-      <PaginationButton
-        :number="current - 1"
-        :is-current="false"
-        @click="updatePage(current - 1)"
-      />
-      <PaginationButton
-        :number="current"
-        :is-current="true"
-        @click="updatePage(current)"
-      />
-      <PaginationButton
-        :number="current + 1"
-        :is-current="false"
-        @click="updatePage(current + 1)"
-      />
-      <icon name="dots-horizontal" :class="$style.dots" />
-    </div>
+    <icon
+      v-if="centerIndexes.at(0) && centerIndexes.at(0)! > 2"
+      name="dots-horizontal"
+      :class="$style.dots"
+    />
+    <PaginationButton
+      v-for="(page, key) in centerIndexes"
+      :key="key"
+      :number="page"
+      :is-current="current === page"
+      @click="updatePage(page)"
+    />
+    <icon
+      v-if="centerIndexes.at(-1) && totalPage - centerIndexes.at(-1)! > 1"
+      name="dots-horizontal"
+      :class="$style.dots"
+    />
     <PaginationButton
       v-if="totalPage >= 2"
       :number="totalPage"
@@ -97,7 +36,7 @@
       @click="updatePage(totalPage)"
     />
     <icon
-      v-if="current == totalPage"
+      v-if="current === totalPage"
       name="chevron-right"
       :class="$style.disabled"
     />
@@ -111,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import Icon from './Icon.vue'
 import PaginationButton from './PaginationButton.vue'
 
@@ -139,7 +78,42 @@ export default defineComponent({
     const updatePage = (page: number) => {
       context.emit('updatePage', page)
     }
-    return { updatePage }
+    const centerIndexes = computed(() => {
+      const min = 2
+      const max = props.totalPage - 1
+      const expandEdge = (arr: number[]) => {
+        const res = [...arr]
+        if (res.at(0) === 2) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          res.push(res.at(-1)! + 1)
+        }
+        if (res.at(-1) === props.totalPage - 1) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          res.unshift(res.at(0)! - 1)
+        }
+        if (res.at(0) === 3) {
+          res.unshift(2)
+        }
+        if (res.at(-1) === props.totalPage - 2) {
+          res.push(props.totalPage - 1)
+        }
+        return res.filter(v => v >= min && v <= max)
+      }
+
+      if (props.current <= min) {
+        return expandEdge([3, 4, 5])
+      }
+      if (props.current >= max) {
+        return expandEdge([
+          props.totalPage - 4,
+          props.totalPage - 3,
+          props.totalPage - 2
+        ])
+      }
+
+      return expandEdge([props.current - 1, props.current, props.current + 1])
+    })
+    return { updatePage, centerIndexes }
   }
 })
 </script>
