@@ -127,6 +127,7 @@ export default defineComponent({
 }
 .dots {
   color: $ui-primary;
+  margin: 0 0.625rem;
 }
 .disabled {
   cursor: not-allowed;
