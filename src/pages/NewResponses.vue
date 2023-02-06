@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useTitle } from '/@/pages/use/title'
 import apis, {
   PostResponse,
@@ -48,6 +48,7 @@ export default defineComponent({
   components: { NewResponsesTab, KeepAnswerButton },
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const questionnaire = ref<QuestionnaireByID | null>(null)
     const questioncontents = ref<QuestionDetails[]>([])
     const responseBody = ref<ResponseBody[]>([])
@@ -65,13 +66,15 @@ export default defineComponent({
       useTitle(ref(`${qdata.data.title}`))
     })
 
-    const keepNewResponses = () => {
+    const keepNewResponses = async () => {
       const responses = makeResponses(true)
-      apis.postResponse(responses)
+      const post = await apis.postResponse(responses)
+      router.push(`/responses/${post.data.responseID}`)
     }
-    const answerNewResponses = () => {
+    const answerNewResponses = async () => {
       const responses = makeResponses(false)
-      apis.postResponse(responses)
+      const post = await apis.postResponse(responses)
+      router.push(`/responses/${post.data.responseID}`)
     }
     const makeResponses = (tmp: boolean): PostResponse => {
       const date = new Date()
