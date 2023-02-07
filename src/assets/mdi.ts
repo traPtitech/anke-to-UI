@@ -24,7 +24,10 @@ import {
   mdiSend,
   mdiChartAreaspline,
   mdiDotsHorizontal,
-  mdiContentCopy
+  mdiContentCopy,
+  mdiFormSelect,
+  mdiHistory,
+  mdiAutoFix
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -53,7 +56,10 @@ const mdi = new Map<string, string>([
   ['send', mdiSend],
   ['chart', mdiChartAreaspline],
   ['dots-horizontal', mdiDotsHorizontal],
-  ['content-copy', mdiContentCopy]
+  ['content-copy', mdiContentCopy],
+  ['form-select', mdiFormSelect],
+  ['history', mdiHistory],
+  ['auto-fix', mdiAutoFix]
 ])
 
 export default mdi

@@ -2,6 +2,12 @@
   font-size: 24px;
   line-height: 28px;
 }
+
+@mixin size-sidebar {
+  font-size: 18px;
+  line-height: 27px;
+}
+
 @mixin size-title {
   font-size: 20px;
   line-height: 24px;
