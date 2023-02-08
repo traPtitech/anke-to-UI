@@ -10,14 +10,14 @@
     </div>
     <Card :has-padding="false">
       <template #content>
-        <transition name="fadeExplore">
+        <FadeTransition>
           <div v-if="isFetched">
             <CardContentDetail :questionnaires="questionnaires" />
           </div>
           <div v-else>
             <CardContentDetailMock />
           </div>
-        </transition>
+        </FadeTransition>
       </template>
     </Card>
   </div>
@@ -33,6 +33,7 @@ import { Option } from '/@/components/UI/use/useOptions'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
+import FadeTransition from '/@/components/UI/FadeTransition.vue'
 
 export default defineComponent({
   name: 'Explorer',
@@ -41,7 +42,8 @@ export default defineComponent({
     SearchInput,
     Card,
     CardContentDetail,
-    CardContentDetailMock
+    CardContentDetailMock,
+    FadeTransition
   },
   setup() {
     useTitle(ref('アンケート一覧'))
@@ -51,7 +53,7 @@ export default defineComponent({
     const option = ref<Option>({
       sort: SortType.ModifiedAtDESC,
       page: 1,
-      nontargeted: 'true'
+      nontargeted: true
     })
     const searchQuery = ref('')
     const isFetched = ref(false)
@@ -61,7 +63,7 @@ export default defineComponent({
           option.value.sort,
           searchQuery.value,
           option.value.page,
-          option.value.nontargeted === 'true'
+          option.value.nontargeted
         )
         questionnaires.value = data.questionnaires
         isFetched.value = true
@@ -98,22 +100,18 @@ export default defineComponent({
 
 <style lang="scss" module>
 .page_wrapper {
-  max-width: 1280px;
+  max-width: 720px;
+  margin-right: auto;
+  margin-left: auto;
 }
 .tool_wrapper {
-  padding: 1rem 0rem;
+  padding: 1rem 0rem 2rem 0rem;
   display: flex;
   flex-wrap: wrap;
+  gap: 5rem;
   row-gap: 1rem;
 }
-:global {
-  .fadeExplore-enter-active,
-  .fadeExplore-leave-active {
-    transition: opacity 0.2s;
-  }
-  .fadeExplore-enter-from,
-  .fadeExplore-leave-to {
-    opacity: 0;
-  }
+.search {
+  flex-grow: 1;
 }
 </style>

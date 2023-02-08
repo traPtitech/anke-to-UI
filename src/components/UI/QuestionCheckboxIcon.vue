@@ -46,6 +46,7 @@ export default defineComponent({
 .check {
   display: inline-block;
   cursor: pointer;
+  background-color: $ui-white;
   height: 16px;
   width: 16px;
   border: 2px solid $ui-secondary;

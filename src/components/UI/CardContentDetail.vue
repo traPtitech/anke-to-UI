@@ -6,26 +6,39 @@
   >
     <router-link
       :class="$style.table_item"
-      :to="`/questionnaires/${questionnaire.questionnaireID}`"
+      :to="
+        isResponseType(questionnaire)
+          ? `/questionnaires/responses/${questionnaire.responseID}`
+          : `/questionnaires/${questionnaire.questionnaireID}`
+      "
     >
-      <LinkIconQuestion
-        :id="questionnaire.questionnaireID"
-        :title="questionnaire.title"
-        :iconsize="24"
-        :textsize="20"
-        :is-responded="isResponded(questionnaire)"
-        :with-icon="!!isResponded(questionnaire)"
-      ></LinkIconQuestion>
-      <div :class="$style.column">
-        <div :class="$style.res_time_limit">
-          回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+      <div :class="$style.questionnaire">
+        <div :class="$style.content">
+          <div v-if="!isResponseType(questionnaire)" :class="$style.title">
+            {{ questionnaire.title }}
+          </div>
+          <div v-else :class="$style.title">
+            {{ questionnaire.questionnaire_title }}
+          </div>
+          <div :class="$style.column">
+            <div :class="$style.res_time_limit">
+              回答期限: {{ getTimeLimit(questionnaire.res_time_limit) }}
+            </div>
+            <div
+              v-if="isResponseType(questionnaire)"
+              :class="$style.modified_answered_at"
+            >
+              回答日: {{ getRelativeTime(questionnaire.modified_at) }}
+            </div>
+            <div v-else :class="$style.modified_answered_at">
+              更新日: {{ getRelativeTime(questionnaire.modified_at) }}
+            </div>
+          </div>
+          <div :class="$style.description">
+            {{ questionnaire.description }}
+          </div>
         </div>
-        <div :class="$style.modified_at">
-          更新日: {{ getRelativeTime(questionnaire.modified_at) }}
-        </div>
-      </div>
-      <div>
-        {{ questionnaire.description }}
+        <Icon :name="'chevron-right'" />
       </div>
     </router-link>
   </div>
@@ -33,23 +46,24 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import LinkIconQuestion from '/@/components/UI/LinkIconQuestion.vue'
+import Icon from '/@/components/UI/Icon.vue'
 import type {
   QuestionnaireForList,
   QuestionnaireMyAdministrates,
-  QuestionnaireMyTargeted
+  QuestionnaireMyTargeted,
+  ResponseSummary
 } from '/@/lib/apis'
 import { getTimeLimit, getRelativeTime } from './use/useOptions'
-
 type Questionnaire =
   | QuestionnaireForList
   | QuestionnaireMyAdministrates
   | QuestionnaireMyTargeted
+  | ResponseSummary
 
 export default defineComponent({
   name: 'CardContentDetail',
   components: {
-    LinkIconQuestion
+    Icon
   },
   props: {
     questionnaires: {
@@ -66,7 +80,18 @@ export default defineComponent({
         return questionnaire.all_responded
       }
     }
-    return { getTimeLimit, getRelativeTime, isResponded }
+    const isResponseType = (
+      questionnaire: Questionnaire
+    ): questionnaire is ResponseSummary => {
+      return 'responseID' in questionnaire
+    }
+
+    return {
+      getTimeLimit,
+      getRelativeTime,
+      isResponded,
+      isResponseType
+    }
   }
 })
 </script>
@@ -74,21 +99,24 @@ export default defineComponent({
 <style lang="scss" module>
 .container {
   text-align: left;
-  padding: 1rem;
-  border-bottom: solid 1px $border;
   position: relative;
   transition: 0.2s;
+  padding: 1rem;
+  border-bottom: solid 1px $border;
   &:hover {
     background-color: $bg-secondary-highlight;
-    &:first-child {
-      border-radius: 8px 8px 0 0;
-    }
-    &:last-child {
-      border-radius: 0 0 8px 8px;
-    }
+  }
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 8px 8px;
   }
   &:last-child {
     border: none;
+  }
+  &:only-child {
+    border-radius: 8px;
   }
 }
 .table_item {
@@ -99,16 +127,32 @@ export default defineComponent({
   margin: 0.5rem 0;
   align-items: center;
   display: grid;
+  @include size-body-small-3;
   grid-template-columns: 50%;
+}
+.title {
+  @include weight-bold;
+  @include size-head-small;
 }
 .res_time_limit {
   grid-row: 1/2;
   grid-column: 1/2;
   text-align: left;
 }
-.modified_at {
+.modified_answered_at {
   grid-row: 1/2;
   grid-column: 2/3;
   text-align: left;
+}
+.description {
+  @include size-body-small-4;
+}
+.questionnaire {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.content {
+  flex-grow: 1;
 }
 </style>
