@@ -1,93 +1,62 @@
 <template>
   <div :class="$style.container">
-    <dropdown-menu
+    <DropdownForm
       v-model="optionStr.sort"
-      title="並べ替え"
       :contents="sortOrders"
-      :is-open="state.isOpenSort"
-      @open="openSort"
-      @close="closeMenus"
       @update:model-value="change"
     />
-    <dropdown-menu
-      v-model="optionStr.nontargeted"
-      title="フィルター"
-      :contents="targetedOptions"
-      :is-open="state.isOpenOption"
-      @open="openOption"
-      @close="closeMenus"
-      @update:model-value="change"
-    />
+    <div :class="$style.checkbox">
+      <label :class="$style.label">
+        <Checkbox :is-checked="optionStr.nontargeted" @input="changecheck" />
+        <div :class="$style.content">対象外のみ</div>
+      </label>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import DropdownMenu from '../UI/DropdownMenu.vue'
-import {
-  Option,
-  sortOrderMap,
-  targetedOptionMap,
-  stringToOption
-} from './use/useOptions'
+import Checkbox from './QuestionCheckboxIcon.vue'
+import DropdownForm from './DropdownForm.vue'
+import { Option, sortOrderMap, stringToOption } from './use/useOptions'
 
 export default defineComponent({
   name: 'Menus',
   components: {
-    DropdownMenu
+    DropdownForm,
+    Checkbox
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     change: (value: Option) => true
   },
   setup(props, context) {
-    const state = ref({
-      isOpenSort: false,
-      isOpenOption: false
-    })
     const optionStr = ref({
       sort: '最近更新された',
       page: 1,
-      nontargeted: '全て'
+      nontargeted: false
     })
 
     const sortOrders = sortOrderMap.map(v => v[0])
-    const targetedOptions = targetedOptionMap.map(v => v[0])
-
-    const openSort = () => {
-      state.value.isOpenSort = !state.value.isOpenSort
-      state.value.isOpenOption = false
-    }
-    const openOption = () => {
-      state.value.isOpenOption = !state.value.isOpenOption
-      state.value.isOpenSort = false
-    }
-    const closeMenus = () => {
-      state.value.isOpenSort = false
-      state.value.isOpenOption = false
-    }
 
     const change = () => {
       const option = {
         sort: stringToOption(optionStr.value.sort, new Map(sortOrderMap)),
         page: optionStr.value.page,
-        nontargeted: stringToOption(
-          optionStr.value.nontargeted,
-          new Map(targetedOptionMap)
-        )
+        nontargeted: optionStr.value.nontargeted
       }
       context.emit('change', option)
     }
+    const changecheck = () => {
+      optionStr.value.nontargeted = !optionStr.value.nontargeted
+      change()
+    }
 
     return {
-      state,
       sortOrders,
-      targetedOptions,
-      openSort,
-      openOption,
-      closeMenus,
       optionStr,
-      change
+      change,
+      changecheck
     }
   }
 })
@@ -97,6 +66,27 @@ export default defineComponent({
 .container {
   position: relative;
   display: flex;
+  align-items: center;
   column-gap: 1rem;
+  gap: 24px;
+}
+.checkbox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+}
+.content {
+  @include size-body-small-3;
+  margin-left: 8px;
 }
 </style>

@@ -6,18 +6,14 @@
       :size="iconsize"
       :class="$style.icon"
     />
-    <router-link
-      :to="`/questionnaires/${id}`"
-      :class="$style.link"
-      :style="fontSize"
-    >
+    <router-link :to="`/questionnaires/${id}`" :class="$style.link">
       {{ title }}
     </router-link>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent } from 'vue'
 import SwitchIcon from '/@/components/UI/SwitchIcon.vue'
 
 export default defineComponent({
@@ -38,11 +34,6 @@ export default defineComponent({
       type: Number,
       default: 24
     },
-    textsize: {
-      type: Number,
-      required: false,
-      default: 24
-    },
     isResponded: {
       type: Boolean,
       default: false
@@ -52,11 +43,8 @@ export default defineComponent({
       default: true
     }
   },
-  setup(props) {
-    const fontSize = computed(() => `font-size: ${props.textsize}px;`)
-    return {
-      fontSize
-    }
+  setup() {
+    return {}
   }
 })
 </script>
@@ -69,10 +57,12 @@ export default defineComponent({
 }
 .link {
   cursor: pointer;
-  color: #92413b;
+  color: $ui-primary;
+  @include size-head-small;
+  @include weight-bold;
   text-decoration: none;
   &:hover {
-    color: #cfb998;
+    opacity: 0.5;
   }
   margin-left: 8px;
 }

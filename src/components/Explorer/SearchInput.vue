@@ -2,7 +2,7 @@
   <div :class="$style.container">
     <input
       type="text"
-      placeholder="検索"
+      placeholder="アンケート名で検索"
       :class="$style.input"
       :value="modelValue"
       @input="update"
@@ -35,7 +35,7 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    const update = (e: InputEvent) => {
+    const update = (e: Event) => {
       context.emit('update:modelValue', (e.target as HTMLInputElement).value)
     }
     const search = () => {
@@ -53,14 +53,14 @@ export default defineComponent({
   margin-right: auto;
 }
 .input {
-  border: solid 0.1rem #cfb998;
-  border-right: none;
+  border: none;
+  outline: none;
   border-radius: 0.25rem 0 0 0.25rem;
-  width: 14rem;
+  width: 100%;
   padding-left: 1rem;
   &::placeholder {
-    font-size: 1rem;
-    color: #a0a0a0;
+    @include size-body-small-3;
+    color: $ui-secondary;
   }
 }
 .searchIcon {
@@ -71,17 +71,17 @@ export default defineComponent({
     height: 1.25rem;
     width: 1.5rem;
     padding: 0.3rem;
-    color: #ffffff;
+    color: $ui-white;
   }
 }
 .button {
-  background-color: #92413b;
-  border: solid 0.1rem #92413b;
+  background-color: $accent-primary;
+  border: solid 0.1rem $accent-primary;
   padding: 0;
   cursor: pointer;
   &:hover {
-    background-color: #811818;
-    border: solid 0.1rem #811818;
+    background-color: $accent-primary-highlight;
+    border: solid 0.1rem $accent-primary-highlight;
   }
 }
 </style>

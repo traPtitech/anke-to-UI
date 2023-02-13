@@ -47,7 +47,7 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   align-items: center;
-  @include size-sidebar;
+  @include size-head-small;
   @include weight-bold;
   gap: 8px;
   position: relative;
