@@ -21,7 +21,7 @@
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@types/node": "^18.11.10",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.42.0",
     "@vitejs/plugin-vue": "^2.3.4",
     "@vue/compiler-sfc": "^3.2.41",
