@@ -68,13 +68,13 @@ export default defineComponent({
 
     const keepNewResponses = async () => {
       const responses = makeResponses(true)
-      const post = await apis.postResponse(responses)
-      router.push(`/responses/${post.data.responseID}`)
+      await apis.postResponse(responses)
+      router.push(`/results/${questionnaire.value?.questionnaireID}`)
     }
     const answerNewResponses = async () => {
       const responses = makeResponses(false)
-      const post = await apis.postResponse(responses)
-      router.push(`/responses/${post.data.responseID}`)
+      await apis.postResponse(responses)
+      router.push(`/results/${questionnaire.value?.questionnaireID}`)
     }
     const makeResponses = (tmp: boolean): PostResponse => {
       const date = new Date()
