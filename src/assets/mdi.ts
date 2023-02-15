@@ -25,7 +25,8 @@ import {
   mdiContentCopy,
   mdiFormSelect,
   mdiHistory,
-  mdiAutoFix
+  mdiAutoFix,
+  mdiTrashCanOutline
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -55,7 +56,8 @@ const mdi = new Map<string, string>([
   ['content-copy', mdiContentCopy],
   ['form-select', mdiFormSelect],
   ['history', mdiHistory],
-  ['auto-fix', mdiAutoFix]
+  ['auto-fix', mdiAutoFix],
+  ['trash-can-outline', mdiTrashCanOutline]
 ])
 
 export default mdi
