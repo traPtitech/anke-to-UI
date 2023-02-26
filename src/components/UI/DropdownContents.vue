@@ -75,6 +75,7 @@ export default defineComponent({
   }
 }
 .dropdownMenu {
+  width: 100%;
   position: absolute;
   margin-top: 0.5rem;
   border-radius: 4px;
