@@ -2,6 +2,12 @@
   <div :class="$style.container">
     <div :class="$style.title">新規アンケートの作成</div>
     <Tab v-model="selectedTab" :tabs="detailTabs" />
+    <NewInformation
+      v-if="selectedTab === NewInformationTabName"
+      :key="reset"
+      v-model:data="newQuestionnaire"
+      @clear="clear"
+    />
     <Questions v-if="selectedTab === NewQuestionsTabName" />
   </div>
 </template>
@@ -13,15 +19,19 @@ import {
   NewInformationTabName,
   NewQuestionsTabName,
   NewQuestionnaireTabTypes,
-  detailTabs
+  detailTabs,
+  prenewQuestionnaire
 } from '/@/components/NewQuestionnaire/use/utils'
+import apis, { NewQuestionnaire } from '/@/lib/apis'
 import Tab from '/@/components/UI/Tab.vue'
 import Questions from '/@/components/NewQuestionnaire/Questions.vue'
+import NewInformation from '/@/components/NewInformation/NewInformationTab.vue'
 
 export default defineComponent({
   name: 'NewQuestionnaire',
   components: {
     Questions,
+    NewInformation,
     Tab
   },
   props: {},
@@ -29,6 +39,14 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const selectedTab = ref<NewQuestionnaireTabTypes>(NewInformationTabName)
+    const newQuestionnaire = ref<NewQuestionnaire>(prenewQuestionnaire())
+    const reset = ref(0)
+    const me = ref('')
+    const clear = () => {
+      newQuestionnaire.value = prenewQuestionnaire()
+      newQuestionnaire.value.administrators.push(me.value)
+      reset.value++
+    }
 
     const getTabLink = (tab: string) => ({
       path: route.path,
@@ -37,9 +55,13 @@ export default defineComponent({
       }
     })
 
-    onMounted(() => {
+    onMounted(async () => {
       selectedTab.value =
         <NewQuestionnaireTabTypes>route.query.tab || NewInformationTabName
+      const user = await apis.getUsersMe()
+
+      me.value = user.data.traqID
+      newQuestionnaire.value.administrators.push(me.value)
     })
 
     const changeTab = (tab: string) => {
@@ -68,7 +90,10 @@ export default defineComponent({
       detailTabs,
       getTabLink,
       selectedTab,
-      changeTab
+      changeTab,
+      newQuestionnaire,
+      reset,
+      clear
     }
   }
 })
@@ -79,6 +104,9 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 720px;
+  margin-right: auto;
+  margin-left: auto;
 }
 .title {
   @include size-head;
