@@ -48,7 +48,7 @@ export default defineComponent({
       } else {
         type = ResShareType.Administrators
       }
-      context.emit('update:modelValue', type)
+      context.emit('update:modelValue', type as ResShareType)
     }
 
     return { shareType, shareTypelist, update }
