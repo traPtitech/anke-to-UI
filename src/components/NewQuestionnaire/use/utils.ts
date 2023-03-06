@@ -7,13 +7,15 @@ export const detailTabs: NewQuestionnaireTabTypes[] = [
   NewInformationTabName,
   NewQuestionsTabName
 ]
-export const prenewQuestionnaire: NewQuestionnaire = {
-  title: '',
-  description: '',
-  res_time_limit: '',
-  res_shared_to: ResShareType.Public,
-  targets: [],
-  administrators: []
+export const prenewQuestionnaire = (): NewQuestionnaire => {
+  return {
+    title: '',
+    description: '',
+    res_time_limit: `${new Date().toISOString().substring(0, 11)}23:59:00.000Z`,
+    res_shared_to: ResShareType.Public,
+    targets: [],
+    administrators: []
+  }
 }
 export const questionTypes = {
   Text: {
