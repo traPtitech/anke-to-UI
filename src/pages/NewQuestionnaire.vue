@@ -1,7 +1,6 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.title">新規アンケートの作成</div>
-    <div>{{ newQuestionnaire }}</div>
     <Tab v-model="selectedTab" :tabs="detailTabs" />
     <NewInformation
       v-if="selectedTab === NewInformationTabName"
