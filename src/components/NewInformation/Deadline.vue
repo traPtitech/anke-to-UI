@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from 'vue'
+import { defineComponent, ref, watchEffect, onMounted } from 'vue'
 import ManipulationBase from './ManipulationBase.vue'
 import ToggleSwitch from '../UI/ToggleSwitch.vue'
 import DropdownDate from '../UI/DropdownDate.vue'
@@ -47,8 +47,15 @@ export default defineComponent({
   },
   setup(props, context) {
     const isChecked = ref(Boolean(props.modelValue))
+    const now = new Date().toISOString()
     const date = ref(props.modelValue.substring(0, 10))
     const time = ref(props.modelValue.substring(11, 16))
+    onMounted(() => {
+      if (!isChecked.value) {
+        date.value = now.substring(0, 10)
+        time.value = '23:59:00'
+      }
+    })
     watchEffect(() => {
       if (isChecked.value) {
         context.emit('update:modelValue', `${date.value}T${time.value}:00.000Z`)
