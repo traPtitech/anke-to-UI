@@ -1,6 +1,7 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.title">新規アンケートの作成</div>
+    <div>{{ newQuestionnaire }}</div>
     <Tab v-model="selectedTab" :tabs="detailTabs" />
     <NewInformation
       v-if="selectedTab === NewInformationTabName"
@@ -8,7 +9,10 @@
       v-model:data="newQuestionnaire"
       @clear="clear"
     />
-    <Questions v-if="selectedTab === NewQuestionsTabName" />
+    <Questions
+      v-if="selectedTab === NewQuestionsTabName"
+      v-model="newQuestions"
+    />
   </div>
 </template>
 
@@ -23,6 +27,7 @@ import {
   prenewQuestionnaire
 } from '/@/components/NewQuestionnaire/use/utils'
 import apis, { NewQuestionnaire } from '/@/lib/apis'
+import { NewQuestionData } from '/@/components/NewQuestionnaire/use/utils'
 import Tab from '/@/components/UI/Tab.vue'
 import Questions from '/@/components/NewQuestionnaire/Questions.vue'
 import NewInformation from '/@/components/NewInformation/NewInformationTab.vue'
@@ -40,10 +45,12 @@ export default defineComponent({
     const router = useRouter()
     const selectedTab = ref<NewQuestionnaireTabTypes>(NewInformationTabName)
     const newQuestionnaire = ref<NewQuestionnaire>(prenewQuestionnaire())
+    const newQuestions = ref<NewQuestionData[]>([])
     const reset = ref(0)
     const me = ref('')
     const clear = () => {
       newQuestionnaire.value = prenewQuestionnaire()
+      newQuestions.value = []
       newQuestionnaire.value.administrators.push(me.value)
       reset.value++
     }
@@ -92,6 +99,7 @@ export default defineComponent({
       selectedTab,
       changeTab,
       newQuestionnaire,
+      newQuestions,
       reset,
       clear
     }
