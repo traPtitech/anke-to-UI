@@ -46,7 +46,7 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    const isChecked = ref(false)
+    const isChecked = ref(Boolean(props.modelValue))
     const date = ref(props.modelValue.substring(0, 10))
     const time = ref(props.modelValue.substring(11, 16))
     watchEffect(() => {
