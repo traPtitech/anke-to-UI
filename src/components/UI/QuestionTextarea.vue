@@ -34,7 +34,7 @@ export default defineComponent({
     'update:modelValue': (value: string) => true
   },
   setup(props, context) {
-    const update = (e: InputEvent) => {
+    const update = (e: Event) => {
       context.emit('update:modelValue', (e.target as HTMLInputElement).value)
     }
 

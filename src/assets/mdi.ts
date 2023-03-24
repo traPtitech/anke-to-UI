@@ -27,7 +27,9 @@ import {
   mdiContentCopy,
   mdiFormSelect,
   mdiHistory,
-  mdiAutoFix
+  mdiAutoFix,
+  mdiContentSaveAllOutline,
+  mdiSendCircle
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
@@ -59,7 +61,9 @@ const mdi = new Map<string, string>([
   ['content-copy', mdiContentCopy],
   ['form-select', mdiFormSelect],
   ['history', mdiHistory],
-  ['auto-fix', mdiAutoFix]
+  ['auto-fix', mdiAutoFix],
+  ['content-save-all-outline', mdiContentSaveAllOutline],
+  ['send-circle', mdiSendCircle]
 ])
 
 export default mdi
