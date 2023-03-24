@@ -2,6 +2,9 @@ import { UserConfig } from 'vite'
 import path from 'path'
 import VuePlugin from '@vitejs/plugin-vue'
 import { PluginTrapAuth } from '@traptitech/vite-plugin-trap-auth'
+import dns from 'node:dns'
+
+dns.setDefaultResultOrder('ipv4first')
 
 const config: UserConfig = {
   server: {
