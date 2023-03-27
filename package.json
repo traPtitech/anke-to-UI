@@ -10,7 +10,7 @@
     "clean": "rimraf ./src/lib/apis/generated"
   },
   "dependencies": {
-    "@mdi/js": "^7.0.96",
+    "@mdi/js": "^7.2.96",
     "@traptitech/vite-plugin-trap-auth": "^0.3.1",
     "axios": "^1.2.2",
     "direct-vuex": "^0.12.1",
