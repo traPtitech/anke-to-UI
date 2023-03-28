@@ -2,6 +2,7 @@ import {
   mdiChevronDown,
   mdiChevronUp,
   mdiChevronRight,
+  mdiChevronLeft,
   mdiMagnify,
   mdiOpenInNew,
   mdiHelpCircleOutline,
@@ -22,17 +23,21 @@ import {
   mdiExportVariant,
   mdiSend,
   mdiChartAreaspline,
+  mdiDotsHorizontal,
   mdiContentCopy,
   mdiFormSelect,
   mdiHistory,
   mdiAutoFix,
-  mdiTrashCanOutline
+  mdiTrashCanOutline,
+  mdiContentSaveAllOutline,
+  mdiSendCircle
 } from '@mdi/js'
 
 const mdi = new Map<string, string>([
   ['chevron-down', mdiChevronDown],
   ['chevron-up', mdiChevronUp],
   ['chevron-right', mdiChevronRight],
+  ['chevron-left', mdiChevronLeft],
   ['magnify', mdiMagnify],
   ['open-in-new', mdiOpenInNew],
   ['help-circle-outline', mdiHelpCircleOutline],
@@ -53,11 +58,14 @@ const mdi = new Map<string, string>([
   ['export-variant', mdiExportVariant],
   ['send', mdiSend],
   ['chart', mdiChartAreaspline],
+  ['dots-horizontal', mdiDotsHorizontal],
   ['content-copy', mdiContentCopy],
   ['form-select', mdiFormSelect],
   ['history', mdiHistory],
   ['auto-fix', mdiAutoFix],
-  ['trash-can-outline', mdiTrashCanOutline]
+  ['trash-can-outline', mdiTrashCanOutline],
+  ['content-save-all-outline', mdiContentSaveAllOutline],
+  ['send-circle', mdiSendCircle]
 ])
 
 export default mdi

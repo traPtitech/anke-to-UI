@@ -20,6 +20,14 @@
         </FadeTransition>
       </template>
     </Card>
+    <div :class="$style.pagination_wrapper">
+      <Pagination
+        v-if="isFetched"
+        :current="option.page"
+        :total-page="pagemax"
+        @update-page="updatePage"
+      />
+    </div>
   </div>
 </template>
 
@@ -33,6 +41,7 @@ import { Option } from '/@/components/UI/use/useOptions'
 import Card from '/@/components/UI/Card.vue'
 import CardContentDetail from '/@/components/UI/CardContentDetail.vue'
 import CardContentDetailMock from '/@/components/UI/CardContentDetailMock.vue'
+import Pagination from '/@/components/UI/Pagination.vue'
 import FadeTransition from '/@/components/UI/FadeTransition.vue'
 
 export default defineComponent({
@@ -43,6 +52,7 @@ export default defineComponent({
     Card,
     CardContentDetail,
     CardContentDetailMock,
+    Pagination,
     FadeTransition
   },
   setup() {
@@ -57,6 +67,7 @@ export default defineComponent({
     })
     const searchQuery = ref('')
     const isFetched = ref(false)
+    const pagemax = ref(1)
     const getQuestionnaires = async () => {
       try {
         const { data } = await apis.getQuestionnaires(
@@ -66,6 +77,7 @@ export default defineComponent({
           option.value.nontargeted
         )
         questionnaires.value = data.questionnaires
+        pagemax.value = data.page_max - 1
         isFetched.value = true
       } catch (e) {
         // 今のところ質問がない時404が帰ってくる
@@ -77,9 +89,16 @@ export default defineComponent({
 
     const changeOption = (newOption: Option) => {
       option.value = newOption
+      option.value.page = 1
       getQuestionnaires()
     }
     const search = () => {
+      option.value.page = 1
+      getQuestionnaires()
+    }
+
+    const updatePage = (page: number) => {
+      option.value.page = page
       getQuestionnaires()
     }
 
@@ -92,7 +111,10 @@ export default defineComponent({
       searchQuery,
       changeOption,
       search,
-      isFetched
+      isFetched,
+      option,
+      updatePage,
+      pagemax
     }
   }
 })
@@ -113,5 +135,9 @@ export default defineComponent({
 }
 .search {
   flex-grow: 1;
+}
+.pagination_wrapper {
+  display: flex;
+  justify-content: center;
 }
 </style>
