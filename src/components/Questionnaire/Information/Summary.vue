@@ -1,6 +1,5 @@
 <template>
   <div :class="$style.container">
-    <div :class="$style.title">{{ questionnaire.title }}</div>
     <div :class="$style.dataAndShare">
       <div :class="[$style.date, isMobile ? $style.mobile : '']">
         <div>作成 : {{ getTimeLimit(questionnaire.created_at) }}</div>
@@ -49,11 +48,6 @@ export default defineComponent({
   gap: 1rem;
   display: flex;
   flex-direction: column;
-}
-.title {
-  @include size-head;
-  @include weight-bold;
-  text-align: left;
 }
 .description {
   @include size-body;

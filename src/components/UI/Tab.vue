@@ -102,18 +102,14 @@ export default defineComponent({
   position: sticky;
   top: -1.5em;
   color: $ui-secondary;
-  background: $bg-primary;
-  box-shadow: 0px 10px 10px $bg-primary;
   display: flex;
-  z-index: 10;
   justify-content: left;
   border-bottom: solid 1px $ui-secondary;
-  @include size-body;
-  @include weight-bold;
+  @include size-head-small;
   .tab {
-    padding: 0.75rem 3rem;
+    padding: 0.25rem 1.5rem;
     margin: 0.125rem 0;
-    border-radius: 100rem;
+    border-radius: 0.25rem;
     cursor: pointer;
     transition: all 0.2s;
     &:hover {

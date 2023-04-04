@@ -6,3 +6,6 @@ export const detailTabsQuestionnaire: DetailTabTypesQuestionnaire[] = [
   QuestionsTabName
 ]
 export type questionrangedetail = { [key: number]: number[] }
+
+export type TabTypes = '概要' | '自分の回答'
+export const tabTypes: TabTypes[] = ['概要', '自分の回答']

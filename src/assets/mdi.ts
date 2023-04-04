@@ -28,6 +28,7 @@ import {
   mdiFormSelect,
   mdiHistory,
   mdiAutoFix,
+  mdiTrashCanOutline,
   mdiContentSaveAllOutline,
   mdiSendCircle
 } from '@mdi/js'
@@ -62,6 +63,7 @@ const mdi = new Map<string, string>([
   ['form-select', mdiFormSelect],
   ['history', mdiHistory],
   ['auto-fix', mdiAutoFix],
+  ['trash-can-outline', mdiTrashCanOutline],
   ['content-save-all-outline', mdiContentSaveAllOutline],
   ['send-circle', mdiSendCircle]
 ])
