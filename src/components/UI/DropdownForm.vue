@@ -75,7 +75,7 @@ export default defineComponent({
 }
 .dropdownTrigger {
   display: flex;
-  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  padding: 0.5rem 1rem;
   align-items: center;
 }
 .title {
@@ -84,14 +84,11 @@ export default defineComponent({
   text-align: left;
 }
 .button {
-  background-color: $bg-secondary;
-  border: solid 0.1rem $border;
-  border-radius: 0.25rem;
   padding: 0;
   cursor: pointer;
-  &:hover {
-    background-color: $bg-secondary-highlight;
-  }
+  border: none;
+  border-radius: 0.25rem;
+  @include colors($ui-primary, $bg-secondary);
 }
 .icon {
   transition: 0.3s;

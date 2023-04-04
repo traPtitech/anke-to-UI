@@ -47,8 +47,8 @@ export default defineComponent({
 .container {
   display: flex;
   flex-direction: column;
-  background-color: $bg-territory;
-  padding: 40px 20px 20px;
+  background-color: $bg-tertiary;
+  padding: 2rem 1.5rem 1rem;
   gap: 16px;
   grid-area: sidebar;
   text-align: left;
@@ -57,8 +57,8 @@ export default defineComponent({
 }
 .new {
   margin-top: 20px;
-  background-color: $accent-primary;
   border-radius: 9999px;
+  @include colors($ui-white, $accent-primary);
 }
 .help {
   margin-top: auto;

@@ -51,15 +51,11 @@ export default defineComponent({
   @include weight-bold;
   gap: 8px;
   position: relative;
-  color: $ui-white;
   padding: 0.5rem;
   text-decoration: none;
   white-space: nowrap;
-  transition: all 0.3s;
-  padding: 4px 16px;
-  &:hover {
-    background-color: $bg-tertiary-highlight;
-    border-radius: 9999px;
-  }
+  padding: 0.5rem 2rem;
+  border-radius: 9999px;
+  @include colors($ui-white, #00000000);
 }
 </style>

@@ -76,7 +76,10 @@ export default defineComponent({
 }
 .dropdownMenu {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   margin-top: 0.5rem;
+  padding: 0.5rem 0;
   border-radius: 4px;
   @include shadow-menu;
   z-index: 1;
@@ -84,18 +87,10 @@ export default defineComponent({
   .contents {
     margin: 0;
     padding: 0.5rem 1rem;
-    transition: 0.1s;
-    &:first-child {
-      padding: 1rem 1rem 0.5rem;
-    }
-    &:last-child {
-      padding: 0.5rem 1rem 1rem;
-    }
+    @include size-body;
     text-align: left;
     cursor: pointer;
-    &:hover {
-      background-color: $bg-secondary-highlight;
-    }
+    @include colors($ui-primary, #00000000);
   }
 }
 </style>
