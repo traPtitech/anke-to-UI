@@ -1,16 +1,20 @@
 <template>
   <div :class="[$style.container, isMobile ? $style.mobile : '']">
     <div :class="$style.informations">
-      <div :class="isMobile ? $style.mobile_summary : ''">
-        <Summary :questionnaire="questionnaire" />
-      </div>
+      <div :class="$style.title">{{ questionnaire.title }}</div>
       <Manipulation
         v-if="isMobile"
         :questionnaire="questionnaire"
         :class="[$style.manipulation, isMobile ? $style.mobile : '']"
       />
-      <Detail :information="questionnaire" />
-      <MyAnswer :my-responses="myResponses" />
+      <Tab v-model="tabType" :tabs="tabTypes" />
+      <div v-if="tabType === '概要'" :class="$style.abstract">
+        <Summary :questionnaire="questionnaire" />
+        <Detail :information="questionnaire" />
+      </div>
+      <div v-if="tabType === '自分の回答'">
+        <MyAnswer :my-responses="myResponses" />
+      </div>
     </div>
     <Manipulation
       v-if="!isMobile"
@@ -21,17 +25,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import { QuestionnaireByID, ResponseSummary } from '/@/lib/apis'
 import Summary from './Information/Summary.vue'
 import Detail from './Information/Detail.vue'
 import Manipulation from '/@/components/Questionnaire/Information/Manipulation.vue'
 import MyAnswer from './Information/MyAnswer.vue'
 import useIsMobile from '/@/use/isMobile'
+import { TabTypes, tabTypes } from './usequestonnaire'
+import Tab from '/@/components/UI/Tab.vue'
 
 export default defineComponent({
   name: 'Informations',
-  components: { Summary, Detail, Manipulation, MyAnswer },
+  components: { Summary, Detail, Manipulation, MyAnswer, Tab },
   props: {
     questionnaire: {
       type: Object as PropType<QuestionnaireByID>,
@@ -44,7 +50,8 @@ export default defineComponent({
   },
   setup() {
     const { isMobile } = useIsMobile()
-    return { isMobile: isMobile }
+    const tabType = ref<TabTypes>('概要')
+    return { isMobile: isMobile, tabType, tabTypes }
   }
 })
 </script>
@@ -57,8 +64,17 @@ export default defineComponent({
   gap: 4rem;
   margin: auto;
 }
-
+.title {
+  @include size-head;
+  @include weight-bold;
+  text-align: left;
+}
 .informations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.abstract {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -76,8 +92,5 @@ export default defineComponent({
 .mobile {
   position: unset;
   grid-template-columns: unset;
-}
-.mobile_summary {
-  position: relative;
 }
 </style>
