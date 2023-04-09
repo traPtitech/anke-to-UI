@@ -5,6 +5,7 @@
       :type="isDate ? 'date' : 'time'"
       :value="modelValue"
       :min="isDate ? minDate : ''"
+      :disabled="disabled"
       @input="change"
     />
   </div>
