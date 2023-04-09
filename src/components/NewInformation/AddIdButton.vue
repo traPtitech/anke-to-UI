@@ -1,7 +1,7 @@
 <template>
-  <div :class="$style.plus">
-    <Icon :class="$style.icon" :name="'plus'" />
-  </div>
+  <button :class="$style.plus">
+    <Icon :class="$style.icon" :name="'plus'" :height="15" />
+  </button>
 </template>
 
 <script lang="ts">
@@ -28,6 +28,7 @@ $height: 22px;
   line-height: $height;
   color: $ui-primary;
   cursor: pointer;
+  border: none;
 }
 .icon {
   color: $ui-white;
