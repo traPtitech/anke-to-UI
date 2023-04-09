@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div :class="$style.clear">アンケートを削除</div>
-  </div>
+  <button :class="$style.clear">アンケートを削除</button>
 </template>
 
 <script lang="ts">
@@ -23,5 +21,7 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
   width: 10rem;
+  background: transparent;
+  border: none;
 }
 </style>
