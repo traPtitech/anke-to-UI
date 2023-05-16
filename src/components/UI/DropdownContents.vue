@@ -75,11 +75,12 @@ export default defineComponent({
   }
 }
 .dropdownMenu {
+  width: 100%;
   position: absolute;
   margin-top: 0.5rem;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(33, 63, 99, 0.3);
-  z-index: 1;
+  z-index: 10;
   background-color: $bg-secondary;
   .contents {
     margin: 0;

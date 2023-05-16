@@ -12,6 +12,7 @@
     ]"
     :placeholder="placeholder"
     :style="styles"
+    :value="modelValue"
     @input="resizeupdate"
   />
   <input
