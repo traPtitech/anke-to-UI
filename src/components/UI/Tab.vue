@@ -100,29 +100,17 @@ export default defineComponent({
 <style lang="scss" module>
 .tabWrapper {
   position: sticky;
-  top: -1.5em;
-  color: $ui-secondary;
   display: flex;
   justify-content: left;
-  border-bottom: solid 1px $ui-secondary;
   @include size-head-small;
   .tab {
-    padding: 0.25rem 1.5rem;
-    margin: 0.125rem 0;
-    border-radius: 0.25rem;
+    padding: 0.5rem 2rem;
     cursor: pointer;
-    transition: all 0.2s;
-    &:hover {
-      color: $ui-white;
-      background: $bg-primary-highlight;
-    }
+    @include colors($ui-secondary, #00000000);
   }
   .selectedTab {
-    color: $accent-primary;
-    &:hover {
-      color: $accent-primary;
-      background: none;
-    }
+    @include weight-bold;
+    @include colors($accent-primary, #00000000);
   }
   .tabLine {
     position: absolute;

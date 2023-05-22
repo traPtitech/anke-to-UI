@@ -44,24 +44,14 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 2rem;
   gap: 0.5rem;
   border-radius: 0.5rem;
-  background-color: $accent-primary;
-  transition: 0.3s;
-  &:hover {
-    background-color: $accent-primary-highlight;
-  }
-  color: $ui-white;
+  @include colors($ui-white, $accent-primary);
   text-decoration: none;
 }
 .secondary {
-  color: $ui-primary;
-  background-color: $bg-primary;
-  &:hover {
-    color: $ui-white;
-    background-color: $ui-primary;
-  }
+  @include colors($ui-primary, #00000000);
   border: solid 2px $ui-primary;
 }
 .text {

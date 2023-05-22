@@ -60,6 +60,8 @@ export default defineComponent({
 <style lang="scss" module>
 .icon {
   cursor: pointer;
+  padding: 0.25rem;
+  @include colors($ui-secondary, #00000000);
 }
 .popoutleft {
   position: absolute;

@@ -19,7 +19,7 @@
 
 @mixin size-body {
   font-size: 16px;
-  line-height: 20px;
+  line-height: 24px;
 }
 
 @mixin size-body-2 {
@@ -47,4 +47,22 @@
 }
 @mixin weight-bold {
   font-weight: 700;
+}
+
+@mixin colors($color, $background) {
+  color: $color;
+  background: $background;
+  transition: 0.2s;
+  &:hover {
+    color: mix(#000000, $color, 10%);
+    background: mix(#000000, $background, 10%);
+  }
+  &:active {
+    color: mix(#000000, $color, 20%);
+    background-color: mix(#000000, $background, 20%);
+  }
+}
+
+@mixin shadow-menu {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
