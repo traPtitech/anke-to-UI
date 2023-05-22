@@ -1,4 +1,4 @@
-import { QuestionType } from '/@/lib/apis'
+import { QuestionType, NewQuestionnaire, ResShareType } from '/@/lib/apis'
 
 export const NewInformationTabName = '概要'
 export const NewQuestionsTabName = '質問'
@@ -7,6 +7,16 @@ export const detailTabs: NewQuestionnaireTabTypes[] = [
   NewInformationTabName,
   NewQuestionsTabName
 ]
+export const prenewQuestionnaire = (): NewQuestionnaire => {
+  return {
+    title: '',
+    description: '',
+    res_time_limit: `${new Date().toISOString().substring(0, 11)}23:59:00.000Z`,
+    res_shared_to: ResShareType.Public,
+    targets: [],
+    administrators: []
+  }
+}
 export const questionTypes = {
   Text: {
     type: 'Text',
