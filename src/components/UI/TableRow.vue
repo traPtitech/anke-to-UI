@@ -25,5 +25,8 @@ export default defineComponent({
   &:nth-child(odd) {
     background-color: #fafafa;
   }
+  &:nth-last-child(1) {
+    border-bottom: none;
+  }
 }
 </style>
