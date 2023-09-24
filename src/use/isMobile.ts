@@ -1,21 +1,7 @@
-import { onUnmounted, Ref, ref } from 'vue'
+import useBreakpoint from '/@/use/useBreakpoint'
 
-const MOBILE_BREAKPOINT = '599'
-
-const mql = window.matchMedia(`(min-width: ${MOBILE_BREAKPOINT}px)`)
-
-const useIsMobile = (): { isMobile: Ref<boolean> } => {
-  const isMobile = ref(!mql.matches)
-
-  const onChange = (e: MediaQueryListEvent) => {
-    isMobile.value = !e.matches
-  }
-
-  mql.addEventListener('change', onChange)
-  onUnmounted(() => {
-    mql.removeEventListener('change', onChange)
-  })
-
+const useIsMobile = () => {
+  const { isSmaller: isMobile } = useBreakpoint('599')
   return { isMobile }
 }
 
